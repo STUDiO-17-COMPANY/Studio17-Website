@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDiO 17 | Contact Us</title>
+    <title>STUDiO 17 | Behavioral Design & Gamification</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,8 @@
                         brand: {
                             black: '#0a0a0a',
                             dark: '#111111',
-                            accent: '#0055FF', // Electric Blue
+                            accent: '#0055FF', // Electric Blue (Updated from Neon Green)
+                            purple: '#7000FF',
                             gray: '#888888'
                         }
                     },
@@ -47,65 +48,89 @@
         body {
             background-color: #0a0a0a;
             color: #ffffff;
-            cursor: none;
+            cursor: none; /* Custom cursor */
             overflow-x: hidden;
         }
 
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        /* Custom Scrollbar hide */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
 
         /* Custom Cursor */
-        .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%; z-index: 9999; pointer-events: none;
-        }
-        .cursor-dot { width: 8px; height: 8px; background-color: #0055FF; }
+        .cursor-dot,
         .cursor-outline {
-            width: 40px; height: 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #0055FF; /* Updated to Blue */
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
             border: 1px solid rgba(255, 255, 255, 0.5);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
-        body:hover .cursor-outline { opacity: 1; }
+
+        body:hover .cursor-outline {
+            opacity: 1;
+        }
         
-        /* Grid & Noise */
+        /* Grid Background */
         .bg-grid {
             background-size: 40px 40px;
             mask-image: linear-gradient(to bottom, transparent, 10%, white, 90%, transparent);
             -webkit-mask-image: linear-gradient(to bottom, transparent, 5%, white, 90%, transparent);
         }
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9000; opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+
+        /* Utilities */
+        .clip-text-image {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(45deg, #fff, #888);
         }
 
-        /* Form Styles */
-        .input-group { position: relative; overflow: hidden; }
-        .input-field {
-            width: 100%; background: transparent;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding: 1rem 0; font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem; color: white; outline: none;
-            transition: border-color 0.3s ease;
+        .line-cl {
+            overflow: hidden;
         }
-        .input-field:focus { border-color: #0055FF; }
-        .input-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem; text-transform: uppercase;
-            color: #888; letter-spacing: 0.1em;
-            margin-bottom: 0.5rem; display: block;
+        
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-accent selection:text-white">
 
+    <!-- Noise Overlay -->
     <div class="noise"></div>
+
+    <!-- Custom Cursor elements -->
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[100] bg-brand-black flex flex-col items-center justify-center font-mono">
-        <div class="text-brand-accent text-sm mb-4 animate-pulse">LOADING</div>
+        <div class="text-brand-accent text-sm mb-4 animate-pulse">INITIALIZING SYSTEM</div>
         <div class="w-64 h-1 bg-brand-dark overflow-hidden">
             <div id="loader-bar" class="h-full bg-brand-accent w-0"></div>
         </div>
@@ -114,119 +139,270 @@
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
-        <a href="index.html" class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
+        <!-- UPDATED LOGO: Inter Bold, Italic 'STU', -10% tracking -->
+        <div class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
             <span class="italic">STU</span>DiO 17
-        </a>
-        <div class="hidden md:flex gap-8 font-mono text-xs tracking-widest uppercase">
-            <a href="index.html#philosophy" class="hover:text-brand-accent transition-colors hoverable">Thinking</a>
-            <a href="index.html#work" class="hover:text-brand-accent transition-colors hoverable">Systems</a>
-            <span class="text-brand-accent hoverable">Contact</span>
         </div>
-        <a href="index.html" class="font-mono text-xs border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all hoverable">
-            Back to Base
-        </a>
+        <div class="hidden md:flex gap-8 font-mono text-xs tracking-widest uppercase">
+            <a href="#philosophy" class="hover:text-brand-accent transition-colors hoverable">Thinking</a>
+            <a href="#work" class="hover:text-brand-accent transition-colors hoverable">Systems</a>
+            <a href="#contact" class="hover:text-brand-accent transition-colors hoverable">Contact</a>
+        </div>
+        <button class="font-mono text-xs border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all hoverable">
+            Start Project
+        </button>
     </nav>
 
     <!-- Main Content -->
     <main>
         
-        <!-- Contact Hero / Form Split -->
-        <section class="min-h-screen pt-32 pb-24 px-4 md:px-8 flex flex-col relative overflow-hidden">
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
             <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
-
-            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative z-10">
+            
+            <div class="container mx-auto px-4 md:px-8 z-10 flex flex-col items-start justify-center h-full">
                 
-                <!-- Left Column: Info -->
-                <div class="flex flex-col justify-start">
-                    <div class="overflow-hidden mb-6">
-                        <h1 class="hero-line text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-white">
-                            GET IN<br>
-                            <span class="text-brand-accent">TOUCH.</span>
-                        </h1>
-                    </div>
-                    
-                    <p class="hero-fade font-inter text-gray-400 text-lg max-w-md leading-relaxed mb-12">
-                        Ready to start your project? Fill out the form below or reach out directly. We'd love to hear from you.
-                    </p>
+                <div class="overflow-hidden mb-2">
+                    <h1 class="hero-line text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.9] text-white">
+                        WE DON'T
+                    </h1>
+                </div>
+                <div class="overflow-hidden mb-2 pl-4 md:pl-20">
+                    <h1 class="hero-line text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.9] text-brand-gray opacity-50">
+                        ADD POINTS.
+                    </h1>
+                </div>
+                <div class="overflow-hidden mb-8">
+                    <h1 class="hero-line text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.9] text-brand-accent">
+                        WE DESIGN<br>BEHAVIOR.
+                    </h1>
+                </div>
 
-                    <div class="hero-fade space-y-8 mt-auto">
-                        <div>
-                            <h4 class="font-mono text-xs text-brand-accent mb-2">LOCATIONS</h4>
-                            <p class="text-xl font-bold">Lisbon, Portugal</p>
-                            <p class="text-xl font-bold">Limassol, Cyprus</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs text-brand-accent mb-2">EMAIL</h4>
-                            <p class="text-xl font-bold hover:text-brand-accent transition-colors cursor-pointer hoverable">info@studio17.world</p>
-                        </div>
+                <div class="hero-fade mt-8 max-w-xl ml-auto md:mr-20">
+                    <p class="font-inter text-lg md:text-xl text-gray-300 leading-relaxed">
+                        STUDiO 17 turns boring systems into meaningful, playable experiences. We don't do gimmicks. We engineer engagement.
+                    </p>
+                    <div class="mt-8 flex items-center gap-4">
+                        <div class="h-[1px] w-12 bg-brand-accent"></div>
+                        <span class="font-mono text-xs uppercase tracking-widest text-brand-accent">Scroll to Play</span>
                     </div>
                 </div>
 
-                <!-- Right Column: The Form -->
-                <div class="hero-fade relative bg-brand-dark/50 border border-white/10 p-8 md:p-12 backdrop-blur-sm">
-                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-brand-accent opacity-50">CONTACT_FORM</div>
-                    
-                    <form class="space-y-12 mt-8">
-                        
-                        <!-- Name -->
-                        <div class="input-group group">
-                            <label class="input-label group-hover:text-white transition-colors">Name</label>
-                            <input type="text" placeholder="John Doe" class="input-field hoverable">
-                        </div>
+            </div>
 
-                        <!-- Company Name -->
-                        <div class="input-group group">
-                            <label class="input-label group-hover:text-white transition-colors">Company</label>
-                            <input type="text" placeholder="Acme Corp" class="input-field hoverable">
-                        </div>
+            <!-- Abstract decorative element - Blue -->
+            <div class="absolute right-[-10%] bottom-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-accent blur-[150px] opacity-10 pointer-events-none animate-pulse"></div>
+        </section>
 
-                        <!-- Email -->
-                        <div class="input-group group">
-                            <label class="input-label group-hover:text-white transition-colors">Email</label>
-                            <input type="email" placeholder="john@acme.com" class="input-field hoverable">
-                        </div>
+        <!-- Manifesto / Scrolling Text -->
+        <section id="philosophy" class="py-32 px-4 md:px-8 bg-brand-black relative">
+            <div class="container mx-auto">
+                <div class="font-sans text-3xl md:text-6xl font-medium leading-tight text-white/20 max-w-5xl mx-auto" id="manifesto-text">
+                    Most apps fail because they ignore human nature. 
+                    <span class="text-white highlight-text">We use behavioral economics and game design psychology</span> 
+                    to create loops that trigger action, reward investment, and 
+                    <span class="text-white highlight-text">drive retention.</span> 
+                    Forget badges. We build habits.
+                </div>
+            </div>
+        </section>
 
-                        <!-- Subject -->
-                        <div class="input-group group">
-                            <label class="input-label group-hover:text-white transition-colors">Subject</label>
-                            <input type="text" placeholder="Project Inquiry" class="input-field hoverable">
-                        </div>
+        <!-- What We Do (Cards) -->
+        <section class="py-24 px-4 bg-[#0e0e0e]">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter">THE SYSTEM</h2>
+                    <span class="font-mono text-brand-accent mt-4 md:mt-0">[ SERVICES_V.1.0 ]</span>
+                </div>
 
-                        <!-- Text -->
-                        <div class="input-group group">
-                            <label class="input-label group-hover:text-white transition-colors">Message</label>
-                            <textarea rows="4" placeholder="Tell us about your project..." class="input-field resize-none hoverable"></textarea>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="service-card group p-8 border border-white/10 bg-brand-black hover:border-brand-accent transition-colors duration-500 relative overflow-hidden hoverable">
+                        <div class="absolute top-0 right-0 p-4 font-mono text-xs text-white/30 group-hover:text-brand-accent">01</div>
+                        <div class="w-12 h-12 bg-white/5 rounded-full mb-8 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                         </div>
+                        <h3 class="text-2xl font-bold mb-4">Gamification</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Structural gamification that focuses on autonomy, mastery, and purpose. Not just PBIs (Points, Badges, Leaderboards).</p>
+                    </div>
 
-                        <!-- Submit Button -->
-                        <div class="pt-8">
-                            <button type="button" class="group w-full relative overflow-hidden bg-white text-black font-mono font-bold py-6 hover:bg-brand-accent transition-colors hoverable">
-                                <span class="relative z-10 flex items-center justify-between px-8">
-                                    <span>SEND MESSAGE</span>
-                                    <span class="text-xl group-hover:translate-x-2 transition-transform">&rarr;</span>
-                                </span>
-                            </button>
+                    <!-- Card 2 -->
+                    <div class="service-card group p-8 border border-white/10 bg-brand-black hover:border-white transition-colors duration-500 relative overflow-hidden hoverable">
+                        <div class="absolute top-0 right-0 p-4 font-mono text-xs text-white/30 group-hover:text-white">02</div>
+                        <div class="w-12 h-12 bg-white/5 rounded-full mb-8 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                         </div>
+                        <h3 class="text-2xl font-bold mb-4">Behavioral Design</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Leveraging the Fogg Behavior Model and Hook Model to nudge users towards desired actions seamlessly.</p>
+                    </div>
 
-                    </form>
+                    <!-- Card 3 -->
+                    <div class="service-card group p-8 border border-white/10 bg-brand-black hover:border-brand-accent transition-colors duration-500 relative overflow-hidden hoverable">
+                        <div class="absolute top-0 right-0 p-4 font-mono text-xs text-white/30 group-hover:text-brand-accent">03</div>
+                        <div class="w-12 h-12 bg-white/5 rounded-full mb-8 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Interactive UX</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">High-fidelity interfaces with fluid motion (GSAP) that provide immediate, satisfying feedback loops.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Horizontal Scroll Section (Selected Works) -->
+        <section id="work" class="relative overflow-hidden py-24 bg-brand-black">
+            <div class="container mx-auto px-8 mb-12">
+                 <h2 class="text-xs font-mono tracking-[0.5em] text-white/50 uppercase">Output Log</h2>
+            </div>
+            
+            <!-- The horizontal wrapper -->
+            <div class="works-wrapper flex w-max pl-4 md:pl-20 gap-8 md:gap-20">
+                
+                <!-- Project 1 -->
+                <div class="work-item w-[85vw] md:w-[60vw] flex flex-col hoverable">
+                    <div class="relative aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#000] border border-white/10 group overflow-hidden">
+                        <!-- Abstract Graphic -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-32 h-32 border-4 border-brand-accent/20 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+                            <div class="absolute w-20 h-20 bg-brand-accent/10 rounded-full blur-xl group-hover:bg-brand-accent/30 transition-colors"></div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                            <h3 class="text-4xl md:text-6xl font-bold tracking-tighter mix-blend-overlay text-white">FINTECH <br>LEVEL UP</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between font-mono text-sm">
+                        <span>Banking App</span>
+                        <span class="text-brand-accent">+45% Retention</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="work-item w-[85vw] md:w-[60vw] flex flex-col hoverable">
+                    <div class="relative aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#000] border border-white/10 group overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                             <div class="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent group-hover:from-white/20 transition-all duration-700"></div>
+                             <div class="text-9xl font-bold text-white/5 select-none">ED</div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                            <h3 class="text-4xl md:text-6xl font-bold tracking-tighter mix-blend-overlay text-white">LEARNING <br>STREAKS</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between font-mono text-sm">
+                        <span>EdTech Platform</span>
+                        <span class="text-white">2.5x Daily Usage</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="work-item w-[85vw] md:w-[60vw] flex flex-col hoverable">
+                    <div class="relative aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#000] border border-white/10 group overflow-hidden">
+                         <div class="absolute inset-0 flex items-center justify-center">
+                             <div class="w-64 h-2 bg-brand-accent/20 rotate-45 group-hover:rotate-90 transition-transform duration-700"></div>
+                             <div class="w-64 h-2 bg-brand-accent/20 -rotate-45 group-hover:-rotate-90 transition-transform duration-700"></div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                            <h3 class="text-4xl md:text-6xl font-bold tracking-tighter mix-blend-overlay text-white">HEALTH <br>QUESTS</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between font-mono text-sm">
+                        <span>Fitness DAO</span>
+                        <span class="text-brand-accent">90% Completion Rate</span>
+                    </div>
+                </div>
+                
+                <div class="w-20"></div> <!-- Spacer -->
+            </div>
+        </section>
+
+        <!-- Why It Works (Accordion/List) -->
+        <section class="py-24 px-4 md:px-8 border-t border-white/10">
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tighter sticky top-24">THE LOGIC.</h2>
+                    <p class="mt-4 text-gray-400 font-inter max-w-md sticky top-40">
+                        Most gamification is superficial. We dig deeper into intrinsic motivation to build systems that people actually want to use.
+                    </p>
+                </div>
+                <div class="space-y-8">
+                    <div class="process-item group cursor-pointer hoverable">
+                        <div class="flex items-center justify-between border-b border-white/20 pb-4 group-hover:border-brand-accent transition-colors">
+                            <h3 class="text-2xl font-bold group-hover:translate-x-4 transition-transform duration-300">01. Triggers</h3>
+                            <span class="text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity">-></span>
+                        </div>
+                        <p class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 text-gray-400 transition-all duration-300">
+                            We identify internal and external triggers that prompt user action.
+                        </p>
+                    </div>
+                    <div class="process-item group cursor-pointer hoverable">
+                        <div class="flex items-center justify-between border-b border-white/20 pb-4 group-hover:border-brand-accent transition-colors">
+                            <h3 class="text-2xl font-bold group-hover:translate-x-4 transition-transform duration-300">02. Action</h3>
+                            <span class="text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity">-></span>
+                        </div>
+                        <p class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 text-gray-400 transition-all duration-300">
+                            We simplify the interface to make the desired behavior the path of least resistance.
+                        </p>
+                    </div>
+                    <div class="process-item group cursor-pointer hoverable">
+                        <div class="flex items-center justify-between border-b border-white/20 pb-4 group-hover:border-brand-accent transition-colors">
+                            <h3 class="text-2xl font-bold group-hover:translate-x-4 transition-transform duration-300">03. Variable Reward</h3>
+                            <span class="text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity">-></span>
+                        </div>
+                        <p class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 text-gray-400 transition-all duration-300">
+                            Predictability kills interest. We design variable reward schedules to maintain dopamine levels.
+                        </p>
+                    </div>
+                     <div class="process-item group cursor-pointer hoverable">
+                        <div class="flex items-center justify-between border-b border-white/20 pb-4 group-hover:border-brand-accent transition-colors">
+                            <h3 class="text-2xl font-bold group-hover:translate-x-4 transition-transform duration-300">04. Investment</h3>
+                            <span class="text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity">-></span>
+                        </div>
+                        <p class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 text-gray-400 transition-all duration-300">
+                            Small user inputs create stored value, making it harder to leave the ecosystem (sunk cost, but positive).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA / Footer -->
+        <section id="contact" class="min-h-[80vh] flex flex-col justify-between pt-24 pb-8 px-4 md:px-8 bg-brand-accent relative overflow-hidden text-brand-black">
+            
+            <div class="relative z-10 text-white">
+                <h2 class="text-6xl md:text-[10rem] font-bold tracking-tighter leading-none mb-8">
+                    READY<br>PLAYER<br>ONE?
+                </h2>
+                <a href="#" class="inline-flex items-center gap-4 text-xl md:text-2xl font-mono border-b-2 border-white pb-1 hover:gap-6 transition-all duration-300 hoverable">
+                    CONTACT_US <span class="text-3xl">&rarr;</span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/20 pt-8 mt-12 relative z-10 text-white">
+                <div>
+                    <div class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
+            <span class="italic">STU</span>DiO 17
+        </div>
+                    <p class="font-mono text-sm opacity-70">Portugal / Cyprus / Remote</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-2">Social</h4>
+                    <div class="flex gap-4 font-mono text-sm opacity-70">
+                        <a href="https://www.linkedin.com/company/studio17world/" class="hover:underline">LinkedIn</a>
+                        <a href="https://www.instagram.com/studio17.world/" class="hover:underline">Instagram</a>
+                    </div>
+                </div>
+                <div class="md:text-right">
+                    <p class="font-mono text-sm opacity-70">&copy; 2024 STUDiO 17. All rights reserved.</p>
                 </div>
             </div>
 
-            <!-- Abstract Background Element -->
-            <div class="absolute left-[-10%] bottom-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand-accent blur-[150px] opacity-5 pointer-events-none animate-pulse"></div>
-
-        </section>
-
-        <!-- Footer -->
-        <section class="px-4 md:px-8 pb-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-8 text-white/50 font-mono text-xs">
-                <div>
-                    &copy; 2024 STUDiO 17. All Rights Reserved.
-                </div>
-                <div class="md:text-right">
-                    <a href="#" class="hover:text-brand-accent hoverable mr-4">PRIVACY</a>
-                    <a href="#" class="hover:text-brand-accent hoverable">TERMS</a>
-                </div>
+            <!-- Background Effect -->
+            <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none">
+                 <svg width="400" height="400" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none" />
+                    <circle cx="50" cy="50" r="30" stroke="white" stroke-width="1" fill="none" />
+                    <circle cx="50" cy="50" r="10" fill="white" />
+                    <line x1="50" y1="50" x2="90" y2="50" stroke="white" stroke-width="2" />
+                </svg>
             </div>
         </section>
 
@@ -243,7 +419,7 @@
 
             tl.to("#loader-bar", {
                 width: "100%",
-                duration: 1.0, // Slightly faster for inner pages
+                duration: 1.5,
                 ease: "power2.inOut",
                 onUpdate: function() {
                     const prog = Math.round(this.progress() * 100);
@@ -254,7 +430,7 @@
                 yPercent: -100,
                 duration: 0.8,
                 ease: "expo.inOut"
-            }, "+=0.1");
+            }, "+=0.2");
         };
 
         // --- 2. MAIN APP INIT ---
@@ -270,6 +446,9 @@
                 direction: 'vertical',
                 gestureDirection: 'vertical',
                 smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
             });
 
             function raf(time) {
@@ -278,34 +457,100 @@
             }
             requestAnimationFrame(raf);
 
+            // Integrate Lenis with ScrollTrigger
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+
+
             // --- ANIMATIONS ---
+
+            // 1. Hero Animations
             const heroTl = gsap.timeline();
             
             heroTl.from(".hero-line", {
-                y: 100,
+                y: 150,
                 opacity: 0,
                 duration: 1,
-                stagger: 0.1,
+                stagger: 0.15,
                 ease: "power4.out",
-                rotateX: -5
+                rotateX: -10
             })
             .from(".hero-fade", {
                 opacity: 0,
-                y: 30,
+                y: 20,
                 duration: 0.8,
-                stagger: 0.1,
                 ease: "power2.out"
             }, "-=0.5");
 
-            // Form Focus Animations
-            const inputs = document.querySelectorAll(".input-field");
-            inputs.forEach(input => {
-                input.addEventListener('focus', () => {
-                    gsap.to(input.previousElementSibling, { color: '#0055FF', duration: 0.3 });
+
+            // 2. Manifesto Highlight Logic
+            const splitText = document.querySelectorAll(".highlight-text");
+            splitText.forEach(text => {
+                gsap.to(text, {
+                    color: "#0055FF", // Brand accent (Blue)
+                    scrollTrigger: {
+                        trigger: text,
+                        start: "top 80%",
+                        end: "bottom 50%",
+                        scrub: true
+                    }
                 });
-                input.addEventListener('blur', () => {
-                    gsap.to(input.previousElementSibling, { color: '#888', duration: 0.3 });
+            });
+
+            // 3. Service Cards Hover Tilt (Non-GSAP for simplicity on hover, GSAP for entrance)
+            gsap.from(".service-card", {
+                scrollTrigger: {
+                    trigger: ".service-card",
+                    start: "top 85%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            // 4. Horizontal Scroll for Work Section
+            const workSection = document.querySelector("#work");
+            const wrapper = document.querySelector(".works-wrapper");
+            
+            if(window.innerWidth > 768) {
+                gsap.to(wrapper, {
+                    x: () => -(wrapper.scrollWidth - window.innerWidth),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: workSection,
+                        pin: true,
+                        scrub: 1,
+                        end: () => "+=" + wrapper.scrollWidth,
+                        invalidateOnRefresh: true
+                    }
                 });
+            } else {
+                // Mobile simple horizontal scroll handling (native usually better for UX on phone, but let's animate opacity)
+                gsap.from(".work-item", {
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: "top 70%"
+                    },
+                    x: 100,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.2
+                });
+            }
+
+            // 5. Footer Text Parallax
+            gsap.from("#contact h2", {
+                scrollTrigger: {
+                    trigger: "#contact",
+                    start: "top bottom",
+                    scrub: 1
+                },
+                y: -100
             });
 
         }; // End initApp
@@ -320,30 +565,37 @@
             const posX = e.clientX;
             const posY = e.clientY;
 
+            // Dot follows instantly
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
 
+            // Outline follows with lag via animation
             cursorOutline.animate({
                 left: `${posX}px`,
                 top: `${posY}px`
             }, { duration: 500, fill: "forwards" });
         });
 
-        // Hover effects - Dynamic event delegation for potentially new elements
-        document.body.addEventListener('mouseover', (e) => {
-            if (e.target.closest('.hoverable')) {
+        // Hover effects
+        hoverables.forEach(el => {
+            el.addEventListener("mouseenter", () => {
                 cursorOutline.style.width = "80px";
                 cursorOutline.style.height = "80px";
                 cursorOutline.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
                 cursorOutline.style.borderColor = "transparent";
-            } else {
+                
+                // Add magnet effect logic here if desired
+            });
+            
+            el.addEventListener("mouseleave", () => {
                 cursorOutline.style.width = "40px";
                 cursorOutline.style.height = "40px";
                 cursorOutline.style.backgroundColor = "transparent";
                 cursorOutline.style.borderColor = "rgba(255, 255, 255, 0.5)";
-            }
+            });
         });
 
+        // Start initialization
         window.addEventListener('load', initLoader);
 
     </script>
