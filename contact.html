@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDiO 17 | Contact Us</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#0a0a0a',
+                            dark: '#111111',
+                            accent: '#0055FF', // Electric Blue
+                            gray: '#888888'
+                        }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #222 1px, transparent 1px), linear-gradient(to bottom, #222 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: #0055FF; }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body:hover .cursor-outline { opacity: 1; }
+        
+        /* Grid & Noise */
+        .bg-grid {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, 10%, white, 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, 5%, white, 90%, transparent);
+        }
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Form Styles */
+        .input-group { position: relative; overflow: hidden; }
+        .input-field {
+            width: 100%; background: transparent;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 1rem 0; font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; color: white; outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .input-field:focus { border-color: #0055FF; }
+        .input-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem; text-transform: uppercase;
+            color: #888; letter-spacing: 0.1em;
+            margin-bottom: 0.5rem; display: block;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-accent selection:text-white">
+
+    <div class="noise"></div>
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-brand-black flex flex-col items-center justify-center font-mono">
+        <div class="text-brand-accent text-sm mb-4 animate-pulse">LOADING</div>
+        <div class="w-64 h-1 bg-brand-dark overflow-hidden">
+            <div id="loader-bar" class="h-full bg-brand-accent w-0"></div>
+        </div>
+        <div class="mt-2 text-xs text-brand-gray" id="loader-text">0%</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
+            <span class="italic">STU</span>DiO 17
+        </a>
+        <div class="hidden md:flex gap-8 font-mono text-xs tracking-widest uppercase">
+            <a href="index.html#philosophy" class="hover:text-brand-accent transition-colors hoverable">Thinking</a>
+            <a href="index.html#work" class="hover:text-brand-accent transition-colors hoverable">Systems</a>
+            <span class="text-brand-accent hoverable">Contact</span>
+        </div>
+        <a href="index.html" class="font-mono text-xs border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all hoverable">
+            Back to Base
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Contact Hero / Form Split -->
+        <section class="min-h-screen pt-32 pb-24 px-4 md:px-8 flex flex-col relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
+
+            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative z-10">
+                
+                <!-- Left Column: Info -->
+                <div class="flex flex-col justify-start">
+                    <div class="overflow-hidden mb-6">
+                        <h1 class="hero-line text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-white">
+                            GET IN<br>
+                            <span class="text-brand-accent">TOUCH.</span>
+                        </h1>
+                    </div>
+                    
+                    <p class="hero-fade font-inter text-gray-400 text-lg max-w-md leading-relaxed mb-12">
+                        Ready to start your project? Fill out the form below or reach out directly. We'd love to hear from you.
+                    </p>
+
+                    <div class="hero-fade space-y-8 mt-auto">
+                        <div>
+                            <h4 class="font-mono text-xs text-brand-accent mb-2">LOCATIONS</h4>
+                            <p class="text-xl font-bold">Lisbon, Portugal</p>
+                            <p class="text-xl font-bold">Limassol, Cyprus</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs text-brand-accent mb-2">EMAIL</h4>
+                            <p class="text-xl font-bold hover:text-brand-accent transition-colors cursor-pointer hoverable">info@studio17.world</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: The Form -->
+                <div class="hero-fade relative bg-brand-dark/50 border border-white/10 p-8 md:p-12 backdrop-blur-sm">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-brand-accent opacity-50">CONTACT_FORM</div>
+                    
+                    <form class="space-y-12 mt-8">
+                        
+                        <!-- Name -->
+                        <div class="input-group group">
+                            <label class="input-label group-hover:text-white transition-colors">Name</label>
+                            <input type="text" placeholder="John Doe" class="input-field hoverable">
+                        </div>
+
+                        <!-- Company Name -->
+                        <div class="input-group group">
+                            <label class="input-label group-hover:text-white transition-colors">Company</label>
+                            <input type="text" placeholder="Acme Corp" class="input-field hoverable">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="input-group group">
+                            <label class="input-label group-hover:text-white transition-colors">Email</label>
+                            <input type="email" placeholder="john@acme.com" class="input-field hoverable">
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="input-group group">
+                            <label class="input-label group-hover:text-white transition-colors">Subject</label>
+                            <input type="text" placeholder="Project Inquiry" class="input-field hoverable">
+                        </div>
+
+                        <!-- Text -->
+                        <div class="input-group group">
+                            <label class="input-label group-hover:text-white transition-colors">Message</label>
+                            <textarea rows="4" placeholder="Tell us about your project..." class="input-field resize-none hoverable"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-8">
+                            <button type="button" class="group w-full relative overflow-hidden bg-white text-black font-mono font-bold py-6 hover:bg-brand-accent transition-colors hoverable">
+                                <span class="relative z-10 flex items-center justify-between px-8">
+                                    <span>SEND MESSAGE</span>
+                                    <span class="text-xl group-hover:translate-x-2 transition-transform">&rarr;</span>
+                                </span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Abstract Background Element -->
+            <div class="absolute left-[-10%] bottom-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand-accent blur-[150px] opacity-5 pointer-events-none animate-pulse"></div>
+
+        </section>
+
+        <!-- Footer -->
+        <section class="px-4 md:px-8 pb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-8 text-white/50 font-mono text-xs">
+                <div>
+                    &copy; 2024 STUDiO 17. All Rights Reserved.
+                </div>
+                <div class="md:text-right">
+                    <a href="#" class="hover:text-brand-accent hoverable mr-4">PRIVACY</a>
+                    <a href="#" class="hover:text-brand-accent hoverable">TERMS</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- 1. PRELOADER ---
+        const initLoader = () => {
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    initApp();
+                }
+            });
+
+            tl.to("#loader-bar", {
+                width: "100%",
+                duration: 1.0, // Slightly faster for inner pages
+                ease: "power2.inOut",
+                onUpdate: function() {
+                    const prog = Math.round(this.progress() * 100);
+                    document.getElementById("loader-text").innerText = prog + "%";
+                }
+            })
+            .to("#preloader", {
+                yPercent: -100,
+                duration: 0.8,
+                ease: "expo.inOut"
+            }, "+=0.1");
+        };
+
+        // --- 2. MAIN APP INIT ---
+        const initApp = () => {
+            
+            // Register ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- Lenis Smooth Scroll ---
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            // --- ANIMATIONS ---
+            const heroTl = gsap.timeline();
+            
+            heroTl.from(".hero-line", {
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power4.out",
+                rotateX: -5
+            })
+            .from(".hero-fade", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out"
+            }, "-=0.5");
+
+            // Form Focus Animations
+            const inputs = document.querySelectorAll(".input-field");
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    gsap.to(input.previousElementSibling, { color: '#0055FF', duration: 0.3 });
+                });
+                input.addEventListener('blur', () => {
+                    gsap.to(input.previousElementSibling, { color: '#888', duration: 0.3 });
+                });
+            });
+
+        }; // End initApp
+
+        // --- 3. CUSTOM CURSOR LOGIC ---
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+        const hoverables = document.querySelectorAll(".hoverable");
+
+        // Mouse move logic
+        window.addEventListener("mousemove", (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effects - Dynamic event delegation for potentially new elements
+        document.body.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hoverable')) {
+                cursorOutline.style.width = "80px";
+                cursorOutline.style.height = "80px";
+                cursorOutline.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                cursorOutline.style.borderColor = "transparent";
+            } else {
+                cursorOutline.style.width = "40px";
+                cursorOutline.style.height = "40px";
+                cursorOutline.style.backgroundColor = "transparent";
+                cursorOutline.style.borderColor = "rgba(255, 255, 255, 0.5)";
+            }
+        });
+
+        window.addEventListener('load', initLoader);
+
+    </script>
+</body>
+</html>
