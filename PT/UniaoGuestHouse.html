@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>União - Guest House | Tomar</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'azulejo-dark': '#0f3c5f',
+                        'azulejo-light': '#3e7cb1',
+                        'stone-warm': '#fdfbf7',
+                        'terracotta': '#c06c58',
+                        'gold-accent': '#d4af37'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'pattern-azulejo': "url('https://www.transparenttextures.com/patterns/arabesque.png')" // Subtle texture overlay
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #fdfbf7;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Lenis Smooth Scroll Setup */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        /* Utilities */
+        .clip-image-left {
+            clip-path: inset(0 0 0 0);
+        }
+        
+        .azulejo-border {
+            position: relative;
+        }
+        .azulejo-border::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #0f3c5f;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdfbf7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f3c5f;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f3c5f;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 0.8s ease-in-out;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-4xl italic mb-2">União</h1>
+            <p class="text-xs tracking-[0.3em] uppercase opacity-80">Guest House • Tomar</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 px-6 py-6" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl font-bold text-stone-warm z-50 mix-blend-difference" id="nav-logo">
+                União
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm tracking-widest uppercase font-bold text-stone-warm mix-blend-difference z-50">
+                <a href="#inicio" class="nav-link relative">Início</a>
+                <a href="#sobre" class="nav-link relative">Sobre</a>
+                <a href="#quartos" class="nav-link relative">Quartos</a>
+                <a href="#experiencia" class="nav-link relative">Experiência</a>
+                <a href="#contactos" class="nav-link relative">Contactos</a>
+            </div>
+
+            <a href="#reservas" class="hidden md:inline-block bg-gold-accent hover:bg-white hover:text-azulejo-dark text-white text-xs font-bold py-3 px-6 tracking-widest uppercase transition-all duration-300 z-50">
+                Reservar
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden z-50 text-white mix-blend-difference" id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="fixed inset-0 bg-azulejo-dark transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 z-40 md:hidden" id="mobile-menu">
+            <a href="#inicio" class="text-3xl font-serif text-white mobile-link">Início</a>
+            <a href="#sobre" class="text-3xl font-serif text-white mobile-link">Sobre</a>
+            <a href="#quartos" class="text-3xl font-serif text-white mobile-link">Quartos</a>
+            <a href="#experiencia" class="text-3xl font-serif text-white mobile-link">Experiência</a>
+            <a href="#contactos" class="text-3xl font-serif text-white mobile-link">Contactos</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="inicio" class="relative w-full h-screen overflow-hidden bg-azulejo-dark">
+        <!-- Parallax Background Image -->
+        <div class="absolute inset-0 w-full h-[120%] bg-cover bg-center opacity-70" 
+             style="background-image: url('https://images.unsplash.com/photo-1555881400-74d7acaacd81?q=80&w=2000&auto=format&fit=crop');"
+             id="hero-bg">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20"></div>
+
+        <div class="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-4">
+            <p class="hero-anim text-sm md:text-base tracking-[0.4em] uppercase mb-4 opacity-0">No Coração Histórico de Tomar</p>
+            <h1 class="hero-anim font-serif text-5xl md:text-7xl lg:text-8xl italic mb-6 opacity-0 leading-tight">
+                União <br/><span class="not-italic">Guest House</span>
+            </h1>
+            <p class="hero-anim max-w-lg mx-auto text-lg md:text-xl font-light opacity-80 mb-10 opacity-0">
+                Uma estadia autêntica num edifício do século XIX, onde a história encontra o conforto moderno.
+            </p>
+            <div class="hero-anim opacity-0">
+                <a href="#reservas" class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-none border border-white px-8 font-medium text-white transition-all duration-300 hover:bg-white hover:text-azulejo-dark focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2">
+                    <span class="mr-2 uppercase tracking-widest text-sm font-bold">Descobrir</span>
+                    <i data-lucide="arrow-down" class="w-4 h-4 transition-transform group-hover:translate-y-1"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introduction / About Section -->
+    <section id="sobre" class="py-20 md:py-32 px-6 bg-stone-warm relative">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            
+            <!-- Image Composition -->
+            <div class="relative image-reveal-trigger">
+                <div class="aspect-[3/4] overflow-hidden w-full md:w-[90%] ml-auto bg-gray-200 relative">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200&auto=format&fit=crop" 
+                         alt="Interior Detail" 
+                         class="object-cover w-full h-full scale-110 parallax-img">
+                </div>
+                <!-- Decorative element -->
+                <div class="absolute -bottom-6 -left-6 md:bottom-10 md:-left-10 w-32 h-32 md:w-48 md:h-48 bg-azulejo-dark p-1 flex items-center justify-center shadow-xl z-20" data-speed="1.1">
+                    <div class="border border-white/30 w-full h-full flex items-center justify-center text-center p-2">
+                        <span class="text-white font-serif text-sm md:text-lg italic leading-tight">Desde<br>O Século<br>XIX</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Content -->
+            <div class="text-reveal-trigger">
+                <h2 class="text-azulejo-light text-xs font-bold tracking-[0.2em] uppercase mb-4">A Nossa História</h2>
+                <h3 class="font-serif text-4xl md:text-5xl text-azulejo-dark mb-6 leading-tight">Charme Português & <br><span class="italic text-terracotta">Hospitalidade</span></h3>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Localizada no centro histórico, a União Guest House é um refúgio de tranquilidade. Com vistas privilegiadas para o Castelo de Tomar, mantemos viva a alma do edifício original, combinando mobiliário antigo restaurado com o conforto contemporâneo.
+                </p>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    Desfrute do nosso lounge tradicional com piano, do pátio tranquilo ou do nosso jardim privado. Oferecemos uma experiência genuína, longe dos hotéis padronizados.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-6 mt-8">
+                    <div class="flex items-center space-x-3 text-azulejo-dark">
+                        <i data-lucide="castle" class="w-6 h-6"></i>
+                        <span class="text-sm font-semibold">Vista Castelo</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-azulejo-dark">
+                        <i data-lucide="flower" class="w-6 h-6"></i>
+                        <span class="text-sm font-semibold">Jardim & Pátio</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-azulejo-dark">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                        <span class="text-sm font-semibold">Lounge Piano</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-azulejo-dark">
+                        <i data-lucide="bike" class="w-6 h-6"></i>
+                        <span class="text-sm font-semibold">Garagem Bikes</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Amenities Highlight (Parallax Scroll) -->
+    <section class="py-24 bg-azulejo-dark text-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-32 h-32 opacity-10">
+            <!-- SVG Azulejo Pattern Placeholder -->
+            <svg width="100%" height="100%" viewBox="0 0 100 100">
+                <rect width="100" height="100" fill="none" stroke="white" stroke-width="2"/>
+                <path d="M0,0 L100,100 M100,0 L0,100" stroke="white" stroke-width="1"/>
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                <div class="amenity-card p-6 border border-white/10 hover:border-white/40 transition-colors duration-300">
+                    <i data-lucide="wifi" class="w-10 h-10 mx-auto mb-4 text-gold-accent"></i>
+                    <h4 class="font-serif text-xl mb-2">Conforto Moderno</h4>
+                    <p class="text-white/70 text-sm">Wi-Fi gratuito de alta velocidade, Ar Condicionado em todos os quartos e TV.</p>
+                </div>
+                <div class="amenity-card p-6 border border-white/10 hover:border-white/40 transition-colors duration-300">
+                    <i data-lucide="coffee" class="w-10 h-10 mx-auto mb-4 text-gold-accent"></i>
+                    <h4 class="font-serif text-xl mb-2">Pequeno-Almoço</h4>
+                    <p class="text-white/70 text-sm">Sala de pequeno-almoço com vista deslumbrante sobre o Castelo de Tomar.</p>
+                </div>
+                <div class="amenity-card p-6 border border-white/10 hover:border-white/40 transition-colors duration-300">
+                    <i data-lucide="bed-double" class="w-10 h-10 mx-auto mb-4 text-gold-accent"></i>
+                    <h4 class="font-serif text-xl mb-2">Detalhes Premium</h4>
+                    <p class="text-white/70 text-sm">Lençóis de algodão, casas de banho privativas e chão de madeira (sem carpete).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="quartos" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row justify-between items-end">
+            <div>
+                <h2 class="text-azulejo-light text-xs font-bold tracking-[0.2em] uppercase mb-2">Acomodação</h2>
+                <h3 class="font-serif text-4xl md:text-5xl text-azulejo-dark">Os Nossos Quartos</h3>
+            </div>
+            <p class="text-gray-500 mt-4 md:mt-0 max-w-sm text-sm">
+                Tetos altos, mobiliário clássico e a tranquilidade que precisa para descansar após explorar a cidade.
+            </p>
+        </div>
+
+        <!-- Horizontal Scroll Container for Desktop / Vertical for Mobile -->
+        <div class="flex overflow-x-auto md:grid md:grid-cols-3 gap-6 px-6 max-w-7xl mx-auto pb-8 md:pb-0 snap-x">
+            
+            <!-- Room 1 -->
+            <div class="room-card group cursor-pointer min-w-[85vw] md:min-w-0 snap-center">
+                <div class="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1200&auto=format&fit=crop" alt="Quarto Duplo" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 bg-white px-4 py-2">
+                        <span class="text-xs tracking-widest uppercase font-bold text-azulejo-dark">Casal</span>
+                    </div>
+                </div>
+                <h4 class="font-serif text-2xl text-azulejo-dark mb-2 group-hover:text-terracotta transition-colors">Quarto Duplo com Vista</h4>
+                <p class="text-gray-500 text-sm mb-4">Vista para o Castelo ou Jardim, casa de banho privativa.</p>
+                <div class="flex gap-3 text-gray-400">
+                    <i data-lucide="wind" class="w-4 h-4"></i>
+                    <i data-lucide="tv" class="w-4 h-4"></i>
+                    <i data-lucide="wifi" class="w-4 h-4"></i>
+                </div>
+            </div>
+
+            <!-- Room 2 -->
+            <div class="room-card group cursor-pointer min-w-[85vw] md:min-w-0 snap-center">
+                <div class="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop" alt="Twin Room" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 bg-white px-4 py-2">
+                        <span class="text-xs tracking-widest uppercase font-bold text-azulejo-dark">Twin</span>
+                    </div>
+                </div>
+                <h4 class="font-serif text-2xl text-azulejo-dark mb-2 group-hover:text-terracotta transition-colors">Twin Superior</h4>
+                <p class="text-gray-500 text-sm mb-4">Espaço amplo, mobiliário antigo e área de leitura.</p>
+                <div class="flex gap-3 text-gray-400">
+                    <i data-lucide="wind" class="w-4 h-4"></i>
+                    <i data-lucide="tv" class="w-4 h-4"></i>
+                    <i data-lucide="wifi" class="w-4 h-4"></i>
+                </div>
+            </div>
+
+            <!-- Room 3 -->
+            <div class="room-card group cursor-pointer min-w-[85vw] md:min-w-0 snap-center">
+                <div class="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1616594039964-40891a909d93?q=80&w=1200&auto=format&fit=crop" alt="Family Room" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 bg-white px-4 py-2">
+                        <span class="text-xs tracking-widest uppercase font-bold text-azulejo-dark">Família</span>
+                    </div>
+                </div>
+                <h4 class="font-serif text-2xl text-azulejo-dark mb-2 group-hover:text-terracotta transition-colors">Suite Familiar</h4>
+                <p class="text-gray-500 text-sm mb-4">Perfeito para famílias, com acesso direto ao pátio.</p>
+                <div class="flex gap-3 text-gray-400">
+                    <i data-lucide="wind" class="w-4 h-4"></i>
+                    <i data-lucide="tv" class="w-4 h-4"></i>
+                    <i data-lucide="wifi" class="w-4 h-4"></i>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience / Gallery Section -->
+    <section id="experiencia" class="bg-stone-warm py-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 mb-12">
+            <h3 class="font-serif text-4xl md:text-5xl text-azulejo-dark text-center">Experiência Tomar</h3>
+        </div>
+
+        <!-- Marquee / Horizontal Scroll Gallery -->
+        <div class="gallery-track flex space-x-6 px-6 w-max">
+            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Garden">
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-serif italic">Jardim Privado</span>
+                </div>
+            </div>
+            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Piano Lounge">
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-serif italic">Lounge com Piano</span>
+                </div>
+            </div>
+            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1628151016187-57351df7799b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Breakfast View">
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-serif italic">Pequeno Almoço com Vista</span>
+                </div>
+            </div>
+            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Tomar Streets">
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-serif italic">Centro Histórico</span>
+                </div>
+            </div>
+            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1496318447583-f524534e9ce1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Azulejos Detail">
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-serif italic">Detalhes em Azulejo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking / Contact Section -->
+    <section id="reservas" class="relative py-24 bg-azulejo-dark text-white text-center px-6">
+        <div id="contactos" class="max-w-4xl mx-auto z-10 relative">
+            <i data-lucide="star" class="w-8 h-8 text-gold-accent mx-auto mb-6"></i>
+            <h2 class="font-serif text-4xl md:text-6xl mb-8 leading-tight">Reserve a sua estadia na<br><span class="italic text-white/80">União Guest House</span></h2>
+            
+            <p class="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto">
+                Garantimos o melhor preço reservando diretamente connosco. Estacionamento gratuito para motos e bicicletas disponível.
+            </p>
+
+            <a href="#" class="inline-block bg-white text-azulejo-dark hover:bg-gold-accent hover:text-white transition-all duration-300 px-10 py-4 text-sm tracking-[0.2em] font-bold uppercase mb-16">
+                Verificar Disponibilidade
+            </a>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/10 pt-12 text-sm tracking-wide">
+                <div>
+                    <h5 class="font-bold text-gold-accent mb-2">Morada</h5>
+                    <p class="opacity-70">Rua Serpa Pinto, N.º 94<br>2300-592 Tomar, Portugal</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-gold-accent mb-2">Contacto</h5>
+                    <p class="opacity-70">+351 249 323 161<br>info@uniao.com</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-gold-accent mb-2">Social</h5>
+                    <div class="flex justify-center space-x-4 opacity-70">
+                        <a href="#" class="hover:text-white"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-white"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-white"><i data-lucide="map-pin" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#0b2d47] py-6 text-center text-white/30 text-xs uppercase tracking-widest">
+        <p>&copy; 2024 União Guest House. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts -->
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis -->
+    <!-- Changed to jsdelivr for better reliability -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        // Icons Initialization
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // 1. Initialize Lenis Smooth Scroll
+        let lenis;
+        try {
+            if (typeof Lenis !== 'undefined') {
+                lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.warn("Lenis library not loaded. Smooth scrolling disabled.");
+                document.documentElement.style.scrollBehavior = "smooth";
+            }
+        } catch (error) {
+            console.error("Error initializing Lenis:", error);
+        }
+
+        // Connect Lenis to ScrollTrigger
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            if (lenis) {
+                 // Ensure GSAP ScrollTrigger works with Lenis
+                 lenis.on('scroll', ScrollTrigger.update);
+                 
+                 gsap.ticker.add((time)=>{
+                   lenis.raf(time * 1000);
+                 });
+                 
+                 gsap.ticker.lagSmoothing(0);
+            }
+        }
+        
+        // Loader Animation
+        window.addEventListener("load", () => {
+            if (typeof gsap !== 'undefined') {
+                const tl = gsap.timeline();
+                
+                tl.to("#loader p", { opacity: 0, duration: 0.5, delay: 0.5 })
+                  .to("#loader h1", { opacity: 0, y: -20, duration: 0.5 }, "-=0.3")
+                  .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" })
+                  .to(".hero-anim", { 
+                      y: 0, 
+                      opacity: 1, 
+                      duration: 1, 
+                      stagger: 0.2, 
+                      ease: "power3.out" 
+                  }, "-=0.4");
+            } else {
+                 // Fallback if GSAP fails
+                 document.getElementById('loader').style.display = 'none';
+            }
+        });
+
+        // 2. Animations
+        
+        // Navbar Color Change on Scroll
+        const navbar = document.getElementById('navbar');
+        const logo = document.getElementById('nav-logo');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'shadow-md', 'py-4');
+                navbar.classList.remove('py-6');
+                navbar.querySelectorAll('a, button').forEach(el => {
+                    if(!el.classList.contains('bg-gold-accent')) {
+                        el.classList.remove('text-stone-warm', 'mix-blend-difference');
+                        el.classList.add('text-azulejo-dark');
+                    }
+                });
+                logo.classList.remove('text-stone-warm', 'mix-blend-difference');
+                logo.classList.add('text-azulejo-dark');
+            } else {
+                navbar.classList.remove('bg-white', 'shadow-md', 'py-4');
+                navbar.classList.add('py-6');
+                navbar.querySelectorAll('a, button').forEach(el => {
+                    if(!el.classList.contains('bg-gold-accent')) {
+                        el.classList.add('text-stone-warm', 'mix-blend-difference');
+                        el.classList.remove('text-azulejo-dark');
+                    }
+                });
+                logo.classList.add('text-stone-warm', 'mix-blend-difference');
+                logo.classList.remove('text-azulejo-dark');
+            }
+        });
+
+        if (typeof gsap !== 'undefined') {
+            // Parallax Effects
+            gsap.to("#hero-bg", {
+                yPercent: 30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#inicio",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            gsap.utils.toArray(".parallax-img").forEach((img) => {
+                gsap.to(img, {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img.parentElement,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Text Reveals
+            gsap.utils.toArray(".text-reveal-trigger").forEach((el) => {
+                gsap.from(el.children, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+
+            // Amenity Cards Stagger
+            gsap.from(".amenity-card", {
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: ".amenity-card",
+                    start: "top 85%"
+                }
+            });
+
+            // Horizontal Gallery Scroll
+            let galleryTrack = document.querySelector('.gallery-track');
+            if(galleryTrack) {
+                let galleryWidth = galleryTrack.offsetWidth;
+                let amountToScroll = galleryWidth - window.innerWidth;
+
+                gsap.to(".gallery-track", {
+                    x: -amountToScroll,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#experiencia",
+                        start: "top top",
+                        end: "+=" + amountToScroll,
+                        pin: true,
+                        scrub: 1,
+                        invalidateOnRefresh: true
+                    }
+                });
+            }
+        }
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+
+        // Lenis anchor link support
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (lenis) {
+                    e.preventDefault();
+                    lenis.scrollTo(this.getAttribute('href'));
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
