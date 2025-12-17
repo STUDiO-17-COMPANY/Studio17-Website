@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanel Hair & Beauty Spa | Holistic Wellness</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tanel-dark': '#1a1a1a',
+                        'tanel-gold': '#d4af37',
+                        'tanel-cream': '#f9f7f2',
+                        'tanel-sage': '#8da399',
+                        'tanel-sand': '#e6dec8'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAAAAAACAgIBAQEAAAAAAAABAQEDAwP2qgV9AAAACHRSTlMAMwA3M2YzMzOpmT2gAAAAiklEQVQ4y2NgQAX8/Pz8/Py8tLQ0NDQ0NDQ0NDc3NzMTQ0MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI8PAQAwMAOt5Gx3q4uPUAAAAAElFTkSuQmCC')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f9f7f2;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Lenis Smooth Scroll Setup */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        /* Custom Utilities */
+        .clip-text-image {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        /* Image hover zoom effect container */
+        .img-reveal-container {
+            overflow: hidden;
+        }
+        .img-reveal-img {
+            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .img-reveal-container:hover .img-reveal-img {
+            transform: scale(1.1);
+        }
+
+        /* Custom Button Hover */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .btn-hover-effect::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: #1a1a1a;
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        .btn-hover-effect:hover::after {
+            height: 100%;
+        }
+        .btn-hover-effect:hover {
+            color: #f9f7f2;
+        }
+        
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f9f7f2;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .loader-content {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Map Grayscale Filter */
+        .map-filter {
+            filter: grayscale(100%) invert(0%);
+            transition: filter 0.3s ease;
+        }
+        .map-filter:hover {
+            filter: grayscale(0%);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans selection:bg-tanel-sage selection:text-white">
+
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-content">
+            <!-- Logo no Loader: Adicionado brightness-0 para ser preto -->
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1765898359/ac779c94-dbd5-49c4-8c0c-7ea93a9fe509_1_tgcbmp.png" 
+                 alt="Tanel Logo" 
+                 class="h-24 md:h-32 w-auto object-contain mb-6 brightness-0">
+        </div>
+        <div class="mt-4 w-24 h-[1px] bg-tanel-sage/30 relative overflow-hidden">
+            <div class="absolute left-0 top-0 h-full bg-tanel-dark w-full origin-left transform scale-x-0 loader-line"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 py-6 px-6 md:px-12 flex justify-between items-center text-white" id="navbar">
+        <!-- Logo na Navbar -->
+        <a href="#" class="z-50 block">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1765898359/ac779c94-dbd5-49c4-8c0c-7ea93a9fe509_1_tgcbmp.png" 
+                 alt="Tanel Logo" 
+                 class="h-12 md:h-16 w-auto object-contain brightness-0 invert transition-all duration-300" 
+                 id="nav-logo">
+        </a>
+        
+        <div class="hidden md:flex items-center gap-8 z-50">
+            <div class="flex gap-8 text-sm uppercase tracking-widest font-light">
+                <a href="#services" class="hover:text-tanel-gold transition-colors">Services</a>
+                <a href="#results" class="hover:text-tanel-gold transition-colors">Results</a>
+            </div>
+
+            <!-- Language Switcher (Desktop) -->
+            <div class="relative group border-l border-white/20 pl-8">
+                <button class="text-sm font-light hover:text-tanel-gold flex items-center gap-2 transition-colors uppercase tracking-widest">
+                    <i class="fa-solid fa-globe text-xs opacity-70"></i>
+                    <span>EN</span>
+                    <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
+                </button>
+                <!-- Dropdown -->
+                <div class="absolute top-full right-0 mt-4 w-32 bg-white text-tanel-dark shadow-xl rounded-sm py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-xs tracking-wide border border-gray-100">
+                    <a href="#" class="block px-4 py-2 hover:bg-tanel-gold/10 hover:text-tanel-gold transition-colors flex justify-between">
+                        <span>English</span> <span class="text-tanel-gold/50">EN</span>
+                    </a>
+                    <a href="#" class="block px-4 py-2 hover:bg-tanel-gold/10 hover:text-tanel-gold transition-colors flex justify-between">
+                        <span>Greek</span> <span class="text-gray-400">EL</span>
+                    </a>
+                    <a href="#" class="block px-4 py-2 hover:bg-tanel-gold/10 hover:text-tanel-gold transition-colors flex justify-between">
+                        <span>Russian</span> <span class="text-gray-400">RU</span>
+                    </a>
+                    <a href="#" class="block px-4 py-2 hover:bg-tanel-gold/10 hover:text-tanel-gold transition-colors flex justify-between">
+                        <span>Hebrew</span> <span class="text-gray-400">HE</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão corrigido: border-white (sem transparência) para ficar sempre branco -->
+        <button onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="hidden md:block border border-white px-6 py-2 rounded-full text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 z-50" id="nav-btn">
+            Book Appointment
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden z-50 text-2xl" id="mobile-menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 bg-tanel-dark z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8 text-tanel-cream" id="mobile-menu">
+        <a href="#services" class="font-serif text-4xl italic mobile-link">Services</a>
+        <a href="#results" class="font-serif text-4xl italic mobile-link">Results</a>
+        
+        <!-- Language Switcher (Mobile) -->
+        <div class="flex gap-6 text-sm uppercase tracking-widest mt-4">
+            <a href="#" class="text-tanel-gold border-b border-tanel-gold pb-1">EN</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">EL</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">RU</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">HE</a>
+        </div>
+
+        <button onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="border border-tanel-cream/40 px-8 py-3 rounded-full text-sm uppercase tracking-widest mt-8">
+            Book Now
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
+        <!-- Background Image Parallax -->
+        <div class="absolute inset-0 z-0 select-none">
+            <img 
+                src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2070&auto=format&fit=crop" 
+                alt="Tanel Spa Atmosphere" 
+                class="w-full h-full object-cover opacity-90 brightness-[0.7]"
+                id="hero-bg"
+            >
+            <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 md:px-20 max-w-5xl">
+            <p class="hero-anim text-tanel-cream/80 text-xs md:text-sm uppercase tracking-[0.3em] mb-4">Holistic Hair & Beauty</p>
+            <h1 class="hero-anim font-serif text-5xl md:text-8xl lg:text-9xl text-tanel-cream leading-[0.9] mb-8 italic">
+                Redefine <br>
+                <span class="not-italic font-light">Your Radiance</span>
+            </h1>
+            <p class="hero-anim text-tanel-cream/90 font-light text-sm md:text-lg max-w-lg mx-auto leading-relaxed">
+                Where advanced hair care meets the tranquility of a premium spa. Experience confidence tailored just for you.
+            </p>
+            
+            <!-- HIGH CONVERSION CHANGE: More direct CTA -->
+            <div class="hero-anim mt-10 flex flex-col md:flex-row gap-4 justify-center items-center">
+                 <button onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="group relative px-8 py-4 bg-tanel-cream text-tanel-dark rounded-full overflow-hidden transition-all hover:scale-105 duration-300 min-w-[200px]">
+                    <span class="relative z-10 text-xs font-bold uppercase tracking-widest group-hover:text-white transition-colors duration-300">Book Your Visit</span>
+                    <div class="absolute inset-0 bg-tanel-dark transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-out"></div>
+                </button>
+                <button onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 border border-white/30 text-white rounded-full hover:bg-white hover:text-tanel-dark transition-all duration-300 text-xs font-bold uppercase tracking-widest min-w-[200px]">
+                    View Menu
+                </button>
+            </div>
+        </div>
+
+        <!-- Seta corrigida: SVG Inline para evitar erros de fonte -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Intro / Philosophy -->
+    <section class="py-24 md:py-32 px-6 md:px-24 bg-tanel-cream relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block text-tanel-gold text-xs font-bold uppercase tracking-widest mb-6 split-text">The Philosophy</span>
+            <h2 class="font-serif text-3xl md:text-5xl text-tanel-dark leading-tight mb-8 split-text">
+                "Beauty is a feeling, not just a look. <span class="italic text-tanel-sage">We curate experiences</span> that restore your balance and elevate your natural glow."
+            </h2>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <span class="text-tanel-sage text-xs font-bold uppercase tracking-widest">Our Expertise</span>
+                    <h2 class="font-serif text-4xl md:text-6xl text-tanel-dark mt-4">Curated Menu</h2>
+                </div>
+            </div>
+
+            <!-- Visual Highlights (The 3 Pillars) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 lg:gap-8 mb-20">
+                <!-- Card 1: Hair & Barber -->
+                <div class="service-card group cursor-pointer" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                    <div class="img-reveal-container h-[450px] w-full relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1769&auto=format&fit=crop" alt="Hair Styling" class="img-reveal-img w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-6 right-6 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            <i class="fa-solid fa-arrow-right -rotate-45 text-tanel-dark text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl italic text-tanel-dark mb-2">Hair & Head Spa</h3>
+                    <p class="text-gray-500 font-light text-sm leading-relaxed">
+                        Complete hair artistry including Women's styling, a dedicated Barber Shop, and the viral Korean Head Spa experience.
+                    </p>
+                </div>
+
+                <!-- Card 2: Clinical -->
+                <div class="service-card group cursor-pointer md:mt-16" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                    <div class="img-reveal-container h-[450px] w-full relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2070&auto=format&fit=crop" alt="Skin Therapy" class="img-reveal-img w-full h-full object-cover">
+                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                          <div class="absolute top-6 right-6 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            <i class="fa-solid fa-arrow-right -rotate-45 text-tanel-dark text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl italic text-tanel-dark mb-2">Clinical Aesthetics</h3>
+                    <p class="text-gray-500 font-light text-sm leading-relaxed">
+                        Advanced care combining High-tech Laser, bespoke Face Care facials, and professional Nutritionist guidance.
+                    </p>
+                </div>
+
+                <!-- Card 3: Body & Occasions -->
+                <div class="service-card group cursor-pointer md:mt-32" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                    <div class="img-reveal-container h-[450px] w-full relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop" alt="Spa Wellness" class="img-reveal-img w-full h-full object-cover">
+                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                          <div class="absolute top-6 right-6 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            <i class="fa-solid fa-arrow-right -rotate-45 text-tanel-dark text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl italic text-tanel-dark mb-2">Body & Occasions</h3>
+                    <p class="text-gray-500 font-light text-sm leading-relaxed">
+                        From Bridal perfection and Make-Up to immersive Body Care, Hair Removal, Nails, and Spa rituals.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Full Service List Grid - HIGH CONVERSION: Made clickable -->
+            <div class="border-t border-tanel-dark/10 pt-16 mt-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4">
+                    <!-- Column 1 -->
+                    <div class="space-y-4 service-list-item">
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-tanel-sage mb-6">Hair & Scalp</h4>
+                        <ul class="space-y-3">
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Women’s Hair</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Barber Shop</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer relative">
+                                Korean Head Spa 
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="space-y-4 service-list-item">
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-tanel-sage mb-6">Face & Health</h4>
+                        <ul class="space-y-3">
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Face Care (Facials)</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Laser Technology</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Nutritionist</li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="space-y-4 service-list-item">
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-tanel-sage mb-6">Body & Rituals</h4>
+                        <ul class="space-y-3">
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Spa Experiences</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Body Care</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Hair Removal</li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 4 -->
+                    <div class="space-y-4 service-list-item">
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-tanel-sage mb-6">Beauty & Events</h4>
+                        <ul class="space-y-3">
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Bridal</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Make-Up</li>
+                            <li onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})" class="font-serif text-xl text-tanel-dark hover:text-tanel-gold transition-colors cursor-pointer">Nails</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee / Signature -->
+    <div class="py-12 bg-tanel-gold/10 overflow-hidden whitespace-nowrap border-y border-tanel-gold/20 flex">
+        <div class="animate-marquee flex flex-nowrap w-max">
+            <!-- Content Block 1 -->
+            <div class="flex items-center">
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Signature Laser Care</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Luxury Extensions</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Bridal Packages</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Scalp Therapy</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+            </div>
+            <!-- Content Block 2 (Duplicated for loop) -->
+            <div class="flex items-center">
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Signature Laser Care</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Luxury Extensions</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Bridal Packages</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Scalp Therapy</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+            </div>
+             <!-- Content Block 3 (Duplicated for large screens) -->
+             <div class="flex items-center">
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Signature Laser Care</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Luxury Extensions</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Bridal Packages</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+                <span class="text-4xl md:text-6xl font-serif italic text-tanel-dark/80 px-8">Scalp Therapy</span>
+                <span class="text-4xl md:text-6xl font-serif text-tanel-dark/30 px-4">•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meet The Team (About Us) -->
+    <section class="py-24 bg-white relative">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+                <!-- Image Side -->
+                <div class="w-full md:w-1/2 order-2 md:order-1">
+                    <div class="relative">
+                        <!-- Decorative border frame -->
+                        <div class="absolute -top-4 -left-4 w-full h-full border border-tanel-gold/30 z-0"></div>
+                        <div class="img-reveal-container relative z-10 aspect-[4/3] overflow-hidden">
+                            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1765977047/06e25ad7-83ba-44bb-b5c0-ba032cd1156b_ia7dmr.png" 
+                                 alt="Tanel Team" 
+                                 class="img-reveal-img w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Text Side -->
+                <div class="w-full md:w-1/2 order-1 md:order-2">
+                    <span class="text-tanel-sage text-xs font-bold uppercase tracking-widest block mb-4">The Experts</span>
+                    <h2 class="font-serif text-4xl md:text-6xl text-tanel-dark mb-6">Meet the Masters</h2>
+                    <p class="text-gray-500 font-light text-lg leading-relaxed mb-8">
+                        Behind every transformation is a team of passionate artisans. We believe that true luxury lies in the connection between client and specialist.
+                    </p>
+                    <p class="text-gray-500 font-light text-sm leading-relaxed mb-8">
+                        Our collective expertise spans decades, blending international techniques with a warm, welcoming approach. At Tanel, you aren't just an appointment; you are part of our community.
+                    </p>
+                    <div class="flex items-center gap-4 text-tanel-dark font-serif italic text-xl">
+                        <span>Professionalism</span>
+                        <span class="w-1 h-1 bg-tanel-gold rounded-full"></span>
+                        <span>Passion</span>
+                        <span class="w-1 h-1 bg-tanel-gold rounded-full"></span>
+                        <span>Care</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Real Results (Visual Proof) -->
+    <section id="results" class="bg-tanel-dark text-tanel-cream py-24 border-b border-white/5">
+        <div class="container mx-auto px-6">
+             <div class="text-center mb-16">
+                <span class="text-tanel-gold text-xs font-bold uppercase tracking-widest block mb-4">Visual Proof</span>
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">Real Results</h2>
+                <p class="text-gray-400 font-light max-w-2xl mx-auto">
+                    We let our work speak for itself. From transformative color corrections to radiant skin journeys.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Img 1 -->
+                <div class="aspect-square bg-white/5 overflow-hidden group relative">
+                    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1587&auto=format&fit=crop" alt="Result 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all"></div>
+                </div>
+                <!-- Img 2 -->
+                <div class="aspect-square bg-white/5 overflow-hidden group relative">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1674&auto=format&fit=crop" alt="Result 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all"></div>
+                </div>
+                 <!-- Img 3 -->
+                 <div class="aspect-square bg-white/5 overflow-hidden group relative">
+                    <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=1740&auto=format&fit=crop" alt="Result 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all"></div>
+                </div>
+                 <!-- Img 4 -->
+                 <div class="aspect-square bg-white/5 overflow-hidden group relative">
+                    <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1738&auto=format&fit=crop" alt="Result 4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all"></div>
+                </div>
+            </div>
+            
+             <div class="text-center mt-10">
+                <a href="#" class="inline-block text-xs font-bold uppercase tracking-widest border-b border-tanel-gold pb-1 text-tanel-gold hover:text-white transition-colors">Follow on Instagram</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust / Reviews -->
+    <section class="py-24 bg-tanel-cream border-t border-tanel-dark/5">
+        <div class="container mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <span class="text-tanel-sage text-xs font-bold uppercase tracking-widest block mb-4">Social Proof</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-tanel-dark mb-6">Loved by Locals</h2>
+                <div class="flex justify-center items-center gap-3">
+                    <div class="flex text-tanel-gold text-sm gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-sm font-light text-gray-500">4.9/5 Average Rating</span>
+                </div>
+            </div>
+
+            <!-- Reviews Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 relative group rounded-sm">
+                    <div class="text-tanel-gold/20 text-6xl font-serif absolute top-4 left-6 leading-none">"</div>
+                    <p class="text-gray-600 font-light italic leading-relaxed mb-6 relative z-10 pt-6">
+                        The laser hair removal results are incredible. I've tried other places in Limassol, but the technology here is painless and effective. Highly recommend!
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                         <div class="w-10 h-10 bg-tanel-sand/30 rounded-full flex items-center justify-center text-tanel-dark font-serif italic border border-tanel-gold/20">E</div>
+                         <div>
+                            <p class="text-xs font-bold uppercase text-tanel-dark">Elena K.</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Laser Treatment</p>
+                         </div>
+                    </div>
+                </div>
+
+                 <!-- Review 2 -->
+                <div class="bg-white p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 relative group rounded-sm md:-mt-4 transform md:translate-y-4">
+                    <div class="text-tanel-gold/20 text-6xl font-serif absolute top-4 left-6 leading-none">"</div>
+                    <p class="text-gray-600 font-light italic leading-relaxed mb-6 relative z-10 pt-6">
+                        My hair has never looked healthier. The color correction was perfect, and the Korean Head Spa treatment was the most relaxing hour of my life.
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                         <div class="w-10 h-10 bg-tanel-sand/30 rounded-full flex items-center justify-center text-tanel-dark font-serif italic border border-tanel-gold/20">S</div>
+                         <div>
+                            <p class="text-xs font-bold uppercase text-tanel-dark">Sarah M.</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Hair & Head Spa</p>
+                         </div>
+                    </div>
+                </div>
+
+                 <!-- Review 3 -->
+                <div class="bg-white p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 relative group rounded-sm">
+                    <div class="text-tanel-gold/20 text-6xl font-serif absolute top-4 left-6 leading-none">"</div>
+                    <p class="text-gray-600 font-light italic leading-relaxed mb-6 relative z-10 pt-6">
+                        A true sanctuary. From the moment you walk in, the smell, the music, the professionalism... it's a reset button for the soul.
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                         <div class="w-10 h-10 bg-tanel-sand/30 rounded-full flex items-center justify-center text-tanel-dark font-serif italic border border-tanel-gold/20">M</div>
+                         <div>
+                            <p class="text-xs font-bold uppercase text-tanel-dark">Maria P.</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Full Body Massage</p>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Review 4: Nancy -->
+                <div class="bg-white p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 relative group rounded-sm">
+                    <div class="text-tanel-gold/20 text-6xl font-serif absolute top-4 left-6 leading-none">"</div>
+                    <p class="text-gray-600 font-light italic leading-relaxed mb-6 relative z-10 pt-6">
+                        We visited Tanel with my husband for a relaxing(ish) couples massage. Tassoula and her girls are great at what they do. Definitely recommend it!
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                         <div class="w-10 h-10 bg-tanel-sand/30 rounded-full flex items-center justify-center text-tanel-dark font-serif italic border border-tanel-gold/20">N</div>
+                         <div>
+                            <p class="text-xs font-bold uppercase text-tanel-dark">Nancy Sergiou</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Couples Massage</p>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Review 5: Theodora -->
+                <div class="bg-white p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 relative group rounded-sm md:-mt-4 transform md:translate-y-4">
+                    <div class="text-tanel-gold/20 text-6xl font-serif absolute top-4 left-6 leading-none">"</div>
+                    <p class="text-gray-600 font-light italic leading-relaxed mb-6 relative z-10 pt-6 line-clamp-4 hover:line-clamp-none transition-all">
+                        Ένα ινστιτούτο στο οποίο μπορείς να βρεις τα πάντα που έχουν να κάνουν με την ομορφιά! Στο συγκεκριμένο ινστιτούτο έχω δοκιμάσει τις υπηρεσίες λαζερ αποτρίχωσης και πρόσφατα το κούρεμα! Εχω μείνει απόλυτα ευχαριστημένη και για τις δυο υπηρεσίες. Οι κοπέλες είμαι όλες ευχάριστες, πρόσχαρες και επαγγελματίες!
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                         <div class="w-10 h-10 bg-tanel-sand/30 rounded-full flex items-center justify-center text-tanel-dark font-serif italic border border-tanel-gold/20">T</div>
+                         <div>
+                            <p class="text-xs font-bold uppercase text-tanel-dark">Theodora Panayi</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Laser & Haircut</p>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Review 6: Russian -->
+                <div class="bg-white p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 relative group rounded-sm">
+                    <div class="text-tanel-gold/20 text-6xl font-serif absolute top-4 left-6 leading-none">"</div>
+                    <p class="text-gray-600 font-light italic leading-relaxed mb-6 relative z-10 pt-6">
+                        Прекрасное место! Профессионализм мастеров на высшем уровне. Делала уход за лицом — кожа сияет. Очень рекомендую всем, кто ценит качество.
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-gray-100 pt-6">
+                         <div class="w-10 h-10 bg-tanel-sand/30 rounded-full flex items-center justify-center text-tanel-dark font-serif italic border border-tanel-gold/20">A</div>
+                         <div>
+                            <p class="text-xs font-bold uppercase text-tanel-dark">Anastasia V.</p>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Facial Treatment</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                 <button class="inline-block text-xs font-bold uppercase tracking-widest border-b border-tanel-dark pb-1 hover:text-tanel-gold hover:border-tanel-gold transition-colors">See all Reviews</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Booking Section -->
+    <section id="booking" class="relative py-24 md:py-40 bg-white overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-30 pointer-events-none">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-tanel-gold/10 rounded-full blur-[100px]"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <span class="text-tanel-sage text-xs font-bold uppercase tracking-widest block mb-4">Begin Your Journey</span>
+            <h2 class="font-serif text-5xl md:text-7xl text-tanel-dark mb-10">Ready to Glow?</h2>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                <button class="btn-hover-effect px-10 py-5 bg-tanel-dark text-white rounded-full text-sm font-bold uppercase tracking-widest shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Book Appointment Online
+                </button>
+                <a href="tel:+35799351700" class="px-10 py-5 border border-tanel-dark text-tanel-dark rounded-full text-sm font-bold uppercase tracking-widest hover:bg-tanel-dark hover:text-white transition-colors">
+                    Call: +357 99 351 700
+                </a>
+            </div>
+            
+            <p class="mt-8 text-gray-400 text-sm font-light">
+                Complimentary consultations available for all laser & hair extension services.
+            </p>
+        </div>
+    </section>
+
+    <!-- Map & Footer -->
+    <footer class="bg-tanel-dark text-tanel-sand border-t border-white/5">
+        
+        <!-- Embedded Google Map -->
+        <div class="w-full h-[350px] relative map-filter">
+             <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.5029411986423!2d32.9925!3d34.6955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDQxJzQzLjgiTiAzMsKwNTknMzMuMCJF!5e0!3m2!1sen!2scy!4v1620000000000!5m2!1sen!2scy" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+             <div class="absolute inset-0 pointer-events-none border-b-4 border-tanel-gold/50"></div>
+        </div>
+
+        <div class="py-16">
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1765898359/ac779c94-dbd5-49c4-8c0c-7ea93a9fe509_1_tgcbmp.png" alt="Tanel Footer Logo" class="h-10 w-auto mb-6 brightness-0 invert opacity-80">
+                    <p class="text-sm font-light text-gray-400 leading-relaxed">
+                        Elevating beauty standards through holistic care, advanced technology, and unwavering dedication to your well-being.
+                    </p>
+                </div>
+                
+                <div>
+                    <h5 class="text-xs font-bold uppercase tracking-widest mb-6 text-white">Visit Us</h5>
+                    <address class="not-italic text-sm font-light text-gray-400 leading-relaxed">
+                        Isxiron 13,<br>
+                        Kato Polemidia 4151,<br>
+                        Cyprus<br>
+                        <a href="https://maps.google.com/?q=Isxiron+13,+Kato+Polemidia+4151,+Cyprus" target="_blank" class="hover:text-tanel-gold mt-2 block underline decoration-tanel-gold/50">Get Directions</a>
+                    </address>
+                    
+                    <h5 class="text-xs font-bold uppercase tracking-widest mt-6 mb-4 text-white">Contact</h5>
+                    <div class="text-sm font-light text-gray-400 leading-relaxed">
+                        <a href="tel:+35799351700" class="block hover:text-tanel-gold mb-1">+357 99 351 700</a>
+                        <a href="mailto:tanelspa@gmail.com" class="block hover:text-tanel-gold group">
+                            tanelspa@gmail.com
+                            <!-- Tooltip note regarding email change -->
+                            <span class="hidden group-hover:inline-block ml-2 text-[10px] text-tanel-gold bg-white/10 px-2 py-0.5 rounded">Switching to info@ soon</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h5 class="text-xs font-bold uppercase tracking-widest mb-6 text-white">Hours</h5>
+                    <ul class="text-sm font-light text-gray-400 space-y-2">
+                        <li class="flex justify-between max-w-[180px]"><span>Mon - Sat</span> <span>08:00 - 19:00</span></li>
+                        <li class="flex justify-between max-w-[180px] text-tanel-gold/70"><span>Sunday</span> <span>Closed</span></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-xs font-bold uppercase tracking-widest mb-6 text-white">Social</h5>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-tanel-gold hover:border-tanel-gold hover:text-tanel-dark transition-all">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-tanel-gold hover:border-tanel-gold hover:text-tanel-dark transition-all">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-tanel-gold hover:border-tanel-gold hover:text-tanel-dark transition-all">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container mx-auto px-6 mt-16 pt-8 border-t border-white/5 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 font-light">
+                <p>&copy; 2024 Tanel Hair & Beauty Spa. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        })
+
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+
+        // Integrate Lenis with ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Loader Animation Logic with Safety Fallback
+        let loaderStarted = false;
+
+        function startLoader() {
+            if (loaderStarted) return;
+            loaderStarted = true;
+
+            const tl = gsap.timeline();
+            
+            tl.to(".loader-line", {
+                scaleX: 1,
+                duration: 1,
+                ease: "power2.inOut"
+            })
+            .to(".loader-content", {
+                y: -50,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.inOut"
+            })
+            .to(".loader", {
+                yPercent: -100,
+                duration: 1,
+                ease: "power3.inOut"
+            }, "-=0.4")
+            .from(".hero-anim", {
+                y: 100,
+                opacity: 0,
+                duration: 1.2,
+                stagger: 0.15,
+                ease: "power4.out"
+            }, "-=0.5");
+        }
+
+        window.addEventListener("load", startLoader);
+        
+        // Safety: If load takes too long (e.g. broken image), force start after 3s
+        setTimeout(startLoader, 3000);
+
+        // Navbar Transition
+        const navbar = document.getElementById('navbar');
+        const navLogo = document.getElementById('nav-logo');
+        const navBtn = document.getElementById('nav-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                // Scrolled state
+                navbar.classList.add('bg-tanel-dark/95', 'backdrop-blur-md', 'py-4', 'shadow-lg');
+                navbar.classList.remove('py-6');
+                
+                // Keep logo white because bg is dark
+                // But if we were on white background, we'd remove 'invert'
+                // Here we are forcing a dark navbar, so white logo is correct.
+            } else {
+                // Top state
+                navbar.classList.remove('bg-tanel-dark/95', 'backdrop-blur-md', 'py-4', 'shadow-lg');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden'; // Stop scrolling
+                lenis.stop();
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+                lenis.start();
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // GSAP Animations
+        
+        // Parallax Hero
+        gsap.to("#hero-bg", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Text Split Reveal in Intro
+        gsap.from(".split-text", {
+            scrollTrigger: {
+                trigger: "section:nth-of-type(1)",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        // Removed scroll-line animation
+
+        // Service Cards Stagger
+        gsap.from(".service-card", {
+            scrollTrigger: {
+                trigger: "#services",
+                start: "top 75%",
+            },
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        // Removed Atmosphere Parallax Image Animation
+
+        // Marquee Animation - FIXED INFINITE LOOP
+        gsap.to(".animate-marquee", {
+            xPercent: -33.33, // Move 1/3 of the width (since we have 3 blocks)
+            repeat: -1,
+            duration: 20,
+            ease: "linear"
+        });
+
+    </script>
+</body>
+</html>
