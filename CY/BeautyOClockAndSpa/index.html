@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty O'clock | Hair & Beauty Spa</title>
+    <meta name="description" content="Relaxing self-care rituals, professional hair styling, and beauty treatments in a cozy atmosphere.">
+
+    <!-- Preload Critical Hero Image -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=75&w=1920&auto=format&fit=crop">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'spa-cream': '#F9F8F6',
+                        'spa-stone': '#E8E6E1',
+                        'spa-gold': '#D4AF37',
+                        'spa-dark': '#1C1C1C',
+                        'spa-sage': '#9CAF88',
+                        'spa-blush': '#EADED9'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles & Lenis Fixes */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            background-color: #F9F8F6;
+            color: #1C1C1C;
+            overflow-x: hidden;
+        }
+
+        /* Custom Utilities */
+        .clip-image {
+            clip-path: inset(0 0 0 0);
+            transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal-mask {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            color: transparent;
+        }
+
+        /* Custom Button Hover */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .btn-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: transform 0.5s ease;
+            transform: skewX(-20deg);
+        }
+        .btn-hover-effect:hover::before {
+            transform: translateX(200%) skewX(-20deg);
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F9F8F6;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .loader-line {
+            width: 0%;
+            height: 2px;
+            background-color: #1C1C1C;
+            transition: width 0.5s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F8F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="opacity-0 transition-opacity duration-700">
+
+    <!-- Preloader -->
+    <div id="loader">
+        <h1 class="font-serif text-3xl md:text-5xl italic text-spa-dark mb-4 tracking-tighter">Beauty O'clock</h1>
+        <div class="w-64 h-[1px] bg-gray-200 relative overflow-hidden">
+            <div class="loader-line absolute top-0 left-0 h-full bg-spa-dark"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl md:text-3xl font-semibold tracking-tight mix-blend-difference text-white z-50">
+                Beauty O'clock.
+            </a>
+            
+            <div class="hidden md:flex space-x-8 mix-blend-difference text-white z-50">
+                <a href="#experience" class="font-sans text-sm uppercase tracking-widest hover:text-spa-gold transition-colors">Experience</a>
+                <a href="#services" class="font-sans text-sm uppercase tracking-widest hover:text-spa-gold transition-colors">Services</a>
+                <a href="#lookbook" class="font-sans text-sm uppercase tracking-widest hover:text-spa-gold transition-colors">Lookbook</a>
+            </div>
+
+            <button onclick="scrollToBooking()" class="hidden md:block px-6 py-3 border border-white/30 text-white font-sans text-xs uppercase tracking-widest hover:bg-white hover:text-spa-dark transition-all duration-500 backdrop-blur-sm z-50">
+                Book Appointment
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-white mix-blend-difference z-50" id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 bg-spa-dark text-spa-cream z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8" id="mobile-menu">
+        <a href="#experience" class="font-serif text-4xl mobile-link">Experience</a>
+        <a href="#services" class="font-serif text-4xl mobile-link">Services</a>
+        <a href="#lookbook" class="font-serif text-4xl mobile-link">Lookbook</a>
+        <a href="#booking" class="font-serif text-4xl mobile-link">Contact</a>
+        <button onclick="document.getElementById('mobile-menu-btn').click()" class="absolute top-6 right-6">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen overflow-hidden flex items-center justify-center">
+        <!-- Background Image with Parallax -->
+        <div class="absolute inset-0 z-0 bg-spa-dark">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=75&w=1920&auto=format&fit=crop" 
+                 alt="Spa Atmosphere" 
+                 class="w-full h-full object-cover opacity-60 scale-110"
+                 id="hero-img"
+                 fetchpriority="high">
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <div class="overflow-hidden mb-2">
+                <p class="hero-anim text-spa-cream/80 font-sans text-sm md:text-base uppercase tracking-[0.3em] mb-4">Welcome to your sanctuary</p>
+            </div>
+            <div class="overflow-hidden">
+                <h1 class="hero-anim font-serif text-5xl md:text-8xl lg:text-9xl text-white leading-[0.9] mb-6 italic">
+                    It's Time <br> For <span class="text-spa-gold">You.</span>
+                </h1>
+            </div>
+            <div class="overflow-hidden">
+                <p class="hero-anim text-white/90 font-sans text-lg md:text-xl font-light max-w-xl mx-auto mb-10 leading-relaxed">
+                    A modern hair & beauty spa dedicated to relaxing rituals, professional artistry, and that elusive "me-time" you deserve.
+                </p>
+            </div>
+            <div class="hero-anim opacity-0 translate-y-4">
+                <a href="#booking" class="btn-hover-effect inline-block bg-white text-spa-dark px-10 py-4 font-sans text-sm uppercase tracking-widest hover:bg-spa-gold hover:text-white transition-colors">
+                    Reserve Your Ritual
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 animate-bounce">
+            <span class="text-[10px] uppercase tracking-widest">Scroll</span>
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </div>
+    </header>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 md:py-32 px-6 bg-spa-cream relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <!-- Text Content -->
+            <div class="order-2 lg:order-1 relative z-10">
+                <div class="reveal-text">
+                    <span class="text-spa-gold font-sans text-xs font-bold uppercase tracking-widest mb-4 block">The Experience</span>
+                    <h2 class="font-serif text-4xl md:text-6xl text-spa-dark mb-8 leading-tight">
+                        More than a salon.<br>
+                        <span class="italic text-gray-500">A daily retreat.</span>
+                    </h2>
+                    <p class="font-sans text-gray-600 mb-6 leading-relaxed text-lg">
+                        At Beauty O'clock, we believe beauty isn't just about how you look—it's about how you feel. We've curated a space where the noise of the world fades away, replaced by soothing aromas, soft textures, and the skilled hands of our artisans.
+                    </p>
+                    <ul class="space-y-4 mb-10 font-sans text-gray-800">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="sparkles" class="text-spa-gold w-5 h-5"></i>
+                            <span>Personalized consultations for hair & skin</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="coffee" class="text-spa-gold w-5 h-5"></i>
+                            <span>Premium organic products & complimentary refreshments</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="moon" class="text-spa-gold w-5 h-5"></i>
+                            <span>Private suites for ultimate relaxation</span>
+                        </li>
+                    </ul>
+                    <a href="#services" class="group inline-flex items-center gap-2 font-serif text-xl text-spa-dark italic border-b border-spa-dark pb-1 hover:text-spa-gold hover:border-spa-gold transition-all">
+                        Explore Treatments <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image Composition -->
+            <div class="order-1 lg:order-2 relative h-[500px] md:h-[700px] w-full">
+                <div class="absolute top-0 right-0 w-4/5 h-4/5 overflow-hidden rounded-tr-[100px] image-reveal-container">
+                    <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=60&w=600&auto=format&fit=crop" alt="Facial Treatment" loading="lazy" decoding="async" class="w-full h-full object-cover scale-125 transition-transform duration-1000 ease-out scroll-image">
+                </div>
+                <div class="absolute bottom-0 left-0 w-3/5 h-3/5 overflow-hidden rounded-bl-[100px] border-8 border-spa-cream image-reveal-container" style="transition-delay: 0.2s">
+                    <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=60&w=600&auto=format&fit=crop" alt="Hair Styling" loading="lazy" decoding="async" class="w-full h-full object-cover scale-125 transition-transform duration-1000 ease-out scroll-image">
+                </div>
+                <!-- Decorative Circle -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-spa-gold rounded-full flex items-center justify-center bg-white/80 backdrop-blur z-20 spin-text-container">
+                    <div class="text-[10px] uppercase tracking-widest font-sans text-center">
+                        Est. <br> 2024
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Transition -->
+    <div class="bg-spa-dark py-8 overflow-hidden whitespace-nowrap relative border-y border-white/10">
+        <div class="inline-block animate-marquee">
+            <span class="font-serif text-4xl md:text-6xl text-white/20 italic mx-8">Relax.</span>
+            <span class="font-serif text-4xl md:text-6xl text-spa-gold italic mx-8">Refresh.</span>
+            <span class="font-serif text-4xl md:text-6xl text-white/20 italic mx-8">Renew.</span>
+            <span class="font-serif text-4xl md:text-6xl text-white/20 italic mx-8">Radiate.</span>
+            <span class="font-serif text-4xl md:text-6xl text-spa-gold italic mx-8">Relax.</span>
+            <span class="font-serif text-4xl md:text-6xl text-white/20 italic mx-8">Refresh.</span>
+            <span class="font-serif text-4xl md:text-6xl text-white/20 italic mx-8">Renew.</span>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-spa-stone/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 max-w-3xl mx-auto reveal-text">
+                <h2 class="font-serif text-4xl md:text-5xl text-spa-dark mb-4">Signature Rituals</h2>
+                <p class="font-sans text-gray-600">Designed to enhance your natural beauty while calming the mind.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="group cursor-pointer service-card">
+                    <div class="h-[400px] overflow-hidden relative mb-6">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=75&w=800&auto=format&fit=crop" alt="Hair Artistry" loading="lazy" decoding="async" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute bottom-6 left-6 z-20">
+                            <span class="bg-white text-spa-dark px-3 py-1 text-xs uppercase tracking-widest">Hair</span>
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl text-spa-dark mb-2 group-hover:text-spa-gold transition-colors">Couture Hair Artistry</h3>
+                    <p class="font-sans text-gray-500 text-sm leading-relaxed mb-4">Precision cuts, bespoke coloring, and restorative treatments tailored to your hair's unique texture.</p>
+                    <span class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1">View Menu</span>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="group cursor-pointer service-card mt-0 md:-mt-12"> <!-- Offset for visual interest -->
+                    <div class="h-[400px] overflow-hidden relative mb-6">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=75&w=800&auto=format&fit=crop" alt="Skin Care" loading="lazy" decoding="async" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute bottom-6 left-6 z-20">
+                            <span class="bg-white text-spa-dark px-3 py-1 text-xs uppercase tracking-widest">Skin</span>
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl text-spa-dark mb-2 group-hover:text-spa-gold transition-colors">Holistic Facials</h3>
+                    <p class="font-sans text-gray-500 text-sm leading-relaxed mb-4">Deep cleansing, hydration, and anti-aging therapies using organic, clinically proven ingredients.</p>
+                    <span class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1">View Menu</span>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="group cursor-pointer service-card">
+                    <div class="h-[400px] overflow-hidden relative mb-6">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=75&w=800&auto=format&fit=crop" alt="Spa Body" loading="lazy" decoding="async" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute bottom-6 left-6 z-20">
+                            <span class="bg-white text-spa-dark px-3 py-1 text-xs uppercase tracking-widest">Body</span>
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl text-spa-dark mb-2 group-hover:text-spa-gold transition-colors">Body Therapies</h3>
+                    <p class="font-sans text-gray-500 text-sm leading-relaxed mb-4">Aromatherapy massages and body scrubs designed to melt away tension and restore balance.</p>
+                    <span class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1">View Menu</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lookbook Section -->
+    <section id="lookbook" class="py-24 px-6 bg-spa-cream">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-text">
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl text-spa-dark">The Lookbook</h2>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="https://instagram.com" target="_blank" class="font-sans text-sm border border-spa-dark px-6 py-2 rounded-full hover:bg-spa-dark hover:text-white transition-all">
+                        @beautyoclock_spa
+                    </a>
+                </div>
+            </div>
+
+            <!-- Masonry-ish Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 h-[80vh] md:h-[600px]">
+                <div class="col-span-1 row-span-2 overflow-hidden rounded-lg relative group">
+                    <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=75&w=800&auto=format&fit=crop" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Lookbook 1">
+                </div>
+                <div class="col-span-1 row-span-1 overflow-hidden rounded-lg relative group">
+                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=75&w=800&auto=format&fit=crop" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Lookbook 2">
+                </div>
+                <div class="col-span-1 md:col-span-2 row-span-2 overflow-hidden rounded-lg relative group">
+                    <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=75&w=800&auto=format&fit=crop" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Lookbook 3">
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p class="text-white font-serif text-2xl italic">"Radiance from within."</p>
+                    </div>
+                </div>
+                <div class="col-span-1 row-span-1 overflow-hidden rounded-lg relative group">
+                    <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?q=75&w=800&auto=format&fit=crop" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Lookbook 4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial/Quote -->
+    <section class="py-24 bg-spa-sage/20 flex items-center justify-center">
+        <div class="max-w-4xl px-6 text-center reveal-text">
+            <i data-lucide="quote" class="w-12 h-12 text-spa-sage mx-auto mb-6 opacity-50"></i>
+            <p class="font-serif text-3xl md:text-5xl text-spa-dark italic leading-tight mb-8">
+                "I walked in feeling overwhelmed and walked out feeling like a goddess. The attention to detail is unmatched."
+            </p>
+            <div class="flex items-center justify-center gap-4">
+                <div class="w-12 h-[1px] bg-spa-dark"></div>
+                <span class="font-sans text-sm uppercase tracking-widest font-bold">Sarah Jenkins</span>
+                <div class="w-12 h-[1px] bg-spa-dark"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking / Footer -->
+    <section id="booking" class="bg-spa-dark text-spa-cream py-24 relative overflow-hidden">
+        <!-- Abstract Background Circles -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] border border-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-spa-gold/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+            <div>
+                <span class="text-spa-gold font-sans text-xs font-bold uppercase tracking-widest mb-4 block">Reservations</span>
+                <h2 class="font-serif text-5xl md:text-6xl text-white mb-6">Your Time is Now.</h2>
+                <p class="font-sans text-white/60 mb-8 max-w-md">Ready to reclaim your glow? Book your appointment today or get in touch for a consultation.</p>
+                
+                <div class="space-y-4 font-sans text-white/80">
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="map-pin" class="w-5 h-5 mt-1 text-spa-gold"></i>
+                        <p>128 Serenity Lane, Wellness District<br>New York, NY 10012</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="phone" class="w-5 h-5 text-spa-gold"></i>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="mail" class="w-5 h-5 text-spa-gold"></i>
+                        <p>hello@beautyoclock.com</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-white/10 flex gap-4">
+                    <a href="#" class="text-white/50 hover:text-white"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="text-white/50 hover:text-white"><i data-lucide="facebook"></i></a>
+                    <a href="#" class="text-white/50 hover:text-white"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="bg-white/5 backdrop-blur-md p-8 md:p-12 rounded-2xl border border-white/10">
+                <form id="bookingForm" onsubmit="handleBooking(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block font-sans text-xs uppercase tracking-widest text-white/50 mb-2">Name</label>
+                            <input type="text" required class="w-full bg-transparent border-b border-white/20 py-2 text-white focus:outline-none focus:border-spa-gold transition-colors" placeholder="Jane Doe">
+                        </div>
+                        <div>
+                            <label class="block font-sans text-xs uppercase tracking-widest text-white/50 mb-2">Phone</label>
+                            <input type="tel" required class="w-full bg-transparent border-b border-white/20 py-2 text-white focus:outline-none focus:border-spa-gold transition-colors" placeholder="(555) 000-0000">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block font-sans text-xs uppercase tracking-widest text-white/50 mb-2">Service of Interest</label>
+                        <select class="w-full bg-transparent border-b border-white/20 py-2 text-white focus:outline-none focus:border-spa-gold transition-colors [&>option]:text-black">
+                            <option>Hair Cut & Style</option>
+                            <option>Color Treatment</option>
+                            <option>Signature Facial</option>
+                            <option>Massage Therapy</option>
+                            <option>Consultation</option>
+                        </select>
+                    </div>
+                    <div class="mb-8">
+                        <label class="block font-sans text-xs uppercase tracking-widest text-white/50 mb-2">Preferred Date</label>
+                        <input type="date" class="w-full bg-transparent border-b border-white/20 py-2 text-white focus:outline-none focus:border-spa-gold transition-colors [color-scheme:dark]">
+                    </div>
+
+                    <button type="submit" class="w-full bg-spa-gold text-spa-dark font-sans font-bold uppercase tracking-widest py-4 hover:bg-white transition-colors duration-300">
+                        Request Appointment
+                    </button>
+                    <p id="form-feedback" class="text-green-400 text-sm mt-4 hidden text-center">Thank you! We will contact you shortly to confirm.</p>
+                </form>
+            </div>
+        </div>
+        
+        <div class="text-center mt-20 text-white/20 font-sans text-xs">
+            &copy; 2024 Beauty O'clock Spa. All rights reserved.
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-white text-spa-dark px-6 py-4 rounded shadow-2xl transform translate-y-24 transition-transform duration-300 z-50 flex items-center gap-3 border-l-4 border-spa-gold">
+        <i data-lucide="check-circle" class="text-green-500"></i>
+        <div>
+            <h4 class="font-bold font-serif">Request Sent</h4>
+            <p class="text-xs text-gray-500">We'll see you soon!</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Register GSAP Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // --- Loader Animation ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const line = document.querySelector('.loader-line');
+            const body = document.body;
+
+            // Animate Line
+            line.style.width = '100%';
+
+            setTimeout(() => {
+                // Fade out loader
+                gsap.to(loader, {
+                    yPercent: -100,
+                    duration: 1,
+                    ease: "power4.inOut",
+                    onComplete: () => {
+                        loader.style.display = 'none';
+                        initAnimations(); // Start site animations
+                    }
+                });
+                body.classList.remove('opacity-0');
+            }, 800);
+        });
+
+        // --- Main Animation Function ---
+        function initAnimations() {
+            
+            // Hero Animations
+            const heroTl = gsap.timeline();
+            heroTl.fromTo(".hero-anim", 
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }
+            );
+
+            // Parallax Hero Image
+            gsap.to("#hero-img", {
+                yPercent: 30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Navbar Background Change on Scroll
+            gsap.to("#navbar", {
+                backgroundColor: "rgba(28, 28, 28, 0.9)",
+                backdropFilter: "blur(10px)",
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "bottom top-=100",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Section Headers Reveal
+            gsap.utils.toArray('.reveal-text').forEach(section => {
+                gsap.fromTo(section, 
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0, 
+                        opacity: 1, 
+                        duration: 1, 
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                        }
+                    }
+                );
+            });
+
+            // Image Reveal (Curtain effect)
+            gsap.utils.toArray('.image-reveal-container').forEach(container => {
+                gsap.fromTo(container,
+                    { clipPath: "inset(100% 0 0 0)" },
+                    {
+                        clipPath: "inset(0% 0 0 0)",
+                        duration: 1.5,
+                        ease: "power4.out",
+                        scrollTrigger: {
+                            trigger: container,
+                            start: "top 80%"
+                        }
+                    }
+                );
+            });
+
+            // Scale images inside containers slightly on scroll
+            gsap.utils.toArray('.scroll-image').forEach(img => {
+                gsap.to(img, {
+                    scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img.parentElement,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Service Cards Stagger
+            gsap.from(".service-card", {
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: "#services",
+                    start: "top 70%"
+                }
+            });
+
+            // Marquee Animation
+            gsap.to(".animate-marquee", {
+                xPercent: -20,
+                ease: "none",
+                duration: 10,
+                repeat: -1,
+                yoyo: true
+            });
+        }
+
+        // --- Interaction Functions ---
+
+        // Smooth Scroll to Booking
+        function scrollToBooking() {
+            lenis.scrollTo('#booking');
+        }
+
+        // Form Handling
+        function handleBooking(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerText = "Request Sent";
+                btn.classList.add('bg-green-600', 'text-white');
+                document.getElementById('bookingForm').reset();
+                
+                // Show Toast
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-24');
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('bg-green-600', 'text-white');
+                    toast.classList.add('translate-y-24');
+                }, 3000);
+            }, 1500);
+        }
+
+        // Mobile Menu Logic
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            mobileMenu.classList.toggle('translate-x-full');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+
+    </script>
+</body>
+</html>
