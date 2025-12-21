@@ -167,45 +167,56 @@
                     <div class="absolute top-0 right-0 p-4 font-mono text-xs text-brand-accent opacity-50">CONTACT_FORM</div>
                     
                     <form class="space-y-12 mt-8"
-                      action="https://formspree.io/f/xxxxxxx"
-                      method="POST">
-                    
-                    <div class="input-group group">
-                    <label class="input-label group-hover:text-white transition-colors">Name</label>
-                    <input name="name" type="text" placeholder="John Doe" class="input-field hoverable" required>
-                    </div>
-                    
-                    <div class="input-group group">
-                    <label class="input-label group-hover:text-white transition-colors">Company</label>
-                    <input name="company" type="text" placeholder="Acme Corp" class="input-field hoverable">
-                    </div>
-                    
-                    <div class="input-group group">
-                    <label class="input-label group-hover:text-white transition-colors">Email</label>
-                    <input name="email" type="email" placeholder="john@acme.com" class="input-field hoverable" required>
-                    </div>
-                    
-                    <div class="input-group group">
-                    <label class="input-label group-hover:text-white transition-colors">Subject</label>
-                    <input name="subject" type="text" placeholder="Project Inquiry" class="input-field hoverable" required>
-                    </div>
-                    
-                    <div class="input-group group">
-                    <label class="input-label group-hover:text-white transition-colors">Message</label>
-                    <textarea name="message" rows="4" placeholder="Tell us about your project..."
-                              class="input-field resize-none hoverable" required></textarea>
-                    </div>
-                    
-                    <div class="pt-8">
-                    <button type="submit"
-                            class="group w-full relative overflow-hidden bg-white text-black font-mono font-bold py-6 hover:bg-brand-accent transition-colors hoverable">
-                      <span class="relative z-10 flex items-center justify-between px-8">
-                        <span>SEND MESSAGE</span>
-                        <span class="text-xl group-hover:translate-x-2 transition-transform">&rarr;</span>
-                      </span>
-                    </button>
-                    </div>
-                    </form>
+      action="https://formspree.io/forms/xzdpvelg/integration"
+      method="POST">
+
+  <!-- Optional: email subject + basic anti-spam -->
+  <input type="hidden" name="_subject" value="New Contact Form Submission - Studio17 Website">
+  <input type="text" name="_gotcha" style="display:none">
+
+  <!-- Name -->
+  <div class="input-group group">
+    <label class="input-label group-hover:text-white transition-colors">Name</label>
+    <input name="name" type="text" placeholder="John Doe" class="input-field hoverable" required>
+  </div>
+
+  <!-- Company Name -->
+  <div class="input-group group">
+    <label class="input-label group-hover:text-white transition-colors">Company</label>
+    <input name="name" type="text" placeholder="John Doe" class="input-field hoverable" required>
+  </div>
+
+  <!-- Email -->
+  <div class="input-group group">
+    <label class="input-label group-hover:text-white transition-colors">Email</label>
+    <input name="email" type="email" placeholder="john@acme.com" class="input-field hoverable" required>
+  </div>
+
+  <!-- Subject -->
+  <div class="input-group group">
+    <label class="input-label group-hover:text-white transition-colors">Subject</label>
+    <input name="subject" type="text" placeholder="Project Inquiry" class="input-field hoverable" required>
+  </div>
+
+  <!-- Message -->
+  <div class="input-group group">
+    <label class="input-label group-hover:text-white transition-colors">Message</label>
+    <textarea name="message" rows="4" placeholder="Tell us about your project..."
+              class="input-field resize-none hoverable" required></textarea>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="pt-8">
+    <button type="submit" class="group w-full relative overflow-hidden bg-white text-black font-mono font-bold py-6 hover:bg-brand-accent transition-colors hoverable">
+      <span class="relative z-10 flex items-center justify-between px-8">
+        <span>SEND MESSAGE</span>
+        <span class="text-xl group-hover:translate-x-2 transition-transform">&rarr;</span>
+      </span>
+    </button>
+  </div>
+
+</form>
+
                 </div>
             </div>
 
