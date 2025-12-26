@@ -166,13 +166,13 @@
                 <div class="hero-fade relative bg-brand-dark/50 border border-white/10 p-8 md:p-12 backdrop-blur-sm">
                     <div class="absolute top-0 right-0 p-4 font-mono text-xs text-brand-accent opacity-50">CONTACT_FORM</div>
                     
-                    <form class="space-y-12 mt-8"
-      action="https://formspree.io/f/xzdpvelg"
-      method="POST">
+                    
 
-  <!-- Optional: email subject + basic anti-spam -->
-  <input type="hidden" name="_subject" value="New Contact Form Submission - Studio17 Website">
-  <input type="text" name="_gotcha" style="display:none">
+  <form class="space-y-12 mt-8"
+      action="https://formspree.io/f/xeeqoopw"
+      method="POST">
+  <!-- Optional: basic anti-spam -->
+  <input type="text" name="_gotcha" style="display:none" autocomplete="off">
 
   <!-- Name -->
   <div class="input-group group">
@@ -183,7 +183,7 @@
   <!-- Company Name -->
   <div class="input-group group">
     <label class="input-label group-hover:text-white transition-colors">Company</label>
-    <input name="name" type="text" placeholder="John Doe" class="input-field hoverable" required>
+    <input name="company" type="text" placeholder="Acme Inc." class="input-field hoverable" required>
   </div>
 
   <!-- Email -->
@@ -214,7 +214,6 @@
       </span>
     </button>
   </div>
-
 </form>
 
                 </div>
