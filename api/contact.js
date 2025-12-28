@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     const { data, error } = await resend.emails.send({
       from: "Studio17 <no-reply@studio17.world>", // must be VERIFIED in Resend Domains
-      to: ["info@studio17.world"],                // for testing, use your personal inbox too
+      to: ["contact@studio17.world"],                // for testing, use your personal inbox too
       reply_to: email,                            // <-- use reply_to (snake_case)
       subject: `[Contact] ${subject}`,
       text: `Name: ${name}\nCompany: ${company || "-"}\nEmail: ${email}\n\n${message}`,
