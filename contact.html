@@ -169,10 +169,15 @@
                     <div class="absolute top-0 right-0 p-4 font-mono text-xs text-brand-accent opacity-50">CONTACT_FORM</div>
                     
                     
-
+<!--
   <form class="space-y-12 mt-8"
       action="https://formspree.io/f/xeeqoopw"
       method="POST">
+
+                    -->
+
+  <form id="contactForm" class="space-y-12 mt-8">
+     <p id="formStatus" class="font-mono text-xs text-white/60"></p>               
   <!-- Optional: basic anti-spam -->
   <input type="text" name="_gotcha" style="display:none" autocomplete="off">
 
@@ -356,5 +361,50 @@
         window.addEventListener('load', initLoader);
 
     </script>
+
+    <script>
+  const form = document.getElementById("contactForm");
+  const statusEl = document.getElementById("formStatus");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // honeypot
+    const gotcha = form.querySelector('input[name="_gotcha"]')?.value;
+    if (gotcha) return;
+
+    statusEl.textContent = "Sending...";
+
+    const payload = {
+      name: form.querySelector('input[name="name"]').value.trim(),
+      company: form.querySelector('input[name="company"]').value.trim(),
+      email: form.querySelector('input[name="email"]').value.trim(),
+      subject: form.querySelector('input[name="subject"]').value.trim(),
+      message: form.querySelector('textarea[name="message"]').value.trim(),
+    };
+
+    try {
+      const resp = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await resp.json();
+
+      if (!resp.ok || !data.ok) {
+        statusEl.textContent = data.error || "Something went wrong.";
+        return;
+      }
+
+      statusEl.textContent = "Message sent ✅";
+      form.reset();
+    } catch (err) {
+      statusEl.textContent = "Network error. Please try again.";
+    }
+  });
+</script>
+
+    
 </body>
 </html>
