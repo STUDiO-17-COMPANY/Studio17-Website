@@ -1,22 +1,27 @@
-import { Resend } from "resend";
+const { Resend } = require("resend");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
+  // Allow only POST
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
   try {
-    const { name, company, email, subject, message } = req.body || {};
+    // Make sure env var exists
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ ok: false, error: "RESEND_API_KEY is missing in Vercel env vars" });
+    }
 
+    const resend = new Resend(apiKey);
+
+    const { name, company, email, subject, message } = req.body || {};
     if (!name || !email || !subject || !message) {
       return res.status(400).json({ ok: false, error: "Missing required fields" });
     }
 
     const data = await resend.emails.send({
-      // MUST be a verified sender/domain in Resend
-      from: "Studio17 <no-reply@studio17.world>",
+      from: "Studio17 <no-reply@studio17.world>",  // must be verified in Resend
       to: ["info@studio17.world"],
       replyTo: email,
       subject: `[Contact] ${subject}`,
@@ -25,7 +30,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ ok: true, id: data.id });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ ok: false, error: "Failed to send email" });
+    console.error("Resend error:", err);
+    return res.status(500).json({ ok: false, error: err?.message || "Server error" });
   }
-}
+};
