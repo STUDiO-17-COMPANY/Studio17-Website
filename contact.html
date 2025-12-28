@@ -176,8 +176,7 @@
 
                     -->
 
-  <form id="contactForm" class="space-y-12 mt-8">
-     <p id="formStatus" class="font-mono text-xs text-white/60"></p>               
+  <form id="contactForm" class="space-y-12 mt-8">              
   <!-- Optional: basic anti-spam -->
   <input type="text" name="_gotcha" style="display:none" autocomplete="off">
 
@@ -211,7 +210,9 @@
     <textarea name="message" rows="4" placeholder="Tell us about your project..."
               class="input-field resize-none hoverable" required></textarea>
   </div>
-
+<div class="pt-4">
+  <p id="formStatus" class="font-mono text-sm text-brand-accent"></p>
+</div>
   <!-- Submit Button -->
   <div class="pt-8">
     <button type="submit" class="group w-full relative overflow-hidden bg-white text-black font-mono font-bold py-6 hover:bg-brand-accent transition-colors hoverable">
