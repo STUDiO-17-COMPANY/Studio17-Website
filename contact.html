@@ -399,6 +399,7 @@
       }
 
       statusEl.textContent = "Message sent ✅";
+        console.log("UI status set:", statusEl.textContent);
       form.reset();
     } catch (err) {
       statusEl.textContent = "Network error. Please try again.";
