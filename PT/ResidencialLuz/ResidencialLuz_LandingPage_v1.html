@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Residencial Luz | Simplicidade em Tomar</title>
+    
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (via CDN for speed/simplicity in one file) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'stone-50': '#fafaf9',
+                        'stone-900': '#1c1917',
+                        'tomar-clay': '#8C7B6C',
+                        'tomar-light': '#E8E6E1',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Lenis & Specific Styles -->
+    <style>
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            background-color: #fafaf9; /* stone-50 */
+            color: #1c1917; /* stone-900 */
+            overflow-x: hidden;
+        }
+
+        /* Image Masking for Reveal Effects */
+        .img-mask {
+            overflow: hidden;
+            position: relative;
+        }
+        .img-mask img {
+            transform-origin: center;
+            transition: transform 0.7s ease-out;
+        }
+        
+        /* Navigation Hover Effect */
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Custom Button Hover */
+        .btn-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl tracking-tight z-50 relative mix-blend-difference text-stone-900" id="logo">
+                Residencial Luz
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex gap-8 items-center text-sm font-medium tracking-wide">
+                <a href="#sobre" class="nav-link">Sobre</a>
+                <a href="#quartos" class="nav-link">Quartos</a>
+                <a href="#localizacao" class="nav-link">Localização</a>
+                <a href="#reservas" class="px-6 py-2 border border-stone-900 rounded-full hover:bg-stone-900 hover:text-white transition-colors duration-300">Reservar</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden z-50 text-stone-900 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-stone-50 z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="flex flex-col gap-8 text-center font-serif text-3xl">
+                <a href="#sobre" class="mobile-link">Sobre</a>
+                <a href="#quartos" class="mobile-link">Quartos</a>
+                <a href="#localizacao" class="mobile-link">Localização</a>
+                <a href="#reservas" class="mobile-link text-tomar-clay">Reservar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex items-center justify-center overflow-hidden" id="home">
+        <!-- Parallax Background Image -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/20 z-10"></div> <!-- Slight overlay for text readability -->
+            <img src="https://images.unsplash.com/photo-1519302959554-67f969d2e379?q=80&w=2000&auto=format&fit=crop" 
+                 alt="Interior calmo" 
+                 class="w-full h-full object-cover hero-img"
+                 data-speed="0.5">
+        </div>
+
+        <div class="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
+            <span class="block text-sm md:text-base uppercase tracking-[0.2em] mb-4 opacity-0 hero-anim">Tomar, Portugal</span>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 leading-tight opacity-0 hero-anim">
+                Simplicidade <br> & Bom Valor
+            </h1>
+            <p class="text-lg md:text-xl font-light opacity-90 mb-10 max-w-lg mx-auto opacity-0 hero-anim">
+                Uma guesthouse familiar, honesta e tranquila. O seu ponto de partida para descobrir a história.
+            </p>
+            <div class="opacity-0 hero-anim">
+                <a href="#quartos" class="inline-block bg-white text-stone-900 px-8 py-4 rounded-sm uppercase tracking-wider text-sm font-medium hover:bg-stone-200 transition-colors">
+                    Ver Disponibilidade
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Intro / Philosophy Section -->
+    <section id="sobre" class="py-24 md:py-32 px-6">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="w-px h-16 bg-tomar-clay mx-auto mb-8 origin-top scale-y-0 scroll-line"></div>
+            <h2 class="font-serif text-3xl md:text-4xl mb-8 reveal-text">Hospitalidade sem artifícios.</h2>
+            <p class="text-lg md:text-xl text-stone-600 leading-relaxed reveal-text font-light">
+                A Residencial Luz não é um hotel de luxo, e orgulhamo-nos disso. Somos uma casa de família dedicada a quem valoriza uma cama confortável, um ambiente seguro e a proximidade genuína com o centro histórico. Aqui, paga pelo que importa: descanso e localização.
+            </p>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="quartos" class="py-20 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 px-2">
+                <div>
+                    <span class="text-tomar-clay uppercase tracking-widest text-xs font-semibold">Alojamento</span>
+                    <h2 class="font-serif text-4xl mt-2">Os Nossos Quartos</h2>
+                </div>
+                <p class="text-stone-500 max-w-sm mt-4 md:mt-0 text-sm">Limpos, práticos e funcionais. Tudo o que precisa para recarregar energias.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 lg:gap-8">
+                <!-- Room Card 1 -->
+                <div class="group cursor-pointer room-card">
+                    <div class="img-mask aspect-[4/5] mb-6 bg-stone-100">
+                        <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop" alt="Quarto Duplo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-2xl mb-1">Duplo</h3>
+                            <p class="text-stone-500 text-sm">WC Privativo • Wi-Fi</p>
+                        </div>
+                        <span class="border border-stone-200 px-3 py-1 text-xs rounded-full">Casal</span>
+                    </div>
+                </div>
+
+                <!-- Room Card 2 -->
+                <div class="group cursor-pointer room-card pt-0 md:pt-16">
+                    <div class="img-mask aspect-[4/5] mb-6 bg-stone-100">
+                        <img src="https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?q=80&w=800&auto=format&fit=crop" alt="Quarto Twin" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-2xl mb-1">Twin</h3>
+                            <p class="text-stone-500 text-sm">2 Camas • Secretária</p>
+                        </div>
+                        <span class="border border-stone-200 px-3 py-1 text-xs rounded-full">Amigos</span>
+                    </div>
+                </div>
+
+                <!-- Room Card 3 -->
+                <div class="group cursor-pointer room-card">
+                    <div class="img-mask aspect-[4/5] mb-6 bg-stone-100">
+                        <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=800&auto=format&fit=crop" alt="Quarto Individual" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-2xl mb-1">Individual</h3>
+                            <p class="text-stone-500 text-sm">Económico • Acolhedor</p>
+                        </div>
+                        <span class="border border-stone-200 px-3 py-1 text-xs rounded-full">Solo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location / Atmosphere -->
+    <section id="localizacao" class="relative py-32 bg-stone-900 text-stone-50 overflow-hidden">
+        <!-- Background parallax image -->
+        <div class="absolute inset-0 opacity-20">
+            <img src="https://images.unsplash.com/photo-1548705085-101177834f47?q=80&w=2000&auto=format&fit=crop" alt="Tomar Streets" class="w-full h-full object-cover parallax-img">
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="text-tomar-clay uppercase tracking-widest text-xs font-semibold mb-4 block">Localização</span>
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">No Coração da Cidade Templária</h2>
+                <p class="text-stone-400 font-light text-lg mb-8 leading-relaxed">
+                    Estamos situados numa rua tranquila, mas a poucos passos da ação. Esqueça o carro. Daqui, o Convento de Cristo, a Sinagoga e os melhores restaurantes são os seus vizinhos.
+                </p>
+                <ul class="space-y-4 text-stone-300 font-light mb-10">
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-tomar-clay"></span> 5 min a pé da Praça da República
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-tomar-clay"></span> Zona segura e silenciosa à noite
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-tomar-clay"></span> Estacionamento público nas imediações
+                    </li>
+                </ul>
+                <a href="https://maps.google.com" target="_blank" class="text-white border-b border-white pb-1 hover:text-tomar-clay hover:border-tomar-clay transition-colors inline-block">Ver no Google Maps &rarr;</a>
+            </div>
+            <!-- Interactive Map Placeholder / Image -->
+            <div class="h-[500px] w-full bg-stone-800 rounded-sm overflow-hidden relative group reveal-img">
+                <img src="https://images.unsplash.com/photo-1605537964076-3f901c009770?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="Vista de Tomar">
+                <div class="absolute bottom-6 left-6 bg-white text-stone-900 px-4 py-2 text-sm font-medium">
+                    Residencial Luz
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contacts -->
+    <footer id="reservas" class="bg-stone-50 pt-24 pb-12 px-6 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
+                <div class="md:col-span-6">
+                    <h2 class="font-serif text-5xl md:text-6xl mb-6 text-stone-900">Vamos reservar?</h2>
+                    <p class="text-stone-500 text-lg max-w-md mb-8">
+                        A forma mais rápida de garantir o seu quarto ao melhor preço é ligar-nos ou enviar um email diretamente.
+                    </p>
+                    <div class="flex flex-col gap-4 items-start">
+                        <a href="mailto:reservas@residencialuz.pt" class="text-2xl md:text-3xl font-serif border-b border-stone-300 hover:border-stone-900 transition-colors pb-1">reservas@residencialuz.pt</a>
+                        <a href="tel:+351249000000" class="text-xl text-stone-600 hover:text-stone-900 transition-colors">+351 249 000 000</a>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-3 md:col-start-8">
+                    <h4 class="font-serif text-lg mb-6">Morada</h4>
+                    <address class="not-italic text-stone-500 leading-relaxed">
+                        Rua Serpa Pinto, 123<br>
+                        2300-000 Tomar<br>
+                        Portugal
+                    </address>
+                </div>
+                
+                <div class="md:col-span-2">
+                    <h4 class="font-serif text-lg mb-6">Social</h4>
+                    <div class="flex flex-col gap-2 text-stone-500">
+                        <a href="#" class="hover:text-stone-900 transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-stone-900 transition-colors">Facebook</a>
+                        <a href="#" class="hover:text-stone-900 transition-colors">Booking.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-stone-400 border-t border-stone-200 pt-8">
+                <p>&copy; 2024 Residencial Luz. Familiar & Genuíno.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#">Privacidade</a>
+                    <a href="#">Termos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // 1. Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 2. GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Sequence
+        const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        
+        heroTl.to(".hero-anim", {
+            y: 0,
+            opacity: 1,
+            duration: 1.5,
+            stagger: 0.2,
+            delay: 0.2
+        });
+
+        // Parallax Effect for Hero Background
+        gsap.to(".hero-img", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#home",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }, 
+        });
+
+        // Navbar blur/shrink on scroll
+        const navbar = document.getElementById('navbar');
+        const logo = document.getElementById('logo');
+        
+        ScrollTrigger.create({
+            start: 'top -80',
+            end: 99999,
+            toggleClass: { className: 'bg-white/90 backdrop-blur-md shadow-sm py-4', targets: navbar }
+        });
+
+        // Text Reveals (Sections)
+        const revealText = document.querySelectorAll(".reveal-text");
+        revealText.forEach(text => {
+            gsap.fromTo(text, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: text,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Vertical Line Animation
+        gsap.to(".scroll-line", {
+            scaleY: 1,
+            duration: 1.5,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#sobre",
+                start: "top 80%"
+            }
+        });
+
+        // Room Cards Stagger
+        gsap.from(".room-card", {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: "#quartos",
+                start: "top 75%"
+            }
+        });
+
+        // Location Parallax
+        gsap.to(".parallax-img", {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#localizacao",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Image Reveal
+        gsap.from(".reveal-img", {
+            clipPath: "inset(100% 0 0 0)",
+            duration: 1.5,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: "#localizacao",
+                start: "top 70%"
+            }
+        });
+
+        // 3. Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                // Stop Lenis scroll when menu is open
+                lenis.stop();
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                lenis.start();
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                lenis.start();
+            });
+        });
+
+    </script>
+</body>
+</html>
