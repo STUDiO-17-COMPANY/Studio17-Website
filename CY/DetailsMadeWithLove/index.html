@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details Made With Love | Luxury Floral Design Cyprus</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-cream': '#fdfcf8',
+                        'brand-black': '#1a1a1a',
+                        'brand-gray': '#8a8a8a',
+                        'brand-olive': '#5c5f4b',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    },
+                    cursor: {
+                        'none': 'none',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lenis & GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            background-color: #fdfcf8;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            /* Hide default cursor only on non-touch devices */
+            @media (hover: hover) and (pointer: fine) {
+                cursor: none;
+            }
+        }
+        
+        /* Smooth Scroll Setup */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        /* Custom Utilities */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .image-wrapper {
+            overflow: hidden;
+        }
+        .image-wrapper img {
+            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Custom Cursor Styles - Improved Visibility */
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px; /* Increased size */
+            height: 32px;
+            border: 2px solid white; /* Thicker border, white for difference blend */
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s;
+            mix-blend-mode: difference; /* Inverts color based on background (White on dark, Black on light) */
+            display: none; 
+        }
+
+        /* Center dot for precision */
+        .custom-cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        
+        .custom-cursor.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: white; /* Will invert */
+            border-color: transparent;
+            opacity: 0.8;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .custom-cursor {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-brand-cream relative">
+
+    <!-- Custom Cursor Element -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+
+    <!-- Noise Texture Overlay -->
+    <div class="fixed inset-0 pointer-events-none z-50 bg-noise opacity-40 mix-blend-multiply"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 md:px-12 md:py-8 flex justify-between items-center text-white transition-all duration-500" id="navbar">
+        <div class="text-sm tracking-[0.2em] font-sans uppercase font-bold drop-shadow-md">Details Made With Love</div>
+        <div class="hidden md:flex gap-8 text-xs tracking-widest font-sans font-medium drop-shadow-md">
+            <a href="#about" class="hoverable hover:opacity-70 transition-opacity">Studio</a>
+            <a href="#services" class="hoverable hover:opacity-70 transition-opacity">Services</a>
+            <a href="#gallery" class="hoverable hover:opacity-70 transition-opacity">Journal</a>
+            <a href="#contact" class="hoverable hover:opacity-70 transition-opacity">Contact</a>
+        </div>
+        <button class="md:hidden text-sm uppercase tracking-widest drop-shadow-md hoverable">Menu</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden" id="hero">
+        <div class="absolute inset-0 z-0">
+            <!-- Dark Overlay for Readability -->
+            <div class="absolute inset-0 bg-black/40 z-10"></div>
+            
+            <!-- Parallax BG Image -->
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/q_auto,f_auto,w_1920/v1767091421/Gemini_Generated_Image_d6bbitd6bbitd6bb_c1ghnv.png" 
+                 alt="Luxury Floral Atmosphere" 
+                 class="w-full h-full object-cover scale-110" 
+                 id="hero-bg">
+        </div>
+        
+        <div class="relative z-20 text-center text-white px-4">
+            <p class="hero-anim text-xs md:text-sm tracking-[0.3em] uppercase mb-4 font-sans opacity-0 transform translate-y-4 drop-shadow-lg">Est. 2011 • Limassol, Cyprus</p>
+            <h1 class="hero-anim font-serif text-5xl md:text-8xl lg:text-9xl leading-[0.9] italic opacity-0 transform translate-y-8 drop-shadow-xl">
+                Details Made<br>
+                <span class="not-italic block mt-2">With Love</span>
+            </h1>
+            <p class="hero-anim mt-8 text-sm md:text-base font-light font-sans tracking-wide max-w-md mx-auto opacity-0 transform translate-y-4 drop-shadow-md text-white/90">
+                Where nature meets artistry. Curating emotive floral landscapes for the most refined celebrations.
+            </p>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20">
+            <span class="text-[10px] uppercase tracking-widest text-white drop-shadow-md">Scroll</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Intro Statement (Reduced Padding) -->
+        <section class="py-12 md:py-20 px-6 md:px-12 border-b border-brand-black/5">
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="reveal-scroll font-serif text-3xl md:text-5xl leading-tight text-brand-black">
+                    "We don't just arrange flowers; we curate emotions. Every petal is a brushstroke in the story of your celebration."
+                </p>
+            </div>
+        </section>
+
+        <!-- About The Designer (Reduced Padding as requested) -->
+        <section id="about" class="relative py-12 md:py-24 px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+            <div class="md:col-span-5 relative z-10">
+                <div class="image-wrapper aspect-[3/4] shadow-2xl hoverable">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767091419/460051888_18449520874015998_4269708672936349628_n_ppd12b.jpg" 
+                         alt="Natalie Christodoulou Studio Presentation" 
+                         class="w-full h-full object-cover parallax-img">
+                </div>
+                <div class="absolute -bottom-6 -right-6 md:-right-12 bg-white p-6 shadow-xl max-w-xs">
+                    <p class="font-serif italic text-2xl text-brand-black">Natalie Christodoulou</p>
+                    <p class="font-sans text-[10px] uppercase tracking-widest text-brand-gray mt-1">Founder & Creative Director</p>
+                </div>
+            </div>
+            
+            <div class="md:col-span-1"></div> <!-- Spacer -->
+
+            <div class="md:col-span-6">
+                <h2 class="section-title text-sm font-sans font-bold uppercase tracking-[0.2em] text-brand-olive mb-6">The Studio</h2>
+                <h3 class="font-serif text-4xl md:text-6xl mb-8 leading-none">Rooted in Passion,<br>Bloomed in 2011.</h3>
+                <p class="font-sans font-light text-brand-black/80 leading-relaxed mb-6">
+                    Founded over a decade ago in the heart of Limassol, <em>Details Made With Love</em> has established itself as Cyprus’s premier floral design studio. Natalie Christodoulou believes that true luxury lies in the intentionality of the details.
+                </p>
+                <p class="font-sans font-light text-brand-black/80 leading-relaxed">
+                    From intimate bespoke commissions to grand architectural installations, our approach is always sculptural, seasonal, and deeply personal. We translate your essence into living art.
+                </p>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Social Proof / Trusted Venues -->
+        <section class="py-16 bg-brand-cream border-t border-brand-black/5">
+            <div class="px-6 md:px-12 text-center">
+                <p class="font-sans text-[10px] tracking-[0.3em] uppercase opacity-50 mb-10">Trusted Partner of Cyprus' Finest Venues</p>
+                <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
+                    <span class="font-serif text-xl md:text-2xl hover:italic transition-all duration-300 cursor-default">Four Seasons Limassol</span>
+                    <span class="hidden md:inline w-1 h-1 bg-brand-olive rounded-full"></span>
+                    <span class="font-serif text-xl md:text-2xl hover:italic transition-all duration-300 cursor-default">Amara Hotel</span>
+                    <span class="hidden md:inline w-1 h-1 bg-brand-olive rounded-full"></span>
+                    <span class="font-serif text-xl md:text-2xl hover:italic transition-all duration-300 cursor-default">Parklane Resort</span>
+                    <span class="hidden md:inline w-1 h-1 bg-brand-olive rounded-full"></span>
+                    <span class="font-serif text-xl md:text-2xl hover:italic transition-all duration-300 cursor-default">City of Dreams</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="py-24 md:py-32 bg-brand-black text-brand-cream relative">
+            <div class="px-6 md:px-12 mb-16 flex flex-col md:flex-row justify-between items-end">
+                <h2 class="font-serif text-5xl md:text-7xl">Our Craft</h2>
+                <p class="font-sans text-xs tracking-widest uppercase mt-4 md:mt-0 opacity-60">Services & Offerings</p>
+            </div>
+
+            <div class="w-full border-t border-brand-cream/20">
+                <!-- Service Item 1 -->
+                <div class="service-item group relative border-b border-brand-cream/20 py-12 px-6 md:px-12 cursor-pointer transition-colors duration-500 hover:bg-white/5 hoverable">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline z-10 relative">
+                        <span class="text-xs font-sans tracking-widest opacity-50 mb-2 md:mb-0">01</span>
+                        <h3 class="font-serif text-4xl md:text-5xl group-hover:italic transition-all duration-300">Weddings</h3>
+                        <p class="md:w-1/3 mt-4 md:mt-0 font-sans font-light text-sm opacity-60">Architectural installations, bridal bouquets, and full-scale venue transformation for the modern couple.</p>
+                    </div>
+                    
+                    <!-- Mobile Image (Always visible on mobile) -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/529890453_18511285624015998_3529247266491231915_n_mp98do.jpg" 
+                         class="block md:hidden w-full h-64 object-cover mt-8 opacity-80" alt="Buquê de Casamento">
+
+                    <!-- Desktop Hover Image Float -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/529890453_18511285624015998_3529247266491231915_n_mp98do.jpg" 
+                         class="service-img hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-40 object-cover opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none z-0 grayscale" alt="Buquê de Casamento">
+                </div>
+
+                <!-- Service Item 2 -->
+                <div class="service-item group relative border-b border-brand-cream/20 py-12 px-6 md:px-12 cursor-pointer transition-colors duration-500 hover:bg-white/5 hoverable">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline z-10 relative">
+                        <span class="text-xs font-sans tracking-widest opacity-50 mb-2 md:mb-0">02</span>
+                        <h3 class="font-serif text-4xl md:text-5xl group-hover:italic transition-all duration-300">Events</h3>
+                        <p class="md:w-1/3 mt-4 md:mt-0 font-sans font-light text-sm opacity-60">Corporate galas, private dinners, and brand activations styled with editorial precision.</p>
+                    </div>
+                    
+                    <!-- Mobile Image -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/496128001_18036504026637388_6742217555605743550_n_oh2nkm.jpg" 
+                         class="block md:hidden w-full h-64 object-cover mt-8 opacity-80" alt="Decoração de Eventos">
+
+                    <!-- Desktop Hover Image Float -->
+                     <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/496128001_18036504026637388_6742217555605743550_n_oh2nkm.jpg" 
+                     class="service-img hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-40 object-cover opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none z-0 grayscale" alt="Decoração de Eventos">
+                </div>
+
+                <!-- Service Item 3 -->
+                <div class="service-item group relative border-b border-brand-cream/20 py-12 px-6 md:px-12 cursor-pointer transition-colors duration-500 hover:bg-white/5 hoverable">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline z-10 relative">
+                        <span class="text-xs font-sans tracking-widest opacity-50 mb-2 md:mb-0">03</span>
+                        <h3 class="font-serif text-4xl md:text-5xl group-hover:italic transition-all duration-300">Bespoke Floristry</h3>
+                        <p class="md:w-1/3 mt-4 md:mt-0 font-sans font-light text-sm opacity-60">Daily luxury arrangements and curated botanical gifts delivered within Limassol.</p>
+                    </div>
+                    
+                    <!-- Mobile Image -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/483481702_18482599156015998_7282732815991253277_n_umih18.jpg" 
+                         class="block md:hidden w-full h-64 object-cover mt-8 opacity-80" alt="Arranjo Personalizado">
+
+                    <!-- Desktop Hover Image Float -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/483481702_18482599156015998_7282732815991253277_n_umih18.jpg" 
+                    class="service-img hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-40 object-cover opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none z-0 grayscale" alt="Arranjo Personalizado">
+                </div>
+
+                <!-- Service Item 4 -->
+                <div class="service-item group relative border-b border-brand-cream/20 py-12 px-6 md:px-12 cursor-pointer transition-colors duration-500 hover:bg-white/5 hoverable">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline z-10 relative">
+                        <span class="text-xs font-sans tracking-widest opacity-50 mb-2 md:mb-0">04</span>
+                        <h3 class="font-serif text-4xl md:text-5xl group-hover:italic transition-all duration-300">Workshops</h3>
+                        <p class="md:w-1/3 mt-4 md:mt-0 font-sans font-light text-sm opacity-60">Immersive masterclasses sharing the art and mechanics of floral design.</p>
+                    </div>
+                    
+                    <!-- Mobile Image -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/586401000_18532995034015998_504730365313679181_n_zscdwj.jpg" 
+                         class="block md:hidden w-full h-64 object-cover mt-8 opacity-80" alt="Workshop Floral">
+
+                    <!-- Desktop Hover Image Float -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/586401000_18532995034015998_504730365313679181_n_zscdwj.jpg" 
+                    class="service-img hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-40 object-cover opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none z-0 grayscale" alt="Workshop Floral">
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Gallery (Parallax Grid) -->
+        <section id="gallery" class="py-24 md:py-40 px-6 md:px-12">
+            <div class="text-center mb-20">
+                <span class="font-serif italic text-2xl text-brand-olive block mb-2">Selected Works</span>
+                <h2 class="font-sans font-bold text-xs tracking-[0.3em] uppercase">Limassol • Nicosia • Paphos</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 w-full max-w-7xl mx-auto">
+                <!-- Col 1 -->
+                <div class="flex flex-col gap-6 md:gap-12 mt-0 md:mt-12">
+                    <div class="image-wrapper aspect-[3/4] hoverable">
+                        <!-- Store Facade -->
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/586839010_18532982221015998_4773148046533759916_n_ptbyk0.jpg" class="w-full h-full object-cover parallax-sm" alt="Vista da Loja">
+                    </div>
+                    <div class="image-wrapper aspect-square hoverable">
+                        <!-- Bouquet 1 -->
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/586401000_18532995034015998_504730365313679181_n_zscdwj.jpg" class="w-full h-full object-cover parallax-sm" alt="Buquê de Flores">
+                    </div>
+                </div>
+                
+                <!-- Col 2 -->
+                <div class="flex flex-col gap-6 md:gap-12">
+                    <div class="image-wrapper aspect-square hoverable">
+                        <!-- Bouquet 2 -->
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/483481702_18482599156015998_7282732815991253277_n_umih18.jpg" class="w-full h-full object-cover parallax-sm" alt="Arranjo Floral">
+                    </div>
+                    <div class="image-wrapper aspect-[3/5] hoverable">
+                         <!-- Bouquet 3 -->
+                         <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767089823/529890453_18511285624015998_3529247266491231915_n_mp98do.jpg" class="w-full h-full object-cover parallax-sm" alt="Buquê de Noiva">
+                    </div>
+                </div>
+
+                <!-- Col 3 -->
+                <div class="flex flex-col gap-6 md:gap-12 mt-0 md:mt-24">
+                    <div class="image-wrapper aspect-[3/4] hoverable">
+                        <!-- High quality stock -->
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover parallax-sm" alt="Detalhe Floral">
+                    </div>
+                    <div class="p-8 border border-brand-black/10 flex flex-col justify-center items-start text-left bg-white relative transition-all duration-300 h-fit">
+                        <div class="cursor-pointer hoverable" onclick="toggleReview()">
+                            <p class="font-serif italic text-lg leading-relaxed text-brand-black">
+                                "<span id="review-short">Natalia mou, we can’t thank you enough for the incredible work you did for our daughter’s christening. The flowers and decorations were absolutely magical...</span>
+                                <span id="review-full" class="hidden">Natalia mou, we can’t thank you enough for the incredible work you did for our daughter’s christening. The flowers and decorations were absolutely magical – everything looked so elegant, fresh, and beautifully put together. You truly created the most amazing atmosphere and made the day feel extra special. Every little detail was perfect, and we received so many compliments from our guests. We are beyond grateful for your talent and dedication! 🌸✨<br><br>Thank you once again! 🙏🏽</span>"
+                            </p>
+                            <span id="read-more-trigger" class="text-[10px] uppercase tracking-widest text-brand-gray/60 mt-2 block hover:text-brand-black transition-colors">(Read More)</span>
+                        </div>
+                        <p class="font-sans text-[10px] uppercase tracking-widest mt-6 text-brand-gray font-bold">— Anthia Onisiforou</p>
+                        
+                        <a href="https://share.google/XADbUDU24EthANl4p" target="_blank" class="mt-6 inline-block text-[10px] uppercase tracking-widest border border-brand-black/20 px-6 py-2 hover:bg-brand-black hover:text-white transition-all duration-300 hoverable">
+                            View Comment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Redesigned Editorial Footer -->
+        <footer id="contact" class="bg-[#111] text-[#e8e6e1] relative overflow-hidden py-24 md:py-32 px-6 md:px-12">
+            <!-- Background Texture/Image (Dark moody floral) -->
+            <div class="absolute inset-0 z-0 opacity-20">
+                 <img src="https://images.unsplash.com/photo-1621245084366-c878f0293296?q=80&w=2670&auto=format&fit=crop" 
+                 class="w-full h-full object-cover grayscale mix-blend-overlay" alt="Floral Texture Background">
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+                    
+                    <!-- Left Column: Big CTA -->
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <p class="font-sans text-xs tracking-[0.3em] uppercase mb-6 text-brand-olive">Start the conversation</p>
+                            <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] mb-12">
+                                Ready to bring<br>
+                                <span class="italic text-brand-olive font-light">your vision</span> to life?
+                            </h2>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6">
+                             <a href="mailto:hello@detailsmadewithlove.com" class="group relative overflow-hidden px-10 py-5 border border-brand-olive/50 bg-brand-olive/10 hover:bg-brand-olive hover:text-white transition-all duration-500 hoverable">
+                                <span class="relative z-10 font-sans text-xs tracking-[0.2em] uppercase">Contact Us</span>
+                            </a>
+                             <a href="https://maps.app.goo.gl/vUDzX1iM3r1kjD7C8" target="_blank" class="group relative overflow-hidden px-10 py-5 border border-brand-olive/50 hover:bg-brand-olive hover:text-white transition-all duration-500 hoverable">
+                                <span class="relative z-10 font-sans text-xs tracking-[0.2em] uppercase">Location</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Info Grid (Editorial Style) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 md:pl-12 md:border-l border-brand-olive/20 pt-12 md:pt-0">
+                        <div class="hoverable">
+                            <strong class="block font-serif text-2xl mb-4 italic text-brand-olive">Visit Us</strong>
+                            <p class="font-sans text-sm font-light leading-relaxed opacity-80">
+                                12 Georgiou A,<br>
+                                Limassol 4040, Cyprus<br>
+                                <span class="text-xs opacity-60 mt-2 block tracking-wider uppercase">By Appointment Only</span>
+                            </p>
+                        </div>
+                        <div class="hoverable">
+                            <strong class="block font-serif text-2xl mb-4 italic text-brand-olive">Get in Touch</strong>
+                            <p class="font-sans text-sm font-light leading-relaxed opacity-80">
+                                <a href="mailto:hello@detailsmadewithlove.com" class="hover:text-brand-olive transition-colors">hello@detailsmadewithlove.com</a><br>
+                                +357 25 000 000
+                            </p>
+                        </div>
+                        <div class="hoverable sm:col-span-2 mt-4">
+                             <strong class="block font-serif text-2xl mb-4 italic text-brand-olive">Follow</strong>
+                             <div class="flex gap-8 text-xs font-sans tracking-[0.2em] uppercase opacity-80">
+                                <a href="https://www.instagram.com/detailsmadewithlove" class="hover:text-brand-olive transition-colors pb-1 border-b border-transparent hover:border-brand-olive">Instagram</a>
+                                <a href="https://www.facebook.com/detailsmadewithlove/" class="hover:text-brand-olive transition-colors pb-1 border-b border-transparent hover:border-brand-olive">Facebook</a>
+                                <a href="https://wolt.com/en/cyp/limassol/venue/details-made-with-love" class="hover:text-brand-olive transition-colors pb-1 border-b border-transparent hover:border-brand-olive">Wolt</a>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Bar -->
+                <div class="mt-32 pt-8 border-t border-brand-olive/10 flex flex-col md:flex-row justify-between items-end opacity-40 text-[10px] uppercase tracking-widest font-sans">
+                    <p>© 202 Details Made With Love.</p>
+                    <p class="mt-4 md:mt-0">Designed with Passion.</p>
+                </div>
+                
+                <!-- Large Background Typography Watermark -->
+                <div class="absolute -bottom-20 -right-10 pointer-events-none opacity-[0.05] select-none overflow-hidden">
+                    <span class="font-serif text-[12rem] md:text-[20rem] leading-none italic text-brand-olive">Bloom</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts for Animations -->
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const hoverables = document.querySelectorAll('.hoverable');
+
+        // Move cursor with mouse
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // Toggle Review Function
+        function toggleReview() {
+            const shortText = document.getElementById('review-short');
+            const fullText = document.getElementById('review-full');
+            const trigger = document.getElementById('read-more-trigger');
+            
+            if (shortText.classList.contains('hidden')) {
+                // Collapse
+                shortText.classList.remove('hidden');
+                fullText.classList.add('hidden');
+                trigger.textContent = '(Read More)';
+            } else {
+                // Expand
+                shortText.classList.add('hidden');
+                fullText.classList.remove('hidden');
+                trigger.textContent = '(Read Less)';
+                
+                // Refresh ScrollTrigger after expansion since height changed
+                setTimeout(() => ScrollTrigger.refresh(), 100);
+            }
+        }
+
+        // 1. Initialize Lenis (Smooth Scroll)
+        // Wrapped in a check to prevent errors if script fails to load
+        if (typeof Lenis !== 'undefined') {
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing
+                orientation: 'vertical',
+                gestureOrientation: 'vertical',
+                smoothWheel: true,
+                wheelMultiplier: 1,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        } else {
+            console.warn("Lenis library not loaded. Smooth scrolling disabled.");
+        }
+
+        // Sync GSAP ScrollTrigger with Lenis
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // 2. Hero Animations on Load
+            const tl = gsap.timeline();
+            
+            tl.to(".hero-anim", {
+                y: 0,
+                opacity: 1,
+                duration: 1.5,
+                stagger: 0.2,
+                ease: "power3.out",
+                delay: 0.2
+            });
+            
+            // Hero Parallax
+            gsap.to("#hero-bg", {
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: 200, // Move image down slowly
+                scale: 1.2 // Slight zoom
+            });
+
+            // 3. Text Reveals on Scroll
+            const revealElements = document.querySelectorAll(".reveal-scroll");
+            revealElements.forEach(text => {
+                gsap.fromTo(text, 
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1.2,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: text,
+                            start: "top 80%",
+                        }
+                    }
+                );
+            });
+
+            // 4. Image Parallax & Scale
+            const images = document.querySelectorAll(".parallax-img");
+            images.forEach(img => {
+                gsap.to(img, {
+                    scrollTrigger: {
+                        trigger: img.parentElement,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1
+                    },
+                    y: -50,
+                    scale: 1.15
+                });
+            });
+
+            // Smaller Parallax for gallery
+            const smImages = document.querySelectorAll(".parallax-sm");
+            smImages.forEach(img => {
+                gsap.fromTo(img, 
+                    { scale: 1.2 },
+                    {
+                        scale: 1,
+                        scrollTrigger: {
+                            trigger: img.parentElement,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true
+                        }
+                    }
+                );
+            });
+
+            // 5. Navbar Transition
+            const navbar = document.getElementById('navbar');
+            // Classes for the "scrolled" state (white background, dark text)
+            const scrolledClasses = "bg-white/90 shadow-sm backdrop-blur-md py-4 text-brand-black".split(" ");
+            
+            ScrollTrigger.create({
+                start: "top -100",
+                end: 99999,
+                onEnter: () => {
+                    navbar.classList.remove('text-white'); // Remove initial white text
+                    navbar.classList.add(...scrolledClasses); // Add blur/white bg and dark text
+                },
+                onLeaveBack: () => {
+                    navbar.classList.remove(...scrolledClasses); // Remove blur/white bg
+                    navbar.classList.add('text-white'); // Return to white text
+                }
+            });
+        }
+    </script>
+</body>
+</html>
