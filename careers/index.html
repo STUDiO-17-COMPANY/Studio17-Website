@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDiO 17 | Careers</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#0a0a0a',
+                            dark: '#111111',
+                            accent: '#0055FF', // Electric Blue
+                            gray: '#888888',
+                            success: '#00FF66',
+                            warning: '#FFD700',
+                            danger: '#FF3333'
+                        }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #222 1px, transparent 1px), linear-gradient(to bottom, #222 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: #0055FF; }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body:hover .cursor-outline { opacity: 1; }
+        
+        /* Grid & Noise */
+        .bg-grid {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, 10%, white, 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, 5%, white, 90%, transparent);
+        }
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Job Card */
+        .job-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .job-card:hover {
+            border-color: #0055FF;
+            background: rgba(255,255,255,0.05);
+            transform: translateX(10px);
+        }
+        .job-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #888;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-accent selection:text-white">
+
+    <div class="noise"></div>
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
+            <span class="italic">STU</span>DiO 17
+        </a>
+        <div class="hidden md:flex gap-8 font-mono text-xs tracking-widest uppercase">
+            <a href="index.html#philosophy" class="hover:text-brand-accent transition-colors hoverable">Thinking</a>
+            <a href="index.html#work" class="hover:text-brand-accent transition-colors hoverable">Portfolio</a>
+            <span class="text-brand-accent">Careers</span>
+        </div>
+        <a href="/contact/" class="font-mono text-xs border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all hoverable">
+            Contact
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20 px-4 md:px-8 min-h-screen relative">
+        <div class="fixed inset-0 bg-grid opacity-10 pointer-events-none"></div>
+
+        <!-- Hero -->
+        <section class="container mx-auto mb-32 relative z-10">
+            <div class="overflow-hidden">
+                <h1 class="text-5xl md:text-9xl font-bold tracking-tighter leading-[0.9] text-white mb-2">
+                    WE DON'T<br>
+                    <span class="text-brand-gray opacity-50">HIRE EMPLOYEES.</span>
+                </h1>
+            </div>
+            <div class="overflow-hidden">
+                <h1 class="text-5xl md:text-9xl font-bold tracking-tighter leading-[0.9] text-brand-accent">
+                    WE RECRUIT<br>OPERATORS.
+                </h1>
+            </div>
+            
+            <div class="mt-12 max-w-2xl">
+                <p class="font-inter text-xl text-gray-400 leading-relaxed">
+                    STUDiO 17 is not for everyone. We build high-performance systems for ambitious brands. 
+                    If you care about pixel-perfect implementation, behavioral psychology, and shipping code that 
+                    actually converts, you might fit in the system.
+                </p>
+                <div class="mt-8 flex items-center gap-4">
+                    <span class="w-2 h-2 rounded-full bg-brand-success"></span>
+                    <span class="font-mono text-xs uppercase tracking-widest text-brand-success">HIRING PROTOCOL: ACTIVE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values / Culture -->
+        <section class="container mx-auto mb-32 border-t border-white/10 pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <h3 class="font-mono text-brand-accent mb-4 text-xs uppercase tracking-widest">[ 01 ]</h3>
+                    <h2 class="text-2xl font-bold mb-4">Autonomy</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        We don't micromanage. You own your output. We value results over hours logged. If you need a babysitter, go elsewhere.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-mono text-brand-accent mb-4 text-xs uppercase tracking-widest">[ 02 ]</h3>
+                    <h2 class="text-2xl font-bold mb-4">Mastery</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        We are obsessed with craft. Whether it's clean code, perfect kerning, or a closing script—we aim for the absolute top 1%.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-mono text-brand-accent mb-4 text-xs uppercase tracking-widest">[ 03 ]</h3>
+                    <h2 class="text-2xl font-bold mb-4">Speed</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        The market moves fast. We move faster. We ship, we iterate, we learn. Perfection is a direction, not a destination.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Open Positions -->
+        <section class="container mx-auto relative z-10 pb-20">
+            <div class="flex items-end justify-between mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tighter">OPEN PROTOCOLS</h2>
+                <span class="font-mono text-xs text-brand-gray">[ 4 POSITIONS AVAILABLE ]</span>
+            </div>
+
+            <div class="space-y-4">
+                
+                <!-- Position 1: Creative Engineer -->
+                <a href="mailto:careers@studio17.world?subject=Application: Creative Engineer (WebGL)" class="job-card block p-8 hoverable group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-accent transition-colors">Creative Engineer (WebGL)</h3>
+                                <span class="w-2 h-2 rounded-full bg-brand-success"></span>
+                            </div>
+                            <p class="text-sm text-gray-400 max-w-xl">
+                                You dream in Shaders. You will build immersive 3D web experiences using Three.js, R3F, and custom GLSL. Make the browser feel like a game engine.
+                            </p>
+                            <div class="flex gap-2 mt-4">
+                                <span class="job-tag">REMOTE</span>
+                                <span class="job-tag">THREE.JS</span>
+                                <span class="job-tag">GLSL</span>
+                                <span class="job-tag">FULL-TIME</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 md:border-l md:border-white/10 md:pl-8">
+                            <div class="text-right hidden md:block">
+                                <div class="font-mono text-xs text-brand-gray">COMPENSATION</div>
+                                <div class="font-bold">€50k - €75k</div>
+                            </div>
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-brand-accent group-hover:border-transparent group-hover:text-black transition-all">
+                                ↗
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Position 2: Behavioral Game Designer -->
+                <a href="mailto:careers@studio17.world?subject=Application: Behavioral Game Designer" class="job-card block p-8 hoverable group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-accent transition-colors">Behavioral Game Designer</h3>
+                                <span class="w-2 h-2 rounded-full bg-brand-success"></span>
+                            </div>
+                            <p class="text-sm text-gray-400 max-w-xl">
+                                Design the "Core Loop". You understand Octalysis, Hook Model, and variable rewards. You turn boring apps into habit-forming systems.
+                            </p>
+                            <div class="flex gap-2 mt-4">
+                                <span class="job-tag">REMOTE</span>
+                                <span class="job-tag">UX STRATEGY</span>
+                                <span class="job-tag">PSYCHOLOGY</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 md:border-l md:border-white/10 md:pl-8">
+                            <div class="text-right hidden md:block">
+                                <div class="font-mono text-xs text-brand-gray">COMPENSATION</div>
+                                <div class="font-bold">PROJECT / FT</div>
+                            </div>
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-brand-accent group-hover:border-transparent group-hover:text-black transition-all">
+                                ↗
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                 <!-- Position 3: Revenue Operator -->
+                 <a href="mailto:careers@studio17.world?subject=Application: Revenue Operator (Sales)" class="job-card block p-8 hoverable group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-accent transition-colors">Revenue Operator (Sales)</h3>
+                                <span class="w-2 h-2 rounded-full bg-brand-warning"></span>
+                            </div>
+                            <p class="text-sm text-gray-400 max-w-xl">
+                                A hybrid Closer/SDR role. You don't just "sell websites"; you sell digital transformation. You are responsible for the €1M 2026 target.
+                            </p>
+                            <div class="flex gap-2 mt-4">
+                                <span class="job-tag">LISBON / HYBRID</span>
+                                <span class="job-tag">HIGH TICKET</span>
+                                <span class="job-tag">UNCAPPED COMMS</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 md:border-l md:border-white/10 md:pl-8">
+                            <div class="text-right hidden md:block">
+                                <div class="font-mono text-xs text-brand-gray">COMPENSATION</div>
+                                <div class="font-bold">OTE €80k+</div>
+                            </div>
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-brand-accent group-hover:border-transparent group-hover:text-black transition-all">
+                                ↗
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Position 4: Spontaneous Application -->
+                <a href="role_spontaneous" class="job-card block p-8 hoverable group">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <h3 class="text-2xl font-bold text-white group-hover:text-brand-accent transition-colors">General / Spontaneous Application</h3>
+                                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                            </div>
+                            <p class="text-sm text-gray-400 max-w-xl">
+                                You don't fit into standard protocols? Good. We are always looking for outliers, polymaths, and high-agency operators. Pitch us your value.
+                            </p>
+                            <div class="flex gap-2 mt-4">
+                                <span class="job-tag">OPEN ROLE</span>
+                                <span class="job-tag">REMOTE / HYBRID</span>
+                                <span class="job-tag">YOUR TERMS</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 md:border-l md:border-white/10 md:pl-8">
+                            <div class="text-right hidden md:block">
+                                <div class="font-mono text-xs text-brand-gray">POTENTIAL</div>
+                                <div class="font-bold">UNLIMITED</div>
+                            </div>
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-brand-accent group-hover:border-transparent group-hover:text-black transition-all">
+                                ↗
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-12 bg-black">
+        <div class="container mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-brand-gray">
+            <div>&copy; 2026 STUDiO 17. All Rights Reserved.</div>
+            <div class="mt-4 md:mt-0 flex gap-6">
+                <a href="#" class="hover:text-white hoverable">Instagram</a>
+                <a href="#" class="hover:text-white hoverable">LinkedIn</a>
+                <a href="#" class="hover:text-white hoverable">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- MAIN APP INIT ---
+        const initApp = () => {
+            // Keep Lenis for smooth scroll (User Experience, not entrance animation)
+            const lenis = new Lenis({ duration: 1.2, smooth: true });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        };
+
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+
+        window.addEventListener("mousemove", (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        document.body.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hoverable')) {
+                cursorOutline.style.width = "80px";
+                cursorOutline.style.height = "80px";
+                cursorOutline.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                cursorOutline.style.borderColor = "transparent";
+            } else {
+                cursorOutline.style.width = "40px";
+                cursorOutline.style.height = "40px";
+                cursorOutline.style.backgroundColor = "transparent";
+                cursorOutline.style.borderColor = "rgba(255, 255, 255, 0.5)";
+            }
+        });
+
+        window.addEventListener('load', initApp);
+    </script>
+</body>
+</html>
