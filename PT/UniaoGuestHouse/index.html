@@ -1,653 +1,984 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>União - Guest House | Tomar</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'azulejo-dark': '#0f3c5f',
-                        'azulejo-light': '#3e7cb1',
-                        'stone-warm': '#fdfbf7',
-                        'terracotta': '#c06c58',
-                        'gold-accent': '#d4af37'
-                    },
-                    fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Lato"', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'pattern-azulejo': "url('https://www.transparenttextures.com/patterns/arabesque.png')" // Subtle texture overlay
-                    }
-                }
-            }
-        }
-    </script>
+import React, { useEffect, useRef, useState } from 'react';
+import { 
+  MapPin, 
+  CheckCircle2, 
+  Menu, 
+  X, 
+  ChevronDown, 
+  Phone, 
+  Instagram, 
+  Facebook, 
+  ArrowRight,
+  BedDouble,
+  Building,
+  Maximize2,
+  Car,
+  CigaretteOff,
+  Users,
+  Calendar,
+  Mail,
+  MessageCircle,
+  ChevronLeft,
+  ChevronRight,
+  Star,
+  Quote,
+  ParkingCircle,
+  Sun,
+  Flower2,
+  Map as MapIcon,
+  Accessibility,
+  PenSquare
+} from 'lucide-react';
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+// --- DADOS ---
 
-    <style>
-        /* Custom CSS */
-        body {
-            background-color: #fdfbf7;
-            color: #1a1a1a;
-            overflow-x: hidden;
-        }
+const ROOMS_DATA = {
+  cavaleiros: [
+    {
+      id: 'cav_ind',
+      title: "Quarto Individual",
+      description: "Este quarto climatizado inclui uma televisão por satélite e uma casa de banho privativa.",
+      size: "11m²",
+      capacity: "1 Pessoa",
+      beds: "1 Cama de Solteiro",
+      basePrice: 45,
+      amenities: ["Acesso por Elevador", "Ar condicionado", "Minibar", "Roupa de cama e Roupeiro", "Secretária", "TV satélite", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767484794/aeaa7d_d06fb7ba42e94e5b9e04e19cc8ee0899_mv2_das8zx.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767484808/aeaa7d_730212fce5e540178fff87b0db527757_mv2_wsyhlv.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767484824/aeaa7d_f75980dabc0b47e69f5c4ee76c21a5e9_mv2_ptv6dg.avif"
+      ]
+    },
+    {
+      id: 'cav_twin',
+      title: "Quarto Twin",
+      description: "Espaço confortável com duas camas, ideal para colegas de viagem ou amigos.",
+      size: "14m²",
+      capacity: "2 Pessoas",
+      beds: "2 Camas de Solteiro",
+      basePrice: 55,
+      amenities: ["Acesso por Elevador", "Ar condicionado", "Minibar", "Roupa de cama e Roupeiro", "Secretária", "TV satélite", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485047/aeaa7d_fe368277f6dc4da693edce45d869c5ec_mv2_nuyxlb.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485128/aeaa7d_bdb92f2f82a54fb182e05b77cc924b2b_mv2_ecf6ak.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485134/aeaa7d_e6a67e217e664c76916dcb187bcba1f2_mv2_enhz7v.avif"
+      ]
+    },
+    {
+      id: 'cav_double',
+      title: "Quarto Duplo",
+      description: "Quarto climatizado com cama de casal, perfeito para estadias a dois.",
+      size: "12m²",
+      capacity: "2 Pessoas",
+      beds: "1 Cama de Casal",
+      basePrice: 55,
+      amenities: ["Acesso por Elevador", "Ar condicionado", "Minibar", "Roupa de cama e Roupeiro", "Secretária", "TV satélite", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767484249/aeaa7d_b32e7b052f994875bec599a37617767c_mv2_q5de88.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767484238/aeaa7d_1b0b438509dc493e860ab935db23e2d6_mv2_itohh8.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767484258/aeaa7d_f6f0dd6164bd48689b3ef36ba3bb6342_mv2_bhq6oa.avif"
+      ]
+    },
+    {
+      id: 'cav_sup_double',
+      title: "Quarto Duplo Superior",
+      description: "Conforto superior com todas as comodidades essenciais para uma estadia relaxante.",
+      size: "12m²",
+      capacity: "2 Pessoas",
+      beds: "1 Cama de Casal",
+      basePrice: 70,
+      amenities: ["Acesso por Elevador", "Ar condicionado", "Minibar", "Roupa de cama e Roupeiro", "Secretária", "TV satélite", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485424/aeaa7d_56edeb4405324ae1a837f01848952fc9_mv2_b0lnmb.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485445/aeaa7d_456d1edceac1474abd3c0ef49c78fba6_mv2_q3pbxi.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485499/aeaa7d_498776d467da43d7b7a7a047254c88b7_mv2_gnuylp.avif"
+      ]
+    },
+    {
+      id: 'cav_suite',
+      title: "Suíte Júnior",
+      description: "Espaçosa suite decorada com cores suaves e vistas sobre Tomar.",
+      size: "22m²",
+      capacity: "4 Pessoas",
+      beds: "2 Solteiro + 1 Sofá-Cama",
+      basePrice: 90,
+      amenities: ["Acesso por Elevador", "Ar condicionado", "Minibar", "Roupa de cama e Roupeiro", "Entrada privada", "TV satélite", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485637/aeaa7d_191a1582916940b0b735733d9e3e3650_mv2_fd0s5b.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485642/aeaa7d_1f4489d6e42948768cfefb2328cb68d5_mv2_rn4nij.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767485650/aeaa7d_5298365414f64ce0b0307b110ae5cefc_mv2_uonpaq.avif"
+      ]
+    }
+  ],
+  uniao: [
+    {
+      id: 'uni_ind',
+      title: "Quarto Individual",
+      description: "Aconchegante e histórico, ideal para o viajante a solo.",
+      size: null,
+      capacity: "1 Pessoa",
+      beds: "1 Cama de Casal",
+      basePrice: 40,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767552838/aeaa7d_e11cb6d192924487a01ed6204e967a37_mv2_qxaayn.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767552843/aeaa7d_aca749d267d046159b141c39316289ec_mv2_qutjdn.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767552863/aeaa7d_fa9ab16d177a4e7bb7603a85fa61006f_mv2_iihae2.avif"
+      ]
+    },
+    {
+      id: 'uni_double',
+      title: "Quarto Duplo",
+      description: "Quarto clássico com tetos altos e mobiliário antigo. Charme do século XIX.",
+      size: null,
+      capacity: "3 Pessoas (máx)",
+      beds: "1 Cama de Casal + Possível Extra",
+      basePrice: 60,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767553169/aeaa7d_0334c471af164eb4ae30b2e035f0b6b1_mv2_gangpv.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767553221/aeaa7d_dd21c243d8164258ab44a73cef53e258_mv2_j6oft1.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767553226/aeaa7d_19d1d016084a41f98c2c1e56a193ad1c_mv2_dpatgx.avif"
+      ]
+    },
+    {
+      id: 'uni_passarinhos',
+      title: "Quarto Duplo 'Passarinhos'",
+      description: "Decoração temática única que evoca a natureza e tranquilidade.",
+      size: null,
+      capacity: "2 Pessoas (+ Extra)",
+      beds: "1 Cama de Casal + Possível Extra",
+      basePrice: 65,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767568767/aeaa7d_bc79b2d752a941f6aee127ea43d1bfba_mv2_zrlgo5.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767568775/aeaa7d_98f983c8cb0f4ec189408665dc488791_mv2_hfgpmz.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767568781/aeaa7d_b2e73abc770144a09acadf2c39240637_mv2_lndhfi.avif"
+      ]
+    },
+    {
+      id: 'uni_twin',
+      title: "Quarto Twin",
+      description: "Espaço partilhado com o conforto de camas separadas.",
+      size: null,
+      capacity: "3 Pessoas (máx)",
+      beds: "2 Camas de Solteiro + Possível Extra",
+      basePrice: 60,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767569444/aeaa7d_23baa56638a244d4adec203dcc67ed1a_mv2_iz62ds.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767569452/aeaa7d_14757eaaef4648a9b679cd4eb02ace03_mv2_qrzaai.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767569460/aeaa7d_d6e6a5e845e34e578f3232f41362cdfb_mv2_p4usrm.avif"
+      ]
+    },
+    {
+      id: 'uni_floresta',
+      title: "Quarto Twin 'Floresta'",
+      description: "Ambiente sereno inspirado na Mata dos Sete Montes.",
+      size: null,
+      capacity: "3 Pessoas (máx)",
+      beds: "2 Camas de Solteiro + Possível Extra",
+      basePrice: 65,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647433/aeaa7d_24abfe0885b04be4b4b275d8664f6035_mv2_ihspyi.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647438/aeaa7d_fc19c161984a41569bcc314ade643a61_mv2_fbtm3z.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647447/aeaa7d_4cb7f3b6849648f28a61106fae53fe89_mv2_nhyzzq.avif"
+      ]
+    },
+    {
+      id: 'uni_triple',
+      title: "Quarto Triplo",
+      description: "Espaço amplo ideal para pequenos grupos ou famílias.",
+      size: null,
+      capacity: "3 Pessoas",
+      beds: "3 Camas de Solteiro",
+      basePrice: 85,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647582/aeaa7d_70f23a1153744a9cb523ccaa1dbc9283_mv2_rq9yed.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647584/aeaa7d_44bec253c5714fd38b998f464cacec8d_mv2_lhiqb4.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647591/aeaa7d_30cba50965e440608bf756f545dff320_mv2_wasr0r.avif"
+      ]
+    },
+    {
+      id: 'uni_rosa',
+      title: "Quarto Triplo Superior 'Rosa'",
+      description: "O nosso quarto mais distinto, com decoração romântica e espaço generoso.",
+      size: null,
+      capacity: "4 Pessoas (máx)",
+      beds: "1 Casal, 1 Solteiro + Possível Extra",
+      basePrice: 95,
+      amenities: ["Ar condicionado (a pedido)", "Acesso por Escadas", "Roupa de cama e Roupeiro", "TV de ecrã plano", "Wi-Fi gratuito"],
+      bathroom: "Privativa com banheira ou duche, produtos de higiene, toalhas, secador.",
+      parking: "Público próximo (custos aplicáveis).",
+      images: [
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647665/aeaa7d_5c520c7fe3c741568dcfebcf3a164b6c_mv2_lpdvng.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647670/aeaa7d_64e6f83e7c8449d69699aa10504befac_mv2_hswdfx.avif",
+        "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767647675/aeaa7d_d07a5922f3974e67bbeda3ca4540e692_mv2_dytqtz.avif"
+      ]
+    }
+  ]
+};
 
-        /* Lenis Smooth Scroll Setup */
-        html.lenis {
-            height: auto;
-        }
-        .lenis.lenis-smooth {
-            scroll-behavior: auto;
-        }
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
+const MAP_POINTS = [
+  { id: 1, title: "Convento de Cristo", type: "Monumento", desc: "Património Mundial da UNESCO. Castelo templário.", dist: "15 min a pé", coords: "top-[10%] left-[40%]" },
+  { id: 2, title: "Mata dos Sete Montes", type: "Natureza", desc: "Pulmão verde da cidade, ideal para passeios.", dist: "10 min a pé", coords: "top-[30%] left-[35%]" },
+  { id: 3, title: "União Guest House", type: "Hotel", desc: "Rua Serpa Pinto, 94. Charme histórico.", dist: "Sede", coords: "top-[50%] left-[50%]", isHotel: true },
+  { id: 7, title: "Hotel Cavaleiros", type: "Hotel", desc: "Rua Alexandre Herculano, 7. Conforto moderno.", dist: "1 min a pé", coords: "top-[51%] left-[49%]", isHotel: true },
+  { id: 4, title: "Sinagoga de Tomar", type: "Cultura", desc: "A mais antiga de Portugal, na antiga judiaria.", dist: "3 min a pé", coords: "top-[55%] left-[60%]" },
+  { id: 5, title: "Parque do Mouchão", type: "Lazer", desc: "Jardim junto ao rio Nabão com a famosa Roda.", dist: "5 min a pé", coords: "top-[65%] left-[70%]" },
+  { id: 6, title: "Estação de Comboios", type: "Transporte", desc: "Ligação direta a Lisboa e Porto.", dist: "10 min a pé", coords: "top-[80%] left-[20%]" },
+];
 
-        /* Utilities */
-        .clip-image-left {
-            clip-path: inset(0 0 0 0);
-        }
-        
-        .azulejo-border {
-            position: relative;
-        }
-        .azulejo-border::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #0f3c5f;
-        }
+const PARKING_DATA = [
+  { name: "Parque do Estádio", type: "Gratuito", dist: "8 min a pé", desc: "Amplo e seguro. A melhor opção para estadias longas." },
+  { name: "Parque da Várzea", type: "Pago", dist: "5 min a pé", desc: "Conveniente, junto ao mercado. Gratuito aos Domingos." },
+  { name: "Zona do Mercado", type: "Pago", dist: "4 min a pé", desc: "Estacionamento de rua. Atenção aos parquímetros." },
+];
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #fdfbf7;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #0f3c5f;
-        }
+// Updated Reviews with more authentic Portuguese content
+const REVIEWS_DATA = [
+  { name: "Maria Ferreira", country: "Portugal", rating: 5, text: "Excelente localização mesmo no centro de Tomar. O staff foi incansável e a limpeza estava impecável. Recomendo vivamente!" },
+  { name: "João Santos", country: "Portugal", rating: 5, text: "Fiquei no quarto 'Passarinhos' e adorei a decoração. É um sítio com muita alma. A relação qualidade-preço é fantástica para a zona." },
+  { name: "Pedro Oliveira", country: "Portugal", rating: 4, text: "Muito prático para quem viaja em trabalho. O elevador no Hotel Cavaleiros dá muito jeito e o quarto era silencioso e confortável." },
+];
 
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f3c5f;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            transition: transform 0.8s ease-in-out;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: currentColor;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-    </style>
-</head>
-<body class="antialiased font-sans">
+// --- Utility: Reveal on Scroll ---
+const RevealOnScroll = ({ children, className = "", delay = 0 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
 
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="text-center">
-            <h1 class="font-serif text-4xl italic mb-2">União</h1>
-            <p class="text-xs tracking-[0.3em] uppercase opacity-80">Guest House • Tomar</p>
-        </div>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => { if (ref.current) observer.unobserve(ref.current); };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out transform ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      } ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
     </div>
+  );
+};
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 px-6 py-6" id="navbar">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-serif text-2xl font-bold text-stone-warm z-50 mix-blend-difference" id="nav-logo">
-                União
-            </a>
-            
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 text-sm tracking-widest uppercase font-bold text-stone-warm mix-blend-difference z-50">
-                <a href="#inicio" class="nav-link relative">Início</a>
-                <a href="#sobre" class="nav-link relative">Sobre</a>
-                <a href="#quartos" class="nav-link relative">Quartos</a>
-                <a href="#experiencia" class="nav-link relative">Experiência</a>
-                <a href="#contactos" class="nav-link relative">Contactos</a>
-            </div>
+// --- Calendar Component ---
+const SimpleCalendar = ({ basePrice, onSelectDate }) => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const days = Array.from({ length: 30 }, (_, i) => i + 1);
+  const today = new Date().getDate();
 
-            <a href="#reservas" class="hidden md:inline-block bg-gold-accent hover:bg-white hover:text-azulejo-dark text-white text-xs font-bold py-3 px-6 tracking-widest uppercase transition-all duration-300 z-50">
-                Reservar
-            </a>
+  const handleDateClick = (day) => {
+    if (day < today) return;
+    setSelectedDate(day);
+    const isWeekend = (day % 7 === 6 || day % 7 === 0);
+    const finalPrice = isWeekend ? basePrice + 10 : basePrice;
+    onSelectDate(day, finalPrice);
+  };
 
-            <!-- Mobile Menu Button -->
-            <button class="md:hidden z-50 text-white mix-blend-difference" id="mobile-menu-btn">
-                <i data-lucide="menu" class="w-8 h-8"></i>
-            </button>
-        </div>
+  return (
+    <div className="bg-stone-50 p-4 rounded-sm border border-stone-200">
+      <div className="flex justify-between items-center mb-4">
+        <span className="font-bold text-stone-800">Janeiro 2026</span>
+        <Calendar size={18} className="text-stone-500"/>
+      </div>
+      <div className="grid grid-cols-7 gap-2 text-center text-sm mb-2 text-stone-500 font-medium">
+        <span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span><span>D</span>
+      </div>
+      <div className="grid grid-cols-7 gap-2">
+        {Array(3).fill(null).map((_, i) => <div key={`empty-${i}`} />)} 
+        {days.map(day => (
+          <button
+            key={day}
+            disabled={day < today}
+            onClick={() => handleDateClick(day)}
+            className={`
+              p-2 rounded-full text-xs font-medium transition-all
+              ${day < today ? 'text-stone-300 cursor-not-allowed' : 'hover:bg-stone-200 text-stone-700'}
+              ${selectedDate === day ? 'bg-stone-800 text-white hover:bg-stone-900 shadow-md transform scale-110' : ''}
+            `}
+          >
+            {day}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-        <!-- Mobile Menu Overlay -->
-        <div class="fixed inset-0 bg-azulejo-dark transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 z-40 md:hidden" id="mobile-menu">
-            <a href="#inicio" class="text-3xl font-serif text-white mobile-link">Início</a>
-            <a href="#sobre" class="text-3xl font-serif text-white mobile-link">Sobre</a>
-            <a href="#quartos" class="text-3xl font-serif text-white mobile-link">Quartos</a>
-            <a href="#experiencia" class="text-3xl font-serif text-white mobile-link">Experiência</a>
-            <a href="#contactos" class="text-3xl font-serif text-white mobile-link">Contactos</a>
-        </div>
-    </nav>
+// --- Modal Component for Room Details ---
+const RoomModal = ({ room, onClose, accentColor }) => {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [selectedDateData, setSelectedDateData] = useState(null);
+  const [showContacts, setShowContacts] = useState(false);
 
-    <!-- Hero Section -->
-    <header id="inicio" class="relative w-full h-screen overflow-hidden bg-azulejo-dark">
-        <!-- Parallax Background Image -->
-        <div class="absolute inset-0 w-full h-[120%] bg-cover bg-center opacity-70" 
-             style="background-image: url('https://images.unsplash.com/photo-1555881400-74d7acaacd81?q=80&w=2000&auto=format&fit=crop');"
-             id="hero-bg">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20"></div>
+  if (!room) return null;
 
-        <div class="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-4">
-            <p class="hero-anim text-sm md:text-base tracking-[0.4em] uppercase mb-4 opacity-0">No Coração Histórico de Tomar</p>
-            <h1 class="hero-anim font-serif text-5xl md:text-7xl lg:text-8xl italic mb-6 opacity-0 leading-tight">
-                União <br/><span class="not-italic">Guest House</span>
-            </h1>
-            <p class="hero-anim max-w-lg mx-auto text-lg md:text-xl font-light opacity-80 mb-10 opacity-0">
-                Uma estadia autêntica num edifício do século XIX, onde a história encontra o conforto moderno.
-            </p>
-            <div class="hero-anim opacity-0">
-                <a href="#reservas" class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-none border border-white px-8 font-medium text-white transition-all duration-300 hover:bg-white hover:text-azulejo-dark focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2">
-                    <span class="mr-2 uppercase tracking-widest text-sm font-bold">Descobrir</span>
-                    <i data-lucide="arrow-down" class="w-4 h-4 transition-transform group-hover:translate-y-1"></i>
-                </a>
-            </div>
-        </div>
-    </header>
+  const handleDateSelection = (day, price) => {
+    setSelectedDateData({ day, price });
+    setShowContacts(false);
+  };
 
-    <!-- Introduction / About Section -->
-    <section id="sobre" class="py-20 md:py-32 px-6 bg-stone-warm relative">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            
-            <!-- Image Composition -->
-            <div class="relative image-reveal-trigger">
-                <div class="aspect-[3/4] overflow-hidden w-full md:w-[90%] ml-auto bg-gray-200 relative">
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200&auto=format&fit=crop" 
-                         alt="Interior Detail" 
-                         class="object-cover w-full h-full scale-110 parallax-img">
-                </div>
-                <!-- Decorative element -->
-                <div class="absolute -bottom-6 -left-6 md:bottom-10 md:-left-10 w-32 h-32 md:w-48 md:h-48 bg-azulejo-dark p-1 flex items-center justify-center shadow-xl z-20" data-speed="1.1">
-                    <div class="border border-white/30 w-full h-full flex items-center justify-center text-center p-2">
-                        <span class="text-white font-serif text-sm md:text-lg italic leading-tight">Desde<br>O Século<br>XIX</span>
-                    </div>
-                </div>
-            </div>
+  const nextImage = () => setActiveImageIndex((prev) => (prev + 1) % room.images.length);
+  const prevImage = () => setActiveImageIndex((prev) => (prev - 1 + room.images.length) % room.images.length);
 
-            <!-- Text Content -->
-            <div class="text-reveal-trigger">
-                <h2 class="text-azulejo-light text-xs font-bold tracking-[0.2em] uppercase mb-4">A Nossa História</h2>
-                <h3 class="font-serif text-4xl md:text-5xl text-azulejo-dark mb-6 leading-tight">Charme Português & <br><span class="italic text-terracotta">Hospitalidade</span></h3>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    Localizada no centro histórico, a União Guest House é um refúgio de tranquilidade. Com vistas privilegiadas para o Castelo de Tomar, mantemos viva a alma do edifício original, combinando mobiliário antigo restaurado com o conforto contemporâneo.
-                </p>
-                <p class="text-gray-600 mb-8 leading-relaxed">
-                    Desfrute do nosso lounge tradicional com piano, do pátio tranquilo ou do nosso jardim privado. Oferecemos uma experiência genuína, longe dos hotéis padronizados.
-                </p>
-                
-                <div class="grid grid-cols-2 gap-6 mt-8">
-                    <div class="flex items-center space-x-3 text-azulejo-dark">
-                        <i data-lucide="castle" class="w-6 h-6"></i>
-                        <span class="text-sm font-semibold">Vista Castelo</span>
-                    </div>
-                    <div class="flex items-center space-x-3 text-azulejo-dark">
-                        <i data-lucide="flower" class="w-6 h-6"></i>
-                        <span class="text-sm font-semibold">Jardim & Pátio</span>
-                    </div>
-                    <div class="flex items-center space-x-3 text-azulejo-dark">
-                        <i data-lucide="music" class="w-6 h-6"></i>
-                        <span class="text-sm font-semibold">Lounge Piano</span>
-                    </div>
-                    <div class="flex items-center space-x-3 text-azulejo-dark">
-                        <i data-lucide="bike" class="w-6 h-6"></i>
-                        <span class="text-sm font-semibold">Garagem Bikes</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Amenities Highlight (Parallax Scroll) -->
-    <section class="py-24 bg-azulejo-dark text-white relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-32 h-32 opacity-10">
-            <!-- SVG Azulejo Pattern Placeholder -->
-            <svg width="100%" height="100%" viewBox="0 0 100 100">
-                <rect width="100" height="100" fill="none" stroke="white" stroke-width="2"/>
-                <path d="M0,0 L100,100 M100,0 L0,100" stroke="white" stroke-width="1"/>
-            </svg>
-        </div>
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose}></div>
+      <div className="bg-white w-full max-w-4xl max-h-[95vh] overflow-y-auto rounded-sm shadow-2xl relative animate-in fade-in zoom-in duration-300 flex flex-col md:flex-row">
         
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-                <div class="amenity-card p-6 border border-white/10 hover:border-white/40 transition-colors duration-300">
-                    <i data-lucide="wifi" class="w-10 h-10 mx-auto mb-4 text-gold-accent"></i>
-                    <h4 class="font-serif text-xl mb-2">Conforto Moderno</h4>
-                    <p class="text-white/70 text-sm">Wi-Fi gratuito de alta velocidade, Ar Condicionado em todos os quartos e TV.</p>
-                </div>
-                <div class="amenity-card p-6 border border-white/10 hover:border-white/40 transition-colors duration-300">
-                    <i data-lucide="coffee" class="w-10 h-10 mx-auto mb-4 text-gold-accent"></i>
-                    <h4 class="font-serif text-xl mb-2">Pequeno-Almoço</h4>
-                    <p class="text-white/70 text-sm">Sala de pequeno-almoço com vista deslumbrante sobre o Castelo de Tomar.</p>
-                </div>
-                <div class="amenity-card p-6 border border-white/10 hover:border-white/40 transition-colors duration-300">
-                    <i data-lucide="bed-double" class="w-10 h-10 mx-auto mb-4 text-gold-accent"></i>
-                    <h4 class="font-serif text-xl mb-2">Detalhes Premium</h4>
-                    <p class="text-white/70 text-sm">Lençóis de algodão, casas de banho privativas e chão de madeira (sem carpete).</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        {/* Close Button Mobile */}
+        <button onClick={onClose} className="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full hover:bg-black/70 text-white md:hidden"><X size={20} /></button>
 
-    <!-- Rooms Section -->
-    <section id="quartos" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row justify-between items-end">
+        {/* Left Side: Image Gallery */}
+        <div className="w-full md:w-1/2 relative bg-stone-100 h-64 md:h-auto">
+           <img src={room.images[activeImageIndex]} alt={room.title} className="w-full h-full object-cover transition-all duration-300" />
+           {room.images.length > 1 && (
+             <>
+               <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full backdrop-blur-sm"><ChevronLeft size={20}/></button>
+               <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full backdrop-blur-sm"><ChevronRight size={20}/></button>
+               <div className="absolute bottom-4 left-0 w-full flex justify-center gap-2">
+                 {room.images.map((_, idx) => (
+                   <div key={idx} className={`w-2 h-2 rounded-full transition-all ${idx === activeImageIndex ? 'bg-white scale-125' : 'bg-white/50'}`} />
+                 ))}
+               </div>
+             </>
+           )}
+        </div>
+
+        {/* Right Side: Details & Booking */}
+        <div className="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto">
+          <div className="flex justify-between items-start mb-4">
             <div>
-                <h2 class="text-azulejo-light text-xs font-bold tracking-[0.2em] uppercase mb-2">Acomodação</h2>
-                <h3 class="font-serif text-4xl md:text-5xl text-azulejo-dark">Os Nossos Quartos</h3>
+              <h3 className="text-3xl font-serif text-stone-900">{room.title}</h3>
+              <p className="text-stone-500 text-sm mt-1">{room.description}</p>
             </div>
-            <p class="text-gray-500 mt-4 md:mt-0 max-w-sm text-sm">
-                Tetos altos, mobiliário clássico e a tranquilidade que precisa para descansar após explorar a cidade.
-            </p>
-        </div>
+            <button onClick={onClose} className="hidden md:block text-stone-400 hover:text-stone-800"><X size={24}/></button>
+          </div>
+          
+          <div className="flex gap-4 text-xs font-medium text-stone-600 mb-6 border-b border-stone-100 pb-4">
+             <span className="flex items-center bg-stone-50 px-2 py-1 rounded"><Users size={14} className="mr-1"/> {room.capacity}</span>
+             <span className="flex items-center bg-stone-50 px-2 py-1 rounded"><BedDouble size={14} className="mr-1"/> {room.beds}</span>
+             {room.size && <span className="flex items-center bg-stone-50 px-2 py-1 rounded"><Maximize2 size={14} className="mr-1"/> {room.size}</span>}
+          </div>
 
-        <!-- Horizontal Scroll Container for Desktop / Vertical for Mobile -->
-        <div class="flex overflow-x-auto md:grid md:grid-cols-3 gap-6 px-6 max-w-7xl mx-auto pb-8 md:pb-0 snap-x">
-            
-            <!-- Room 1 -->
-            <div class="room-card group cursor-pointer min-w-[85vw] md:min-w-0 snap-center">
-                <div class="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1200&auto=format&fit=crop" alt="Quarto Duplo" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute bottom-0 left-0 bg-white px-4 py-2">
-                        <span class="text-xs tracking-widest uppercase font-bold text-azulejo-dark">Casal</span>
+          <div className="space-y-6">
+            <div>
+              <h4 className={`font-serif text-base mb-2 ${accentColor.replace('bg-', 'text-')}`}>Comodidades</h4>
+              <ul className="grid grid-cols-2 gap-2">
+                {room.amenities.slice(0, 8).map((item, idx) => (
+                  <li key={idx} className="flex items-start text-xs text-stone-600"><CheckCircle2 className="w-3 h-3 mr-1.5 mt-0.5 text-stone-400 flex-shrink-0" />{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-serif text-lg mb-3 flex items-center gap-2"><Calendar className="w-5 h-5" /> Disponibilidade & Preços</h4>
+              <SimpleCalendar basePrice={room.basePrice} onSelectDate={handleDateSelection} />
+              
+              {selectedDateData && (
+                <div className="mt-4 p-4 bg-stone-50 border border-green-200 rounded-sm animate-in slide-in-from-top-2">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-stone-600">Preço para dia {selectedDateData.day} Jan:</span>
+                    <span className="text-xl font-bold text-stone-900">€{selectedDateData.price}</span>
+                  </div>
+                  <p className="text-xs text-stone-500 mb-3">*Valor indicativo sem pequeno-almoço.</p>
+                  
+                  {!showContacts ? (
+                    <button onClick={() => setShowContacts(true)} className={`w-full py-3 text-white font-medium rounded-sm shadow-md transition-all ${accentColor}`}>Reservar esta Data</button>
+                  ) : (
+                    <div className="space-y-3 animate-in fade-in">
+                      <p className="text-sm font-medium text-stone-900">Contacte-nos para confirmar:</p>
+                      <div className="grid grid-cols-1 gap-2">
+                        <a href="tel:+351249323161" className="flex items-center justify-center gap-2 py-2 bg-stone-900 text-white rounded-sm text-sm hover:bg-stone-800"><Phone size={16} /> Ligar (+351 249 323 161)</a>
+                        <a href={`mailto:reservas@uniaoguesthouse.com?subject=Reserva ${room.title} - Dia ${selectedDateData.day} Jan`} className="flex items-center justify-center gap-2 py-2 border border-stone-300 text-stone-700 rounded-sm text-sm hover:bg-stone-50"><Mail size={16} /> Enviar Email</a>
+                        <button onClick={() => alert("Abriria WhatsApp")} className="flex items-center justify-center gap-2 py-2 bg-[#25D366] text-white rounded-sm text-sm hover:opacity-90"><MessageCircle size={16} /> WhatsApp</button>
+                      </div>
                     </div>
+                  )}
                 </div>
-                <h4 class="font-serif text-2xl text-azulejo-dark mb-2 group-hover:text-terracotta transition-colors">Quarto Duplo com Vista</h4>
-                <p class="text-gray-500 text-sm mb-4">Vista para o Castelo ou Jardim, casa de banho privativa.</p>
-                <div class="flex gap-3 text-gray-400">
-                    <i data-lucide="wind" class="w-4 h-4"></i>
-                    <i data-lucide="tv" class="w-4 h-4"></i>
-                    <i data-lucide="wifi" class="w-4 h-4"></i>
-                </div>
+              )}
             </div>
-
-            <!-- Room 2 -->
-            <div class="room-card group cursor-pointer min-w-[85vw] md:min-w-0 snap-center">
-                <div class="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop" alt="Twin Room" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute bottom-0 left-0 bg-white px-4 py-2">
-                        <span class="text-xs tracking-widest uppercase font-bold text-azulejo-dark">Twin</span>
-                    </div>
-                </div>
-                <h4 class="font-serif text-2xl text-azulejo-dark mb-2 group-hover:text-terracotta transition-colors">Twin Superior</h4>
-                <p class="text-gray-500 text-sm mb-4">Espaço amplo, mobiliário antigo e área de leitura.</p>
-                <div class="flex gap-3 text-gray-400">
-                    <i data-lucide="wind" class="w-4 h-4"></i>
-                    <i data-lucide="tv" class="w-4 h-4"></i>
-                    <i data-lucide="wifi" class="w-4 h-4"></i>
-                </div>
-            </div>
-
-            <!-- Room 3 -->
-            <div class="room-card group cursor-pointer min-w-[85vw] md:min-w-0 snap-center">
-                <div class="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1616594039964-40891a909d93?q=80&w=1200&auto=format&fit=crop" alt="Family Room" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute bottom-0 left-0 bg-white px-4 py-2">
-                        <span class="text-xs tracking-widest uppercase font-bold text-azulejo-dark">Família</span>
-                    </div>
-                </div>
-                <h4 class="font-serif text-2xl text-azulejo-dark mb-2 group-hover:text-terracotta transition-colors">Suite Familiar</h4>
-                <p class="text-gray-500 text-sm mb-4">Perfeito para famílias, com acesso direto ao pátio.</p>
-                <div class="flex gap-3 text-gray-400">
-                    <i data-lucide="wind" class="w-4 h-4"></i>
-                    <i data-lucide="tv" class="w-4 h-4"></i>
-                    <i data-lucide="wifi" class="w-4 h-4"></i>
-                </div>
-            </div>
-
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  );
+};
 
-    <!-- Experience / Gallery Section -->
-    <section id="experiencia" class="bg-stone-warm py-24 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 mb-12">
-            <h3 class="font-serif text-4xl md:text-5xl text-azulejo-dark text-center">Experiência Tomar</h3>
+// --- Room Card ---
+const RoomCard = ({ room, accentColor, onOpenDetails }) => (
+  <div className="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-100 h-full flex flex-col relative">
+    <div className="absolute top-4 left-4 z-10 bg-black/70 text-white text-[10px] px-2 py-1 uppercase tracking-wider rounded-sm backdrop-blur-sm">
+        Sem Pequeno-Almoço
+    </div>
+    <div className="relative h-64 overflow-hidden cursor-pointer" onClick={() => onOpenDetails(room)}>
+      <img src={room.images[0]} alt={room.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+    </div>
+    <div className="p-6 flex flex-col flex-grow">
+      <div className="flex justify-between items-start mb-2">
+         <h3 className="font-serif text-2xl text-stone-900 leading-tight cursor-pointer hover:underline" onClick={() => onOpenDetails(room)}>{room.title}</h3>
+      </div>
+      <p className="text-xs text-stone-500 mb-4 line-clamp-2">{room.description}</p>
+      
+      <div className="grid grid-cols-2 gap-2 mb-6 text-stone-600">
+        <div className="flex items-center text-xs bg-stone-50 p-1.5 rounded"><Users className="w-3 h-3 mr-1.5" /> {room.capacity}</div>
+        <div className="flex items-center text-xs bg-stone-50 p-1.5 rounded"><BedDouble className="w-3 h-3 mr-1.5" /> {room.beds.split(' ')[0]} {room.beds.split(' ')[1]}</div>
+        {room.size && <div className="flex items-center text-xs bg-stone-50 p-1.5 rounded"><Maximize2 className="w-3 h-3 mr-1.5" /> {room.size}</div>}
+      </div>
+
+      <div className="mt-auto space-y-2">
+        <button onClick={() => onOpenDetails(room)} className={`w-full py-2.5 border border-stone-200 text-stone-600 font-medium text-xs uppercase tracking-wider hover:border-stone-400 hover:text-stone-900 transition-colors flex items-center justify-center`}><Maximize2 className="w-3 h-3 mr-2" /> Ver Detalhes</button>
+        <button onClick={() => onOpenDetails(room)} className={`w-full py-3 text-white font-medium text-sm uppercase tracking-wider transition-colors shadow-sm ${accentColor}`}>Verificar Preços</button>
+      </div>
+    </div>
+  </div>
+);
+
+// --- New Combined Location & Parking Section with LIST VIEW ---
+const LocationParkingSection = () => {
+  return (
+    <div className="grid md:grid-cols-2 gap-12 items-start">
+      {/* Location / Points of Interest - Replacing Map Visual with List */}
+      <div className="bg-white rounded-sm shadow-sm border border-stone-100 overflow-hidden flex flex-col h-full">
+        <div className="p-6 bg-stone-50 border-b border-stone-100">
+           <h3 className="font-serif text-2xl text-stone-900 flex items-center gap-2">
+             <MapIcon className="text-red-900" /> No Coração de Tomar
+           </h3>
+           <p className="text-sm text-stone-500 mt-1">Distâncias a pé a partir da nossa porta.</p>
         </div>
-
-        <!-- Marquee / Horizontal Scroll Gallery -->
-        <div class="gallery-track flex space-x-6 px-6 w-max">
-            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Garden">
-                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span class="text-white font-serif italic">Jardim Privado</span>
-                </div>
-            </div>
-            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Piano Lounge">
-                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span class="text-white font-serif italic">Lounge com Piano</span>
-                </div>
-            </div>
-            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1628151016187-57351df7799b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Breakfast View">
-                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span class="text-white font-serif italic">Pequeno Almoço com Vista</span>
-                </div>
-            </div>
-            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Tomar Streets">
-                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span class="text-white font-serif italic">Centro Histórico</span>
-                </div>
-            </div>
-            <div class="w-[300px] md:w-[400px] aspect-[4/3] bg-gray-200 overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1496318447583-f524534e9ce1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Azulejos Detail">
-                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span class="text-white font-serif italic">Detalhes em Azulejo</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking / Contact Section -->
-    <section id="reservas" class="relative py-24 bg-azulejo-dark text-white text-center px-6">
-        <div id="contactos" class="max-w-4xl mx-auto z-10 relative">
-            <i data-lucide="star" class="w-8 h-8 text-gold-accent mx-auto mb-6"></i>
-            <h2 class="font-serif text-4xl md:text-6xl mb-8 leading-tight">Reserve a sua estadia na<br><span class="italic text-white/80">União Guest House</span></h2>
-            
-            <p class="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto">
-                Garantimos o melhor preço reservando diretamente connosco. Estacionamento gratuito para motos e bicicletas disponível.
-            </p>
-
-            <a href="#" class="inline-block bg-white text-azulejo-dark hover:bg-gold-accent hover:text-white transition-all duration-300 px-10 py-4 text-sm tracking-[0.2em] font-bold uppercase mb-16">
-                Verificar Disponibilidade
-            </a>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/10 pt-12 text-sm tracking-wide">
-                <div>
-                    <h5 class="font-bold text-gold-accent mb-2">Morada</h5>
-                    <p class="opacity-70">Rua Serpa Pinto, N.º 94<br>2300-592 Tomar, Portugal</p>
-                </div>
-                <div>
-                    <h5 class="font-bold text-gold-accent mb-2">Contacto</h5>
-                    <p class="opacity-70">+351 249 323 161<br>info@uniao.com</p>
-                </div>
-                <div>
-                    <h5 class="font-bold text-gold-accent mb-2">Social</h5>
-                    <div class="flex justify-center space-x-4 opacity-70">
-                        <a href="#" class="hover:text-white"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                        <a href="#" class="hover:text-white"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                        <a href="#" class="hover:text-white"><i data-lucide="map-pin" class="w-5 h-5"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-[#0b2d47] py-6 text-center text-white/30 text-xs uppercase tracking-widest">
-        <p>&copy; 2024 União Guest House. Todos os direitos reservados.</p>
-    </footer>
-
-    <!-- Scripts -->
-    
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Lenis -->
-    <!-- Changed to jsdelivr for better reliability -->
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-
-    <script>
-        // Icons Initialization
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-
-        // 1. Initialize Lenis Smooth Scroll
-        let lenis;
-        try {
-            if (typeof Lenis !== 'undefined') {
-                lenis = new Lenis({
-                    duration: 1.2,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                    direction: 'vertical',
-                    gestureDirection: 'vertical',
-                    smooth: true,
-                    mouseMultiplier: 1,
-                    smoothTouch: false,
-                    touchMultiplier: 2,
-                });
-
-                function raf(time) {
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
-                requestAnimationFrame(raf);
-            } else {
-                console.warn("Lenis library not loaded. Smooth scrolling disabled.");
-                document.documentElement.style.scrollBehavior = "smooth";
-            }
-        } catch (error) {
-            console.error("Error initializing Lenis:", error);
-        }
-
-        // Connect Lenis to ScrollTrigger
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-            
-            if (lenis) {
-                 // Ensure GSAP ScrollTrigger works with Lenis
-                 lenis.on('scroll', ScrollTrigger.update);
-                 
-                 gsap.ticker.add((time)=>{
-                   lenis.raf(time * 1000);
-                 });
-                 
-                 gsap.ticker.lagSmoothing(0);
-            }
-        }
         
-        // Loader Animation
-        window.addEventListener("load", () => {
-            if (typeof gsap !== 'undefined') {
-                const tl = gsap.timeline();
+        <div className="p-6 flex-grow flex flex-col gap-3">
+           {MAP_POINTS.map((point) => (
+             <a 
+               key={point.id} 
+               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(point.title + " Tomar")}`}
+               target="_blank" 
+               rel="noreferrer"
+               className={`
+                 group flex items-center p-4 rounded-sm border transition-all duration-300
+                 ${point.isHotel 
+                   ? 'bg-red-50 border-red-100 hover:border-red-300' 
+                   : 'bg-white border-stone-100 hover:border-stone-300 hover:shadow-md'}
+               `}
+             >
+                <div className={`
+                  w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 mr-4 transition-colors
+                  ${point.isHotel ? 'bg-red-900 text-white' : 'bg-stone-100 text-stone-500 group-hover:bg-blue-900 group-hover:text-white'}
+                `}>
+                   {point.isHotel ? <Star size={20} fill="currentColor"/> : <MapPin size={20} />}
+                </div>
                 
-                tl.to("#loader p", { opacity: 0, duration: 0.5, delay: 0.5 })
-                  .to("#loader h1", { opacity: 0, y: -20, duration: 0.5 }, "-=0.3")
-                  .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" })
-                  .to(".hero-anim", { 
-                      y: 0, 
-                      opacity: 1, 
-                      duration: 1, 
-                      stagger: 0.2, 
-                      ease: "power3.out" 
-                  }, "-=0.4");
-            } else {
-                 // Fallback if GSAP fails
-                 document.getElementById('loader').style.display = 'none';
-            }
-        });
+                <div className="flex-grow">
+                   <div className="flex justify-between items-center">
+                     <span className={`font-bold text-sm ${point.isHotel ? 'text-red-900' : 'text-stone-800'}`}>{point.title}</span>
+                     <span className="text-xs font-semibold bg-stone-100 px-2 py-1 rounded text-stone-600">{point.dist}</span>
+                   </div>
+                   <p className="text-xs text-stone-500 mt-0.5 line-clamp-1">{point.desc}</p>
+                </div>
+                
+                <ArrowRight size={16} className={`ml-3 opacity-0 group-hover:opacity-100 transition-opacity ${point.isHotel ? 'text-red-900' : 'text-blue-900'}`} />
+             </a>
+           ))}
+        </div>
+      </div>
 
-        // 2. Animations
+      {/* Parking */}
+      <div className="bg-white p-6 rounded-sm shadow-sm border border-stone-100 h-full">
+        <h3 className="font-serif text-2xl mb-6 text-stone-900 flex items-center gap-2">
+          <ParkingCircle className="text-blue-900" /> Onde Estacionar
+        </h3>
+        <p className="text-sm text-stone-500 mb-6">Estamos em zona histórica pedonal. Recomendamos estacionar antes de fazer o check-in.</p>
+        <div className="space-y-4">
+          {PARKING_DATA.map((park, i) => (
+            <div key={i} className="flex items-start p-4 bg-stone-50 rounded-sm border border-stone-100 hover:border-stone-300 transition-colors">
+              <div className="mt-1 mr-3 text-stone-400"><MapPin size={20} /></div>
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-medium text-stone-900">{park.name}</h4>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${park.type === 'Gratuito' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>{park.type}</span>
+                </div>
+                <p className="text-xs text-stone-500 mb-1">{park.dist}</p>
+                <p className="text-xs text-stone-600">{park.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Missing SocialProof Component Added Here ---
+const SocialProof = () => (
+  <div className="bg-stone-100 py-8 border-b border-stone-200">
+    <div className="container mx-auto px-4 flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-80">
+      <div className="flex items-center gap-3">
+        <div className="bg-blue-900 text-white p-1.5 rounded text-base font-bold">9.2</div>
+        <div className="text-xs font-semibold text-stone-700 leading-tight">
+          Soberbo<br /><span className="font-normal text-stone-500">Booking.com</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="flex text-green-600 text-xs">★★★★★</div>
+        <div className="text-xs font-semibold text-stone-700 leading-tight">
+          Travelers' Choice<br /><span className="font-normal text-stone-500">TripAdvisor</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <CheckCircle2 className="w-4 h-4 text-stone-500" />
+        <span className="text-xs font-medium text-stone-600">Melhor Preço Garantido</span>
+      </div>
+    </div>
+  </div>
+);
+
+// --- Reviews Section ---
+const ReviewsSection = () => (
+  <div className="space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {REVIEWS_DATA.map((rev, i) => (
+        <div key={i} className="bg-white p-6 rounded-sm shadow-sm border border-stone-100 flex flex-col">
+            <div className="flex text-yellow-500 mb-3">
+            {[...Array(rev.rating)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+            </div>
+            <Quote className="text-stone-200 mb-2 w-8 h-8" />
+            <p className="text-stone-600 text-sm italic mb-4 flex-grow">"{rev.text}"</p>
+            <div>
+            <span className="block font-bold text-stone-900 text-sm">{rev.name}</span>
+            <span className="text-xs text-stone-400">{rev.country}</span>
+            </div>
+        </div>
+        ))}
+    </div>
+    
+    <div className="bg-stone-50 border border-stone-200 p-8 rounded-sm text-center">
+        <h3 className="font-serif text-xl mb-2 text-stone-800">Já ficou connosco?</h3>
+        <p className="text-stone-500 text-sm mb-6">A sua opinião ajuda-nos a melhorar e a receber melhor quem nos visita.</p>
+        <button 
+            onClick={() => alert('Abrir formulário de feedback (Ex: Google Forms ou Tripadvisor)')}
+            className="inline-flex items-center px-6 py-3 bg-white border border-stone-300 text-stone-800 font-medium rounded-sm hover:bg-stone-100 hover:border-stone-400 transition-all shadow-sm"
+        >
+            <PenSquare size={16} className="mr-2" /> Deixar o meu Feedback
+        </button>
+    </div>
+  </div>
+);
+
+
+// --- Navbar ---
+const Navbar = ({ activeProperty, onBookClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'Alojamento', href: '#rooms' },
+    { name: 'Localização', href: '#location' },
+    { name: 'Opiniões', href: '#reviews' },
+  ];
+
+  return (
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-stone-50/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+      <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
+        {/* Logo Duplo */}
+        <div className="flex flex-col leading-tight cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+          <span className={`font-serif text-xl font-bold tracking-tight transition-colors ${scrolled ? 'text-red-900' : 'text-white'}`}>
+            União <span className="font-light">Guest House</span>
+          </span>
+          <span className={`text-[0.65rem] uppercase tracking-widest ${scrolled ? 'text-stone-500' : 'text-stone-300'}`}>
+            & Hotel Cavaleiros de Cristo
+          </span>
+        </div>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center space-x-8">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href} 
+              className={`text-sm font-medium tracking-wide transition-colors hover:text-red-600 ${scrolled ? 'text-stone-800' : 'text-stone-100'}`}
+            >
+              {link.name}
+            </a>
+          ))}
+          <button 
+            onClick={onBookClick}
+            className={`px-6 py-2.5 rounded-sm font-medium text-sm transition-all duration-300 transform hover:-translate-y-0.5 ${
+              scrolled 
+                ? 'bg-red-900 text-white hover:bg-red-800' 
+                : 'bg-white text-red-900 hover:bg-stone-100'
+            }`}
+          >
+            Reservar Agora
+          </button>
+        </div>
+
+        {/* Mobile Toggle */}
+        <button onClick={() => setIsOpen(!isOpen)} className={`md:hidden p-2 ${scrolled ? 'text-stone-800' : 'text-white'}`}>
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="absolute top-full left-0 w-full bg-stone-50 shadow-xl border-t border-stone-100 p-6 flex flex-col space-y-4 md:hidden">
+          {navLinks.map((link) => (
+            <a key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-stone-800 text-lg font-serif">{link.name}</a>
+          ))}
+          <button onClick={() => { onBookClick(); setIsOpen(false); }} className="w-full bg-red-900 text-white py-3 mt-4 rounded-sm">Verificar Disponibilidade</button>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+// --- Split Hero Section ---
+const SplitHero = ({ activeProperty, setActiveProperty, onBookClick }) => {
+  const handleExplore = (e, property) => {
+    e.stopPropagation();
+    setActiveProperty(property);
+    const roomsSection = document.getElementById('rooms');
+    if (roomsSection) { roomsSection.scrollIntoView({ behavior: 'smooth' }); }
+  };
+
+  return (
+    <section className="relative h-screen w-full overflow-hidden flex flex-col md:flex-row">
+      {/* Lado Esquerdo: União Guest House */}
+      <div 
+        className={`relative flex-1 group cursor-pointer overflow-hidden transition-all duration-700 border-r border-white/10 ${activeProperty === 'uniao' ? 'flex-[1.5]' : 'flex-1 hover:flex-[1.2]'}`}
+        onClick={() => setActiveProperty('uniao')}
+      >
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10" />
+        {/* Updated Image: União Specific Photo */}
+        <img 
+          src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767651374/residencial-uniao-487325169_mpkelu.jpg" 
+          alt="União Guest House - Exterior/Interior"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[10s] ${activeProperty === 'uniao' ? 'scale-110' : 'scale-100'}`}
+        />
+        <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center p-6 text-white">
+          <div className={`transition-all duration-500 ${activeProperty === 'uniao' ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-80'}`}>
+            <span className="uppercase tracking-[0.2em] text-xs mb-2 block">Charme & História</span>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium mb-4">União<br/>Guest House</h2>
+            <div className={`overflow-hidden transition-all duration-500 ${activeProperty === 'uniao' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+              <p className="max-w-xs mx-auto text-sm md:text-base font-light mb-6">
+                Um refúgio do século XIX no coração histórico.
+              </p>
+              <button onClick={(e) => handleExplore(e, 'uniao')} className="bg-red-900 hover:bg-red-800 text-white px-6 py-2 rounded-sm text-sm font-medium transition-colors">Explorar União</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Lado Direito: Hotel Cavaleiros de Cristo */}
+      <div 
+        className={`relative flex-1 group cursor-pointer overflow-hidden transition-all duration-700 ${activeProperty === 'cavaleiros' ? 'flex-[1.5]' : 'flex-1 hover:flex-[1.2]'}`}
+        onClick={() => setActiveProperty('cavaleiros')}
+      >
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10" />
+        {/* Updated Image: Cavaleiros Specific Photo */}
+        <img 
+          src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767651426/hotel-cavaleiros-de-cristo-8770996_l1ttjp.jpg" 
+          alt="Hotel Cavaleiros de Cristo - Exterior"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[10s] ${activeProperty === 'cavaleiros' ? 'scale-110' : 'scale-100'}`}
+        />
+        <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center p-6 text-white">
+          <div className={`transition-all duration-500 ${activeProperty === 'cavaleiros' ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-80'}`}>
+            <span className="uppercase tracking-[0.2em] text-xs mb-2 block">Praticidade & Conforto</span>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium mb-4">Hotel<br/>Cavaleiros</h2>
+            <div className={`overflow-hidden transition-all duration-500 ${activeProperty === 'cavaleiros' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+              <p className="max-w-xs mx-auto text-sm md:text-base font-light mb-6">
+                Conveniência moderna com elevador e localização central.
+              </p>
+              <button onClick={(e) => handleExplore(e, 'cavaleiros')} className="bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-sm text-sm font-medium transition-colors">Explorar Hotel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 animate-bounce text-white/70 pointer-events-none">
+        <ChevronDown size={28} />
+      </div>
+    </section>
+  );
+};
+
+// --- Updated Experience Section ---
+const ExperienceSection = ({ activeProperty }) => {
+  const uniaoFeatures = [
+    {
+      title: "Charme Histórico & Azulejos",
+      desc: "Um edifício do século XIX com entrada decorada por azulejos típicos azuis e brancos, tetos altos e mobiliário de estilo antigo.",
+      icon: <Building className="w-6 h-6 text-red-900" />,
+      image: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767649380/uniao_guest_azulejos_uc5hwd.png",
+    },
+    {
+      title: "Jardim & Terraço de Verão",
+      desc: "Nos dias quentes, aproveite para tomar uma bebida fresca no nosso terraço ou relaxe no pátio tranquilo após explorar a cidade.",
+      icon: <Flower2 className="w-6 h-6 text-red-900" />,
+      image: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767649385/uniao_guest_house_patio_cnvten.png",
+    }
+  ];
+
+  const cavaleirosFeatures = [
+    {
+      title: "Acessibilidade com Elevador",
+      desc: "Diferente da Guest House, o Hotel Cavaleiros dispõe de elevador, garantindo acesso prático e confortável a todos os pisos.",
+      icon: <Accessibility className="w-6 h-6 text-blue-900" />,
+      image: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767649265/aeaa7d_c655b2115b714660843d3fada22e980a_mv2_bf5acq.avif",
+    },
+    {
+      title: "Conforto Moderno",
+      desc: "Quartos equipados com ar condicionado, minibar e todas as amenidades essenciais para uma estadia sem preocupações no centro da cidade.",
+      icon: <Building className="w-6 h-6 text-blue-900" />,
+      image: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1767649708/conforto_moderno_l2bjca.png",
+    }
+  ];
+
+  const features = activeProperty === 'uniao' ? uniaoFeatures : cavaleirosFeatures;
+  const accentColor = activeProperty === 'uniao' ? 'text-red-900' : 'text-blue-900';
+
+  return (
+    <div className="space-y-24">
+      {features.map((feat, idx) => (
+        <RevealOnScroll key={`${activeProperty}-${idx}`}>
+          <div className={`flex flex-col ${idx % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12`}>
+            <div className="w-full lg:w-1/2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-xl">
+                <img src={feat.image} alt={feat.title} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+              </div>
+            </div>
+            <div className="w-full lg:w-1/2 space-y-6">
+              <div className={`w-12 h-12 ${activeProperty === 'uniao' ? 'bg-red-100' : 'bg-blue-100'} rounded-full flex items-center justify-center mb-4`}>
+                {feat.icon}
+              </div>
+              <h3 className="font-serif text-3xl text-stone-900">{feat.title}</h3>
+              <p className="text-stone-600 text-lg leading-relaxed">{feat.desc}</p>
+            </div>
+          </div>
+        </RevealOnScroll>
+      ))}
+    </div>
+  );
+};
+
+// --- Main Component ---
+export default function TomarDualHotel() {
+  const [activeProperty, setActiveProperty] = useState('uniao');
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const handleBookClick = () => {
+    alert("Para reservas diretas, por favor use os contactos disponíveis no detalhe de cada quarto.");
+  };
+
+  return (
+    <div className="font-sans text-stone-900 bg-stone-50 selection:bg-red-900 selection:text-white" style={{scrollBehavior: 'smooth'}}>
+      <style>{`html { scroll-behavior: smooth; }`}</style>
+      
+      <Navbar activeProperty={activeProperty} onBookClick={handleBookClick} />
+      
+      <SplitHero 
+        activeProperty={activeProperty} 
+        setActiveProperty={setActiveProperty} 
+        onBookClick={handleBookClick} 
+      />
+      
+      <SocialProof />
+
+      <div className="sticky top-16 z-40 bg-white/95 backdrop-blur border-b border-stone-200 py-4 shadow-sm">
+        <div className="container mx-auto px-4 flex justify-center gap-4">
+          <button 
+            onClick={() => setActiveProperty('uniao')}
+            className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
+              activeProperty === 'uniao' 
+                ? 'bg-red-900 text-white shadow-md' 
+                : 'text-stone-500 hover:text-red-900 bg-stone-100'
+            }`}
+          >
+            União Guest House
+          </button>
+          <button 
+            onClick={() => setActiveProperty('cavaleiros')}
+            className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
+              activeProperty === 'cavaleiros' 
+                ? 'bg-blue-900 text-white shadow-md' 
+                : 'text-stone-500 hover:text-blue-900 bg-stone-100'
+            }`}
+          >
+            Hotel Cavaleiros
+          </button>
+        </div>
+      </div>
+
+      <main className="min-h-screen">
         
-        // Navbar Color Change on Scroll
-        const navbar = document.getElementById('navbar');
-        const logo = document.getElementById('nav-logo');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('bg-white', 'shadow-md', 'py-4');
-                navbar.classList.remove('py-6');
-                navbar.querySelectorAll('a, button').forEach(el => {
-                    if(!el.classList.contains('bg-gold-accent')) {
-                        el.classList.remove('text-stone-warm', 'mix-blend-difference');
-                        el.classList.add('text-azulejo-dark');
-                    }
-                });
-                logo.classList.remove('text-stone-warm', 'mix-blend-difference');
-                logo.classList.add('text-azulejo-dark');
-            } else {
-                navbar.classList.remove('bg-white', 'shadow-md', 'py-4');
-                navbar.classList.add('py-6');
-                navbar.querySelectorAll('a, button').forEach(el => {
-                    if(!el.classList.contains('bg-gold-accent')) {
-                        el.classList.add('text-stone-warm', 'mix-blend-difference');
-                        el.classList.remove('text-azulejo-dark');
-                    }
-                });
-                logo.classList.add('text-stone-warm', 'mix-blend-difference');
-                logo.classList.remove('text-azulejo-dark');
-            }
-        });
+        <section id="rooms" className="py-20 px-4 container mx-auto">
+          <RevealOnScroll>
+            <div className="text-center mb-16">
+              <span className={`font-semibold tracking-wider text-sm uppercase ${activeProperty === 'uniao' ? 'text-red-900' : 'text-blue-900'}`}>
+                {activeProperty === 'uniao' ? 'Charme Histórico' : 'Conforto Moderno'}
+              </span>
+              <h2 className="font-serif text-4xl mt-2 mb-4">
+                {activeProperty === 'uniao' ? 'Quartos União' : 'Quartos Cavaleiros'}
+              </h2>
+              <p className="text-stone-600 max-w-xl mx-auto">
+                {activeProperty === 'uniao' 
+                  ? 'A experiência de dormir num edifício do séc. XIX. Nota: Pisos acessíveis por escadas.' 
+                  : 'Praticidade total no centro da cidade, com acesso por elevador.'}
+              </p>
+            </div>
+          </RevealOnScroll>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {ROOMS_DATA[activeProperty].map((room) => (
+               <RevealOnScroll key={room.id} className="h-full">
+                  <RoomCard 
+                    room={room} 
+                    accentColor={activeProperty === 'uniao' ? 'bg-red-900 hover:bg-red-800' : 'bg-blue-900 hover:bg-blue-800'} 
+                    onOpenDetails={setSelectedRoom}
+                  />
+               </RevealOnScroll>
+            ))}
+          </div>
+        </section>
 
-        if (typeof gsap !== 'undefined') {
-            // Parallax Effects
-            gsap.to("#hero-bg", {
-                yPercent: 30,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#inicio",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
+        <section id="experience" className="py-24 bg-stone-100">
+          <div className="container mx-auto px-4">
+             <RevealOnScroll>
+                <div className="text-center mb-16">
+                   <h2 className="font-serif text-4xl text-stone-900 mb-4">A Experiência {activeProperty === 'uniao' ? 'União' : 'Cavaleiros'}</h2>
+                   <p className="text-stone-600 max-w-2xl mx-auto">
+                     {activeProperty === 'uniao' ? 'Charme, azulejos e história.' : 'Acessibilidade e conforto moderno.'}
+                   </p>
+                </div>
+             </RevealOnScroll>
+            <ExperienceSection activeProperty={activeProperty} />
+          </div>
+        </section>
 
-            gsap.utils.toArray(".parallax-img").forEach((img) => {
-                gsap.to(img, {
-                    yPercent: 20,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: img.parentElement,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            });
+        {/* COMBINED LOCATION & PARKING SECTION (Replaces old #explore and bottom #location) */}
+        <section id="location" className="py-24 bg-white">
+           <div className="container mx-auto px-4">
+             <RevealOnScroll>
+               <div className="text-center mb-16">
+                 <h2 className="font-serif text-4xl text-stone-900 mb-4">Localização & Estacionamento</h2>
+                 <p className="text-stone-600 max-w-2xl mx-auto">Tudo o que precisa de saber para chegar até nós.</p>
+               </div>
+               <LocationParkingSection />
+             </RevealOnScroll>
+           </div>
+        </section>
 
-            // Text Reveals
-            gsap.utils.toArray(".text-reveal-trigger").forEach((el) => {
-                gsap.from(el.children, {
-                    y: 50,
-                    opacity: 0,
-                    duration: 1,
-                    stagger: 0.1,
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 80%",
-                        toggleActions: "play none none reverse"
-                    }
-                });
-            });
+        <section id="reviews" className="py-24 bg-stone-100">
+           <div className="container mx-auto px-4">
+             <RevealOnScroll>
+               <div className="text-center mb-12">
+                 <h2 className="font-serif text-3xl text-stone-900 mb-4">O Que Dizem os Hóspedes</h2>
+               </div>
+               <ReviewsSection />
+             </RevealOnScroll>
+           </div>
+        </section>
 
-            // Amenity Cards Stagger
-            gsap.from(".amenity-card", {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                scrollTrigger: {
-                    trigger: ".amenity-card",
-                    start: "top 85%"
-                }
-            });
+      </main>
 
-            // Horizontal Gallery Scroll
-            let galleryTrack = document.querySelector('.gallery-track');
-            if(galleryTrack) {
-                let galleryWidth = galleryTrack.offsetWidth;
-                let amountToScroll = galleryWidth - window.innerWidth;
+      {/* FOOTER */}
+      <footer className="bg-stone-900 text-stone-300 py-16">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+          <div>
+            <h4 className="font-serif text-2xl text-white mb-6">Grupo União</h4>
+            <p className="leading-relaxed mb-6">Tradição hoteleira no centro histórico de Tomar. Dois conceitos, a mesma hospitalidade.</p>
+            <div className="flex space-x-4">
+              <Instagram className="w-5 h-5 hover:text-white cursor-pointer" />
+              <Facebook className="w-5 h-5 hover:text-white cursor-pointer" />
+            </div>
+          </div>
+          <div>
+            <h5 className="text-white font-medium mb-4">Contactos</h5>
+            <ul className="space-y-2">
+              <li className="flex items-center"><Phone className="w-4 h-4 mr-2"/> +351 249 323 161</li>
+              <li className="hover:text-white cursor-pointer">reservas@uniaoguesthouse.com</li>
+              <li className="mt-4 font-bold text-white">União Guest House</li>
+              <li>Rua Serpa Pinto, 94, 2300-592 Tomar</li>
+              <li className="mt-2 font-bold text-white">Hotel Cavaleiros</li>
+              <li>Rua Alexandre Herculano, 7, 2300-554 Tomar</li>
+            </ul>
+          </div>
+          <div>
+            <h5 className="text-white font-medium mb-4">Explorar</h5>
+            <ul className="space-y-2">
+              <li><button onClick={() => setActiveProperty('uniao')} className="hover:text-white">União Guest House</button></li>
+              <li><button onClick={() => setActiveProperty('cavaleiros')} className="hover:text-white">Hotel Cavaleiros</button></li>
+              <li><a href="#location" className="hover:text-white">Localização</a></li>
+            </ul>
+          </div>
+          <div>
+            <button onClick={handleBookClick} className="w-full bg-white text-stone-900 py-3 font-medium hover:bg-stone-200 transition-colors">
+              Reservar Estadia
+            </button>
+          </div>
+        </div>
+      </footer>
 
-                gsap.to(".gallery-track", {
-                    x: -amountToScroll,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#experiencia",
-                        start: "top top",
-                        end: "+=" + amountToScroll,
-                        pin: true,
-                        scrub: 1,
-                        invalidateOnRefresh: true
-                    }
-                });
-            }
-        }
+      {selectedRoom && (
+        <RoomModal 
+          room={selectedRoom} 
+          onClose={() => setSelectedRoom(null)} 
+          accentColor={activeProperty === 'uniao' ? 'bg-red-900 hover:bg-red-800' : 'bg-blue-900 hover:bg-blue-800'}
+        />
+      )}
 
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-        let isMenuOpen = false;
-
-        menuBtn.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            if (isMenuOpen) {
-                mobileMenu.classList.remove('translate-x-full');
-            } else {
-                mobileMenu.classList.add('translate-x-full');
-            }
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                isMenuOpen = false;
-                mobileMenu.classList.add('translate-x-full');
-            });
-        });
-
-        // Lenis anchor link support
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                if (lenis) {
-                    e.preventDefault();
-                    lenis.scrollTo(this.getAttribute('href'));
-                }
-            });
-        });
-
-    </script>
-</body>
-</html>
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-stone-200 p-4 md:hidden z-50 flex justify-between items-center shadow-lg">
+        <div className="flex flex-col">
+          <span className="text-xs text-stone-500 uppercase">Melhor Preço Online</span>
+          <span className="font-bold text-stone-900">Reserva Direta</span>
+        </div>
+        <button onClick={handleBookClick} className="bg-stone-900 text-white px-6 py-3 rounded-sm font-medium">
+          Reservar
+        </button>
+      </div>
+    </div>
+  );
+}
