@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pani Leptou | Hair Artistry & Styling</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis (Smooth Scroll) - Switched to stable jsDelivr link -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#1a1a1a',
+                        'brand-cream': '#Fdfbf7',
+                        'brand-gold': '#d4af37',
+                        'brand-gray': '#888888'
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?q=80&w=2070&auto=format&fit=crop')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles & Lenis Fixes */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        body {
+            background-color: #Fdfbf7;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Utility */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .char {
+            display: inline-block;
+            transform-origin: 50% 100%;
+        }
+
+        .img-mask {
+            overflow: hidden;
+        }
+        
+        .img-parallax {
+            will-change: transform;
+            transform: scale(1.15);
+        }
+
+        /* Custom Cursor support for large screens */
+        @media (min-width: 1024px) {
+            .hover-trigger:hover {
+                cursor: none;
+            }
+        }
+        
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #Fdfbf7;
+        }
+    </style>
+</head>
+<body class="opacity-0">
+
+    <!-- Loading Screen -->
+    <div class="loader font-serif text-2xl italic">
+        <span>Pani Leptou</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
+        <a href="#" class="font-serif text-xl tracking-wide uppercase font-bold z-50 mix-blend-difference">Pani Leptou</a>
+        <div class="hidden md:flex gap-8 font-sans text-sm tracking-widest uppercase">
+            <a href="#services" class="hover:opacity-60 transition-opacity">Services</a>
+            <a href="#portfolio" class="hover:opacity-60 transition-opacity">Portfolio</a>
+            <a href="#about" class="hover:opacity-60 transition-opacity">The Artist</a>
+        </div>
+        <button onclick="scrollToBooking()" class="hidden md:block px-6 py-2 border border-white/30 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-sans text-xs uppercase tracking-widest">
+            Book Appointment
+        </button>
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden z-50" id="mobile-menu-btn">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobile-nav" class="fixed inset-0 bg-brand-black z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8 text-brand-cream">
+        <a href="#services" class="mobile-link font-serif text-4xl italic">Services</a>
+        <a href="#portfolio" class="mobile-link font-serif text-4xl italic">Portfolio</a>
+        <a href="#about" class="mobile-link font-serif text-4xl italic">About Pani</a>
+        <a href="#contact" class="mobile-link font-serif text-4xl italic">Book Now</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center grayscale opacity-80 scale-105" id="hero-bg"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
+            
+            <div class="relative z-10 text-center text-brand-cream px-4 max-w-4xl">
+                <p class="font-sans text-xs md:text-sm uppercase tracking-[0.3em] mb-4 opacity-0 hero-elem">Personal Hair Artistry</p>
+                <h1 class="font-serif text-5xl md:text-7xl lg:text-9xl mb-6 leading-tight opacity-0 hero-elem overflow-hidden">
+                    <span class="block">Signature</span>
+                    <span class="block italic">Styling</span>
+                </h1>
+                <p class="font-sans text-sm md:text-base max-w-lg mx-auto leading-relaxed text-white/80 opacity-0 hero-elem">
+                    Experience the consistency of a dedicated artist. 
+                    <br>Precision cuts, bespoke color, and styling designed for your life.
+                </p>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 hero-elem animate-bounce">
+                <i data-lucide="arrow-down" class="w-6 h-6 text-white/70"></i>
+            </div>
+        </section>
+
+        <!-- Value Proposition / Text Scroll -->
+        <section class="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-12 gap-12 items-start">
+                <div class="md:col-span-4 sticky top-32">
+                    <h2 class="font-sans text-xs uppercase tracking-[0.2em] text-brand-gray mb-4">The Philosophy</h2>
+                    <h3 class="font-serif text-3xl md:text-4xl leading-tight">It’s not just a haircut. <br><span class="italic text-brand-gray">It’s a relationship.</span></h3>
+                </div>
+                <div class="md:col-span-8 space-y-12 font-serif text-xl md:text-2xl leading-relaxed text-brand-black/90">
+                    <p class="reveal-p">
+                        Mass market salons treat you like a number. Pani Leptou offers a sanctuary of 
+                        undivided attention. When you sit in my chair, you aren't just getting a service; 
+                        you are collaborating on a vision.
+                    </p>
+                    <p class="reveal-p">
+                        I believe in <span class="italic font-bold">visual proof</span> and <span class="italic font-bold">artist consistency</span>. 
+                        No rotating assistants, no rushed consultations. Just expert craftsmanship tailored 
+                        specifically to your bone structure, hair texture, and lifestyle.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="py-20 bg-white border-t border-brand-black/5">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                    <h2 class="font-serif text-5xl md:text-6xl text-brand-black">Menu</h2>
+                    <p class="font-sans text-xs uppercase tracking-widest mt-4 md:mt-0 text-brand-gray">Curated Treatments</p>
+                </div>
+
+                <div class="space-y-0">
+                    <!-- Service Item 1 -->
+                    <div class="service-item group border-t border-brand-black/10 py-10 transition-all duration-500 hover:bg-stone-50 cursor-pointer">
+                        <div class="flex flex-col md:flex-row justify-between md:items-center px-4">
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <span class="font-sans text-xs text-brand-gray block mb-2">01</span>
+                                <h3 class="font-serif text-3xl italic group-hover:translate-x-4 transition-transform duration-500">Precision Cut & Shape</h3>
+                            </div>
+                            <div class="md:w-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+                                <p class="font-sans text-sm leading-relaxed">Structural cuts designed to grow out seamlessly. Includes consultation, wash, and signature blowout.</p>
+                            </div>
+                            <div class="md:w-1/6 text-right mt-4 md:mt-0">
+                                <span class="font-serif text-xl">from €45</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Item 2 -->
+                    <div class="service-item group border-t border-brand-black/10 py-10 transition-all duration-500 hover:bg-stone-50 cursor-pointer">
+                        <div class="flex flex-col md:flex-row justify-between md:items-center px-4">
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <span class="font-sans text-xs text-brand-gray block mb-2">02</span>
+                                <h3 class="font-serif text-3xl italic group-hover:translate-x-4 transition-transform duration-500">Bespoke Color</h3>
+                            </div>
+                            <div class="md:w-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+                                <p class="font-sans text-sm leading-relaxed">Balayage, corrective color, and grey blending using premium, hair-health focused products.</p>
+                            </div>
+                            <div class="md:w-1/6 text-right mt-4 md:mt-0">
+                                <span class="font-serif text-xl">from €70</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Item 3 -->
+                    <div class="service-item group border-t border-b border-brand-black/10 py-10 transition-all duration-500 hover:bg-stone-50 cursor-pointer">
+                        <div class="flex flex-col md:flex-row justify-between md:items-center px-4">
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <span class="font-sans text-xs text-brand-gray block mb-2">03</span>
+                                <h3 class="font-serif text-3xl italic group-hover:translate-x-4 transition-transform duration-500">Event Styling</h3>
+                            </div>
+                            <div class="md:w-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+                                <p class="font-sans text-sm leading-relaxed">Red carpet waves, modern updos, and bridal styling. Ensuring you look iconic for every occasion.</p>
+                            </div>
+                            <div class="md:w-1/6 text-right mt-4 md:mt-0">
+                                <span class="font-serif text-xl">from €50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Grid (Masonry feel) -->
+        <section id="portfolio" class="py-24 bg-brand-cream overflow-hidden">
+            <div class="container mx-auto px-6 mb-16 flex flex-col md:flex-row justify-between items-end">
+                <div>
+                    <span class="font-sans text-xs uppercase tracking-[0.3em] text-brand-gray mb-4 block">Portfolio</span>
+                    <h2 class="font-serif text-5xl md:text-6xl text-brand-black">The Edit</h2>
+                </div>
+                <p class="font-sans text-sm text-brand-black/60 max-w-sm mt-6 md:mt-0 text-right hidden md:block">
+                    A selection of recent transformations. <br>Real clients, unfiltered results.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-6">
+                <!-- Image 1 -->
+                <div class="img-mask group relative aspect-[3/4] md:translate-y-12 cursor-pointer overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1595476103518-3c8ad81050db?q=80&w=2070&auto=format&fit=crop" alt="Blonde waves" class="img-parallax w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                        <span class="font-sans text-xs text-white/80 uppercase tracking-widest mb-2">Color & Style</span>
+                        <h3 class="font-serif text-2xl text-white italic">Soft Dimensional Blonde</h3>
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="img-mask group relative aspect-[3/4] cursor-pointer overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1635863138275-d9b33299680b?q=80&w=1964&auto=format&fit=crop" alt="Brunette Bob" class="img-parallax w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                        <span class="font-sans text-xs text-white/80 uppercase tracking-widest mb-2">Precision Cut</span>
+                        <h3 class="font-serif text-2xl text-white italic">The French Bob</h3>
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="img-mask group relative aspect-[3/4] md:translate-y-24 cursor-pointer overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1620331313174-87a8b90c7c97?q=80&w=2070&auto=format&fit=crop" alt="Textured styling" class="img-parallax w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                        <span class="font-sans text-xs text-white/80 uppercase tracking-widest mb-2">Styling</span>
+                        <h3 class="font-serif text-2xl text-white italic">Natural Texture & Movement</h3>
+                    </div>
+                </div>
+
+                 <!-- Image 4 -->
+                 <div class="hidden lg:block img-mask group relative aspect-[3/4] md:translate-y-12 cursor-pointer overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1560066984-12186d30b7db?q=80&w=2071&auto=format&fit=crop" alt="Short Cut" class="img-parallax w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                        <span class="font-sans text-xs text-white/80 uppercase tracking-widest mb-2">Transformation</span>
+                        <h3 class="font-serif text-2xl text-white italic">Modern Pixie</h3>
+                    </div>
+                </div>
+
+                 <!-- Image 5 -->
+                 <div class="hidden lg:block img-mask group relative aspect-[3/4] cursor-pointer overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=2069&auto=format&fit=crop" alt="Process" class="img-parallax w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                        <span class="font-sans text-xs text-white/80 uppercase tracking-widest mb-2">Treatment</span>
+                        <h3 class="font-serif text-2xl text-white italic">Gloss & Hydration</h3>
+                    </div>
+                </div>
+
+                 <!-- Image 6 -->
+                 <div class="hidden lg:block img-mask group relative aspect-[3/4] md:translate-y-24 cursor-pointer overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=2069&auto=format&fit=crop" alt="Salon Detail" class="img-parallax w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+                        <span class="font-sans text-xs text-white/80 uppercase tracking-widest mb-2">Experience</span>
+                        <h3 class="font-serif text-2xl text-white italic">Studio Atmosphere</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20 md:mt-32">
+                 <a href="https://instagram.com" target="_blank" class="inline-flex items-center gap-2 border-b border-black pb-1 font-sans text-sm uppercase tracking-widest hover:text-brand-gray transition-colors hover:scale-105 transform duration-300">
+                    View Full Portfolio on Instagram <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                 </a>
+            </div>
+        </section>
+
+        <!-- The Artist -->
+        <section id="about" class="py-24 md:py-40 bg-brand-black text-brand-cream relative">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="w-full h-[600px] bg-stone-800 relative overflow-hidden img-mask">
+                         <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=2069&auto=format&fit=crop" alt="Pani Leptou Portrait" class="w-full h-full object-cover img-parallax opacity-80">
+                         <div class="absolute bottom-6 left-6 bg-brand-cream text-brand-black px-4 py-2 font-sans text-xs uppercase tracking-wider">
+                            Founder & Lead Stylist
+                         </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="font-serif text-5xl md:text-6xl mb-8">Meet Pani.</h2>
+                    <div class="w-12 h-0.5 bg-brand-cream/30 mb-8"></div>
+                    <p class="font-serif text-xl leading-relaxed text-brand-cream/80 mb-6">
+                        "I established this independent studio to break the cycle of inconsistent salon visits. My promise is simple: the person you book is the person who cuts, colors, and styles your hair."
+                    </p>
+                    <p class="font-sans text-sm leading-relaxed text-brand-cream/60 mb-10">
+                        With over 10 years of industry experience, Pani combines technical precision with an intuitive eye for aesthetics. Her work is focused on enhancing natural beauty, promoting hair health, and creating styles that are effortlessly manageable at home.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex flex-col">
+                            <span class="font-serif text-3xl text-brand-cream">10+</span>
+                            <span class="text-xs uppercase tracking-widest text-brand-cream/50 mt-1">Years Experience</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-serif text-3xl text-brand-cream">100%</span>
+                            <span class="text-xs uppercase tracking-widest text-brand-cream/50 mt-1">Personal Focus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking / Footer -->
+        <section id="contact" class="min-h-screen bg-brand-black text-brand-cream flex flex-col justify-between pt-24 pb-12 px-6 relative overflow-hidden border-t border-white/10">
+            <!-- Decorative Elements -->
+            <div class="absolute -right-20 top-40 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="container mx-auto grid md:grid-cols-2 gap-16 flex-grow items-center relative z-10">
+                <!-- Left: CTA -->
+                <div class="space-y-8">
+                    <div>
+                        <span class="font-sans text-xs uppercase tracking-[0.2em] text-white/50 mb-4 block">Reservations</span>
+                        <h2 class="font-serif text-5xl md:text-7xl leading-tight">
+                            Secure your <br><span class="italic text-brand-gray">session.</span>
+                        </h2>
+                    </div>
+                    
+                    <p class="font-sans text-sm leading-relaxed text-white/60 max-w-md">
+                        Allocating dedicated time for every client ensures precision and perfection. 
+                        Appointments are released monthly and fill quickly.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center pt-4">
+                        <button onclick="openBooking()" class="group relative px-10 py-5 bg-brand-cream text-brand-black overflow-hidden rounded-full transition-all hover:scale-105 duration-300">
+                            <span class="relative z-10 font-sans text-sm uppercase tracking-widest font-medium group-hover:text-white transition-colors duration-300">Book Appointment</span>
+                            <div class="absolute inset-0 bg-brand-gold transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                        </button>
+                        <div class="flex items-center gap-3">
+                            <div class="flex -space-x-3 opacity-60">
+                                <div class="w-8 h-8 rounded-full bg-stone-700 border border-brand-black overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&fit=crop" class="w-full h-full object-cover grayscale">
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-stone-600 border border-brand-black overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=64&h=64&fit=crop" class="w-full h-full object-cover grayscale">
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-stone-500 border border-brand-black flex items-center justify-center text-[10px] text-white">+</div>
+                            </div>
+                            <span class="text-xs font-sans text-white/50 tracking-wide">Next slots: October</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Studio Info / Visual -->
+                <div class="relative hidden md:block">
+                    <div class="border border-white/10 p-8 md:p-12 relative backdrop-blur-sm bg-white/5 transition-transform duration-500 hover:-translate-y-2">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-brand-gold mb-6"></i>
+                        <h3 class="font-serif text-3xl mb-6 italic">The Studio</h3>
+                        <address class="font-sans text-sm text-white/70 not-italic space-y-2 mb-8">
+                            <p>12 Georgiou Avenue</p>
+                            <p>Flat 301, Strovolos</p>
+                            <p>Nicosia, 2045, Cyprus</p>
+                        </address>
+                        <div class="h-px w-full bg-white/10 mb-8"></div>
+                        
+                        <div class="grid grid-cols-2 gap-8 font-sans text-xs uppercase tracking-widest text-white/50">
+                            <div>
+                                <span class="block text-white mb-2">Hours</span>
+                                <p>Tue - Fri: 10am - 7pm</p>
+                                <p>Sat: 9am - 2pm</p>
+                            </div>
+                            <div>
+                                <span class="block text-white mb-2">Contact</span>
+                                <p><a href="mailto:hello@panileptou.com" class="hover:text-brand-gold transition-colors">hello@panileptou.com</a></p>
+                                <p>+357 99 232 689</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <footer class="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-white/30 text-xs font-sans tracking-widest uppercase">
+                <span class="mb-4 md:mb-0">© 2026 Pani Leptou. All Rights Reserved.</span>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                    <a href="#" class="hover:text-white transition-colors">Legal</a>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Floating Mobile Booking Button -->
+    <div class="fixed bottom-6 left-6 right-6 z-40 md:hidden">
+        <button onclick="scrollToBooking()" class="w-full py-4 bg-brand-black text-white font-sans text-xs uppercase tracking-widest shadow-xl rounded-sm">
+            Book Appointment
+        </button>
+    </div>
+
+    <!-- Simple Booking Modal Simulation -->
+    <div id="booking-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBooking()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white p-8 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-serif text-2xl">Select Service</h3>
+                <button onclick="closeBooking()"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <form class="space-y-4" onsubmit="event.preventDefault(); simulateSubmit();">
+                <div>
+                    <label class="block font-sans text-xs uppercase tracking-widest mb-2 text-gray-500">Full Name</label>
+                    <input type="text" class="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-black transition-colors" placeholder="Jane Doe" required>
+                </div>
+                <div>
+                    <label class="block font-sans text-xs uppercase tracking-widest mb-2 text-gray-500">Service Type</label>
+                    <select class="w-full border-b border-gray-300 py-2 focus:outline-none bg-transparent">
+                        <option>Precision Cut & Shape</option>
+                        <option>Bespoke Color</option>
+                        <option>Event Styling</option>
+                        <option>Consultation</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-sans text-xs uppercase tracking-widest mb-2 text-gray-500">Preferred Date</label>
+                    <input type="date" class="w-full border-b border-gray-300 py-2 focus:outline-none font-sans text-gray-600">
+                </div>
+                <button type="submit" class="w-full bg-brand-black text-white py-4 mt-4 font-sans text-xs uppercase tracking-widest hover:bg-stone-800 transition-colors">
+                    Request Booking
+                </button>
+            </form>
+            <div id="success-msg" class="hidden absolute inset-0 bg-white flex flex-col justify-center items-center text-center p-8">
+                <i data-lucide="check-circle" class="w-12 h-12 text-green-600 mb-4"></i>
+                <h3 class="font-serif text-2xl mb-2">Request Sent</h3>
+                <p class="font-sans text-sm text-gray-500">Pani will contact you shortly to confirm.</p>
+                <button onclick="closeBooking()" class="mt-6 text-xs uppercase border-b border-black">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initialize Icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // 1. Initialize Lenis (Smooth Scroll)
+            // We check if Lenis is defined to avoid ReferenceError
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+
+                // Expose lenis to window for use in other functions
+                window.lenis = lenis;
+
+                // Integrate Lenis with ScrollTrigger
+                gsap.registerPlugin(ScrollTrigger);
+            } else {
+                console.warn("Lenis library not loaded, smooth scroll disabled.");
+            }
+
+            // 2. Initial Page Load Animation
+            const tl = gsap.timeline();
+
+            // Reveal Page
+            tl.to('.loader', {
+                yPercent: -100,
+                duration: 1,
+                ease: 'power4.inOut'
+            })
+            .to('body', {
+                opacity: 1,
+                duration: 0.5
+            }, "-=0.5")
+            // Hero Text Stagger
+            .to('.hero-elem', {
+                y: 0,
+                opacity: 1,
+                stagger: 0.2,
+                duration: 1.5,
+                ease: 'power3.out'
+            })
+            // Zoom out background
+            .fromTo('#hero-bg', 
+                { scale: 1.15 },
+                { scale: 1, duration: 2, ease: 'power2.out' },
+                "-=1.5"
+            );
+
+            // 3. Scroll Animations
+
+            // Text Reveals
+            gsap.utils.toArray('.reveal-p').forEach(text => {
+                gsap.from(text, {
+                    scrollTrigger: {
+                        trigger: text,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 30,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            });
+
+            // Service Items Hover/Reveal
+            gsap.utils.toArray('.service-item').forEach((item, i) => {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 90%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: "power2.out"
+                });
+            });
+
+            // Image Parallax Effect
+            gsap.utils.toArray('.img-mask').forEach(container => {
+                const img = container.querySelector('img');
+                
+                gsap.to(img, {
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    },
+                    y: -50, // Move image slightly up within container
+                    ease: "none"
+                });
+            });
+
+            // Mobile Menu
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isMenuOpen = false;
+
+            if (menuBtn && mobileNav) {
+                menuBtn.addEventListener('click', () => {
+                    isMenuOpen = !isMenuOpen;
+                    if (isMenuOpen) {
+                        mobileNav.classList.remove('translate-x-full');
+                        menuBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                        if (window.lucide) lucide.createIcons();
+                    } else {
+                        mobileNav.classList.add('translate-x-full');
+                        menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                        if (window.lucide) lucide.createIcons();
+                    }
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        isMenuOpen = false;
+                        mobileNav.classList.add('translate-x-full');
+                        menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                        if (window.lucide) lucide.createIcons();
+                    });
+                });
+            }
+        });
+
+        // 4. UI Logic Functions (Global Scope)
+
+        // Booking Modal
+        function openBooking() {
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+        function closeBooking() {
+            document.getElementById('booking-modal').classList.add('hidden');
+            document.getElementById('success-msg').classList.add('hidden');
+        }
+        function simulateSubmit() {
+            document.getElementById('success-msg').classList.remove('hidden');
+        }
+        function scrollToBooking() {
+            // Safe navigation: Use lenis if available, otherwise default scroll
+            if (window.lenis) {
+                window.lenis.scrollTo('#contact');
+            } else {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({behavior: 'smooth'});
+                }
+            }
+        }
+    </script>
+</body>
+</html>
