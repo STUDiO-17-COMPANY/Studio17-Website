@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodega Cantina Mexicana | Limassol</title>
+    <meta name="description" content="Authentic Mexican Street Food in Limassol. Tacos, Burritos, and Vibes on Agiou Andreou.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bodega: {
+                            red: '#D32F2F',
+                            green: '#2E7D32',
+                            white: '#F5F5F5',
+                            dark: '#1A1A1A',
+                            yellow: '#FFC107'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        body: ['Outfit', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'pattern': "url('https://www.transparenttextures.com/patterns/stardust.png')",
+                        'paper': "url('https://www.transparenttextures.com/patterns/cream-paper.png')"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles for Lenis & Custom -->
+    <style>
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+        
+        body {
+            background-color: #F5F5F5;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D32F2F; 
+        }
+
+        .clip-slant {
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        @media (min-width: 768px) {
+            .clip-slant {
+                clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            }
+        }
+        
+        .clip-slant-reverse {
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+        }
+        @media (min-width: 768px) {
+            .clip-slant-reverse {
+                clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+
+        .text-stroke {
+            -webkit-text-stroke: 1px #fff;
+            color: transparent;
+        }
+        
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #D32F2F;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        /* Circular Badge Text Animation */
+        .badge-container {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            width: 120px; /* Smaller on mobile */
+            height: 120px;
+            pointer-events: none;
+        }
+        @media (min-width: 768px) {
+            .badge-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        .badge-text {
+            width: 100%;
+            height: 100%;
+            animation: rotateText 10s linear infinite;
+        }
+
+        @keyframes rotateText {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-body text-bodega-dark antialiased selection:bg-bodega-green selection:text-white">
+
+    <!-- Preloader -->
+    <div id="loader" class="loader">
+        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767363170/logo_BodegaCantianMexicana_xfqdnx.png" alt="Bodega Cantina Mexicana Logo" class="w-48 md:w-64 animate-pulse drop-shadow-2xl">
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 flex justify-between items-center mix-blend-normal">
+        <div class="w-16 md:w-20 transition-transform hover:scale-105 duration-300">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767363170/logo_BodegaCantianMexicana_xfqdnx.png" alt="Bodega Logo" class="w-full drop-shadow-lg">
+        </div>
+        
+        <div class="hidden md:flex gap-8 text-white font-bold text-lg uppercase tracking-wide drop-shadow-md">
+            <a href="#about" class="hover:text-bodega-yellow transition-colors">Concept</a>
+            <a href="#menu" class="hover:text-bodega-yellow transition-colors">Menu</a>
+            <a href="#location" class="hover:text-bodega-yellow transition-colors">Location</a>
+        </div>
+
+        <!-- Hidden on Mobile because we have bottom bar -->
+        <a href="tel:+35725260550" class="hidden md:flex bg-bodega-green text-white px-6 py-2 rounded-full font-bold uppercase tracking-wider hover:bg-bodega-yellow hover:text-bodega-dark transition-colors shadow-lg items-center gap-2 transform hover:scale-105 active:scale-95 duration-200">
+            <i class="fa-solid fa-phone"></i> <span>Order Now</span>
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center clip-slant">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-bodega-red/90 z-10"></div>
+            <img id="hero-bg" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=2880&auto=format&fit=crop" alt="Mexican Street Food" class="w-full h-full object-cover">
+        </div>
+
+        <div class="relative z-20 text-center text-white px-4 max-w-4xl">
+            <div class="overflow-hidden mb-2">
+                <h2 id="hero-sub" class="text-bodega-yellow font-bold text-xl md:text-3xl tracking-widest uppercase mb-2 translate-y-full">Authentic Vibes in Limassol</h2>
+            </div>
+            <div class="overflow-hidden">
+                <!-- Adjusted font size for mobile -->
+                <h1 id="hero-title" class="font-display text-5xl sm:text-6xl md:text-8xl lg:text-9xl uppercase leading-none mb-6 translate-y-full drop-shadow-2xl">
+                    Pure Mexican<br><span class="text-bodega-green">Street Food</span>
+                </h1>
+            </div>
+            <div id="hero-cta" class="opacity-0 translate-y-10">
+                <p class="text-lg md:text-xl mb-8 font-light max-w-2xl mx-auto">Tacos, Burritos, and neighborhood warmth on Agiou Andreou.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#menu" class="bg-bodega-white text-bodega-red px-8 py-3 rounded-none font-black text-xl uppercase tracking-wider hover:bg-bodega-yellow hover:text-bodega-dark transition-all transform hover:-translate-y-1 shadow-xl border-4 border-transparent">
+                        Check the Menu
+                    </a>
+                    <a href="tel:+35725260550" class="border-4 border-white text-white px-8 py-3 rounded-none font-black text-xl uppercase tracking-wider hover:bg-white hover:text-bodega-dark transition-all transform hover:-translate-y-1">
+                        +357 25 260 550
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+            <i class="fa-solid fa-chevron-down text-white text-3xl"></i>
+        </div>
+    </header>
+
+    <!-- Marquee Banner -->
+    <div class="bg-bodega-yellow text-bodega-dark overflow-hidden py-4 -mt-20 relative z-30 transform -rotate-1 shadow-lg border-y-4 border-bodega-dark">
+        <div class="marquee-content whitespace-nowrap flex gap-10 font-display text-4xl uppercase tracking-wider">
+            <span>🌮 Tacos Al Pastor</span><span>•</span><span>🌯 Stuffed Burritos</span><span>•</span><span>🍔 Street Burgers</span><span>•</span><span>🥑 Fresh Guacamole</span><span>•</span><span>🔥 Spicy Salsa</span><span>•</span><span>🌮 Tacos Al Pastor</span><span>•</span><span>🌯 Stuffed Burritos</span><span>•</span><span>🍔 Street Burgers</span><span>•</span><span>🥑 Fresh Guacamole</span><span>•</span>
+        </div>
+    </div>
+
+    <!-- About / Concept Section -->
+    <!-- Adjusted padding for mobile -->
+    <section id="about" class="py-16 md:py-32 bg-white bg-paper relative">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 relative group">
+                    <div class="absolute -inset-4 bg-bodega-green rounded-lg rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
+                    <div class="absolute -inset-4 bg-bodega-red rounded-lg -rotate-3 opacity-50 group-hover:-rotate-6 transition-transform duration-500 delay-75"></div>
+                    <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?q=80&w=1000&auto=format&fit=crop" alt="Cantina Atmosphere" class="relative rounded-lg shadow-2xl w-full object-cover h-[350px] md:h-[500px] grayscale hover:grayscale-0 transition-all duration-500">
+                </div>
+                <div class="order-1 md:order-2 space-y-6 content-reveal">
+                    <span class="text-bodega-red font-bold text-xl uppercase tracking-widest block mb-2">Hola Amigos</span>
+                    <h2 class="font-display text-5xl md:text-7xl leading-none text-bodega-dark">Not Just a<br><span class="text-bodega-green">Restaurant</span>,<br>It's a <span class="underline decoration-bodega-yellow decoration-8 underline-offset-4">Cantina</span>.</h2>
+                    <p class="text-xl text-gray-600 leading-relaxed">
+                        Located on the vibrant <strong>Agiou Andreou 14</strong>, Bodega Cantina Mexicana is your slice of Mexico in the heart of Limassol. 
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        We don't do fancy. We do <strong>flavor</strong>. From the sizzle of the grill to the ice-cold drinks, everything is designed for relaxed neighborhood comfort. Whether you're grabbing a quick lunch or settling in for a long dinner, our doors are open.
+                    </p>
+                    <div class="pt-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-1 bg-bodega-red"></div>
+                            <span class="font-bold uppercase tracking-widest text-sm">Est. Limassol</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Bridge / Badge Element -->
+    <div class="relative w-full z-40 h-0 flex justify-center">
+        <div id="transition-badge" class="badge-container -translate-y-1/2">
+            <!-- SVG Rotating Text -->
+            <svg viewBox="0 0 200 200" class="badge-text w-full h-full">
+                <defs>
+                    <path id="circlePath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" />
+                </defs>
+                <circle cx="100" cy="100" r="85" fill="#FFC107" stroke="#1A1A1A" stroke-width="4" />
+                <text fill="#1A1A1A" font-family="Anton" font-size="24" letter-spacing="4" font-weight="bold">
+                    <textPath href="#circlePath" startOffset="0%">
+                        • AUTHENTIC • MEXICAN • STREET • FOOD
+                    </textPath>
+                </text>
+                <!-- Center Icon -->
+                <image href="https://cdn-icons-png.flaticon.com/512/3655/3655358.png" x="65" y="65" width="70" height="70" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Menu Highlights -->
+    <!-- Adjusted padding for mobile to account for badge -->
+    <section id="menu" class="py-16 md:py-20 bg-bodega-dark text-white relative clip-slant-reverse pt-24 md:pt-32">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="font-display text-5xl md:text-7xl mb-4"><span class="text-bodega-yellow">Street</span> Menu</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">Bold flavors, generous portions, and authentic recipes. Handheld happiness.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="menu-card group bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition-all duration-300 transform translate-y-12 opacity-0 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(211,47,47,0.5)]">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=1000&auto=format&fit=crop" alt="Tacos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-bodega-red text-white font-bold px-3 py-1 rounded shadow-lg text-sm">BEST SELLER</div>
+                    </div>
+                    <div class="p-8 border-t-4 border-bodega-green">
+                        <h3 class="font-display text-3xl mb-2 text-bodega-white group-hover:text-bodega-yellow transition-colors">The Tacos</h3>
+                        <p class="text-gray-400 mb-6">Soft corn tortillas loaded with Al Pastor, Carne Asada, or Pollo. Topped with fresh cilantro, onions, and our signature salsa.</p>
+                        <ul class="text-sm font-bold text-bodega-green uppercase tracking-wide space-y-1">
+                            <li><i class="fa-solid fa-pepper-hot mr-2"></i>Al Pastor</li>
+                            <li><i class="fa-solid fa-fire mr-2"></i>Carne Asada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="menu-card group bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition-all duration-300 transform translate-y-12 opacity-0 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(255,193,7,0.5)]" style="transition-delay: 100ms;">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1566740933430-b5e70b06d2d5?q=80&w=1000&auto=format&fit=crop" alt="Burritos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8 border-t-4 border-bodega-yellow">
+                        <h3 class="font-display text-3xl mb-2 text-bodega-white group-hover:text-bodega-yellow transition-colors">El Burrito</h3>
+                        <p class="text-gray-400 mb-6">Massive flour tortillas stuffed with rice, beans, cheese, and your choice of meat. The ultimate comfort food.</p>
+                        <ul class="text-sm font-bold text-bodega-yellow uppercase tracking-wide space-y-1">
+                            <li><i class="fa-solid fa-check mr-2"></i>Fully Loaded</li>
+                            <li><i class="fa-solid fa-check mr-2"></i>Guacamole Included</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="menu-card group bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition-all duration-300 transform translate-y-12 opacity-0 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(46,125,50,0.5)]" style="transition-delay: 200ms;">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop" alt="Burgers & Sandwiches" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8 border-t-4 border-bodega-red">
+                        <h3 class="font-display text-3xl mb-2 text-bodega-white group-hover:text-bodega-yellow transition-colors">Cantina Comfort</h3>
+                        <p class="text-gray-400 mb-6">Mexican-inspired burgers and hearty sandwiches. When you want familiar food with a spicy twist.</p>
+                        <ul class="text-sm font-bold text-bodega-red uppercase tracking-wide space-y-1">
+                            <li><i class="fa-solid fa-star mr-2"></i>Bodega Burger</li>
+                            <li><i class="fa-solid fa-star mr-2"></i>Torta Cubana</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16">
+                <a href="tel:+35725260550" class="inline-block bg-bodega-green hover:bg-bodega-white hover:text-bodega-green text-white font-black text-xl px-10 py-4 rounded-full transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(46,125,50,0.6)]">
+                    VIEW FULL MENU & ORDER
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Atmosphere / Parallax Section -->
+    <section class="h-[60vh] relative flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+             <img id="atmosphere-bg" src="https://images.unsplash.com/photo-1533622597524-a1215e26c0a2?q=80&w=2000&auto=format&fit=crop" class="w-full h-[120%] object-cover object-center -translate-y-10" alt="Atmosphere">
+             <div class="absolute inset-0 bg-gradient-to-r from-bodega-red/80 to-bodega-dark/80 mix-blend-multiply"></div>
+        </div>
+        <div class="relative z-10 text-center px-4">
+             <h2 class="font-display text-6xl md:text-9xl text-white opacity-90 drop-shadow-lg">Agiou Andreou 14</h2>
+             <p class="text-2xl text-bodega-yellow font-bold uppercase tracking-widest mt-4">Indoor & Outdoor Seating</p>
+        </div>
+    </section>
+
+    <!-- Info & Footer -->
+    <footer id="location" class="bg-bodega-white text-bodega-dark pt-20 pb-24 md:pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 border-b-2 border-gray-200 pb-12">
+                
+                <!-- Brand -->
+                <div class="lg:col-span-1">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767363170/logo_BodegaCantianMexicana_xfqdnx.png" alt="Bodega Logo" class="w-32 mb-6">
+                    <p class="text-gray-600">Bringing the authentic soul of Mexican street food to the streets of Limassol.</p>
+                </div>
+
+                <!-- Contact -->
+                <div class="lg:col-span-1">
+                    <h4 class="font-display text-2xl mb-6 text-bodega-red">Contact Us</h4>
+                    <p class="mb-2"><i class="fa-solid fa-location-dot text-bodega-green w-6"></i> <a href="https://maps.app.goo.gl/ZkVaBQdpYm2Lhsrc6" target="_blank" class="hover:text-bodega-red transition-colors">Agiou Andreou 14, Limassol</a></p>
+                    <p class="mb-2 font-bold text-xl"><i class="fa-solid fa-phone text-bodega-green w-6"></i> <a href="tel:+35725260550" class="hover:text-bodega-red">+357 25 260 550</a></p>
+                    <p class="text-sm text-gray-500 mt-4">Easy dine-in & delivery available.</p>
+                </div>
+
+                <!-- Hours -->
+                <div class="lg:col-span-1">
+                    <h4 class="font-display text-2xl mb-6 text-bodega-red">Opening Hours</h4>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex justify-between border-b border-gray-300 border-dotted pb-1"><span>Mon - Thu</span> <span>12:00 - 23:00</span></li>
+                        <li class="flex justify-between border-b border-gray-300 border-dotted pb-1"><span>Fri - Sat</span> <span>12:00 - 00:00</span></li>
+                        <li class="flex justify-between border-b border-gray-300 border-dotted pb-1"><span>Sunday</span> <span>12:00 - 23:00</span></li>
+                    </ul>
+                </div>
+
+                <!-- Visual Element -->
+                <div class="lg:col-span-1 bg-bodega-dark text-white p-6 rounded-xl flex flex-col items-center justify-center text-center transform rotate-2">
+                    <h4 class="font-display text-3xl text-bodega-yellow mb-2">Hungry?</h4>
+                    <p class="mb-4">Don't wait. The tacos are hot.</p>
+                    <a href="tel:+35725260550" class="bg-bodega-red px-6 py-2 font-bold uppercase tracking-wider rounded shadow hover:bg-white hover:text-bodega-red transition-colors w-full">Call Now</a>
+                </div>
+            </div>
+
+            <div class="text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2024 Bodega Cantina Mexicana. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0 text-xl">
+                    <a href="#" class="hover:text-bodega-red transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-bodega-blue transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Mobile CTA -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-bodega-white border-t border-gray-200 p-4 z-50 flex justify-between items-center shadow-[0_-5px_10px_rgba(0,0,0,0.1)]">
+        <div>
+            <p class="text-xs font-bold text-gray-500 uppercase">Order for Delivery</p>
+            <p class="font-display text-xl text-bodega-dark">+357 25 260 550</p>
+        </div>
+        <a href="tel:+35725260550" class="bg-bodega-green text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Updated Lenis CDN to jsdelivr for better reliability -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Initialize Lenis (Smooth Scrolling) with check
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.error("Lenis library not loaded");
+                document.getElementById('loader').style.display = 'none';
+            }
+
+            // 2. GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Preloader
+            const tl = gsap.timeline();
+            
+            tl.to("#loader", {
+                yPercent: -100,
+                duration: 0.8,
+                ease: "power4.inOut",
+                delay: 0.5
+            })
+            .to("#hero-title", {
+                y: 0,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.3")
+            .to("#hero-sub", {
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=0.8")
+            .to("#hero-cta", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=0.6");
+
+            // Navbar bg change on scroll
+            const nav = document.querySelector("#navbar");
+            const navClasses = ["bg-bodega-dark/95", "backdrop-blur-md", "shadow-lg", "py-2"];
+            
+            ScrollTrigger.create({
+                start: "top -50",
+                end: 99999,
+                onEnter: () => nav.classList.add(...navClasses),
+                onLeaveBack: () => nav.classList.remove(...navClasses)
+            });
+
+            // Parallax Hero BG
+            gsap.to("#hero-bg", {
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 1
+                },
+                yPercent: 30,
+                scale: 1.1
+            });
+
+            // Marquee Animation
+            gsap.to(".marquee-content", {
+                xPercent: -50,
+                repeat: -1,
+                duration: 20,
+                ease: "linear"
+            });
+
+            // Badge Animation (Spin faster on scroll)
+            gsap.to("#transition-badge", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "bottom center",
+                    end: "bottom top",
+                    scrub: 1
+                },
+                rotation: 360,
+                scale: 1.2
+            });
+
+            // Menu Cards Stagger
+            gsap.utils.toArray('.menu-card').forEach((card, i) => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: "#menu",
+                        start: "top 70%"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    delay: i * 0.1
+                });
+            });
+
+            // About Image Parallax
+            gsap.from(".content-reveal > *", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 75%"
+                },
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+
+            // Atmosphere Parallax
+            gsap.to("#atmosphere-bg", {
+                scrollTrigger: {
+                    trigger: "#atmosphere-bg",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                },
+                yPercent: 20
+            });
+        });
+    </script>
+</body>
+</html>
