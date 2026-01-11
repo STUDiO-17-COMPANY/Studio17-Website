@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V.P Ice Cubes | Premium Ice Supply Cyprus</title>
+    <meta name="description" content="Reliable ice production and distribution across all of Cyprus. Premium ice cubes, crystal ice, and rental fridges for hospitality and events.">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="V.P Ice Cubes | Premium Ice Supply Cyprus">
+    <meta property="og:description" content="Reliable ice production and distribution across all of Cyprus. Premium ice cubes, crystal ice, and rental fridges.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1551751299-1b51cab2694c?q=80&w=2012&auto=format&fit=crop">
+    <meta property="og:url" content="https://vpicecubes.cy">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ice: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e', // Deep Navy
+                        },
+                        industrial: '#0f172a'
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'frost': "url('https://images.unsplash.com/photo-1516047285628-972cb7ea4c03?q=80&w=2070&auto=format&fit=crop')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for things Tailwind is too verbose for */
+        body {
+            background-color: #0f172a;
+            color: #f0f9ff;
+            overflow-x: hidden;
+        }
+
+        /* Lenis Recommended CSS */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Typography outlines */
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            color: transparent;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0c4a6e;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .ice-cube-loader {
+            width: 40px;
+            height: 40px;
+            border: 2px solid white;
+            animation: spin 2s infinite linear;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-ice-400 selection:text-white">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="ice-cube-loader mb-4"></div>
+        <div class="font-display tracking-widest text-xl animate-pulse">FREEZING...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-snowflake text-ice-400 text-2xl"></i>
+                <span class="font-display text-2xl font-bold tracking-wider">V.P ICE CUBES</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium tracking-wide text-gray-300">
+                <a href="#products" class="hover:text-ice-300 transition-colors">PRODUCTS</a>
+                <a href="#quality" class="hover:text-ice-300 transition-colors">QUALITY</a>
+                <a href="#delivery" class="hover:text-ice-300 transition-colors">DELIVERY</a>
+            </div>
+            <a href="#contact" class="hidden md:block bg-ice-600 hover:bg-ice-500 text-white px-6 py-2 text-sm font-bold tracking-wider transition-colors">
+                ORDER NOW
+            </a>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-2xl text-white" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-industrial z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center gap-8">
+        <a href="#products" class="text-2xl font-display mobile-link">PRODUCTS</a>
+        <a href="#quality" class="text-2xl font-display mobile-link">QUALITY</a>
+        <a href="#delivery" class="text-2xl font-display mobile-link">DELIVERY</a>
+        <a href="#contact" class="text-2xl font-display mobile-link text-ice-400">ORDER NOW</a>
+        <button id="close-menu" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Smooth Scroll Wrapper (Lenis) -->
+    <div id="main-content">
+        
+        <!-- Hero Section -->
+        <header class="relative h-screen flex items-center overflow-hidden">
+            <!-- Background Image with Overlay -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1551751299-1b51cab2694c?q=80&w=2012&auto=format&fit=crop" 
+                     class="w-full h-full object-cover opacity-60 scale-110" id="hero-bg" alt="Ice Background">
+                <div class="absolute inset-0 bg-gradient-to-b from-industrial/70 via-industrial/40 to-industrial"></div>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10 pt-20">
+                <div class="max-w-4xl">
+                    <p class="text-ice-400 font-display tracking-[0.2em] mb-4 reveal-text">ISLAND-WIDE DELIVERY</p>
+                    <h1 class="text-6xl md:text-8xl lg:text-9xl font-display font-bold leading-tight mb-6 reveal-text">
+                        STAY <span class="text-ice-400">COLD</span>.<br>
+                        STAY <span class="text-outline">READY</span>.
+                    </h1>
+                    <p class="text-gray-300 text-lg md:text-xl max-w-xl mb-10 leading-relaxed reveal-text">
+                        The invisible essential for hospitality and events. We deliver premium, purified ice products across <span class="text-white font-bold">all of Cyprus</span> with industrial reliability.
+                    </p>
+                    <div class="flex flex-col md:flex-row gap-4 reveal-text">
+                        <a href="#contact" class="bg-ice-600 hover:bg-ice-500 text-white px-8 py-4 text-center font-bold tracking-widest transition-all hover:scale-105">
+                            ORDER DELIVERY
+                        </a>
+                        <a href="#products" class="border border-white/30 hover:bg-white/10 text-white px-8 py-4 text-center font-bold tracking-widest transition-all backdrop-blur-sm">
+                            VIEW PRODUCTS
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Ice Elements (Parallax) -->
+            <div class="absolute right-10 bottom-20 w-24 h-24 bg-ice-200/10 backdrop-blur-md rotate-12 z-0 hidden md:block parallax-ice"></div>
+            <div class="absolute left-20 top-1/3 w-16 h-16 bg-ice-400/10 backdrop-blur-md -rotate-12 z-0 hidden md:block parallax-ice"></div>
+        </header>
+
+        <!-- Stats / Trust Indicators -->
+        <div class="border-y border-white/10 bg-industrial relative z-20">
+            <div class="container mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="trust-item">
+                    <h3 class="text-3xl font-display font-bold text-ice-400">24/7</h3>
+                    <p class="text-xs tracking-widest text-gray-400 uppercase">Emergency Support</p>
+                </div>
+                <div class="trust-item">
+                    <h3 class="text-3xl font-display font-bold text-ice-400">100%</h3>
+                    <p class="text-xs tracking-widest text-gray-400 uppercase">Purified Water</p>
+                </div>
+                <div class="trust-item">
+                    <h3 class="text-3xl font-display font-bold text-ice-400">B2B</h3>
+                    <p class="text-xs tracking-widest text-gray-400 uppercase">Specialists</p>
+                </div>
+                <div class="trust-item">
+                    <h3 class="text-3xl font-display font-bold text-ice-400">CYP</h3>
+                    <p class="text-xs tracking-widest text-gray-400 uppercase">Fast Delivery</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <section id="products" class="py-24 relative">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-display font-bold mb-2">OUR <span class="text-ice-400">PRODUCTS</span></h2>
+                        <div class="h-1 w-20 bg-ice-600"></div>
+                    </div>
+                    <p class="text-gray-400 max-w-sm mt-4 md:mt-0 text-right">
+                        Manufactured with Hoshizaki technology. Now delivering island-wide.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product 1 -->
+                    <div class="product-card group relative h-96 overflow-hidden bg-gray-900 border border-white/10">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1547596096-7b9ff9b83a24?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500 group-hover:scale-110" alt="Ice Cubes">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <!-- Updated Classes: Visible by default on Mobile, Hidden/Hover on Desktop (lg) -->
+                        <div class="absolute bottom-0 left-0 p-8 w-full translate-y-0 lg:translate-y-8 lg:group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-2xl font-display font-bold mb-2">SOLID CUBES</h3>
+                            <div class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                <p class="text-gray-400 text-sm mb-4">
+                                    Classic solid cubes. Slow melting, perfect for high-volume bars and restaurants.
+                                </p>
+                                <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <span class="text-2xl font-bold text-white">€2.50</span>
+                                    <button onclick="selectProduct('Regular Ice Cubes (Bulk)')" class="bg-ice-600 hover:bg-ice-500 text-white px-4 py-2 font-bold text-sm tracking-wider transition-colors uppercase">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card group relative h-96 overflow-hidden bg-gray-900 border border-white/10">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1629249723225-896859556a3e?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500 group-hover:scale-110" alt="Crystal Ice">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full translate-y-0 lg:translate-y-8 lg:group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-2xl font-display font-bold mb-2">CRYSTAL CLEAR</h3>
+                            <div class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                <p class="text-gray-400 text-sm mb-4">
+                                    Premium, bubble-free ice for mixology. Enhances presentation without dilution.
+                                </p>
+                                <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <span class="text-2xl font-bold text-white">€4.00</span>
+                                    <button onclick="selectProduct('Crystal Clear Cubes')" class="bg-ice-600 hover:bg-ice-500 text-white px-4 py-2 font-bold text-sm tracking-wider transition-colors uppercase">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card group relative h-96 overflow-hidden bg-gray-900 border border-white/10">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1571506538622-d3cf4eec01ae?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500 group-hover:scale-110" alt="Crushed Ice">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full translate-y-0 lg:translate-y-8 lg:group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-2xl font-display font-bold mb-2">CRUSHED ICE</h3>
+                            <div class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                <p class="text-gray-400 text-sm mb-4">
+                                    Essential for cocktails like Mojitos and presentation beds for seafood.
+                                </p>
+                                <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <span class="text-2xl font-bold text-white">€3.00</span>
+                                    <button onclick="selectProduct('Crushed Ice')" class="bg-ice-600 hover:bg-ice-500 text-white px-4 py-2 font-bold text-sm tracking-wider transition-colors uppercase">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Product 4 -->
+                     <div class="product-card group relative h-96 overflow-hidden bg-gray-900 border border-white/10">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1632777083072-d5cb0920422d?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500 group-hover:scale-110" alt="Ice Blocks">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full translate-y-0 lg:translate-y-8 lg:group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-2xl font-display font-bold mb-2">ICE BLOCKS</h3>
+                            <div class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                <p class="text-gray-400 text-sm mb-4">
+                                    Large format blocks for cooling setups, sculptures, or shaved ice production.
+                                </p>
+                                <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <span class="text-2xl font-bold text-white">€6.50</span>
+                                    <button onclick="selectProduct('Ice Blocks')" class="bg-ice-600 hover:bg-ice-500 text-white px-4 py-2 font-bold text-sm tracking-wider transition-colors uppercase">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="product-card group relative h-96 overflow-hidden bg-gray-900 border border-white/10">
+                        <div class="absolute inset-0 bg-industrial flex items-center justify-center">
+                             <i class="fa-solid fa-snowflake text-8xl text-ice-900 opacity-50"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full translate-y-0 lg:translate-y-8 lg:group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-2xl font-display font-bold mb-2">RENTAL FRIDGES</h3>
+                            <div class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                <p class="text-gray-400 text-sm mb-4">
+                                    Deep freezers and storage units available for events, festivals, and overflow needs.
+                                </p>
+                                <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <span class="text-2xl font-bold text-white">€50<span class="text-xs font-normal">/day</span></span>
+                                    <button onclick="selectProduct('Rental Fridges')" class="bg-ice-600 hover:bg-ice-500 text-white px-4 py-2 font-bold text-sm tracking-wider transition-colors uppercase">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Product 6 -->
+                     <div class="product-card group relative h-96 overflow-hidden bg-gray-900 border border-white/10">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?q=80&w=1976&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500 group-hover:scale-110" alt="Water">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full translate-y-0 lg:translate-y-8 lg:group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-2xl font-display font-bold mb-2">BOTTLED WATER</h3>
+                            <div class="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                <p class="text-gray-400 text-sm mb-4">
+                                    High quality purified water bottles supplied alongside your ice order.
+                                </p>
+                                <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <span class="text-2xl font-bold text-white">€0.50</span>
+                                    <button onclick="selectProduct('Bottled Water')" class="bg-ice-600 hover:bg-ice-500 text-white px-4 py-2 font-bold text-sm tracking-wider transition-colors uppercase">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who We Serve (Ticker Style) -->
+        <section class="py-10 border-y border-white/10 bg-ice-900 overflow-hidden">
+            <div class="flex whitespace-nowrap overflow-hidden" id="marquee">
+                <div class="flex gap-12 items-center text-4xl font-display font-bold text-transparent text-outline uppercase animate-marquee">
+                    <span>• Hospitality</span>
+                    <span>• Kiosks</span>
+                    <span>• Private Villas</span>
+                    <span>• Beach Bars</span>
+                    <span>• Weddings</span>
+                    <span>• Supermarkets</span>
+                    <span>• Restaurants</span>
+                    <span>• Hospitality</span>
+                    <span>• Kiosks</span>
+                    <span>• Private Villas</span>
+                    <span>• Beach Bars</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quality & Logistics -->
+        <section id="quality" class="py-24 bg-industrial relative overflow-hidden">
+            <!-- Background Blob -->
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-ice-500/5 blur-[100px] pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="text-ice-400 font-bold tracking-widest text-sm mb-2 block">THE PROCESS</span>
+                    <h2 class="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
+                        HYGIENE IS <br> NOT OPTIONAL.
+                    </h2>
+                    
+                    <div class="space-y-8">
+                        <div class="flex gap-4 process-step">
+                            <div class="w-12 h-12 rounded-full border border-ice-400 flex items-center justify-center shrink-0 text-ice-400">
+                                <i class="fa-solid fa-filter"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-1">Triple Filtration</h4>
+                                <p class="text-gray-400 text-sm">We use industrial Reverse Osmosis systems to ensure water is 99.9% pure before freezing.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 process-step">
+                            <div class="w-12 h-12 rounded-full border border-ice-400 flex items-center justify-center shrink-0 text-ice-400">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-1">Automated Packaging</h4>
+                                <p class="text-gray-400 text-sm">Ice is bagged automatically in a food-safe environment. No human contact until you open it.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 process-step">
+                            <div class="w-12 h-12 rounded-full border border-ice-400 flex items-center justify-center shrink-0 text-ice-400">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-1">Island-Wide Logistics</h4>
+                                <p class="text-gray-400 text-sm">Our fleet of freezer vans maintains sub-zero temperatures from our plant to your door anywhere in Cyprus.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative h-[600px] w-full glass-panel p-2 rounded-2xl overflow-hidden shadow-2xl shadow-ice-500/10">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1594911772125-07fc7a2d8d9f?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-700" alt="Ice production">
+                    <div class="absolute bottom-6 right-6 bg-ice-600 text-white p-4 rounded-lg backdrop-blur-md bg-opacity-90">
+                        <p class="font-bold text-2xl">Hoshizaki</p>
+                        <p class="text-xs">CERTIFIED MACHINERY</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA & Contact -->
+        <section id="contact" class="py-24 relative">
+             <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 bg-gradient-to-r from-industrial via-industrial to-ice-900/20"></div>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    
+                    <!-- Text Side -->
+                    <div>
+                        <h2 class="text-5xl md:text-7xl font-display font-bold mb-6">DON'T RUN <span class="text-ice-400">DRY</span>.</h2>
+                        <p class="text-xl text-gray-300 mb-8 max-w-lg">
+                            Whether it's a Saturday night rush at the bar or a private wedding, V.P Ice Cubes ensures the drinks keep flowing.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                            <div class="p-6 border border-white/10 bg-white/5">
+                                <h4 class="text-ice-400 font-bold mb-2">DELIVERY ZONES</h4>
+                                <ul class="text-sm text-gray-300 space-y-1">
+                                    <li><i class="fa-solid fa-check text-ice-500 mr-2"></i> Limassol</li>
+                                    <li><i class="fa-solid fa-check text-ice-500 mr-2"></i> Nicosia</li>
+                                    <li><i class="fa-solid fa-check text-ice-500 mr-2"></i> Larnaca</li>
+                                    <li><i class="fa-solid fa-check text-ice-500 mr-2"></i> Paphos</li>
+                                    <li><i class="fa-solid fa-check text-ice-500 mr-2"></i> Ayia Napa / Protaras</li>
+                                </ul>
+                            </div>
+                            <div class="p-6 border border-white/10 bg-white/5">
+                                <h4 class="text-ice-400 font-bold mb-2">CONTACT</h4>
+                                <p class="text-2xl font-bold text-white mb-2">99 957 489</p>
+                                <p class="text-sm text-gray-300">orders@vpicecubes.cy</p>
+                                <p class="text-sm text-gray-300 mt-2">Mon - Sun: 08:00 - Late</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Side -->
+                    <div class="bg-white text-industrial p-8 md:p-12 rounded-none md:rounded-3xl shadow-2xl">
+                        <h3 class="text-3xl font-display font-bold mb-6">QUICK ORDER</h3>
+                        <form id="order-form" class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! This is a demo form. In a real site, this would send an order request.');">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <input type="text" required placeholder="Business / Name" class="w-full bg-gray-100 border-0 p-4 focus:ring-2 focus:ring-ice-500 outline-none">
+                                <input type="tel" required placeholder="Phone Number" class="w-full bg-gray-100 border-0 p-4 focus:ring-2 focus:ring-ice-500 outline-none">
+                            </div>
+                            <select id="product-select" class="w-full bg-gray-100 border-0 p-4 focus:ring-2 focus:ring-ice-500 outline-none text-gray-600">
+                                <option>Select Product Interest</option>
+                                <option value="Regular Ice Cubes (Bulk)">Regular Ice Cubes (Bulk)</option>
+                                <option value="Crystal Clear Cubes">Crystal Clear Cubes</option>
+                                <option value="Crushed Ice">Crushed Ice</option>
+                                <option value="Ice Blocks">Ice Blocks</option>
+                                <option value="Rental Fridges">Rental Fridges</option>
+                                <option value="Bottled Water">Bottled Water</option>
+                            </select>
+                            <textarea required placeholder="Delivery Address & Details" rows="3" class="w-full bg-gray-100 border-0 p-4 focus:ring-2 focus:ring-ice-500 outline-none"></textarea>
+                            
+                            <button class="w-full bg-ice-600 hover:bg-ice-700 text-white font-bold py-4 text-lg tracking-widest transition-colors">
+                                SEND REQUEST
+                            </button>
+                            <p class="text-xs text-gray-500 text-center mt-4">For immediate urgency, please call us directly.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-black py-8 border-t border-white/10">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-snowflake text-ice-600"></i>
+                    <span class="font-display font-bold tracking-wider text-gray-400">V.P ICE CUBES</span>
+                </div>
+                <div class="text-xs text-gray-600">
+                    &copy; 2024 V.P Ice Cubes Cyprus. All rights reserved.
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // Initialize Lenis (Smooth Scroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Loader
+        window.addEventListener("load", () => {
+            const tl = gsap.timeline();
+            tl.to("#loader", {
+                yPercent: -100,
+                duration: 1,
+                ease: "power4.inOut",
+                delay: 0.5
+            })
+            .from(".reveal-text", {
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            }, "-=0.5");
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.classList.remove('py-2');
+                nav.classList.add('py-4');
+            }
+        });
+
+        // Parallax Effects
+        gsap.to("#hero-bg", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            yPercent: 30,
+            scale: 1.2
+        });
+
+        gsap.utils.toArray(".parallax-ice").forEach((el, i) => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: -100 * (i + 1),
+                rotation: 45
+            });
+        });
+
+        // Product Cards Stagger
+        gsap.from(".product-card", {
+            scrollTrigger: {
+                trigger: "#products",
+                start: "top 70%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+
+        // Trust Items
+        gsap.from(".trust-item", {
+            scrollTrigger: {
+                trigger: ".trust-item",
+                start: "top 85%",
+            },
+            y: 20,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.1
+        });
+
+        // Process Steps
+        gsap.from(".process-step", {
+            scrollTrigger: {
+                trigger: "#quality",
+                start: "top 60%",
+            },
+            x: -50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isOpen = !mobileMenu.classList.contains('translate-x-full');
+            if (isOpen) {
+                mobileMenu.classList.add('translate-x-full');
+            } else {
+                mobileMenu.classList.remove('translate-x-full');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Smart Form Selection Logic
+        function selectProduct(productName) {
+            const select = document.getElementById('product-select');
+            const contactSection = document.getElementById('contact');
+
+            // 1. Scroll to the form
+            // We use Lenis for smooth scrolling if possible, or fallback to native
+            lenis.scrollTo(contactSection);
+
+            // 2. Select the option
+            // We iterate through options to find the matching value
+            for(let i=0; i < select.options.length; i++) {
+                if(select.options[i].value === productName) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Add Marquee Keyframes manually since Tailwind doesn't have it by default */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+    </style>
+</body>
+</html>
