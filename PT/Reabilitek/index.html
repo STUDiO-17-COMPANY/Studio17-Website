@@ -1,31 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="antialiased">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reabilitek | Ecological Rehabilitation</title>
+    <title>Reabilitek | Ecological Construction & Heritage Living</title>
     
-    <!-- Fonts -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'moss': '#2C4A3B',
-                        'moss-light': '#4A6B5D',
-                        'clay': '#C98D75',
-                        'sand': '#F3F0EB',
-                        'stone': '#E5E2DD',
-                        'charcoal': '#1F1F1F'
+                        'algarve-clay': '#9c6644',
+                        'algarve-stone': '#f5f5f0',
+                        'algarve-green': '#1a3c34',
+                        'algarve-sand': '#e6e2dd'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -39,539 +43,470 @@
         }
     </script>
 
-    <!-- GSAP & Lenis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- Switch to jsDelivr for better stability -->
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-
     <style>
         body {
-            background-color: #F3F0EB;
-            color: #1F1F1F;
+            background-color: #f5f5f0;
+            color: #1a3c34;
             overflow-x: hidden;
         }
         
-        .clip-text-image {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-image: url('https://images.unsplash.com/photo-1518005052351-4877d259bb56?q=80&w=1965&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .image-reveal-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Custom Scrollbar for non-lenis browsers fallback */
+        /* Hide scrollbar for clean look */
         ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F3F0EB;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #C98D75;
-            border-radius: 4px;
+            width: 0px;
+            background: transparent;
         }
 
-        .slider-handle {
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .char {
+            transform: translateY(115%);
+            transition: transform 0.5s;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #1a3c34;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #1a3c34;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #1a3c34;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f5f0;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
         }
     </style>
 </head>
-<body class="antialiased relative">
+<body class="relative">
 
-    <!-- Noise Overlay -->
-    <div class="fixed inset-0 z-50 pointer-events-none bg-noise opacity-40 mix-blend-multiply"></div>
-
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-6 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-serif text-2xl font-semibold tracking-tight text-moss z-50 relative group">
-                <img src="images/Logo.png" alt="Logo Reabilitek" class="w-40 h-6">
-                <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-clay"></span>
-            </a>
-            
-            <div class="hidden md:flex items-center gap-8">
-                <a href="#process" class="text-sm uppercase tracking-widest hover:text-clay transition-colors">Process</a>
-                <a href="#pillars" class="text-sm uppercase tracking-widest hover:text-clay transition-colors">Pillars</a>
-                <a href="#projects" class="text-sm uppercase tracking-widest hover:text-clay transition-colors">Projects</a>
-            </div>
-
-            <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="hidden md:flex bg-moss text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-clay transition-colors duration-300">
-                Book Consultation
-            </button>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-moss z-50" id="mobile-menu-btn">
-                <i data-lucide="menu"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="fixed inset-0 bg-sand z-30 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8" id="mobile-menu">
-        <a href="#process" class="text-2xl font-serif text-moss mobile-link">Process</a>
-        <a href="#pillars" class="text-2xl font-serif text-moss mobile-link">Pillars</a>
-        <a href="#projects" class="text-2xl font-serif text-moss mobile-link">Projects</a>
-        <a href="#contact" class="text-2xl font-serif text-moss mobile-link">Contact</a>
+    <!-- Loader -->
+    <div class="loader">
+        <span class="loader-text">Reabilitek.</span>
     </div>
 
-    <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center pt-20 px-6 overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <!-- Parallax BG -->
-            <div class="absolute right-0 top-0 w-full md:w-1/2 h-full bg-[url('https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2700&auto=format&fit=crop')] bg-cover bg-center opacity-90 hero-bg-img scale-110 origin-center"></div>
-            <div class="absolute inset-0 bg-gradient-to-r from-sand via-sand/80 to-transparent md:via-sand/40"></div>
-        </div>
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
 
-        <div class="max-w-7xl mx-auto w-full relative z-10 grid md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8 hero-content">
-                <div class="inline-block overflow-hidden">
-                    <span class="text-clay text-sm font-semibold tracking-widest uppercase block reveal-text">Ecological Rehabilitation</span>
-                </div>
-                <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] text-moss reveal-text">
-                    Reviving the Past.<br>
-                    <span class="italic font-light">Building the Future.</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-md leading-relaxed reveal-text opacity-0">
-                    We transform degraded properties into sustainable, energy-efficient sanctuaries while preserving their original soul.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 pt-4 reveal-text opacity-0">
-                    <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="bg-moss text-white px-8 py-4 rounded-full text-lg hover:bg-clay hover:scale-105 transition-all duration-300 shadow-lg shadow-moss/20">
-                        Start Your Project
-                    </button>
-                    <button class="border border-moss text-moss px-8 py-4 rounded-full text-lg hover:bg-moss/5 transition-all duration-300 flex items-center justify-center gap-2 group">
-                        <span>Join Community</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Hero Stats / Floater -->
-            <div class="hidden md:block relative h-full">
-                <div class="absolute bottom-20 -left-10 bg-white p-6 rounded-lg shadow-xl max-w-xs hero-card opacity-0 translate-y-10 border-l-4 border-clay">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="bg-green-100 p-3 rounded-full text-green-700">
-                            <i data-lucide="leaf"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 uppercase tracking-wide">Energy Saved</p>
-                            <p class="font-bold text-moss text-xl">Up to 70%</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-600">Through passive design and smart insulation.</p>
-                </div>
-            </div>
-        </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="#" class="text-2xl font-serif font-bold tracking-tight text-algarve-green mix-blend-difference">Reabilitek.</a>
         
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-moss/50">
-            <i data-lucide="arrow-down" class="w-6 h-6"></i>
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest text-algarve-green font-medium mix-blend-difference">
+            <a href="#philosophy" class="hover:opacity-70 transition-opacity">Philosophy</a>
+            <a href="#projects" class="hover:opacity-70 transition-opacity">Projects</a>
+            <a href="#journal" class="hover:opacity-70 transition-opacity">Journal</a>
         </div>
-    </header>
 
-    <!-- Intro / Philosophy -->
-    <section class="py-24 px-6 bg-moss text-sand relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <i data-lucide="quote" class="w-12 h-12 mx-auto text-clay mb-8 opacity-50"></i>
-            <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8 split-text">
-                "An old house is not waste. It is a story waiting for a new chapter. We rewrite it with respect for nature and comfort."
-            </h2>
-            <div class="w-24 h-1 bg-clay mx-auto"></div>
-        </div>
-        <!-- Decorative bg elements -->
-        <div class="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-clay/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
-    </section>
+        <a href="#contact" class="hidden md:block px-6 py-2 border border-algarve-green rounded-full text-xs uppercase tracking-widest hover:bg-algarve-green hover:text-white transition-colors duration-300 mix-blend-difference">
+            Start Project
+        </a>
 
-    <!-- Process Section -->
-    <section id="process" class="py-24 px-6 bg-sand relative">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16 md:flex justify-between items-end">
-                <div>
-                    <span class="text-clay text-sm font-semibold tracking-widest uppercase">The Journey</span>
-                    <h2 class="font-serif text-4xl md:text-5xl text-moss mt-2">How Reabilitek Works</h2>
-                </div>
-                <p class="md:max-w-xs text-gray-600 mt-4 md:mt-0">From the first inspection to the final eco-friendly touches.</p>
-            </div>
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-algarve-green mix-blend-difference">
+            <i data-lucide="menu" class="w-8 h-8"></i>
+        </button>
+    </nav>
 
-            <div class="relative grid md:grid-cols-4 gap-8">
-                <!-- Connecting Line -->
-                <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-stone z-0">
-                    <div class="h-full bg-clay w-0 transition-all duration-1000 ease-out process-line"></div>
+    <!-- Smooth Scroll Wrapper -->
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- Hero Section -->
+            <header class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+                <!-- Parallax Image Background -->
+                <div class="absolute inset-0 z-0 scale-110" id="hero-bg">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop" 
+                         alt="Algarve Villa Architecture" 
+                         class="w-full h-full object-cover opacity-90">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-algarve-stone/90"></div>
                 </div>
 
-                <!-- Steps -->
-                <div class="relative z-10 group process-step opacity-0 translate-y-8">
-                    <div class="w-24 h-24 bg-white border border-stone rounded-full flex items-center justify-center mb-6 group-hover:border-clay group-hover:scale-110 transition-all duration-300 shadow-sm">
-                        <span class="font-serif text-3xl text-moss">01</span>
-                    </div>
-                    <h3 class="font-serif text-xl text-moss mb-3">Eco-Audit</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Structural evaluation and potential analysis for passive energy systems.</p>
-                </div>
-
-                <div class="relative z-10 group process-step opacity-0 translate-y-8" style="transition-delay: 100ms;">
-                    <div class="w-24 h-24 bg-white border border-stone rounded-full flex items-center justify-center mb-6 group-hover:border-clay group-hover:scale-110 transition-all duration-300 shadow-sm">
-                        <span class="font-serif text-3xl text-moss">02</span>
-                    </div>
-                    <h3 class="font-serif text-xl text-moss mb-3">Sustainable Design</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Architectural planning focusing on natural light, airflow, and recycled materials.</p>
-                </div>
-
-                <div class="relative z-10 group process-step opacity-0 translate-y-8" style="transition-delay: 200ms;">
-                    <div class="w-24 h-24 bg-white border border-stone rounded-full flex items-center justify-center mb-6 group-hover:border-clay group-hover:scale-110 transition-all duration-300 shadow-sm">
-                        <span class="font-serif text-3xl text-moss">03</span>
-                    </div>
-                    <h3 class="font-serif text-xl text-moss mb-3">Green Build</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Execution using non-toxic paints, cork insulation, and local craftsmanship.</p>
-                </div>
-
-                <div class="relative z-10 group process-step opacity-0 translate-y-8" style="transition-delay: 300ms;">
-                    <div class="w-24 h-24 bg-white border border-stone rounded-full flex items-center justify-center mb-6 group-hover:border-clay group-hover:scale-110 transition-all duration-300 shadow-sm">
-                        <span class="font-serif text-3xl text-moss">04</span>
-                    </div>
-                    <h3 class="font-serif text-xl text-moss mb-3">New Life</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Key handover of a high-performance, healthy home ready for generations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ecological Pillars -->
-    <section id="pillars" class="py-24 px-6 bg-stone/30">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <span class="text-clay text-sm font-semibold tracking-widest uppercase">Our Foundation</span>
-                <h2 class="font-serif text-4xl md:text-5xl text-moss mt-2">The Three Pillars</h2>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Pillar 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group pillar-card">
-                    <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center text-moss mb-6 group-hover:bg-moss group-hover:text-white transition-colors">
-                        <i data-lucide="recycle" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-2xl text-moss mb-4">Circular Materials</h3>
-                    <p class="text-gray-600 mb-4">We prioritize reclaimed wood, recycled bricks, and non-toxic, locally sourced materials to reduce carbon footprint.</p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-clay"></i> Zero-waste philosophy</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-clay"></i> Low-VOC finishes</li>
-                    </ul>
-                </div>
-
-                <!-- Pillar 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group pillar-card">
-                    <div class="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center text-yellow-700 mb-6 group-hover:bg-yellow-600 group-hover:text-white transition-colors">
-                        <i data-lucide="sun" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-2xl text-moss mb-4">Energy Efficiency</h3>
-                    <p class="text-gray-600 mb-4">Transforming energy hogs into passive homes through superior insulation, solar integration, and smart thermal mass.</p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-clay"></i> Lower utility bills</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-clay"></i> Thermal comfort year-round</li>
-                    </ul>
-                </div>
-
-                <!-- Pillar 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group pillar-card">
-                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-700 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                        <i data-lucide="heart" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-2xl text-moss mb-4">Healthy Living</h3>
-                    <p class="text-gray-600 mb-4">Design that promotes well-being through optimal air quality, humidity control, and biophilic connection to nature.</p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-clay"></i> Mold-free environments</li>
-                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-clay"></i> Maximized natural light</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Transformations (Before/After) -->
-    <section id="projects" class="py-24 px-6 bg-moss text-sand overflow-hidden">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            
-            <div class="order-2 md:order-1 relative">
-                <!-- Interactive Comparison Component -->
-                <div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden cursor-ew-resize select-none shadow-2xl" id="comparison-container">
-                    <!-- After Image (Background) -->
-                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop" alt="Modern Ecological Kitchen" class="absolute inset-0 w-full h-full object-cover">
-                    <div class="absolute bottom-6 right-6 bg-white/90 text-moss px-3 py-1 text-xs font-bold rounded uppercase tracking-wider backdrop-blur-sm">After</div>
-
-                    <!-- Before Image (Overlay) -->
-                    <div class="absolute inset-0 w-1/2 overflow-hidden border-r-2 border-white" id="comparison-overlay">
-                        <img src="https://images.unsplash.com/photo-1512356540321-729930f3c5f5?q=80&w=2074&auto=format&fit=crop" alt="Old Ruin" class="absolute inset-0 w-[200%] max-w-none h-full object-cover filter sepia contrast-125 brightness-75">
-                        <div class="absolute bottom-6 left-6 bg-black/50 text-white px-3 py-1 text-xs font-bold rounded uppercase tracking-wider backdrop-blur-sm">Before</div>
-                    </div>
-
-                    <!-- Slider Handle -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg slider-handle z-20 pointer-events-none text-moss" id="slider-handle">
-                        <i data-lucide="move-horizontal" class="w-5 h-5"></i>
+                <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+                    <p class="hero-anim text-sm md:text-base uppercase tracking-[0.2em] mb-6 text-algarve-green font-medium">Sustainable Heritage Living</p>
+                    <h1 class="hero-anim text-5xl md:text-7xl lg:text-8xl font-serif text-algarve-green leading-[1.1] mb-8">
+                        The Soul of the Algarve,<br>
+                        <span class="italic font-light">Reimagined by Nature.</span>
+                    </h1>
+                    <div class="hero-anim flex flex-col md:flex-row gap-6 justify-center items-center mt-12">
+                        <a href="#projects" class="px-8 py-4 bg-algarve-green text-algarve-stone rounded-full text-sm uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-lg">
+                            View Collection
+                        </a>
+                        <a href="#contact" class="group flex items-center gap-2 text-algarve-green text-sm uppercase tracking-widest border-b border-transparent hover:border-algarve-green transition-all pb-1">
+                            Ecological Consulting <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
                     </div>
                 </div>
-                <p class="text-center text-sm mt-4 text-stone/60 flex items-center justify-center gap-2">
-                    <i data-lucide="mouse-pointer-2" class="w-4 h-4"></i> Drag to see the transformation
-                </p>
-            </div>
+            </header>
 
-            <div class="order-1 md:order-2 space-y-8">
-                <span class="text-clay text-sm font-semibold tracking-widest uppercase">The Result</span>
-                <h2 class="font-serif text-4xl md:text-5xl text-sand">From Ruin to <br>Regeneration.</h2>
-                <p class="text-stone/80 text-lg leading-relaxed">
-                    See how we turned a damp, abandoned 1950s structure into an A+ Energy Rated home. We opened up the facade to the south for passive solar gain while insulating the northern stone walls with sustainable cork agglomerate.
-                </p>
-                
-                <div class="grid grid-cols-2 gap-8 pt-4">
+            <!-- Philosophy / About Section -->
+            <section id="philosophy" class="py-24 md:py-32 px-6 bg-algarve-stone relative">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 relative">
+                        <div class="overflow-hidden rounded-2xl reveal-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="Sustainable Materials" 
+                                 class="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-700 reveal-img">
+                        </div>
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-8 -right-8 bg-white p-6 rounded-lg shadow-xl max-w-[200px] hidden md:block">
+                            <p class="font-serif italic text-xl text-algarve-clay">"Preservation is the ultimate sustainability."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-1 md:order-2 space-y-8">
+                        <h2 class="text-sm uppercase tracking-[0.2em] text-algarve-clay">Our Philosophy</h2>
+                        <h3 class="text-4xl md:text-5xl font-serif leading-tight text-algarve-green split-text">
+                            We don't just build.<br>
+                            We <span class="italic text-algarve-clay">restore balance.</span>
+                        </h3>
+                        <p class="text-lg text-gray-600 font-light leading-relaxed">
+                            Reabilitek specializes in the ecological rehabilitation of heritage properties in Portugal. We fuse traditional Algarvian craftsmanship with Passive House principles to create homes that breathe, conserve energy, and tell a story.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-8 pt-8 border-t border-gray-200">
+                            <div>
+                                <h4 class="font-serif text-2xl text-algarve-green mb-2">Passive House</h4>
+                                <p class="text-sm text-gray-500">Energy independence & thermal comfort year-round.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-2xl text-algarve-green mb-2">Bio-Materials</h4>
+                                <p class="text-sm text-gray-500">Hemp, cork, lime, and stone sourced locally.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Horizontal Scroll Projects Section -->
+            <section id="projects" class="bg-algarve-sand overflow-hidden relative">
+                <div class="py-12 px-6 md:px-12">
+                    <h2 class="text-4xl md:text-6xl font-serif text-algarve-green mb-4">Featured Restorations</h2>
+                    <p class="max-w-xl text-gray-600">Where ruins become sanctuaries. Explore our latest portfolio of sustainable transformations.</p>
+                </div>
+
+                <!-- Desktop Horizontal Scroll Container / Mobile Stack -->
+                <div id="projects-container" class="flex flex-col md:flex-row md:h-screen md:w-[300vw] pb-24 md:pb-0">
+                    
+                    <!-- Project 1 -->
+                    <div class="project-panel w-full md:w-screen h-[70vh] md:h-full flex flex-col md:flex-row items-center justify-center p-6 md:p-24 gap-8 md:gap-16 border-r border-stone-300/50">
+                        <div class="w-full md:w-1/2 h-full overflow-hidden rounded-2xl relative group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?q=80&w=2080&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Casa Branca">
+                            <div class="absolute top-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs uppercase tracking-widest">Tavira, Algarve</div>
+                        </div>
+                        <div class="w-full md:w-1/3 space-y-6">
+                            <h3 class="text-4xl font-serif text-algarve-green">Quinta do Sol</h3>
+                            <p class="text-gray-600">A 19th-century farmhouse restored using hempcrete insulation and solar independence. The perfect blend of rustic charm and modern off-grid luxury.</p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-algarve-clay"></i> 100% Energy Autonomous</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-algarve-clay"></i> Lime Plaster Interiors</li>
+                            </ul>
+                            <button class="text-algarve-clay uppercase text-xs tracking-widest border-b border-algarve-clay pb-1 hover:text-algarve-green hover:border-algarve-green transition-all">View Transformation</button>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-panel w-full md:w-screen h-[70vh] md:h-full flex flex-col md:flex-row items-center justify-center p-6 md:p-24 gap-8 md:gap-16 border-r border-stone-300/50">
+                        <div class="w-full md:w-1/2 h-full overflow-hidden rounded-2xl relative group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Villa Verde">
+                            <div class="absolute top-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs uppercase tracking-widest">Loulé, Algarve</div>
+                        </div>
+                        <div class="w-full md:w-1/3 space-y-6">
+                            <h3 class="text-4xl font-serif text-algarve-green">Casa da Serra</h3>
+                            <p class="text-gray-600">An abandoned ruin transformed into a minimalist eco-retreat. Featuring rainwater harvesting systems and indigenous dry gardens.</p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-algarve-clay"></i> Water Recycling System</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-algarve-clay"></i> Cork Insulation</li>
+                            </ul>
+                            <button class="text-algarve-clay uppercase text-xs tracking-widest border-b border-algarve-clay pb-1 hover:text-algarve-green hover:border-algarve-green transition-all">View Transformation</button>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-panel w-full md:w-screen h-[70vh] md:h-full flex flex-col md:flex-row items-center justify-center p-6 md:p-24 gap-8 md:gap-16">
+                        <div class="w-full md:w-1/2 h-full overflow-hidden rounded-2xl relative group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Modern Eco">
+                            <div class="absolute top-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs uppercase tracking-widest">Silves, Algarve</div>
+                        </div>
+                        <div class="w-full md:w-1/3 space-y-6">
+                            <h3 class="text-4xl font-serif text-algarve-green">The Olive Press</h3>
+                            <p class="text-gray-600">Heritage preservation of an ancient olive press, integrating contemporary glass structures to blur the line between indoor and outdoor living.</p>
+                             <ul class="space-y-2 text-sm text-gray-500">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-algarve-clay"></i> Geothermal Cooling</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-algarve-clay"></i> Heritage Stone Work</li>
+                            </ul>
+                            <button class="text-algarve-clay uppercase text-xs tracking-widest border-b border-algarve-clay pb-1 hover:text-algarve-green hover:border-algarve-green transition-all">View Transformation</button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- The Journal -->
+            <section id="journal" class="py-24 px-6 bg-algarve-stone">
+                <div class="max-w-7xl mx-auto mb-16 flex justify-between items-end">
                     <div>
-                        <h4 class="text-2xl font-serif text-clay">100%</h4>
-                        <p class="text-sm text-stone/60">Renewable Energy</p>
+                        <h2 class="text-sm uppercase tracking-[0.2em] text-algarve-clay mb-2">The Journal</h2>
+                        <h3 class="text-4xl font-serif text-algarve-green">Life in Balance</h3>
                     </div>
-                    <div>
-                        <h4 class="text-2xl font-serif text-clay">A+</h4>
-                        <p class="text-sm text-stone/60">Energy Certification</p>
-                    </div>
+                    <a href="#" class="hidden md:block text-sm border-b border-algarve-green pb-1">Read all stories</a>
                 </div>
 
-                <a href="#contact" class="inline-block mt-8 text-white border-b border-clay pb-1 hover:text-clay transition-colors">View more case studies</a>
-            </div>
-        </div>
-    </section>
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Article 1 -->
+                    <article class="group cursor-pointer">
+                        <div class="overflow-hidden rounded-xl mb-6">
+                            <img src="https://images.unsplash.com/photo-1556955112-28cde3817b0a?q=80&w=2070&auto=format&fit=crop" alt="Slow Living" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-105">
+                        </div>
+                        <span class="text-xs font-bold text-algarve-clay uppercase tracking-widest">Slow Living</span>
+                        <h4 class="mt-2 text-xl font-serif text-algarve-green group-hover:text-algarve-clay transition-colors">Why we chose the Barrocal: A return to the earth.</h4>
+                    </article>
 
-    <!-- Community & Contact -->
-    <section id="contact" class="py-24 px-6 bg-sand relative">
-        <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-16 shadow-2xl relative overflow-hidden">
-            <!-- Decorative circle -->
-            <div class="absolute -top-24 -right-24 w-64 h-64 bg-green-50 rounded-full"></div>
+                    <!-- Article 2 -->
+                    <article class="group cursor-pointer">
+                        <div class="overflow-hidden rounded-xl mb-6">
+                            <img src="https://images.unsplash.com/photo-1533630654593-b26a19f44f6f?q=80&w=2070&auto=format&fit=crop" alt="Construction Materials" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-105">
+                        </div>
+                        <span class="text-xs font-bold text-algarve-clay uppercase tracking-widest">Construction</span>
+                        <h4 class="mt-2 text-xl font-serif text-algarve-green group-hover:text-algarve-clay transition-colors">The benefits of Hempcrete in Southern Climates.</h4>
+                    </article>
 
-            <div class="relative z-10 text-center space-y-6">
-                <h2 class="font-serif text-4xl text-moss">Ready to build a better future?</h2>
-                <p class="text-gray-600 max-w-lg mx-auto">
-                    Join our community of eco-conscious homeowners. Whether you have a property to rehabilitate or are looking for one, we guide you every step of the way.
-                </p>
+                     <!-- Article 3 -->
+                     <article class="group cursor-pointer">
+                        <div class="overflow-hidden rounded-xl mb-6">
+                            <img src="https://images.unsplash.com/photo-1518182170546-0766ce6fec93?q=80&w=2062&auto=format&fit=crop" alt="Interior Design" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-105">
+                        </div>
+                        <span class="text-xs font-bold text-algarve-clay uppercase tracking-widest">Design</span>
+                        <h4 class="mt-2 text-xl font-serif text-algarve-green group-hover:text-algarve-clay transition-colors">Curating a minimalist interior with local artisans.</h4>
+                    </article>
+                </div>
+            </section>
 
-                <form class="mt-10 space-y-4 max-w-md mx-auto text-left" onsubmit="event.preventDefault(); alert('Thank you! We will be in touch shortly.');">
-                    <div>
-                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Name</label>
-                        <input type="text" class="w-full bg-sand border-none p-4 rounded-lg mt-1 focus:ring-2 focus:ring-moss outline-none transition-all" placeholder="Jane Doe" required>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Email</label>
-                        <input type="email" class="w-full bg-sand border-none p-4 rounded-lg mt-1 focus:ring-2 focus:ring-moss outline-none transition-all" placeholder="jane@example.com" required>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">I am interested in...</label>
-                        <select class="w-full bg-sand border-none p-4 rounded-lg mt-1 focus:ring-2 focus:ring-moss outline-none transition-all text-gray-600">
-                            <option>Rehabilitating my property</option>
-                            <option>Finding a project</option>
-                            <option>Newsletter & Updates</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full bg-moss text-white font-bold py-4 rounded-lg hover:bg-clay hover:shadow-lg transition-all duration-300 mt-4">
-                        Pre-book / Subscribe
-                    </button>
-                    <p class="text-xs text-center text-gray-400 mt-4">
-                        <i data-lucide="lock" class="w-3 h-3 inline mr-1"></i> Your data is secure. No spam, ever.
+            <!-- Advisory & Contact -->
+            <section id="contact" class="py-24 px-6 bg-algarve-green text-algarve-stone relative overflow-hidden">
+                <!-- Decorative Circle -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+
+                <div class="max-w-4xl mx-auto relative z-10 text-center">
+                    <h2 class="text-5xl md:text-7xl font-serif mb-6">Build your sanctuary.</h2>
+                    <p class="text-lg font-light text-gray-300 mb-12 max-w-2xl mx-auto">
+                        Whether you are scouting for a ruin to restore or need an ecological evaluation of your property, Reabilitek is your partner in sustainable heritage.
                     </p>
-                </form>
-            </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-moss text-stone/60 py-12 px-6 border-t border-white/10">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left">
-                <img src="images/Logo.png" alt="Logo Reabilitek" class="w-40 h-6">
-                <span class="text-sm">Ecological Rehabilitation Services</span>
-            </div>
-            
-            <div class="flex gap-6 text-sm">
-                <a href="#" class="hover:text-white transition-colors">Privacy</a>
-                <a href="#" class="hover:text-white transition-colors">Terms</a>
-                <a href="#" class="hover:text-white transition-colors">Instagram</a>
-            </div>
+                    <form class="max-w-md mx-auto space-y-6 text-left" onsubmit="event.preventDefault(); alert('Thank you. We will contact you shortly.');">
+                        <div class="space-y-1">
+                            <label class="text-xs uppercase tracking-widest text-gray-400">Name</label>
+                            <input type="text" class="w-full bg-transparent border-b border-gray-600 py-2 text-xl focus:outline-none focus:border-white transition-colors" placeholder="Jane Doe">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs uppercase tracking-widest text-gray-400">Email</label>
+                            <input type="email" class="w-full bg-transparent border-b border-gray-600 py-2 text-xl focus:outline-none focus:border-white transition-colors" placeholder="jane@example.com">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs uppercase tracking-widest text-gray-400">Interest</label>
+                            <select class="w-full bg-transparent border-b border-gray-600 py-2 text-xl focus:outline-none focus:border-white transition-colors text-algarve-stone">
+                                <option class="bg-algarve-green">Property Scouting</option>
+                                <option class="bg-algarve-green">Project Evaluation</option>
+                                <option class="bg-algarve-green">Ecological Renovation</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-algarve-clay text-white py-4 mt-8 rounded-full uppercase tracking-widest text-sm hover:bg-white hover:text-algarve-green transition-colors duration-300">
+                            Request Consultation
+                        </button>
+                    </form>
+                </div>
+            </section>
 
-            <div class="text-xs">
-                &copy; 2026 Reabilitek. Made with nature in mind.
-            </div>
+            <!-- Footer -->
+            <footer class="bg-algarve-green text-gray-400 py-12 px-6 border-t border-gray-800">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                    <span class="font-serif text-2xl text-white">Reabilitek.</span>
+                    <div class="text-sm flex gap-6">
+                        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                        <a href="#" class="hover:text-white transition-colors">Legal</a>
+                    </div>
+                    <p class="text-xs">© 2024 Reabilitek Portugal. All rights reserved.</p>
+                </div>
+            </footer>
+
         </div>
-    </footer>
+    </div>
 
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Initialize Lenis (Smooth Scroll)
-        // Check if Lenis is defined to prevent crashing if the CDN fails
-        if (typeof Lenis !== 'undefined') {
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                direction: 'vertical',
-                gestureDirection: 'vertical',
-                smooth: true,
-                mouseMultiplier: 1,
-                smoothTouch: false,
-                touchMultiplier: 2,
-            });
+        // 1. Initialize Lenis for Smooth Scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
 
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
+        function raf(time) {
+            lenis.raf(time);
             requestAnimationFrame(raf);
-        } else {
-            console.warn("Lenis library could not be loaded. Smooth scrolling disabled.");
-            document.body.style.overflow = "auto";
         }
 
-        // GSAP Animations
+        requestAnimationFrame(raf);
+
+        // 2. Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with lag
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effects for cursor
+        const hoverables = document.querySelectorAll('a, button, input, select');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(26, 60, 52, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+
+
+        // 3. GSAP Animations
         gsap.registerPlugin(ScrollTrigger);
 
-        // Navbar Scroll Effect
+        // Loader Sequence
+        const tl = gsap.timeline();
+        tl.to('.loader-text', {
+            opacity: 0,
+            duration: 0.5,
+            delay: 1
+        })
+        .to('.loader', {
+            yPercent: -100,
+            duration: 1,
+            ease: "power4.inOut"
+        })
+        .from('.hero-anim', {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        }, "-=0.5");
+
+        // Parallax Hero
+        gsap.to("#hero-bg", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            yPercent: 30,
+            ease: "none"
+        });
+
+        // Split Text Reveal (About Section)
+        const splitText = document.querySelectorAll('.split-text');
+        splitText.forEach((text) => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Image Reveal (About Section)
+        gsap.from(".reveal-img", {
+            scrollTrigger: {
+                trigger: ".reveal-img-wrapper",
+                start: "top 70%",
+            },
+            scale: 1.2,
+            duration: 1.5,
+            ease: "power2.out"
+        });
+
+        // Horizontal Scroll for Projects (Desktop Only)
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            let sections = gsap.utils.toArray(".project-panel");
+            
+            gsap.to(sections, {
+                xPercent: -100 * (sections.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#projects",
+                    pin: true,
+                    scrub: 1,
+                    snap: 1 / (sections.length - 1),
+                    end: () => "+=" + document.querySelector("#projects-container").offsetWidth
+                }
+            });
+        });
+
+        // Navbar Transition
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.add('bg-sand/90', 'backdrop-blur-md', 'shadow-sm');
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
                 navbar.classList.remove('py-6');
-                navbar.classList.add('py-4');
             } else {
-                navbar.classList.remove('bg-sand/90', 'backdrop-blur-md', 'shadow-sm');
-                navbar.classList.remove('py-4');
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
                 navbar.classList.add('py-6');
             }
-        });
-
-        // Hero Animations
-        const tl = gsap.timeline();
-        tl.to('.reveal-text', {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: 'power3.out'
-        })
-        .to('.hero-card', {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: 'power3.out'
-        }, "-=0.8");
-
-        // Parallax Effect for Hero Image
-        gsap.to('.hero-bg-img', {
-            yPercent: 20,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: 'header',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            }
-        });
-
-        // Section Headers
-        gsap.utils.toArray('h2').forEach(heading => {
-            gsap.from(heading, {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: heading,
-                    start: 'top 80%',
-                }
-            });
-        });
-
-        // Process Steps Stagger
-        gsap.to('.process-step', {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            scrollTrigger: {
-                trigger: '#process',
-                start: 'top 60%',
-            }
-        });
-        
-        // Process Line Animation
-        gsap.to('.process-line', {
-            width: '100%',
-            duration: 1.5,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-                trigger: '#process',
-                start: 'top 60%',
-            }
-        });
-
-        // Pillars Hover/Entrance
-        gsap.utils.toArray('.pillar-card').forEach((card, i) => {
-            gsap.from(card, {
-                opacity: 0,
-                y: 50,
-                duration: 0.8,
-                delay: i * 0.1,
-                scrollTrigger: {
-                    trigger: '#pillars',
-                    start: 'top 70%',
-                }
-            });
-        });
-
-        // Comparison Slider Logic
-        const container = document.getElementById('comparison-container');
-        const overlay = document.getElementById('comparison-overlay');
-        const handle = document.getElementById('slider-handle');
-
-        const moveSlider = (e) => {
-            const rect = container.getBoundingClientRect();
-            // Calculate position
-            let x;
-            if(e.type === 'touchmove') {
-                x = e.touches[0].clientX - rect.left;
-            } else {
-                x = e.clientX - rect.left;
-            }
-            
-            // Constrain
-            let widthPercentage = (x / rect.width) * 100;
-            widthPercentage = Math.max(0, Math.min(100, widthPercentage));
-
-            overlay.style.width = `${widthPercentage}%`;
-            handle.style.left = `${widthPercentage}%`;
-        };
-
-        container.addEventListener('mousemove', moveSlider);
-        container.addEventListener('touchmove', moveSlider);
-
-        // Mobile Menu
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-        let isMenuOpen = false;
-
-        mobileMenuBtn.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            if(isMenuOpen) {
-                mobileMenu.classList.remove('translate-x-full');
-            } else {
-                mobileMenu.classList.add('translate-x-full');
-            }
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                isMenuOpen = false;
-                mobileMenu.classList.add('translate-x-full');
-            });
         });
 
     </script>
