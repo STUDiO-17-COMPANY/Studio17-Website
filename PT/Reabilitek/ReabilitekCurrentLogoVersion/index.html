@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reabilitek | Ecological Construction & Heritage Living</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'algarve-brand-black': '#111111',
+                        'algarve-brand-red': '#C62026',
+                        'algarve-stone': '#F2F2F0',
+                        'algarve-sand': '#E8E8E6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F2F2F0;
+            color: #111111;
+            overflow-x: hidden;
+        }
+        
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .char {
+            transform: translateY(115%);
+            transition: transform 0.5s;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #C62026;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #111111;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #111111;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #F2F2F0;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <!-- Loader -->
+    <div class="loader">
+        <span class="loader-text">Reabilitek.</span>
+    </div>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="#" class="block">
+            <!-- Adjusted Logo Size (h-5 md:h-7) for smaller appearance -->
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767380373/Logo_1_iluvdo.png" 
+                 alt="Reabilitek Logo" 
+                 class="h-5 md:h-7 w-auto object-contain">
+        </a>
+        
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest text-algarve-brand-black font-medium">
+            <a href="#philosophy" class="hover:text-algarve-brand-red transition-colors">Philosophy</a>
+            <a href="#projects" class="hover:text-algarve-brand-red transition-colors">Projects</a>
+            <a href="#journal" class="hover:text-algarve-brand-red transition-colors">Journal</a>
+        </div>
+
+        <a href="#contact" class="hidden md:block px-6 py-2 border border-algarve-brand-black rounded-full text-xs uppercase tracking-widest hover:bg-algarve-brand-black hover:text-white hover:border-algarve-brand-black transition-all duration-300">
+            Start Project
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-algarve-brand-black">
+            <i data-lucide="menu" class="w-8 h-8"></i>
+        </button>
+    </nav>
+
+    <!-- Smooth Scroll Wrapper -->
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- Hero Section -->
+            <header class="relative h-screen w-full flex items-center justify-center overflow-hidden bg-algarve-stone">
+                <!-- Parallax Image Background -->
+                <div class="absolute inset-0 z-0 scale-110" id="hero-bg">
+                    <!-- Reduced opacity to 40% and grayscale to 50% for maximum text readability -->
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop" 
+                         alt="Algarve Villa Architecture" 
+                         class="w-full h-full object-cover opacity-40 grayscale-[50%]"> 
+                    <!-- Stronger white overlay gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-algarve-stone"></div>
+                </div>
+
+                <div class="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
+                    <p class="hero-anim text-sm md:text-base uppercase tracking-[0.2em] mb-6 text-algarve-brand-black font-bold">Sustainable Heritage Living</p>
+                    <!-- Text is now stark black against a very light background -->
+                    <h1 class="hero-anim text-5xl md:text-7xl lg:text-8xl font-serif text-algarve-brand-black leading-[1.1] mb-8 drop-shadow-sm">
+                        The Soul of the Algarve,<br>
+                        <span class="italic font-light text-gray-700">Reimagined by Nature.</span>
+                    </h1>
+                    <div class="hero-anim flex flex-col md:flex-row gap-6 justify-center items-center mt-12">
+                        <a href="#projects" class="px-8 py-4 bg-algarve-brand-black text-white rounded-full text-sm uppercase tracking-widest hover:bg-algarve-brand-red transition-colors duration-300 shadow-xl">
+                            View Collection
+                        </a>
+                        <a href="#contact" class="group flex items-center gap-2 text-algarve-brand-black text-sm uppercase tracking-widest border-b border-transparent hover:border-algarve-brand-red hover:text-algarve-brand-red transition-all pb-1">
+                            Ecological Consulting <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Philosophy / About Section -->
+            <section id="philosophy" class="py-24 md:py-32 px-6 bg-algarve-stone relative">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 relative">
+                        <div class="overflow-hidden rounded-2xl reveal-img-wrapper shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="Sustainable Materials" 
+                                 class="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-700 reveal-img">
+                        </div>
+                        <div class="absolute -bottom-8 -right-8 bg-white p-8 rounded-none shadow-xl max-w-[200px] hidden md:block border-l-4 border-algarve-brand-red">
+                            <p class="font-serif italic text-xl text-gray-800">"Preservation is the ultimate sustainability."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-1 md:order-2 space-y-8">
+                        <h2 class="text-sm uppercase tracking-[0.2em] text-algarve-brand-red font-bold">Our Philosophy</h2>
+                        <h3 class="text-4xl md:text-5xl font-serif leading-tight text-algarve-brand-black split-text">
+                            We don't just build.<br>
+                            We <span class="italic text-gray-500">restore balance.</span>
+                        </h3>
+                        <p class="text-lg text-gray-600 font-light leading-relaxed">
+                            Reabilitek specializes in the ecological rehabilitation of heritage properties in Portugal. We fuse traditional Algarvian craftsmanship with Passive House principles to create homes that breathe, conserve energy, and tell a story.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-8 pt-8 border-t border-gray-300">
+                            <div>
+                                <h4 class="font-serif text-2xl text-algarve-brand-black mb-2">Passive House</h4>
+                                <p class="text-sm text-gray-500">Energy independence & thermal comfort year-round.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-2xl text-algarve-brand-black mb-2">Bio-Materials</h4>
+                                <p class="text-sm text-gray-500">Hemp, cork, lime, and stone sourced locally.</p>
+                            </div>
+                        </div>
+
+                        <!-- Added Read More Button -->
+                        <div class="pt-2">
+                            <a href="#" class="inline-block px-8 py-3 border border-algarve-brand-black rounded-full text-xs uppercase tracking-widest hover:bg-algarve-brand-black hover:text-white transition-all duration-300">
+                                Read More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Slider Section (Replaced Scroll Trigger with Horizontal Slider) -->
+            <section id="projects" class="bg-algarve-sand relative py-24">
+                <div class="px-6 md:px-12 mb-12 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-serif text-algarve-brand-black mb-4">Featured Restorations</h2>
+                        <p class="max-w-xl text-gray-600">Where ruins become sanctuaries. Explore our latest portfolio.</p>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <div class="hidden md:flex gap-4">
+                        <button id="prevBtn" class="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center hover:bg-algarve-brand-black hover:text-white hover:border-algarve-brand-black transition-all">
+                            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        </button>
+                        <button id="nextBtn" class="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center hover:bg-algarve-brand-black hover:text-white hover:border-algarve-brand-black transition-all">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Slider Container -->
+                <div id="projects-container" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 px-6 md:px-12 pb-8">
+                    
+                    <!-- Project 1 -->
+                    <div class="min-w-[85vw] md:min-w-[50vw] flex-shrink-0 snap-center bg-white p-6 md:p-8 rounded-xl shadow-lg flex flex-col gap-6">
+                        <div class="h-[400px] overflow-hidden rounded-lg relative group">
+                            <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?q=80&w=2080&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Casa Branca">
+                            <div class="absolute top-6 left-6 bg-white px-4 py-2 text-xs uppercase tracking-widest font-bold text-algarve-brand-black">Tavira, Algarve</div>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="text-3xl font-serif text-algarve-brand-black">Quinta do Sol</h3>
+                            <p class="text-gray-600 text-sm">A 19th-century farmhouse restored using hempcrete insulation and solar independence. The perfect blend of rustic charm and modern off-grid luxury.</p>
+                            <div class="flex gap-4 text-xs text-gray-500">
+                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-algarve-brand-red"></i> 100% Energy Autonomous</span>
+                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-algarve-brand-red"></i> Lime Plaster</span>
+                            </div>
+                            <button class="text-algarve-brand-red uppercase text-xs tracking-widest border-b border-algarve-brand-red pb-1 hover:text-algarve-brand-black hover:border-algarve-brand-black transition-all font-bold mt-2">View Project</button>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="min-w-[85vw] md:min-w-[50vw] flex-shrink-0 snap-center bg-white p-6 md:p-8 rounded-xl shadow-lg flex flex-col gap-6">
+                        <div class="h-[400px] overflow-hidden rounded-lg relative group">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Villa Verde">
+                            <div class="absolute top-6 left-6 bg-white px-4 py-2 text-xs uppercase tracking-widest font-bold text-algarve-brand-black">Loulé, Algarve</div>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="text-3xl font-serif text-algarve-brand-black">Casa da Serra</h3>
+                            <p class="text-gray-600 text-sm">An abandoned ruin transformed into a minimalist eco-retreat. Featuring rainwater harvesting systems and indigenous dry gardens.</p>
+                            <div class="flex gap-4 text-xs text-gray-500">
+                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-algarve-brand-red"></i> Water Recycling</span>
+                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-algarve-brand-red"></i> Cork Insulation</span>
+                            </div>
+                            <button class="text-algarve-brand-red uppercase text-xs tracking-widest border-b border-algarve-brand-red pb-1 hover:text-algarve-brand-black hover:border-algarve-brand-black transition-all font-bold mt-2">View Project</button>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="min-w-[85vw] md:min-w-[50vw] flex-shrink-0 snap-center bg-white p-6 md:p-8 rounded-xl shadow-lg flex flex-col gap-6">
+                        <div class="h-[400px] overflow-hidden rounded-lg relative group">
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Modern Eco">
+                            <div class="absolute top-6 left-6 bg-white px-4 py-2 text-xs uppercase tracking-widest font-bold text-algarve-brand-black">Silves, Algarve</div>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="text-3xl font-serif text-algarve-brand-black">The Olive Press</h3>
+                            <p class="text-gray-600 text-sm">Heritage preservation of an ancient olive press, integrating contemporary glass structures to blur the line between indoor and outdoor living.</p>
+                            <div class="flex gap-4 text-xs text-gray-500">
+                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-algarve-brand-red"></i> Geothermal Cooling</span>
+                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-algarve-brand-red"></i> Heritage Stone</span>
+                            </div>
+                            <button class="text-algarve-brand-red uppercase text-xs tracking-widest border-b border-algarve-brand-red pb-1 hover:text-algarve-brand-black hover:border-algarve-brand-black transition-all font-bold mt-2">View Project</button>
+                        </div>
+                    </div>
+
+                    <!-- End Spacer to allow full scroll -->
+                    <div class="min-w-[5vw] flex-shrink-0"></div>
+
+                </div>
+            </section>
+
+            <!-- The Journal -->
+            <section id="journal" class="py-24 px-6 bg-algarve-stone">
+                <div class="max-w-7xl mx-auto mb-16 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-sm uppercase tracking-[0.2em] text-algarve-brand-red font-bold mb-2">The Journal</h2>
+                        <h3 class="text-4xl font-serif text-algarve-brand-black">Life in Balance</h3>
+                    </div>
+                    <a href="#" class="hidden md:block text-sm border-b border-gray-900 pb-1 hover:text-algarve-brand-red hover:border-algarve-brand-red transition-all">Read all stories</a>
+                </div>
+
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Article 1 -->
+                    <article class="group cursor-pointer">
+                        <div class="overflow-hidden rounded-xl mb-6 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1556955112-28cde3817b0a?q=80&w=2070&auto=format&fit=crop" alt="Slow Living" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-105">
+                        </div>
+                        <span class="text-xs font-bold text-algarve-brand-red uppercase tracking-widest">Slow Living</span>
+                        <h4 class="mt-2 text-xl font-serif text-algarve-brand-black group-hover:text-gray-600 transition-colors">Why we chose the Barrocal: A return to the earth.</h4>
+                    </article>
+
+                    <!-- Article 2 -->
+                    <article class="group cursor-pointer">
+                        <div class="overflow-hidden rounded-xl mb-6 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1533630654593-b26a19f44f6f?q=80&w=2070&auto=format&fit=crop" alt="Construction Materials" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-105">
+                        </div>
+                        <span class="text-xs font-bold text-algarve-brand-red uppercase tracking-widest">Construction</span>
+                        <h4 class="mt-2 text-xl font-serif text-algarve-brand-black group-hover:text-gray-600 transition-colors">The benefits of Hempcrete in Southern Climates.</h4>
+                    </article>
+
+                     <!-- Article 3 -->
+                     <article class="group cursor-pointer">
+                        <div class="overflow-hidden rounded-xl mb-6 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1518182170546-0766ce6fec93?q=80&w=2062&auto=format&fit=crop" alt="Interior Design" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-105">
+                        </div>
+                        <span class="text-xs font-bold text-algarve-brand-red uppercase tracking-widest">Design</span>
+                        <h4 class="mt-2 text-xl font-serif text-algarve-brand-black group-hover:text-gray-600 transition-colors">Curating a minimalist interior with local artisans.</h4>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Advisory & Contact -->
+            <section id="contact" class="py-24 px-6 bg-algarve-brand-black text-algarve-stone relative overflow-hidden">
+                <!-- Decorative Circle -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+
+                <div class="max-w-4xl mx-auto relative z-10 text-center">
+                    <h2 class="text-5xl md:text-7xl font-serif mb-6 text-white">Build your sanctuary.</h2>
+                    <p class="text-lg font-light text-gray-400 mb-12 max-w-2xl mx-auto">
+                        Whether you are scouting for a ruin to restore or need an ecological evaluation of your property, Reabilitek is your partner in sustainable heritage.
+                    </p>
+
+                    <form class="max-w-md mx-auto space-y-6 text-left" onsubmit="event.preventDefault(); alert('Thank you. We will contact you shortly.');">
+                        <div class="space-y-1">
+                            <label class="text-xs uppercase tracking-widest text-gray-500">Name</label>
+                            <input type="text" class="w-full bg-transparent border-b border-gray-700 py-2 text-xl focus:outline-none focus:border-white transition-colors text-white" placeholder="Jane Doe">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs uppercase tracking-widest text-gray-500">Email</label>
+                            <input type="email" class="w-full bg-transparent border-b border-gray-700 py-2 text-xl focus:outline-none focus:border-white transition-colors text-white" placeholder="jane@example.com">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs uppercase tracking-widest text-gray-500">Interest</label>
+                            <select class="w-full bg-transparent border-b border-gray-700 py-2 text-xl focus:outline-none focus:border-white transition-colors text-white">
+                                <option class="bg-algarve-brand-black">Property Scouting</option>
+                                <option class="bg-algarve-brand-black">Project Evaluation</option>
+                                <option class="bg-algarve-brand-black">Ecological Renovation</option>
+                            </select>
+                        </div>
+                        <!-- New Text Area -->
+                        <div class="space-y-1 pt-4">
+                            <label class="text-xs uppercase tracking-widest text-gray-500">Project Details</label>
+                            <textarea rows="4" class="w-full bg-transparent border-b border-gray-700 py-2 text-xl focus:outline-none focus:border-white transition-colors text-white" placeholder="Tell us about your vision..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-algarve-brand-red text-white py-4 mt-8 rounded-full uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors duration-300 font-bold shadow-lg">
+                            Request Consultation
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="bg-white text-gray-900 py-12 px-6 border-t border-gray-200">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                     <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767380373/Logo_1_iluvdo.png" 
+                         alt="Reabilitek Logo" 
+                         class="h-6 md:h-8 w-auto object-contain grayscale opacity-80 hover:grayscale-0 transition-all">
+                    <div class="text-sm flex gap-6 font-medium text-gray-600">
+                        <!-- Added About Us Link -->
+                        <a href="#philosophy" class="hover:text-algarve-brand-red transition-colors">About Us</a>
+                        <a href="#" class="hover:text-algarve-brand-red transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-algarve-brand-red transition-colors">LinkedIn</a>
+                        <a href="#" class="hover:text-algarve-brand-red transition-colors">Legal</a>
+                    </div>
+                    <p class="text-xs text-gray-400">© 2024 Reabilitek Portugal. All rights reserved.</p>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Initialize Lenis for Smooth Scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // 2. Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with lag
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effects for cursor
+        const hoverables = document.querySelectorAll('a, button, input, select, textarea');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.borderColor = '#C62026'; // Red outline on hover
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.borderColor = '#111111';
+            });
+        });
+
+
+        // 3. GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Loader Sequence
+        const tl = gsap.timeline();
+        tl.to('.loader-text', {
+            opacity: 0,
+            duration: 0.5,
+            delay: 1
+        })
+        .to('.loader', {
+            yPercent: -100,
+            duration: 1,
+            ease: "power4.inOut"
+        })
+        .from('.hero-anim', {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        }, "-=0.5");
+
+        // Parallax Hero
+        gsap.to("#hero-bg", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            yPercent: 30,
+            ease: "none"
+        });
+
+        // Split Text Reveal
+        const splitText = document.querySelectorAll('.split-text');
+        splitText.forEach((text) => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Image Reveal
+        gsap.from(".reveal-img", {
+            scrollTrigger: {
+                trigger: ".reveal-img-wrapper",
+                start: "top 70%",
+            },
+            scale: 1.2,
+            duration: 1.5,
+            ease: "power2.out"
+        });
+
+        // Projects Slider Logic (Vanilla JS)
+        const container = document.getElementById('projects-container');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if(prevBtn && nextBtn && container) {
+            nextBtn.addEventListener('click', () => {
+                container.scrollBy({ left: container.offsetWidth * 0.5, behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                container.scrollBy({ left: -container.offsetWidth * 0.5, behavior: 'smooth' });
+            });
+        }
+
+
+        // Navbar Transition
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.remove('py-8');
+            } else {
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.add('py-8');
+            }
+        });
+
+    </script>
+</body>
+</html>
