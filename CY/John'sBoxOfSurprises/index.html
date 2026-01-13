@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John’s Box of Surprises | Limassol’s Premier Party Animator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-purple: #6D28D9;
+            --magic-gold: #F59E0B;
+            --party-pink: #EC4899;
+            --party-blue: #3B82F6;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #fdfcfd;
+        }
+        h1, h2, h3, .font-playful {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #6D28D9, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(109, 40, 217, 0.1);
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .lenis.lenis-smooth { height: auto; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center text-white shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+            </div>
+            <span class="font-playful text-xl font-bold tracking-tight hidden sm:block">John’s Box of Surprises</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="#booking" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-full font-semibold transition-all transform hover:scale-105 active:scale-95 text-sm">
+                Book the Fun
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden px-6">
+        <div class="absolute top-20 left-10 w-24 h-24 bg-yellow-400 rounded-full opacity-20 blur-3xl floating" style="animation-delay: 0.5s"></div>
+        <div class="absolute bottom-20 right-10 w-32 h-32 bg-pink-400 rounded-full opacity-20 blur-3xl floating"></div>
+        
+        <div class="max-w-5xl w-full text-center relative z-10">
+            <span class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-6 tracking-widest uppercase reveal-up">Limassol’s Ultimate Party Animator</span>
+            <h1 class="text-5xl md:text-8xl font-bold leading-tight mb-8 reveal-up">
+                Big Smiles. <span class="text-gradient">Total Fun.</span> All in One Box!
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto reveal-up">
+                Mr. John is your all-in-one party entertainer. From magic and bouncy castles to music and treats, we turn every event into a legendary celebration.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up">
+                <a href="#booking" class="w-full sm:w-auto px-10 py-5 bg-purple-600 text-white rounded-2xl font-bold text-xl shadow-xl shadow-purple-200 hover:bg-purple-700 transition-all flex items-center justify-center">
+                    Book Mr. John
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+                <a href="#services" class="w-full sm:w-auto px-10 py-5 bg-white border-2 border-purple-100 text-purple-600 rounded-2xl font-bold text-xl hover:bg-purple-50 transition-all">
+                    View Services
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section: Featuring the NEW Mr. John Photo -->
+    <section id="about" class="py-24 bg-purple-50 px-6 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative group reveal-left">
+                <div class="absolute -inset-4 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+                <div class="relative bg-white rounded-3xl overflow-hidden aspect-square shadow-2xl">
+                    <img 
+                        src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768332759/photo_square_full_nqieaz.png" 
+                        alt="Mr. John - Party Animator" 
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    >
+                </div>
+            </div>
+            <div class="reveal-right">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Meet Mr. John: The Party Spirit</h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Mr. John is more than just a magician—he’s a <strong>high-energy party animator</strong> dedicated to keeping the momentum high and the kids laughing. He manages the energy of the room, ensures every child feels included, and handles the fun from start to finish.
+                </p>
+                <div class="grid grid-cols-2 gap-4 mb-10">
+                    <div class="p-4 bg-white rounded-xl shadow-sm border border-purple-100">
+                        <span class="text-2xl mb-2 block">🎵</span>
+                        <h4 class="font-bold text-purple-700">High Energy</h4>
+                        <p class="text-sm text-gray-500">Music & Games</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-xl shadow-sm border border-purple-100">
+                        <span class="text-2xl mb-2 block">🤝</span>
+                        <h4 class="font-bold text-purple-700">Total Inclusion</h4>
+                        <p class="text-sm text-gray-500">No child left out</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Choose Your Fun</h2>
+                <p class="text-xl text-gray-600">Pick the perfect ingredients for your party box.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Bouncy Castles -->
+                <div class="bg-blue-50 rounded-3xl border border-blue-100 shadow-xl shadow-blue-50 card-hover flex flex-col overflow-hidden">
+                    <div class="h-48 w-full overflow-hidden">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768331233/Inflatable_Party_Rentals_-_Mechanical_Bulls_-_Carnival_Rides_-_Phoenix_Arizona_j7cooa.jpg" alt="Bouncy Castle" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold mb-3 uppercase tracking-tight">Bouncy Castles</h3>
+                        <p class="text-sm text-gray-600 mb-8">Safe, high-quality inflatables for all ages. Multiple sizes available to fit any space.</p>
+                        <a href="#booking" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors">VIEW NOW</a>
+                    </div>
+                </div>
+
+                <!-- Magic Shows -->
+                <div class="bg-purple-50 p-8 rounded-3xl border border-purple-100 shadow-xl shadow-purple-50 card-hover flex flex-col">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-3xl mb-6">🪄</div>
+                    <h3 class="text-xl font-bold mb-3 uppercase tracking-tight">Magic Shows</h3>
+                    <p class="text-sm text-gray-600 mb-8">A mix of mystery and comedy. Interactive performances where the birthday child is the star.</p>
+                    <a href="#booking" class="inline-block mt-auto px-6 py-3 bg-purple-600 text-white rounded-xl font-bold text-sm hover:bg-purple-700 transition-colors text-center">VIEW NOW</a>
+                </div>
+
+                <!-- Party Treats -->
+                <div class="bg-pink-50 p-8 rounded-3xl border border-pink-100 shadow-xl shadow-pink-50 card-hover flex flex-col">
+                    <div class="w-14 h-14 bg-pink-100 rounded-2xl flex items-center justify-center text-3xl mb-6">🍿</div>
+                    <h3 class="text-xl font-bold mb-3 uppercase tracking-tight">Party Treats</h3>
+                    <p class="text-sm text-gray-600 mb-8">Candy floss, popcorn machines, and chocolate fountains. Delicious fun for every guest.</p>
+                    <a href="#booking" class="inline-block mt-auto px-6 py-3 bg-pink-600 text-white rounded-xl font-bold text-sm hover:bg-pink-700 transition-colors text-center">VIEW NOW</a>
+                </div>
+
+                <!-- Entertainment -->
+                <div class="bg-yellow-50 p-8 rounded-3xl border border-yellow-100 shadow-xl shadow-yellow-50 card-hover flex flex-col">
+                    <div class="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center text-3xl mb-6">🎉</div>
+                    <h3 class="text-xl font-bold mb-3 uppercase tracking-tight">Entertainment</h3>
+                    <p class="text-sm text-gray-600 mb-8">Full animation, party games, music, face painting, and balloon sculpting for all-day fun.</p>
+                    <a href="#booking" class="inline-block mt-auto px-6 py-3 bg-yellow-600 text-white rounded-xl font-bold text-sm hover:bg-yellow-700 transition-colors text-center">VIEW NOW</a>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <a href="#booking" class="px-10 py-4 border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white rounded-2xl font-bold text-lg transition-all transform hover:scale-105">
+                    View All Services & Packages
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-24 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 text-center">
+                <div>
+                    <p class="text-4xl mb-4">⭐</p>
+                    <p class="text-lg italic text-gray-300">"Mr. John was incredible. He didn't just do a show; he managed the whole group of 20 kids with ease!"</p>
+                    <p class="mt-4 font-bold">— Maria S., Limassol</p>
+                </div>
+                <div>
+                    <p class="text-4xl mb-4">🎈</p>
+                    <p class="text-lg italic text-gray-300">"The bouncy castle was spotless and the candy floss was a hit. Best party we've had in years."</p>
+                    <p class="mt-4 font-bold">— Andreas K., Paphos</p>
+                </div>
+                <div>
+                    <p class="text-4xl mb-4">🎩</p>
+                    <p class="text-lg italic text-gray-300">"Professional, punctual, and highly energetic. Mr. John is the gold standard for Cyprus parties."</p>
+                    <p class="mt-4 font-bold">— Elena G., Larnaca</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Booking -->
+    <section id="booking" class="py-24 px-6 bg-purple-50">
+        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden reveal-up">
+            <div class="grid md:grid-cols-5">
+                <div class="md:col-span-2 bg-purple-600 p-12 text-white">
+                    <h2 class="text-3xl font-bold mb-6">Let's Party!</h2>
+                    <p class="mb-8 opacity-80">Tell us what you're planning, and Mr. John will help build the perfect box of surprises.</p>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center space-x-3">
+                            <span>📍</span> <span>Serving all of Cyprus</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <span>📞</span> <span>+357 00 000000</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <span>⚡</span> <span>Response in < 1 hour</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:col-span-3 p-12">
+                    <form onsubmit="event.preventDefault(); this.innerHTML = '<div class=\'text-center py-12\'><h3 class=\'text-2xl font-bold text-green-600 mb-2\'>Request Sent!</h3><p class=\'text-gray-500\'>Mr. John will call you shortly to discuss the fun.</p></div>';" class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        <input type="tel" placeholder="Phone Number" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        <select class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option>I want the Full Entertainment Box</option>
+                            <option>Just Bouncy Castles</option>
+                            <option>Magic & Animation</option>
+                            <option>Treats & Machines</option>
+                        </select>
+                        <textarea placeholder="Event Details (Date, Location, # of kids)" rows="3" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                        <button type="submit" class="w-full py-4 bg-purple-600 text-white font-bold rounded-xl shadow-lg hover:bg-purple-700 transition-all">Get a Free Quote</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white text-center border-t border-gray-100">
+        <p class="font-playful font-bold text-purple-600 text-xl mb-4">John’s Box of Surprises</p>
+        <div class="flex justify-center space-x-6 mb-6">
+            <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">Instagram</a>
+            <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">Facebook</a>
+            <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">TikTok</a>
+        </div>
+        <p class="text-gray-400 text-xs">© 2024 John's Box of Surprises. Safety Certified & Insured.</p>
+    </footer>
+
+    <script>
+        // Lenis Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            gsap.from(".reveal-up", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out"
+            });
+        });
+
+        gsap.utils.toArray('.reveal-left').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 85%" },
+                x: -60,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+
+        gsap.utils.toArray('.reveal-right').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 85%" },
+                x: 60,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
