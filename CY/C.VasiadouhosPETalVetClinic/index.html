@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C.Vasiadou hosPETal Vet Clinic | Limassol</title>
+    <meta name="description" content="Small-animal hosPETal in Limassol led by Dr. Christina Vasiadou. Advanced diagnostics, surgery, and fear-free care.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Updated Lenis CDN to the browser-compatible UMD build -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vet-teal': '#0e7c7b',
+                        'vet-teal-dark': '#085050',
+                        'vet-sage': '#d4e4e4',
+                        'vet-cream': '#f9f7f2',
+                        'vet-coral': '#ff8ba7',
+                        'vet-charcoal': '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Outfit"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'paw-pattern': "url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M1 1h2v2H1V1zm4 0h2v2H5V1zm-2 4h2v2H3V5zm12 0h2v2h-2V5zm-2-4h2v2h-2V1z\" fill=\"%230e7c7b\" fill-opacity=\"0.05\" fill-rule=\"evenodd\"/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+        
+        body {
+            background-color: #f9f7f2;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        .clip-slant {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        .clip-slant-reverse {
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(14, 124, 123, 0.1);
+        }
+
+        .hero-image-mask {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            transition: border-radius 3s ease-in-out infinite alternate;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0e7c7b;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="bg-vet-teal text-white p-2 rounded-lg">
+                        <i data-lucide="cross" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-xl tracking-tight text-vet-teal-dark block leading-none">C.Vasiadou</span>
+                        <span class="font-sans text-xs font-semibold tracking-widest text-vet-coral uppercase">hosPETal</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-gray-600 hover:text-vet-teal font-medium transition-colors">About</a>
+                    <a href="#services" class="text-gray-600 hover:text-vet-teal font-medium transition-colors">Services</a>
+                    <a href="#philosophy" class="text-gray-600 hover:text-vet-teal font-medium transition-colors">Fear-Free</a>
+                    <a href="#contact" class="px-6 py-2.5 bg-vet-teal text-white rounded-full font-semibold hover:bg-vet-teal-dark transition-all transform hover:scale-105 shadow-lg shadow-vet-teal/30">
+                        Book Appointment
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-vet-teal focus:outline-none">
+                        <i data-lucide="menu" class="w-8 h-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#about" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-vet-teal hover:bg-vet-sage/30">About</a>
+                <a href="#services" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-vet-teal hover:bg-vet-sage/30">Services</a>
+                <a href="#philosophy" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-vet-teal hover:bg-vet-sage/30">Fear-Free</a>
+                <a href="#contact" class="block mt-4 px-3 py-3 rounded-md text-center bg-vet-teal text-white font-bold">Book Appointment</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-0 right-0 w-2/3 h-full bg-vet-sage/30 -z-10 rounded-bl-[10rem]"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-vet-coral/10 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+                
+                <!-- Hero Content -->
+                <div class="w-full md:w-1/2 space-y-8 gs-reveal">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-100">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-sm font-semibold text-gray-600 tracking-wide">Open for New Patients</span>
+                    </div>
+                    
+                    <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-vet-charcoal leading-[1.1]">
+                        All <span class="text-vet-coral italic">PETS</span> deserve <br>
+                        <span class="text-vet-teal">GREAT vets.</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-gray-600 max-w-lg leading-relaxed">
+                        Welcome to C.Vasiadou hosPETal. A sanctuary in Limassol combining hospital-grade diagnostics with warm, fear-free care.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="tel:+35725000000" class="flex items-center justify-center gap-2 px-8 py-4 bg-vet-teal text-white rounded-full font-bold hover:bg-vet-teal-dark transition-all shadow-xl shadow-vet-teal/20 hover:-translate-y-1">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                            <span>Call to Book</span>
+                        </a>
+                        <a href="#services" class="flex items-center justify-center gap-2 px-8 py-4 bg-white text-vet-teal border-2 border-vet-teal rounded-full font-bold hover:bg-vet-sage/20 transition-all">
+                            <span>Our Services</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+
+                    <div class="flex items-center gap-4 pt-4">
+                        <div class="flex -space-x-3">
+                            <img class="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&q=80&w=100" alt="Client">
+                            <img class="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&q=80&w=100" alt="Client">
+                            <img class="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=100" alt="Client">
+                        </div>
+                        <div class="text-sm">
+                            <span class="block font-bold text-vet-charcoal">Trusted by Limassol</span>
+                            <span class="text-gray-500">Pet Parents</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image -->
+                <div class="w-full md:w-1/2 relative gs-reveal-img">
+                    <div class="relative z-10 hero-image-mask overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1200" alt="Vet caring for a dog" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Decorative Elements -->
+                    <div class="absolute -bottom-10 -left-10 bg-white p-4 rounded-2xl shadow-xl z-20 animate-bounce" style="animation-duration: 3s;">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-vet-sage p-2 rounded-lg">
+                                <i data-lucide="heart-pulse" class="w-6 h-6 text-vet-teal"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Health Status</p>
+                                <p class="font-bold text-vet-teal">100% Loved</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative bg-white clip-slant">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1 gs-fade-up">
+                    <div class="relative">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768303901/IMG-20210203-WA0010_wopk2r.jpg" alt="Dr. Christina Vasiadou" class="rounded-3xl shadow-2xl object-cover h-[500px] w-full">
+                        <div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-vet-teal-dark/60 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <p class="font-display font-bold text-2xl">Dr. Christina Vasiadou</p>
+                            <p class="opacity-90">M.Sc. Veterinary Surgeon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-6 gs-fade-up">
+                    <div class="inline-block px-3 py-1 bg-vet-sage text-vet-teal-dark text-xs font-bold uppercase tracking-wider rounded-full">Who We Are</div>
+                    <h2 class="font-display text-4xl font-bold text-vet-charcoal">More than a clinic.<br>This is a <span class="text-vet-teal">hosPETal.</span></h2>
+                    <p class="text-gray-600 leading-relaxed text-lg">
+                        Led by Dr. Christina Vasiadou, our facility bridges the gap between your local clinic and a major animal hospital. We believe that medical excellence shouldn't feel cold or clinical.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed text-lg">
+                        Our "patient-first" philosophy means we treat every cat, dog, and small animal with the same dignity and attention to detail we would want for our own family members.
+                    </p>
+                    
+                    <ul class="space-y-3 pt-4">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-vet-coral"></i>
+                            <span class="font-medium text-gray-700">M.Sc. Level Surgical Expertise</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-vet-coral"></i>
+                            <span class="font-medium text-gray-700">Comprehensive In-House Diagnostics</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-vet-coral"></i>
+                            <span class="font-medium text-gray-700">Calm, Fear-Free Environment</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-vet-cream bg-paw-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-vet-teal font-bold tracking-widest uppercase text-sm">Our Expertise</span>
+                <h2 class="font-display text-4xl font-bold text-vet-charcoal mt-2">Comprehensive Care Under One Roof</h2>
+                <p class="text-gray-600 mt-4">From routine check-ups to complex soft-tissue surgeries, we are equipped to handle your pet's needs.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-vet-sage">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="stethoscope" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-vet-charcoal mb-3">Consultations</h3>
+                    <p class="text-gray-600 mb-4">Thorough examinations for sick pets and preventative care strategies to keep them healthy.</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-vet-sage">
+                    <div class="w-14 h-14 bg-teal-50 text-vet-teal rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="microscope" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-vet-charcoal mb-3">Advanced Diagnostics</h3>
+                    <p class="text-gray-600 mb-4">Digital X-rays, Ultrasounds, and in-house laboratory testing for rapid, accurate results.</p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-vet-sage">
+                    <div class="w-14 h-14 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="scissors" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-vet-charcoal mb-3">Soft Tissue Surgery</h3>
+                    <p class="text-gray-600 mb-4">Performed in a sterile surgical theater with advanced monitoring equipment for maximum safety.</p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-vet-sage">
+                    <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="bone" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-vet-charcoal mb-3">Dentistry</h3>
+                    <p class="text-gray-600 mb-4">Ultrasonic scaling and polishing to prevent periodontal disease and keep breath fresh.</p>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-transparent hover:border-vet-sage">
+                    <div class="w-14 h-14 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="syringe" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-vet-charcoal mb-3">Vaccinations</h3>
+                    <p class="text-gray-600 mb-4">Tailored vaccination schedules to protect against common and serious infectious diseases.</p>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="bg-vet-teal p-8 rounded-2xl shadow-lg shadow-vet-teal/30 hover:shadow-xl transition-all duration-300 group cursor-pointer text-white flex flex-col justify-center items-center text-center">
+                    <h3 class="text-xl font-bold mb-3">Need Advice?</h3>
+                    <p class="text-teal-100 mb-6">Not sure what your pet needs? Call us for a quick chat.</p>
+                    <a href="#contact" class="bg-white text-vet-teal font-bold py-2 px-6 rounded-full hover:bg-vet-sage transition-colors">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fear Free / Philosophy Section -->
+    <section id="philosophy" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-vet-charcoal clip-slant-reverse z-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-white gs-fade-up">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+                        <i data-lucide="heart" class="w-4 h-4 text-vet-coral"></i>
+                        <span class="text-xs font-bold uppercase tracking-wider">The Fear-Free Promise</span>
+                    </div>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold leading-tight">We Speak Dog...<br>and Fluently Cat.</h2>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        We know that vet visits can be stressful. That’s why Dr. Vasiadou has designed the <strong>hosPETal</strong> experience to minimize anxiety.
+                    </p>
+                    <div class="space-y-4 pt-4">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-vet-teal flex items-center justify-center flex-shrink-0">
+                                <span class="font-bold text-xl">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">Calm Handling</h4>
+                                <p class="text-gray-400">Gentle restraint techniques and soothing pheromones used throughout the clinic.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-vet-teal flex items-center justify-center flex-shrink-0">
+                                <span class="font-bold text-xl">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">No Rush Appointments</h4>
+                                <p class="text-gray-400">We take the time to let your pet acclimatize to the room before starting exams.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-vet-teal flex items-center justify-center flex-shrink-0">
+                                <span class="font-bold text-xl">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">Treats Galore</h4>
+                                <p class="text-gray-400">Positive reinforcement turns a scary needle into a "treat transaction."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative gs-reveal-img h-full flex items-center justify-center">
+                   <div class="grid grid-cols-2 gap-4">
+                       <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&q=80&w=400" class="rounded-2xl transform translate-y-8 shadow-lg">
+                       <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=400" class="rounded-2xl shadow-lg">
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit & Contact Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-vet-sage/30 rounded-3xl overflow-hidden shadow-sm border border-vet-sage">
+                <div class="grid lg:grid-cols-2">
+                    <!-- Contact Info -->
+                    <div class="p-10 md:p-14 space-y-8">
+                        <div class="gs-fade-up">
+                            <h2 class="font-display text-4xl font-bold text-vet-charcoal">Visit the hosPETal</h2>
+                            <p class="text-gray-600 mt-2">Agias Filaxeos 80, Limassol</p>
+                        </div>
+
+                        <div class="space-y-6 gs-fade-up">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-white p-3 rounded-lg shadow-sm text-vet-teal">
+                                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-vet-charcoal">Location</h4>
+                                    <p class="text-gray-600">Agias Filaxeos 80<br>Limassol, Cyprus</p>
+                                    <a href="#" class="text-vet-teal text-sm font-semibold hover:underline mt-1 inline-block">Get Directions</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="bg-white p-3 rounded-lg shadow-sm text-vet-teal">
+                                    <i data-lucide="clock" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-vet-charcoal">Opening Hours</h4>
+                                    <p class="text-gray-600 text-sm">Mon - Fri: 09:00 - 19:00</p>
+                                    <p class="text-gray-600 text-sm">Sat: 09:00 - 13:00</p>
+                                    <p class="text-gray-600 text-sm">Sun: Closed</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="bg-white p-3 rounded-lg shadow-sm text-vet-teal">
+                                    <i data-lucide="phone-call" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-vet-charcoal">Contact Us</h4>
+                                    <p class="text-gray-600 mb-2">Book your appointment or ask a question.</p>
+                                    <a href="tel:+35725000000" class="text-xl font-bold text-vet-teal hover:text-vet-teal-dark transition-colors">+357 25 000 000</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Simple Form -->
+                    <div class="bg-white p-10 md:p-14 border-l border-gray-100">
+                        <form class="space-y-5" onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly.');">
+                            <h3 class="font-bold text-2xl text-vet-charcoal mb-6">Quick Appointment Request</h3>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Pet's Name</label>
+                                    <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-vet-teal focus:ring-2 focus:ring-vet-teal/20 outline-none transition-all bg-gray-50" placeholder="e.g. Luna">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Pet Type</label>
+                                    <select class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-vet-teal focus:ring-2 focus:ring-vet-teal/20 outline-none transition-all bg-gray-50">
+                                        <option>Dog</option>
+                                        <option>Cat</option>
+                                        <option>Rabbit</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Your Phone Number</label>
+                                <input type="tel" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-vet-teal focus:ring-2 focus:ring-vet-teal/20 outline-none transition-all bg-gray-50" placeholder="+357...">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Reason for Visit</label>
+                                <textarea rows="3" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-vet-teal focus:ring-2 focus:ring-vet-teal/20 outline-none transition-all bg-gray-50" placeholder="Check-up, vaccination, etc..."></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-vet-teal text-white font-bold rounded-lg hover:bg-vet-teal-dark transition-all transform hover:scale-[1.02] shadow-lg shadow-vet-teal/20">
+                                Request Call Back
+                            </button>
+                            <p class="text-xs text-gray-400 text-center">In case of emergency, please call us immediately rather than using this form.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-vet-charcoal text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <span class="font-display font-bold text-2xl tracking-tight block mb-4">C.Vasiadou <span class="text-vet-coral">hosPETal</span></span>
+                    <p class="text-gray-400 max-w-sm">Combining hospital-grade medical excellence with a fear-free, compassionate touch. Because all pets deserve great vets.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-lg mb-4 text-vet-sage">Quick Links</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#about" class="hover:text-white transition-colors">About Dr. Vasiadou</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Medical Services</a></li>
+                        <li><a href="#philosophy" class="hover:text-white transition-colors">Fear-Free Care</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Book Now</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-lg mb-4 text-vet-sage">Emergency</h5>
+                    <p class="text-gray-400 mb-2">If you have a pet emergency during opening hours, come directly to the clinic.</p>
+                    <a href="tel:+35725000000" class="inline-flex items-center gap-2 text-vet-coral font-bold hover:text-white transition-colors">
+                        <i data-lucide="phone-alert" class="w-4 h-4"></i> Call Us Now
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2024 C.Vasiadou hosPETal Vet Clinic. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize Lucide Icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Initialize Lenis (Smooth Scrolling)
+            // Check if Lenis is defined to prevent errors if CDN fails
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.warn("Lenis library failed to load. Smooth scrolling disabled.");
+            }
+
+            // GSAP ScrollTrigger Integration
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Navigation Scroll Effect
+                const nav = document.getElementById('navbar');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        nav.classList.add('shadow-md');
+                        nav.classList.replace('h-20', 'h-16');
+                    } else {
+                        nav.classList.remove('shadow-md');
+                        nav.classList.replace('h-16', 'h-20');
+                    }
+                });
+
+                // Mobile Menu Toggle
+                const menuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Animations
+                
+                // 1. Hero Reveal
+                const tl = gsap.timeline();
+                tl.from(".gs-reveal", {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power3.out"
+                })
+                .from(".gs-reveal-img", {
+                    x: 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                }, "-=0.8");
+
+                // 2. Section Headers Fade Up
+                const fadeUpElements = document.querySelectorAll(".gs-fade-up");
+                fadeUpElements.forEach(elem => {
+                    gsap.from(elem, {
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        },
+                        y: 40,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power3.out"
+                    });
+                });
+
+                // 4. Parallax Effect for About Image
+                gsap.to(".hero-image-mask", {
+                    scrollTrigger: {
+                        trigger: "header",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1
+                    },
+                    y: 100
+                });
+            }
+        });
+    </script>
+</body>
+</html>
