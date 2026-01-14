@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refeitório Quinhentista | Sabores Seculares</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Configuração Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'stone-dark': '#1c1b1b',
+                        'stone-light': '#f4f1ea',
+                        'gold-accent': '#c5a059',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base e Reset */
+        body {
+            background-color: #f4f1ea;
+            color: #1c1b1b;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        @media (min-width: 768px) {
+            .cursor-dot, .cursor-outline { display: block; }
+        }
+
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            display: none;
+        }
+        .cursor-dot { width: 6px; height: 6px; background-color: #c5a059; }
+        .cursor-outline { 
+            width: 30px; height: 30px; 
+            border: 1px solid rgba(197, 160, 89, 0.3); 
+            transition: width 0.2s, height 0.2s; 
+        }
+
+        .navbar-scrolled {
+            background-color: rgba(28, 27, 27, 0.98) !important;
+            backdrop-filter: blur(12px);
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        
+        .img-mask { overflow: hidden; position: relative; }
+        .img-mask img { transform: scale(1.1); transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .group:hover .img-mask img { transform: scale(1); }
+
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #1c1b1b; z-index: 10000; display: flex; align-items: center; justify-content: center; color: #f4f1ea;
+        }
+
+        .menu-section {
+            background: linear-gradient(rgba(18, 16, 13, 0.97), rgba(18, 16, 13, 0.97)), 
+                        url('https://images.unsplash.com/photo-1495195129352-aec325a55b65?q=80&w=2676&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        #dish-slider {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            user-select: none;
+            overscroll-behavior-x: contain;
+        }
+        
+        .is-dragging {
+            scroll-snap-type: none !important;
+            scroll-behavior: auto !important;
+            cursor: grabbing !important;
+        }
+
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+
+        main {
+            will-change: transform;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold-accent selection:text-stone-dark">
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div class="noise"></div>
+
+    <!-- Ecrã de Carregamento -->
+    <div class="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-3xl italic overflow-hidden mb-2">
+                <span class="block loader-text translate-y-full">Refeitório</span>
+            </h1>
+            <h1 class="font-serif text-3xl overflow-hidden">
+                <span class="block loader-text translate-y-full">Quinhentista</span>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Navegação -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-5 md:px-12 md:py-8 flex justify-between items-center text-white transition-all duration-500" id="navbar">
+        <a href="#" class="font-serif text-2xl tracking-tight z-50">RQ.</a>
+        
+        <div class="hidden md:flex gap-12 font-sans text-[10px] tracking-widest uppercase items-center">
+            <a href="javascript:void(0)" class="hover:text-gold-accent transition-colors cursor-default">Ementa</a>
+            <a href="#location" class="hover:text-gold-accent transition-colors">Localização</a>
+            <a href="#location" class="hover:text-gold-accent transition-colors">Horário</a>
+            <a href="#excellence" class="hover:text-gold-accent transition-colors border-b border-gold-accent pb-1">Reservas</a>
+        </div>
+
+        <button class="md:hidden z-50">
+            <i data-lucide="menu" class="w-6 h-6 text-white"></i>
+        </button>
+    </nav>
+
+    <main>
+        <!-- SECÇÃO HERO -->
+        <section class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden" id="hero">
+            <div class="absolute inset-0 w-full h-full z-0">
+                <div class="absolute inset-0 bg-black/50 z-10"></div>
+                <img src="https://images.unsplash.com/photo-1592861956120-e524fc739696?q=80&w=2670&auto=format&fit=crop" 
+                     alt="Interior Quinhentista" 
+                     class="w-full h-full object-cover" id="hero-img">
+            </div>
+
+            <div class="relative z-20 text-center px-6">
+                <h1 class="hero-title font-serif text-stone-light text-4xl sm:text-6xl md:text-8xl leading-none opacity-0 translate-y-12 mb-6">
+                    Refeitório<br><span class="italic text-gold-accent text-3xl sm:text-5xl md:text-7xl">Quinhentista</span>
+                </h1>
+                <p class="hero-tagline font-serif italic text-stone-light/80 text-base sm:text-xl md:text-2xl opacity-0 translate-y-8 max-w-lg mx-auto">
+                    500 anos de história celebrados à mesa.
+                </p>
+                <div class="mt-12 opacity-0 hero-cta">
+                    <a href="javascript:void(0)" class="inline-block border border-stone-light/40 text-stone-light px-10 py-5 font-sans text-[10px] md:text-xs tracking-[0.2em] uppercase hover:bg-stone-light hover:text-stone-dark transition-all duration-500 cursor-default">
+                        Explorar Ementa
+                    </a>
+                </div>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-stone-light/30 animate-bounce">
+                <i data-lucide="chevron-down" class="w-6 h-6"></i>
+            </div>
+        </section>
+
+        <!-- GASTRONOMIA DE EXCELÊNCIA -->
+        <section class="relative w-full py-20 md:py-48 px-6 text-stone-light overflow-hidden" id="excellence">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 bg-black/75 z-10"></div>
+                <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2670&auto=format&fit=crop" 
+                     alt="Restaurante Típico" 
+                     class="w-full h-full object-cover" id="excellence-bg">
+            </div>
+            
+            <div class="relative z-10 max-w-3xl mx-auto text-center">
+                <h2 class="section-title font-serif text-3xl md:text-6xl mb-8 leading-tight">
+                    Gastronomia de <br><span class="italic text-gold-accent">Excelência.</span>
+                </h2>
+                <div class="space-y-6 text-stone-light/90 text-sm md:text-lg leading-relaxed font-sans px-4">
+                    <p class="reveal-text-p">
+                        Celebramos a alma lusa através de receitas que atravessam gerações. Honramos a qualidade absoluta da nossa herança cultural, privilegiando o melhor que a terra e o mar nos dão.
+                    </p>
+                    <p class="reveal-text-p hidden md:block">
+                        No Refeitório Quinhentista, cada prato é um testemunho da nossa rica história e do respeito absoluto pelo produto nacional, do azeite dourado aos legumes colhidos no ponto ideal.
+                    </p>
+                </div>
+                
+                <div class="reveal-text-p mt-12">
+                    <a href="javascript:void(0)" class="inline-block bg-gold-accent text-stone-dark px-12 py-5 font-sans text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold hover:bg-stone-light transition-colors cursor-default">
+                        Reservar Mesa
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- EMENTA INTERATIVA -->
+        <section class="relative w-full py-24 md:py-32 menu-section text-stone-light overflow-hidden" id="menu">
+            <div class="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
+                <h3 class="font-sans text-[9px] tracking-[0.4em] uppercase text-gold-accent/60 mb-4">A Nossa Seleção</h3>
+                <h2 class="font-serif text-3xl md:text-5xl tracking-tight">Especialidade do Chefe</h2>
+            </div>
+
+            <div class="relative w-full max-w-[100rem] mx-auto group z-10">
+                <!-- Botões Laterais -->
+                <button id="prev-btn" class="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-30 bg-black/40 border border-white/10 p-5 rounded-full text-stone-light hover:bg-gold-accent hover:text-stone-dark transition-all hidden lg:flex">
+                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                </button>
+                <button id="next-btn" class="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-30 bg-black/40 border border-white/10 p-5 rounded-full text-stone-light hover:bg-gold-accent hover:text-stone-dark transition-all hidden lg:flex">
+                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                </button>
+
+                <!-- Carrossel de Pratos -->
+                <div id="dish-slider" data-lenis-prevent class="flex overflow-x-auto gap-8 px-6 md:px-[15vw] scrollbar-hide snap-x snap-proximity relative z-20 py-4 touch-pan-x cursor-grab active:cursor-grabbing justify-start">
+                    
+                    <!-- Prato 1 -->
+                    <div class="dish-card flex-none w-[80vw] sm:w-[26rem] snap-center group">
+                        <div class="img-mask aspect-[4/5] mb-6 rounded-sm shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1559742811-822873691df8?q=80&w=2570&auto=format&fit=crop" alt="Arroz de Marisco" class="w-full h-full object-cover grayscale group-hover:grayscale-0" draggable="false">
+                        </div>
+                        <div class="border-t border-white/10 pt-6 flex justify-between items-start">
+                            <div class="max-w-[75%]">
+                                <h4 class="font-serif text-2xl italic mb-1 group-hover:text-gold-accent transition-colors text-stone-light">Arroz de Marisco</h4>
+                                <p class="font-sans text-[9px] text-stone-light/40 uppercase tracking-widest">Mariscos da Costa • Coentros • Arroz Carolino</p>
+                            </div>
+                            <span class="font-serif text-xl text-gold-accent">52€</span>
+                        </div>
+                    </div>
+
+                    <!-- Prato 2 -->
+                    <div class="dish-card flex-none w-[80vw] sm:w-[26rem] snap-center group">
+                        <div class="img-mask aspect-[4/5] mb-6 rounded-sm shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=2670&auto=format&fit=crop" alt="Bacalhau com Broa" class="w-full h-full object-cover grayscale group-hover:grayscale-0" draggable="false">
+                        </div>
+                        <div class="border-t border-white/10 pt-6 flex justify-between items-start">
+                            <div class="max-w-[75%]">
+                                <h4 class="font-serif text-2xl italic mb-1 group-hover:text-gold-accent transition-colors text-stone-light">Bacalhau com Broa</h4>
+                                <p class="font-sans text-[9px] text-stone-light/40 uppercase tracking-widest">Lombo • Crosta de Milho • Grelos</p>
+                            </div>
+                            <span class="font-serif text-xl text-gold-accent">38€</span>
+                        </div>
+                    </div>
+
+                    <!-- Prato 3 -->
+                    <div class="dish-card flex-none w-[80vw] sm:w-[26rem] snap-center group">
+                        <div class="img-mask aspect-[4/5] mb-6 rounded-sm shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2626&auto=format&fit=crop" alt="Secretos de Porco Preto" class="w-full h-full object-cover grayscale group-hover:grayscale-0" draggable="false">
+                        </div>
+                        <div class="border-t border-white/10 pt-6 flex justify-between items-start">
+                            <div class="max-w-[75%]">
+                                <h4 class="font-serif text-2xl italic mb-1 group-hover:text-gold-accent transition-colors text-stone-light">Secretos de Porco Preto</h4>
+                                <p class="font-sans text-[9px] text-stone-light/40 uppercase tracking-widest">Bolota • Migas Alentejanas</p>
+                            </div>
+                            <span class="font-serif text-xl text-gold-accent">45€</span>
+                        </div>
+                    </div>
+
+                    <!-- Prato 4 -->
+                    <div class="dish-card flex-none w-[80vw] sm:w-[26rem] snap-center group">
+                        <div class="img-mask aspect-[4/5] mb-6 rounded-sm shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=2670&auto=format&fit=crop" alt="Arroz de Pato à Antiga" class="w-full h-full object-cover grayscale group-hover:grayscale-0" draggable="false">
+                        </div>
+                        <div class="border-t border-white/10 pt-6 flex justify-between items-start">
+                            <div class="max-w-[75%]">
+                                <h4 class="font-serif text-2xl italic mb-1 group-hover:text-gold-accent transition-colors text-stone-light">Arroz de Pato à Antiga</h4>
+                                <p class="font-sans text-[9px] text-stone-light/40 uppercase tracking-widest">Pato do Campo • Chouriço de Portalegre • Laranja</p>
+                            </div>
+                            <span class="font-serif text-xl text-gold-accent">34€</span>
+                        </div>
+                    </div>
+
+                    <!-- Espaçador Final -->
+                    <div class="flex-none w-[15vw]"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECÇÃO LOCALIZAÇÃO & HORÁRIO -->
+        <section class="relative w-full py-16 px-6 md:px-12 bg-stone-light overflow-hidden" id="location">
+            <div class="max-w-4xl mx-auto text-center">
+                
+                <div class="space-y-8">
+                    <div class="reveal-text-p">
+                        <h3 class="font-sans text-[10px] tracking-[0.3em] uppercase text-gold-accent mb-3">Onde Estamos</h3>
+                        <h2 class="font-serif text-3xl md:text-4xl">O Encanto de Constância.</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div class="reveal-text-p">
+                            <h4 class="font-sans text-[9px] tracking-[0.3em] uppercase font-bold mb-2">Morada</h4>
+                            <p class="font-sans text-xs leading-relaxed opacity-70">
+                                Q.ta de Santa Bárbara<br>
+                                2250-092 Constância
+                            </p>
+                        </div>
+                        <div class="reveal-text-p">
+                            <h4 class="font-sans text-[9px] tracking-[0.3em] uppercase font-bold mb-2">Horário</h4>
+                            <div class="font-sans text-xs leading-relaxed opacity-70">
+                                <p>12h30 — 15h30</p>
+                                <p>19h30 — 23h00</p>
+                                <p class="text-gold-accent mt-1">Fecha Dom. e Seg.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-text-p pt-2">
+                        <p class="font-serif text-xl tracking-wider text-stone-dark/90 italic mb-2">Contacte-nos</p>
+                        <p class="font-serif text-2xl tracking-widest text-gold-accent">912 639 969</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- RODAPÉ -->
+        <footer class="bg-stone-dark text-stone-light/60 py-12 px-6 border-t border-white/5">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <h2 class="font-serif text-2xl text-stone-light italic">Refeitório Quinhentista</h2>
+                    <p class="text-[9px] uppercase tracking-[0.3em] opacity-30 mt-2">&copy; 2024 RQ. Portugal. Todos os direitos reservados.</p>
+                </div>
+                <div class="flex gap-8 text-[9px] uppercase tracking-[0.3em] opacity-50">
+                    <a href="#" class="hover:text-gold-accent transition-colors">Instagram</a>
+                    <a href="#location" class="hover:text-gold-accent transition-colors">Localização</a>
+                    <a href="#excellence" class="hover:text-gold-accent transition-colors">Reservas</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            let lenis;
+            if (typeof Lenis !== 'undefined') {
+                lenis = new Lenis({ 
+                    duration: 1.2, 
+                    smooth: true,
+                    prevent: (node) => node.id === 'dish-slider' || node.closest('#dish-slider')
+                });
+                
+                lenis.on('scroll', ScrollTrigger.update);
+                
+                gsap.ticker.add((time) => {
+                    lenis.raf(time * 1000);
+                });
+                
+                gsap.ticker.lagSmoothing(0);
+                
+                function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+                requestAnimationFrame(raf);
+            }
+
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            if (window.innerWidth > 768) {
+                window.addEventListener('mousemove', (e) => {
+                    gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+                    gsap.to(cursorOutline, { x: e.clientX, y: e.clientY, duration: 0.3 });
+                });
+            }
+
+            gsap.timeline()
+                .to('.loader-text', { y: 0, duration: 1, stagger: 0.2, ease: 'power4.out' })
+                .to('.loader', { yPercent: -100, duration: 1, ease: 'power4.inOut', delay: 0.5 })
+                .to('.hero-title', { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' }, "-=0.5")
+                .to('.hero-tagline', { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }, "-=0.8")
+                .to('.hero-cta', { opacity: 1, duration: 1 }, "-=0.5");
+
+            gsap.registerPlugin(ScrollTrigger);
+            
+            ScrollTrigger.create({
+                start: 'top -50',
+                onToggle: self => document.getElementById('navbar').classList.toggle('navbar-scrolled', self.isActive)
+            });
+            
+            gsap.to('#hero-img', { 
+                yPercent: 20, 
+                ease: 'none', 
+                scrollTrigger: { trigger: '#hero', scrub: true, start: 'top top' }
+            });
+
+            const slider = document.getElementById('dish-slider');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+
+            if (slider) {
+                const getScrollAmt = () => {
+                    const firstCard = slider.querySelector('.dish-card');
+                    return firstCard ? firstCard.offsetWidth + 32 : 400;
+                };
+
+                nextBtn.onclick = () => {
+                    slider.classList.remove('is-dragging');
+                    slider.scrollBy({ left: getScrollAmt(), behavior: 'smooth' });
+                };
+                prevBtn.onclick = () => {
+                    slider.classList.remove('is-dragging');
+                    slider.scrollBy({ left: -getScrollAmt(), behavior: 'smooth' });
+                };
+
+                slider.addEventListener('wheel', (e) => {
+                    if (e.deltaX !== 0 || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                        e.preventDefault();
+                        slider.classList.remove('is-dragging');
+                        slider.scrollLeft += e.deltaY + e.deltaX;
+                    }
+                }, { passive: false });
+
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    slider.classList.add('is-dragging');
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                });
+
+                slider.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    slider.classList.remove('is-dragging');
+                });
+
+                slider.addEventListener('mouseup', () => {
+                    isDown = false;
+                    slider.classList.remove('is-dragging');
+                });
+
+                slider.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - startX) * 1.5; 
+                    slider.scrollLeft = scrollLeft - walk;
+                });
+            }
+
+            const revealElements = document.querySelectorAll('.reveal-text-p');
+            revealElements.forEach(el => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 95%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>e
