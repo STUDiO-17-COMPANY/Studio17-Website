@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaro Restaurant | Authentic Cypriot Taverna</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'megaro-cream': '#F4F1DE',
+                        'megaro-terracotta': '#E07A5F',
+                        'megaro-olive': '#3D405B',
+                        'megaro-green': '#81B29A',
+                        'megaro-gold': '#F2CC8F',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles for Lenis and Custom Polish -->
+    <style>
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            background-color: #F4F1DE;
+            color: #3D405B;
+            overflow-x: hidden;
+        }
+
+        /* Custom decorative underline */
+        .hover-underline-animation {
+            display: inline-block;
+            position: relative;
+        }
+        .hover-underline-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #E07A5F;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .hover-underline-animation:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Grain overlay for rustic texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .clip-arch {
+            clip-path: ellipse(150% 100% at 50% 100%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-megaro-terracotta selection:text-white">
+
+    <!-- Texture Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <!-- Removed mix-blend-multiply, added text-megaro-cream for visibility on dark hero -->
+    <nav id="navbar" class="fixed w-full z-40 transition-all duration-300 py-6 px-6 md:px-12 flex justify-between items-center text-megaro-cream">
+        <a href="#" class="text-2xl md:text-3xl font-serif font-bold tracking-wider">
+            MEGARO
+        </a>
+        <div class="hidden md:flex gap-8 font-sans font-medium text-sm tracking-widest uppercase">
+            <a href="#about" class="hover-underline-animation">The Story</a>
+            <a href="#menu" class="hover-underline-animation">The Meze</a>
+            <a href="#atmosphere" class="hover-underline-animation">Live Music</a>
+            <a href="#contact" class="text-megaro-terracotta font-bold hover:text-white transition-colors">Book Now</a>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-2xl">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobile-nav" class="fixed inset-0 bg-megaro-cream z-50 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8 text-2xl font-serif text-megaro-olive">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-megaro-olive"><i class="fa-solid fa-times"></i></button>
+        <a href="#about" class="mobile-link">The Story</a>
+        <a href="#menu" class="mobile-link">The Meze</a>
+        <a href="#atmosphere" class="mobile-link">Live Music</a>
+        <a href="#contact" class="mobile-link text-megaro-terracotta">Book Now</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
+        <!-- Background Image Parallax Container -->
+        <div class="absolute inset-0 z-0 h-[120%]" data-speed="0.5">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768393566/Gemini_Generated_Image_zgse25zgse25zgse_xwnmiq.png" 
+                 alt="Megaro Restaurant Atmosphere" 
+                 class="w-full h-full object-cover brightness-[0.6] filter sepia-[0.3]">
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <p class="hero-anim text-megaro-gold font-sans tracking-[0.3em] uppercase text-xs md:text-sm mb-4">Limassol Old Town</p>
+            <h1 class="hero-anim text-5xl md:text-7xl lg:text-8xl font-serif text-megaro-cream font-bold leading-tight mb-6">
+                A Genuine Taste <br> <span class="italic font-light">of Cyprus</span>
+            </h1>
+            <p class="hero-anim text-megaro-cream/90 font-sans text-lg md:text-xl max-w-lg mx-auto mb-10 font-light">
+                Home-style cooking, historic stone walls, and the warmest welcome in the city.
+            </p>
+            <div class="hero-anim">
+                <a href="#contact" class="inline-block bg-megaro-terracotta text-white font-sans font-bold uppercase tracking-widest text-xs md:text-sm py-4 px-10 hover:bg-white hover:text-megaro-terracotta transition-all duration-300">
+                    Reserve Your Table
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-megaro-cream opacity-70">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto relative">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
+            
+            <!-- Text Content -->
+            <div class="reveal-text order-2 md:order-1">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="h-[1px] w-12 bg-megaro-terracotta block"></span>
+                    <span class="text-megaro-terracotta font-sans uppercase tracking-widest text-xs font-bold">Est. 1992</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif text-megaro-olive mb-8 leading-tight">
+                    More than just food, <br>it’s <span class="italic text-megaro-terracotta">Filoxenia</span>.
+                </h2>
+                <p class="font-sans text-gray-600 leading-relaxed mb-6">
+                    Nestled in the winding cobblestone streets of Limassol’s historic Old Town, Megaro is housed in a restored 19th-century stone mansion. We believe that Cypriot cuisine is best served the way our grandmothers made it: slow-cooked, full of flavor, and shared generously.
+                </p>
+                <p class="font-sans text-gray-600 leading-relaxed mb-8">
+                    Whether you are a local looking for the comfort of home or a traveler seeking authenticity, our table is yours.
+                </p>
+                <div class="flex gap-8 font-serif italic text-megaro-olive text-lg">
+                    <div class="flex flex-col items-center">
+                        <i class="fa-solid fa-wine-glass text-2xl mb-2 text-megaro-terracotta"></i>
+                        <span>Local Wines</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fa-solid fa-fire-burner text-2xl mb-2 text-megaro-terracotta"></i>
+                        <span>Charcoal Grill</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fa-solid fa-users text-2xl mb-2 text-megaro-terracotta"></i>
+                        <span>Sharing Meze</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Composition -->
+            <div class="reveal-image order-1 md:order-2 relative">
+                <div class="aspect-[4/5] overflow-hidden rounded-t-full border-b-8 border-megaro-terracotta">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768399921/Gemini_Generated_Image_7njuty7njuty7nju_ey3fm6.png" alt="Old Town Cyprus Streets" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <!-- Decorative SVG -->
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 md:w-48 md:h-48 z-[-1] opacity-20">
+                     <svg viewBox="0 0 100 100" fill="currentColor" class="text-megaro-olive w-full h-full spin-slow">
+                        <path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90c-22.1 0-40-17.9-40-40S27.9 10 50 10s40 17.9 40 40-17.9 40-40 40z"/>
+                     </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Meze Journey (Menu Highlights) -->
+    <section id="menu" class="bg-megaro-olive text-megaro-cream py-24 md:py-32 clip-arch relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="text-center mb-16 reveal-fade">
+                <span class="text-megaro-gold font-sans uppercase tracking-widest text-xs font-bold block mb-4">Culinary Tradition</span>
+                <h2 class="text-4xl md:text-6xl font-serif mb-6">The Meze Journey</h2>
+                <p class="max-w-xl mx-auto font-sans text-gray-300 font-light">
+                    A never-ending parade of small dishes, from fresh dips and salads to succulently grilled meats.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group cursor-pointer menu-item-card">
+                    <div class="overflow-hidden h-80 w-full mb-6 relative">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10"></div>
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768400049/Halloumi_yf4hif.webp" alt="Fresh Village Salad" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="border-l-2 border-megaro-terracotta pl-4">
+                        <h3 class="text-2xl font-serif mb-2 group-hover:text-megaro-terracotta transition-colors">Starters</h3>
+                        <p class="text-sm text-gray-400 font-sans">Village salad, tahini, tzatziki, grilled halloumi, and warm pita bread.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group cursor-pointer menu-item-card mt-8 md:mt-0">
+                    <div class="overflow-hidden h-80 w-full mb-6 relative">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10"></div>
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768400130/images_1_hnlceq.jpg" alt="Grilled Souvla" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="border-l-2 border-megaro-terracotta pl-4">
+                        <h3 class="text-2xl font-serif mb-2 group-hover:text-megaro-terracotta transition-colors">The Grill</h3>
+                        <p class="text-sm text-gray-400 font-sans">Pork & Chicken Souvla, Sheftalia, and Lamb Chops cooked over charcoal.</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group cursor-pointer menu-item-card mt-8 md:mt-0">
+                    <div class="overflow-hidden h-80 w-full mb-6 relative">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10"></div>
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768400203/Commandaria_odsp3w.jpg" alt="Cypriot Wine" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="border-l-2 border-megaro-terracotta pl-4">
+                        <h3 class="text-2xl font-serif mb-2 group-hover:text-megaro-terracotta transition-colors">The Cellar</h3>
+                        <p class="text-sm text-gray-400 font-sans">A curated selection of Commandaria, Zivania, and local boutique wines.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16 reveal-fade">
+                <a href="#contact" class="inline-block border border-megaro-gold text-megaro-gold hover:bg-megaro-gold hover:text-megaro-olive transition-colors font-sans uppercase tracking-widest text-xs py-3 px-8">
+                    View Full Menu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Atmosphere / Live Music -->
+    <section id="atmosphere" class="py-24 md:py-32 bg-megaro-cream overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-12">
+            
+            <div class="w-full md:w-1/2 relative reveal-left">
+                <!-- Stacked Images effect -->
+                <div class="relative z-10 w-4/5">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768399599/497533631_1281142260683994_3951874518288812712_n_d32kxr.jpg" alt="Live Music" class="w-full shadow-2xl sepia-[0.2]">
+                </div>
+                <div class="absolute top-12 -right-4 w-3/5 z-20 border-8 border-megaro-cream shadow-xl">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/f_auto,q_auto/v1768399599/556193110_1405404334924452_5301969831960352812_n_e3j6bw.jpg" alt="Cheers" class="w-full sepia-[0.3]">
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 reveal-right md:pl-12">
+                <h2 class="text-4xl md:text-6xl font-serif text-megaro-olive mb-6">
+                    Live Music <br>& <span class="text-megaro-terracotta">Opa!</span> Nights
+                </h2>
+                <p class="font-sans text-gray-600 mb-6 text-lg">
+                    Every Friday and Saturday, the taverna comes alive. The strum of the bouzouki, the clinking of glasses, and the laughter of friends create an atmosphere you won't find anywhere else.
+                </p>
+                <ul class="font-serif text-megaro-olive space-y-4 text-xl">
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-music text-megaro-terracotta text-sm"></i> Traditional Rebetiko
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-guitar text-megaro-terracotta text-sm"></i> Live Bouzouki
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-heart text-megaro-terracotta text-sm"></i> Authentic Vibes
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reservation / Contact Section -->
+    <section id="contact" class="bg-megaro-olive text-white py-24 relative">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div class="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
+            <div class="bg-megaro-cream text-megaro-olive p-8 md:p-16 shadow-2xl flex flex-col md:flex-row gap-12">
+                
+                <!-- Contact Info -->
+                <div class="w-full md:w-1/2">
+                    <h3 class="text-3xl font-serif mb-8">Plan Your Visit</h3>
+                    
+                    <div class="space-y-6 font-sans">
+                        <div>
+                            <p class="font-bold uppercase text-xs tracking-widest text-megaro-terracotta mb-1">Location</p>
+                            <p class="text-lg">St. Andrew Street 23, Limassol Old Town</p>
+                            <p class="text-sm text-gray-500">Near the Medieval Castle</p>
+                        </div>
+                        
+                        <div>
+                            <p class="font-bold uppercase text-xs tracking-widest text-megaro-terracotta mb-1">Opening Hours</p>
+                            <p>Tue - Sun: 18:00 - Late</p>
+                            <p>Sunday Lunch: 12:00 - 16:00</p>
+                            <p class="text-sm text-gray-500 italic">Closed Mondays</p>
+                        </div>
+
+                        <div>
+                            <p class="font-bold uppercase text-xs tracking-widest text-megaro-terracotta mb-1">Contact</p>
+                            <p class="text-xl font-bold">+357 25 123 456</p>
+                            <p>hello@megarotaverna.cy</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Form -->
+                <div class="w-full md:w-1/2 border-l-0 md:border-l border-gray-300 md:pl-12">
+                    <h3 class="text-3xl font-serif mb-8">Book a Table</h3>
+                    <form onsubmit="event.preventDefault(); alert('Efharisto! We have received your request.');" class="space-y-4">
+                        <div>
+                            <input type="text" placeholder="Your Name" class="w-full bg-transparent border-b border-gray-400 py-3 focus:outline-none focus:border-megaro-terracotta transition-colors placeholder-gray-500 font-sans">
+                        </div>
+                        <div>
+                            <input type="tel" placeholder="Phone Number" class="w-full bg-transparent border-b border-gray-400 py-3 focus:outline-none focus:border-megaro-terracotta transition-colors placeholder-gray-500 font-sans">
+                        </div>
+                        <div class="flex gap-4">
+                            <input type="date" class="w-1/2 bg-transparent border-b border-gray-400 py-3 focus:outline-none focus:border-megaro-terracotta transition-colors font-sans text-gray-600">
+                            <input type="number" placeholder="Guests" class="w-1/2 bg-transparent border-b border-gray-400 py-3 focus:outline-none focus:border-megaro-terracotta transition-colors placeholder-gray-500 font-sans">
+                        </div>
+                        <button type="submit" class="w-full bg-megaro-terracotta text-white font-bold uppercase tracking-widest py-4 mt-6 hover:bg-megaro-olive transition-colors duration-300">
+                            Confirm Booking
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-megaro-olive text-megaro-cream/60 py-12 text-center font-sans text-sm border-t border-white/10">
+        <div class="flex justify-center gap-6 mb-8 text-xl">
+            <a href="#" class="hover:text-megaro-terracotta transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-megaro-terracotta transition-colors"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="hover:text-megaro-terracotta transition-colors"><i class="fa-brands fa-tripadvisor"></i></a>
+        </div>
+        <p>&copy; 2024 Megaro Restaurant. All rights reserved.</p>
+        <p class="mt-2 text-xs">Authentic Cypriot Hospitality.</p>
+    </footer>
+
+    <!-- GSAP & Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Updated Lenis CDN to avoid module errors -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.0.45/lenis.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // 1. Initialize Lenis Smooth Scroll
+            // Check if Lenis is available to prevent errors if CDN fails
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // standard easing
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.warn("Lenis library not loaded. Smooth scrolling disabled.");
+                // Fallback: minimal standard scrolling support if needed
+                document.documentElement.style.scrollBehavior = "smooth";
+            }
+
+            // Sync GSAP ScrollTrigger with Lenis
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 2. Animation Logic
+            
+            // Navbar transition on scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    // Scrolled down: Light background, Dark text
+                    navbar.classList.add('bg-megaro-cream/95', 'backdrop-blur-sm', 'shadow-md', 'py-4', 'text-megaro-olive');
+                    navbar.classList.remove('py-6', 'text-megaro-cream');
+                } else {
+                    // At top: Transparent background, Light text
+                    navbar.classList.remove('bg-megaro-cream/95', 'backdrop-blur-sm', 'shadow-md', 'py-4', 'text-megaro-olive');
+                    navbar.classList.add('py-6', 'text-megaro-cream');
+                }
+            });
+
+            // Hero Animations (On Load)
+            const tl = gsap.timeline();
+            tl.from(".hero-anim", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            // Parallax Effect for Hero Image
+            gsap.to("[data-speed]", {
+                y: (i, el) => (1 - parseFloat(el.getAttribute("data-speed"))) * ScrollTrigger.maxScroll(window),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "body",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0
+                }
+            });
+
+            // About Section Reveal
+            gsap.from(".reveal-text", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 70%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+
+            gsap.from(".reveal-image", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 70%",
+                },
+                scale: 0.9,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power2.out",
+                delay: 0.2
+            });
+
+            // Menu Cards Stagger
+            gsap.from(".menu-item-card", {
+                scrollTrigger: {
+                    trigger: "#menu",
+                    start: "top 75%",
+                },
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            // Atmosphere Section Side Reveals
+            gsap.from(".reveal-left", {
+                scrollTrigger: {
+                    trigger: "#atmosphere",
+                    start: "top 70%",
+                },
+                x: -50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+
+            gsap.from(".reveal-right", {
+                scrollTrigger: {
+                    trigger: "#atmosphere",
+                    start: "top 70%",
+                },
+                x: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Mobile Menu Logic
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                mobileNav.classList.toggle('translate-x-full');
+            }
+
+            if(mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        });
+    </script>
+</body>
+</html>
