@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Dagg3rs Tattoo Studio | Nicosia</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'blood': '#8a0a0a',
+                        'charcoal': '#121212',
+                        'obsidian': '#0a0a0a',
+                        'gold-dust': '#c5a059',
+                    },
+                    fontFamily: {
+                        'display': ['Cinzel', 'serif'],
+                        'serif': ['Playfair Display', 'serif'],
+                        'body': ['Raleway', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://grainy-gradients.vercel.app/noise.svg')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e5e5e5;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #c5a059;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(197, 160, 89, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Utilities */
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+            color: transparent;
+        }
+        
+        .clip-image {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            transition: clip-path 0.5s ease;
+        }
+
+        .hover-reveal:hover .clip-image {
+            clip-path: polygon(5% 5%, 95% 5%, 95% 95%, 5% 95%);
+        }
+
+        /* Smooth scroll hiding */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blood selection:text-white">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-5 flex justify-between items-center mix-blend-difference">
+        <div class="text-2xl font-display font-bold tracking-widest text-white">III DAGG3RS</div>
+        <div class="hidden md:flex gap-8 text-sm font-body tracking-widest uppercase">
+            <a href="#sanctuary" class="hover:text-gold-dust transition-colors">Sanctuary</a>
+            <a href="#artists" class="hover:text-gold-dust transition-colors">Artists</a>
+            <a href="#gallery" class="hover:text-gold-dust transition-colors">Portfolio</a>
+            <a href="#booking" class="hover:text-gold-dust transition-colors">Booking</a>
+        </div>
+        <a href="#booking" class="border border-white/30 px-6 py-2 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">
+            Book Now
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden" id="hero">
+        <!-- Background Imagery (Darkened) -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1590246814883-0556355a3320?q=80&w=2070&auto=format&fit=crop" 
+                 class="w-full h-full object-cover grayscale scale-110" id="hero-bg" alt="Tattoo Texture">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#050505] z-10"></div>
+
+        <!-- Content -->
+        <div class="relative z-20 text-center px-4">
+            <div class="overflow-hidden mb-4">
+                <p class="hero-reveal text-gold-dust font-body uppercase tracking-[0.3em] text-xs md:text-sm">Strovolos, Nicosia</p>
+            </div>
+            <div class="overflow-hidden">
+                <h1 class="hero-reveal text-6xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter leading-none mb-6">
+                    THREE<br>
+                    <span class="text-outline hover:text-white transition-colors duration-700">DAGG3RS</span>
+                </h1>
+            </div>
+            <div class="overflow-hidden mb-8">
+                <p class="hero-reveal font-serif italic text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">
+                    The intersection of technical mastery and bespoke artistry.
+                </p>
+            </div>
+            
+            <div class="hero-reveal flex flex-col items-center gap-4 opacity-0">
+                <div class="flex gap-4 mb-6">
+                    <span class="px-4 py-1 border border-white/10 text-[10px] uppercase tracking-widest text-gray-400">Award Winning</span>
+                    <span class="px-4 py-1 border border-white/10 text-[10px] uppercase tracking-widest text-gray-400">Custom Only</span>
+                </div>
+                <div class="animate-bounce mt-6">
+                    <i data-lucide="arrow-down" class="w-6 h-6 text-gold-dust"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- The Sanctuary (About) -->
+    <section id="sanctuary" class="py-8 md:py-12 px-6 md:px-12 relative max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div class="order-2 md:order-1 relative">
+                <div class="absolute -top-10 -left-10 w-full h-full border border-blood/30 z-0 hidden md:block parallax-shape"></div>
+                <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=1974&auto=format&fit=crop" 
+                     alt="Studio Interior" 
+                     class="relative z-10 w-full aspect-[4/5] object-cover grayscale contrast-125 reveal-img">
+            </div>
+            <div class="order-1 md:order-2 space-y-8">
+                <h2 class="text-4xl md:text-6xl font-display split-text">NOT A SHOP.<br><span class="text-blood">A SANCTUARY.</span></h2>
+                <div class="w-20 h-[1px] bg-gold-dust"></div>
+                <p class="text-gray-400 font-body leading-relaxed text-lg reveal-text">
+                    Located in the heart of Strovolos, Three Dagg3rs is an intimate art sanctuary. We reject the "flash-off-the-wall" factory mentality. 
+                </p>
+                <p class="text-gray-400 font-body leading-relaxed text-lg reveal-text">
+                    Led by specialized artists, we focus on bespoke, long-lasting tattoos built through collaborative design. From hygiene standards that exceed clinical requirements to an atmosphere that feels like a high-end gallery, every detail is curated for the collector.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4 reveal-text">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shield-check" class="text-gold-dust w-5 h-5"></i>
+                        <span class="text-sm uppercase tracking-wider">Sterile Environment</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="pen-tool" class="text-gold-dust w-5 h-5"></i>
+                        <span class="text-sm uppercase tracking-wider">Custom Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section id="artists" class="py-16 bg-charcoal relative overflow-hidden">
+        <!-- Background Decor -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6">
+            <div class="mb-12">
+                <h2 class="text-xs font-body uppercase tracking-[0.4em] text-gold-dust mb-4">The Masters</h2>
+                <h3 class="text-4xl md:text-5xl font-display text-white">RESIDENT ARTISTS</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                
+                <!-- Artist 1 -->
+                <div class="artist-card group relative">
+                    <div class="overflow-hidden aspect-[3/4] mb-6 relative">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-500 z-10"></div>
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768480425/588577308_18395944594133246_7885113986039783890_n_stdrgb.jpg" 
+                             alt="Powtattooer" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="flex justify-between items-start border-b border-white/10 pb-4">
+                        <div>
+                            <h4 class="text-3xl font-display mb-1 text-white group-hover:text-gold-dust transition-colors">POWTATTOOER</h4>
+                            <p class="text-sm font-body text-gray-400 uppercase tracking-widest">The Architect</p>
+                        </div>
+                        <i data-lucide="move-up-right" class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0"></i>
+                    </div>
+                    <div class="pt-4 opacity-70 group-hover:opacity-100 transition-opacity">
+                        <p class="text-sm text-gray-400 mb-2">Specializing in Fine Line, Geometric, and Blackwork.</p>
+                        <span class="text-xs text-gold-dust border border-gold-dust/30 px-2 py-1">Cyprus Convention Winner</span>
+                    </div>
+                </div>
+
+                <!-- Artist 2 -->
+                <div class="artist-card group relative mt-0 md:mt-16">
+                    <div class="overflow-hidden aspect-[3/4] mb-6 relative">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-500 z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1740&auto=format&fit=crop" 
+                             alt="Gogou Tattooer" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="flex justify-between items-start border-b border-white/10 pb-4">
+                        <div>
+                            <h4 class="text-3xl font-display mb-1 text-white group-hover:text-gold-dust transition-colors">GOGOU</h4>
+                            <p class="text-sm font-body text-gray-400 uppercase tracking-widest">Illustrative Master</p>
+                        </div>
+                        <i data-lucide="move-up-right" class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0"></i>
+                    </div>
+                    <div class="pt-4 opacity-70 group-hover:opacity-100 transition-opacity">
+                        <p class="text-sm text-gray-400 mb-2">Specializing in Neo-Traditional, Color, and Old School.</p>
+                        <span class="text-xs text-gold-dust border border-gold-dust/30 px-2 py-1">Best of Show Winner</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery / Styles -->
+    <section id="gallery" class="py-16 px-4 bg-[#050505]">
+        <div class="text-center mb-10">
+            <span class="text-blood font-serif italic text-xl">Our Signature</span>
+            <h2 class="text-5xl md:text-7xl font-display mt-2">STYLES</h2>
+        </div>
+
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 max-w-7xl mx-auto">
+            <!-- Gallery Item 1 -->
+            <div class="break-inside-avoid relative group overflow-hidden cursor-none">
+                <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800&auto=format&fit=crop" class="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-4">
+                    <h4 class="text-2xl font-serif text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Neo-Traditional</h4>
+                    <p class="text-sm text-gray-300 mt-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">Bold lines, muted color palettes.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 2 -->
+            <div class="break-inside-avoid relative group overflow-hidden cursor-none">
+                <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop" class="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-4">
+                    <h4 class="text-2xl font-serif text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Blackwork</h4>
+                    <p class="text-sm text-gray-300 mt-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">Heavy contrast, geometric patterns.</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 3 -->
+            <div class="break-inside-avoid relative group overflow-hidden cursor-none">
+                <img src="https://images.unsplash.com/photo-1590246814883-0556355a3320?q=80&w=800&auto=format&fit=crop" class="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-4">
+                    <h4 class="text-2xl font-serif text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Old School</h4>
+                    <p class="text-sm text-gray-300 mt-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">American Traditional classics.</p>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 4 -->
+            <div class="break-inside-avoid relative group overflow-hidden cursor-none">
+                <img src="https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?q=80&w=800&auto=format&fit=crop" class="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-4">
+                    <h4 class="text-2xl font-serif text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Fine Line</h4>
+                    <p class="text-sm text-gray-300 mt-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">Delicate, precise, elegant.</p>
+                </div>
+            </div>
+
+             <!-- Gallery Item 5 -->
+             <div class="break-inside-avoid relative group overflow-hidden cursor-none">
+                <img src="https://images.unsplash.com/photo-1598371839818-a6d0c41829f0?q=80&w=800&auto=format&fit=crop" class="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center p-4">
+                    <h4 class="text-2xl font-serif text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Realism</h4>
+                    <p class="text-sm text-gray-300 mt-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">Photo-realistic portraiture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process & Booking -->
+    <section id="booking" class="py-16 md:py-24 relative border-t border-white/5 bg-charcoal">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl md:text-5xl font-display text-center mb-10">THE RITUAL</h2>
+            
+            <div class="space-y-0 border-l border-white/10 ml-4 md:ml-0 pl-8 md:pl-0">
+                <!-- Step 1 -->
+                <div class="process-step flex flex-col md:flex-row md:items-baseline gap-4 md:gap-8 relative pb-12">
+                    <div class="absolute -left-[37px] md:left-auto md:right-full md:mr-8 top-1 w-4 h-4 bg-blood rounded-full border-4 border-charcoal"></div>
+                    <h3 class="text-xl md:text-2xl font-serif w-32 shrink-0 text-white">01. Contact</h3>
+                    <p class="text-gray-400 max-w-lg">Send us your concept via WhatsApp or Email. Include placement, size, and reference images. We do not copy other artists' tattoos.</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="process-step flex flex-col md:flex-row md:items-baseline gap-4 md:gap-8 relative pb-12">
+                    <div class="absolute -left-[37px] md:left-auto md:right-full md:mr-8 top-1 w-4 h-4 bg-white rounded-full border-4 border-charcoal"></div>
+                    <h3 class="text-xl md:text-2xl font-serif w-32 shrink-0 text-white">02. Consult</h3>
+                    <p class="text-gray-400 max-w-lg">Visit the studio in Strovolos for a free consultation. We discuss flow, anatomy, and composition to ensure longevity.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="process-step flex flex-col md:flex-row md:items-baseline gap-4 md:gap-8 relative">
+                    <div class="absolute -left-[37px] md:left-auto md:right-full md:mr-8 top-1 w-4 h-4 bg-gold-dust rounded-full border-4 border-charcoal"></div>
+                    <h3 class="text-xl md:text-2xl font-serif w-32 shrink-0 text-white">03. Ink</h3>
+                    <p class="text-gray-400 max-w-lg">A deposit secures your date. On the day, arrive well-rested. We provide detailed aftercare instructions to protect your investment.</p>
+                </div>
+            </div>
+
+            <!-- Main CTA -->
+            <div class="mt-12 text-center">
+                <div class="inline-block p-[1px] bg-gradient-to-r from-transparent via-gold-dust to-transparent w-full max-w-md">
+                    <a href="https://wa.me/1234567890" class="block bg-black hover:bg-zinc-900 transition-colors py-6 px-12 group relative overflow-hidden">
+                        <span class="relative z-10 font-display text-2xl tracking-widest text-white group-hover:text-gold-dust transition-colors">BOOK CONSULTATION</span>
+                        <div class="absolute top-0 left-0 w-full h-full bg-blood opacity-0 group-hover:opacity-10 transition-opacity duration-500 mix-blend-color-burn"></div>
+                    </a>
+                </div>
+                <p class="mt-6 text-sm text-gray-500 uppercase tracking-widest">or email us at info@threedagg3rs.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 border-t border-white/10">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <h4 class="text-2xl font-display font-bold tracking-widest mb-2">III DAGG3RS</h4>
+                <p class="text-sm text-gray-500">Strovolos, Nicosia, Cyprus</p>
+            </div>
+            
+            <div class="flex gap-6">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="instagram"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="facebook"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="mail"></i></a>
+            </div>
+
+            <p class="text-xs text-gray-600 uppercase tracking-widest">© 2024 Three Dagg3rs. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Icons
+            lucide.createIcons();
+
+            // 1. Initialize Lenis Smooth Scroll
+            // Check if Lenis is loaded, if not, wait or fallback
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.warn('Lenis library not found. Smooth scrolling disabled.');
+            }
+
+            // 2. Custom Cursor Logic
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                // Dot follows instantly
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                // Outline follows with lag via GSAP
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(cursorOutline, {
+                        x: posX,
+                        y: posY,
+                        duration: 0.15,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+
+            // Hover effects for cursor
+            const interactables = document.querySelectorAll('a, button, .artist-card');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(cursorOutline, {
+                            scale: 1.5,
+                            backgroundColor: 'rgba(197, 160, 89, 0.1)',
+                            duration: 0.3
+                        });
+                    }
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(cursorOutline, {
+                            scale: 1,
+                            backgroundColor: 'transparent',
+                            duration: 0.3
+                        });
+                    }
+                });
+            });
+
+            // 3. GSAP Animations
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Hero Reveal
+                const heroTl = gsap.timeline();
+                heroTl.to('.hero-reveal', {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.5,
+                    stagger: 0.2,
+                    ease: "power4.out",
+                    delay: 0.5
+                });
+
+                // Parallax Effect for Hero Background
+                gsap.to("#hero-bg", {
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    },
+                    yPercent: 30,
+                    ease: "none"
+                });
+
+                // Split Text Reveal for Headers
+                const splitText = document.querySelectorAll('.split-text');
+                splitText.forEach(text => {
+                    gsap.from(text, {
+                        scrollTrigger: {
+                            trigger: text,
+                            start: "top 80%",
+                        },
+                        y: 50,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power3.out"
+                    });
+                });
+
+                // General Text Reveal
+                const revealText = document.querySelectorAll('.reveal-text');
+                revealText.forEach(text => {
+                    gsap.from(text, {
+                        scrollTrigger: {
+                            trigger: text,
+                            start: "top 85%",
+                        },
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.8,
+                        stagger: 0.1,
+                        ease: "power2.out"
+                    });
+                });
+
+                // Image Reveal (Sanctuary Section)
+                gsap.from('.reveal-img', {
+                    scrollTrigger: {
+                        trigger: '#sanctuary',
+                        start: "top 70%",
+                    },
+                    scale: 0.9,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "power3.out"
+                });
+
+                // Artist Cards Stagger
+                gsap.from('.artist-card', {
+                    scrollTrigger: {
+                        trigger: '#artists',
+                        start: "top 75%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power3.out"
+                });
+
+                // Process Line Animation
+                gsap.from('.process-step', {
+                    scrollTrigger: {
+                        trigger: '#booking',
+                        start: "top 70%",
+                    },
+                    x: -20,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.3,
+                    ease: "power2.out"
+                });
+            }
+        });
+    </script>
+</body>
+</html>
