@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlexAuto | Premier Car Brokerage Cyprus</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis (Smooth Scroll) - Updated to stable browser build -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0a0a0a',
+                            gray: '#171717',
+                            accent: '#3b82f6', // Electric Blue
+                            accentHover: '#2563eb',
+                            platinum: '#e5e5e5',
+                            success: '#10b981' // Emerald green for savings
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-gradient': 'linear-gradient(to bottom, rgba(10,10,10,0.3), rgba(10,10,10,1))',
+                        'mesh': 'radial-gradient(at 40% 20%, hsla(228,100%,74%,0.1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(340,100%,76%,0.1) 0px, transparent 50%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html.lenis {
+            height: auto;
+        }
+        
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar Hide */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .clip-text-image {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #fff, #94a3b8);
+        }
+        
+        .glass-panel {
+            background: rgba(23, 23, 23, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-tag {
+            background: rgba(16, 185, 129, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .card-hover:hover .card-img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-display font-bold text-2xl tracking-tighter text-white">
+                Alex<span class="text-brand-accent">Auto</span>.
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#how-it-works" class="hover:text-white transition-colors">Process</a>
+                <a href="#benefits" class="hover:text-white transition-colors">Why Us</a>
+                <a href="#inventory" class="text-brand-accent hover:text-white transition-colors">Inventory</a>
+                <a href="#reviews" class="hover:text-white transition-colors">Success Stories</a>
+            </div>
+            <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="hidden md:block bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors">
+                Get Started
+            </button>
+            <!-- Mobile Menu Icon -->
+            <button class="md:hidden text-white">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2560&auto=format&fit=crop" 
+                 alt="Luxury Car" 
+                 class="w-full h-full object-cover opacity-40 scale-110" 
+                 id="hero-bg">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <!-- New Discount Tag -->
+            <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-success/30 bg-brand-success/10 backdrop-blur-md mb-8 hero-anim opacity-0 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                <i data-lucide="tag" class="w-4 h-4 text-brand-success"></i>
+                <span class="text-sm font-bold tracking-wide uppercase text-white">Save Up To <span class="text-brand-success">€5,000</span> On Your Next Car</span>
+            </div>
+            
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 hero-anim opacity-0">
+                Stop Overpaying. <br>
+                <span class="text-brand-accent">Drive Premium.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 hero-anim opacity-0 leading-relaxed">
+                AlexAuto is your personal automotive broker in Cyprus. We access hidden market deals and Japan imports to secure your dream car below market price.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center hero-anim opacity-0">
+                <button onclick="document.getElementById('inventory').scrollIntoView({behavior: 'smooth'})" class="btn-glow bg-brand-accent text-white px-8 py-4 rounded-full font-bold text-lg w-full md:w-auto flex items-center justify-center gap-2">
+                    View Deals <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+                <a href="#how-it-works" class="text-gray-400 hover:text-white transition-colors text-sm font-semibold border-b border-transparent hover:border-white pb-0.5">
+                    See How It Works
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50 hidden md:block">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-white"></i>
+        </div>
+    </header>
+
+    <!-- Stats Ticker -->
+    <section class="border-y border-white/5 bg-brand-gray/30 backdrop-blur-sm py-8 relative z-20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="stats-item">
+                <p class="text-3xl font-display font-bold text-white mb-1">300+</p>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Cars Delivered</p>
+            </div>
+            <div class="stats-item">
+                <p class="text-3xl font-display font-bold text-brand-accent mb-1">€2.5k</p>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Avg. Savings</p>
+            </div>
+            <div class="stats-item">
+                <p class="text-3xl font-display font-bold text-white mb-1">100%</p>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Paperwork Handled</p>
+            </div>
+            <div class="stats-item">
+                <p class="text-3xl font-display font-bold text-white mb-1">24/7</p>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Support</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why AlexAuto (Benefits) -->
+    <section id="benefits" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-mesh opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Why the Smart Money <br>Chooses <span class="text-brand-accent">AlexAuto</span></h2>
+                <p class="text-gray-400 max-w-xl mx-auto">The traditional dealership model is broken. We work for you, not the seller, ensuring your interests come first.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 group">
+                    <div class="bg-brand-accent/10 w-14 h-14 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="wallet" class="w-7 h-7 text-brand-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Maximize Savings</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">We bypass showroom markups. Whether it's a local hidden gem or a Japan auction win, you pay the real price.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 group">
+                    <div class="bg-brand-accent/10 w-14 h-14 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shield-check" class="w-7 h-7 text-brand-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Zero Risk</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Every car undergoes a rigorous mechanical inspection. We check history, mileage, and condition before you pay a cent.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 group">
+                    <div class="bg-brand-accent/10 w-14 h-14 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="key" class="w-7 h-7 text-brand-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Full-Cycle Support</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">From the first search to registration, MOT, and insurance. We handle the bureaucracy so you can just drive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Featured Inventory / Cars for Sale -->
+    <section id="inventory" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <span class="text-brand-accent font-bold tracking-wider uppercase text-sm mb-2 block">Available Now</span>
+                    <h2 class="font-display text-4xl font-bold">Live Market Deals</h2>
+                    <p class="text-gray-400 mt-2">Hand-picked opportunities available for immediate import or local delivery.</p>
+                </div>
+                <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="text-sm font-bold border border-white/20 hover:bg-white/5 px-6 py-3 rounded-full transition-all">
+                    View All Inventory
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Car Card 1 -->
+                <div class="glass-panel rounded-xl overflow-hidden group card-hover relative flex flex-col">
+                    <div class="absolute top-3 left-3 z-10 glass-tag px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <i data-lucide="trending-down" class="w-3 h-3"></i> Save €3,500
+                    </div>
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop" alt="Mazda CX-5" class="w-full h-full object-cover transition-transform duration-500 card-img">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="mb-2">
+                            <h3 class="text-lg font-bold text-white">Mazda CX-5</h3>
+                            <p class="text-xs text-gray-500">2020 • 2.0L Petrol • Automatic</p>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-white/5">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs text-gray-500 line-through decoration-red-500/50">Market: €22,000</p>
+                                    <p class="text-xl font-display font-bold text-brand-accent">€18,500</p>
+                                </div>
+                                <button class="bg-white/10 p-2 rounded-full hover:bg-brand-accent hover:text-white transition-colors">
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 2 -->
+                <div class="glass-panel rounded-xl overflow-hidden group card-hover relative flex flex-col">
+                    <div class="absolute top-3 left-3 z-10 glass-tag px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <i data-lucide="trending-down" class="w-3 h-3"></i> Save €4,200
+                    </div>
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop" alt="Mercedes A-Class" class="w-full h-full object-cover transition-transform duration-500 card-img">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="mb-2">
+                            <h3 class="text-lg font-bold text-white">Mercedes A-Class</h3>
+                            <p class="text-xs text-gray-500">2019 • AMG Line • Diesel</p>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-white/5">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs text-gray-500 line-through decoration-red-500/50">Market: €25,200</p>
+                                    <p class="text-xl font-display font-bold text-brand-accent">€21,000</p>
+                                </div>
+                                <button class="bg-white/10 p-2 rounded-full hover:bg-brand-accent hover:text-white transition-colors">
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 3 -->
+                <div class="glass-panel rounded-xl overflow-hidden group card-hover relative flex flex-col">
+                    <div class="absolute top-3 left-3 z-10 glass-tag px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <i data-lucide="trending-down" class="w-3 h-3"></i> Save €2,800
+                    </div>
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=800&auto=format&fit=crop" alt="Toyota C-HR" class="w-full h-full object-cover transition-transform duration-500 card-img">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="mb-2">
+                            <h3 class="text-lg font-bold text-white">Toyota C-HR</h3>
+                            <p class="text-xs text-gray-500">2021 • Hybrid • G-LED</p>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-white/5">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs text-gray-500 line-through decoration-red-500/50">Market: €21,500</p>
+                                    <p class="text-xl font-display font-bold text-brand-accent">€18,700</p>
+                                </div>
+                                <button class="bg-white/10 p-2 rounded-full hover:bg-brand-accent hover:text-white transition-colors">
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 4 -->
+                <div class="glass-panel rounded-xl overflow-hidden group card-hover relative flex flex-col">
+                    <div class="absolute top-3 left-3 z-10 glass-tag px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <i data-lucide="trending-down" class="w-3 h-3"></i> Save €5,000
+                    </div>
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1503376763036-066120622c74?q=80&w=800&auto=format&fit=crop" alt="Porsche Macan" class="w-full h-full object-cover transition-transform duration-500 card-img">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="mb-2">
+                            <h3 class="text-lg font-bold text-white">Porsche Macan</h3>
+                            <p class="text-xs text-gray-500">2018 • S Diesel • Full Spec</p>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-white/5">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs text-gray-500 line-through decoration-red-500/50">Market: €55,000</p>
+                                    <p class="text-xl font-display font-bold text-brand-accent">€50,000</p>
+                                </div>
+                                <button class="bg-white/10 p-2 rounded-full hover:bg-brand-accent hover:text-white transition-colors">
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold">Your Journey to the Perfect Car</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="relative group">
+                    <div class="text-6xl font-display font-bold text-white/5 mb-4 group-hover:text-brand-accent/10 transition-colors">01</div>
+                    <h4 class="text-xl font-bold mb-2 text-white">The Brief</h4>
+                    <p class="text-sm text-gray-400">Tell us your budget, preferences, and needs. We analyze the market viability.</p>
+                    <div class="hidden md:block absolute top-8 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="relative group">
+                    <div class="text-6xl font-display font-bold text-white/5 mb-4 group-hover:text-brand-accent/10 transition-colors">02</div>
+                    <h4 class="text-xl font-bold mb-2 text-white">The Hunt</h4>
+                    <p class="text-sm text-gray-400">We scour local listings and international auctions, filtering out 90% of bad options.</p>
+                    <div class="hidden md:block absolute top-8 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative group">
+                    <div class="text-6xl font-display font-bold text-white/5 mb-4 group-hover:text-brand-accent/10 transition-colors">03</div>
+                    <h4 class="text-xl font-bold mb-2 text-white">Inspection</h4>
+                    <p class="text-sm text-gray-400">We physically inspect the car or secure auction reports. Expert negotiation follows.</p>
+                    <div class="hidden md:block absolute top-8 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative group">
+                    <div class="text-6xl font-display font-bold text-white/5 mb-4 group-hover:text-brand-accent/10 transition-colors">04</div>
+                    <h4 class="text-xl font-bold mb-2 text-white">The Keys</h4>
+                    <p class="text-sm text-gray-400">We handle registration and detailing. You pick up your ready-to-drive car.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="reviews" class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-display text-4xl font-bold mb-12 text-center">Success Stories</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="glass-panel p-6 rounded-xl">
+                    <div class="flex items-center gap-1 mb-4 text-yellow-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">"Saved me about €3,000 on a Mazda Demio compared to local dealers. The process was completely transparent."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                        <div>
+                            <p class="text-sm font-bold">Andreas K.</p>
+                            <p class="text-xs text-gray-500">Larnaca, Cyprus</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="glass-panel p-6 rounded-xl">
+                    <div class="flex items-center gap-1 mb-4 text-yellow-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">"I was nervous about importing from Japan, but Alex handled everything. The car arrived in pristine condition."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white font-bold">S</div>
+                        <div>
+                            <p class="text-sm font-bold">Sarah M.</p>
+                            <p class="text-xs text-gray-500">Limassol, Cyprus</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-panel p-6 rounded-xl md:hidden lg:block">
+                    <div class="flex items-center gap-1 mb-4 text-yellow-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">"Honest advice. He actually told me NOT to buy a specific car I liked because of hidden issues. That's integrity."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white font-bold">G</div>
+                        <div>
+                            <p class="text-sm font-bold">Giorgos P.</p>
+                            <p class="text-xs text-gray-500">Nicosia, Cyprus</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Lead Form -->
+    <section id="contact" class="py-24 bg-brand-dark relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 border border-white/10 relative overflow-hidden">
+                <!-- Abstract BG shape -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                
+                <div class="relative z-10 text-center mb-10">
+                    <h2 class="font-display text-4xl font-bold mb-4">Let's Find Your Car</h2>
+                    <p class="text-gray-400">Fill out the brief form below. We'll contact you within 24 hours to discuss your options.</p>
+                </div>
+
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thanks for your interest! In a real deployment, this would send your data to AlexAuto.');">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm text-gray-400 font-medium ml-1">Name</label>
+                            <input type="text" placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm text-gray-400 font-medium ml-1">Phone Number</label>
+                            <input type="tel" placeholder="+357" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm text-gray-400 font-medium ml-1">What are you looking for?</label>
+                        <select class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors appearance-none">
+                            <option class="bg-brand-dark">Specific Car Model</option>
+                            <option class="bg-brand-dark">Advice on what to buy</option>
+                            <option class="bg-brand-dark">Japan Import</option>
+                            <option class="bg-brand-dark">UK Import</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm text-gray-400 font-medium ml-1">Budget Range (€)</label>
+                        <input type="text" placeholder="e.g. 10,000 - 15,000" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold py-4 rounded-lg transition-colors shadow-lg shadow-brand-accent/20 flex items-center justify-center gap-2 group">
+                        Start Free Consultation
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    
+                    <p class="text-xs text-center text-gray-500 mt-4">No commitment required. 100% Free Consultation.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <div class="font-display font-bold text-2xl tracking-tighter text-white mb-2">
+                    Alex<span class="text-brand-accent">Auto</span>.
+                </div>
+                <p class="text-gray-500 text-sm">Automotive Brokerage Services, Cyprus.</p>
+            </div>
+            
+            <div class="flex gap-6 text-gray-400">
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+            </div>
+            
+            <p class="text-gray-600 text-sm">© 2024 AlexAuto. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Initialize Lenis (Smooth Scroll)
+        // Check if Lenis is loaded to prevent errors if CDN fails
+        if (typeof Lenis !== 'undefined') {
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        } else {
+            console.warn("Lenis library failed to load. Smooth scrolling disabled.");
+            // Optional: fallback to CSS smooth scrolling
+            document.documentElement.style.scrollBehavior = "smooth";
+        }
+
+        // Integrate Lenis with GSAP ScrollTrigger
+        // Ensure libraries are available
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Animations
+            const tl = gsap.timeline();
+            tl.to(".hero-anim", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            // Hero Background Parallax
+            gsap.to("#hero-bg", {
+                yPercent: 30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Navbar Blur on Scroll
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('bg-brand-dark/80', 'backdrop-blur-lg', 'border-b', 'border-white/5');
+                } else {
+                    nav.classList.remove('bg-brand-dark/80', 'backdrop-blur-lg', 'border-b', 'border-white/5');
+                }
+            });
+
+            // Fade Up Animations for Sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                gsap.fromTo(section.children, 
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1,
+                        stagger: 0.1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            end: "top 20%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            // Stats Counter Animation
+            const stats = document.querySelectorAll('.stats-item');
+            gsap.from(stats, {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: ".stats-item",
+                    start: "top 85%"
+                }
+            });
+        }
+    </script>
+</body>
+</html>
