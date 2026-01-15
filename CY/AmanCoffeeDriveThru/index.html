@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMAN COFFEE | The Premium Drive-Thru</title>
+    <meta name="description" content="High-efficiency, premium drive-thru coffee in Limassol. Maximum speed, zero parking hassle.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aman-black': '#0f0f0f',
+                        'aman-dark': '#1a1a1a',
+                        'aman-accent': '#e67e22', // Electric Amber
+                        'aman-cream': '#f3e5ab',
+                        'aman-gray': '#2d2d2d'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to bottom, rgba(15,15,15,0.3), rgba(15,15,15,1)), url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2071&auto=format&fit=crop')",
+                        'texture': "url('https://www.transparenttextures.com/patterns/stardust.png')" // Subtle noise
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scroll Setup */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Utilities */
+        body {
+            background-color: #0f0f0f;
+            color: #f3e5ab;
+            overflow-x: hidden;
+        }
+        
+        .clip-text-image {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f0f;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .loader-bar {
+            width: 0%;
+            height: 2px;
+            background: #e67e22;
+            margin-top: 20px;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="selection:bg-aman-accent selection:text-aman-black">
+
+    <!-- Preloader -->
+    <div id="loader">
+        <h1 class="font-display text-4xl tracking-widest text-aman-accent">AMAN</h1>
+        <div class="w-48 h-[2px] bg-aman-gray mt-4 rounded-full overflow-hidden">
+            <div class="loader-bar h-full"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white transition-all duration-300" id="navbar">
+        <div class="text-2xl font-display font-bold tracking-tighter">AMAN<span class="text-aman-accent">.</span></div>
+        <div class="hidden md:flex gap-8 font-sans text-sm uppercase tracking-widest">
+            <a href="#menu" class="hover:text-aman-accent transition-colors">Menu</a>
+            <a href="#location" class="hover:text-aman-accent transition-colors">Location</a>
+            <a href="#about" class="hover:text-aman-accent transition-colors">Concept</a>
+        </div>
+        <button class="border border-white/20 px-4 py-2 rounded-full font-sans text-xs uppercase tracking-wider hover:bg-aman-accent hover:border-aman-accent hover:text-black transition-all">
+            Order Ahead
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-aman-black">
+        <!-- Background Image Parallax -->
+        <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center opacity-60 scale-110" id="hero-bg"></div>
+        
+        <div class="relative z-10 text-center px-4 max-w-5xl">
+            <p class="hero-reveal font-sans text-aman-accent tracking-[0.2em] uppercase text-sm md:text-base mb-4">Limassol's Premium Fuel Stop</p>
+            <h1 class="hero-reveal font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-none mb-6 text-white uppercase">
+                Barista Quality.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-aman-cream to-white">Drive-Thru Speed.</span>
+            </h1>
+            <p class="hero-reveal font-sans text-white/70 max-w-md mx-auto mb-10 text-lg">
+                Specialty coffee engineered for your commute. No parking, no waiting, just exceptional coffee on the go.
+            </p>
+            <div class="hero-reveal flex flex-col md:flex-row gap-4 justify-center items-center">
+                <a href="#location" class="bg-aman-accent text-aman-black px-8 py-4 rounded-full font-display font-bold text-lg uppercase tracking-wide hover:scale-105 transition-transform flex items-center gap-2">
+                    Start Your Engine <i class="ph-bold ph-arrow-right"></i>
+                </a>
+                <a href="#menu" class="px-8 py-4 rounded-full font-display font-bold text-lg uppercase tracking-wide border border-white/20 hover:bg-white hover:text-black transition-all">
+                    View Menu
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 animate-bounce">
+            <i class="ph ph-caret-down text-3xl text-white/50"></i>
+        </div>
+    </header>
+
+    <!-- Kinetic Marquee -->
+    <div class="w-full bg-aman-accent py-4 overflow-hidden border-y border-aman-black">
+        <div class="marquee-container font-display text-4xl md:text-6xl font-bold text-aman-black uppercase italic tracking-tighter">
+            <div class="marquee-content">
+                Freddo Espresso • Iced Latte • Cold Brew • Fresh Pastries • Zero Wait Time • Specialty Grade • Freddo Espresso • Iced Latte • Cold Brew • Fresh Pastries • Zero Wait Time • Specialty Grade •
+            </div>
+        </div>
+    </div>
+
+    <!-- The Advantage Section -->
+    <section id="about" class="py-24 px-6 bg-aman-black relative overflow-hidden">
+        <!-- Abstract Decoration -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-aman-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                
+                <!-- Text Content -->
+                <div class="order-2 md:order-1">
+                    <h2 class="section-title font-display text-4xl md:text-6xl text-white mb-8 uppercase">
+                        Respect for <span class="text-aman-accent">Your Time</span>.
+                    </h2>
+                    <p class="text-white/60 font-sans text-lg mb-8 leading-relaxed">
+                        We built AMAN for the Limassol hustle. Whether you're rushing to the office or heading to university, we stripped away the friction. No finding parking. No standing in line. Just premium specialty coffee handed to you through the window.
+                    </p>
+                    
+                    <div class="grid gap-6">
+                        <div class="feature-item flex items-start gap-4 p-4 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                            <div class="bg-aman-accent p-3 rounded-lg text-aman-black">
+                                <i class="ph-bold ph-timer text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl text-white mb-1">Under 2 Minutes</h3>
+                                <p class="text-sm text-white/50">Optimized workflow to get you back on the road instantly.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item flex items-start gap-4 p-4 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                            <div class="bg-aman-accent p-3 rounded-lg text-aman-black">
+                                <i class="ph-bold ph-car text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl text-white mb-1">Stay in Your Seat</h3>
+                                <p class="text-sm text-white/50">Zero parking hassle. Designed purely for the driver.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item flex items-start gap-4 p-4 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                            <div class="bg-aman-accent p-3 rounded-lg text-aman-black">
+                                <i class="ph-bold ph-coffee-bean text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-xl text-white mb-1">Specialty Grade</h3>
+                                <p class="text-sm text-white/50">Speed doesn't mean compromising on the perfect roast.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual -->
+                <div class="order-1 md:order-2 relative h-[500px] w-full rounded-2xl overflow-hidden image-reveal">
+                    <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1974&auto=format&fit=crop" alt="Coffee Drive Thru" class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aman-black to-transparent opacity-80"></div>
+                    <div class="absolute bottom-6 left-6 border-l-4 border-aman-accent pl-4">
+                        <p class="font-display text-4xl font-bold text-white">100%</p>
+                        <p class="font-sans text-sm text-white/70">Arabica Quality</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlights -->
+    <section id="menu" class="py-24 bg-aman-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-aman-accent font-sans text-sm tracking-widest uppercase">Morning Essentials</span>
+                <h2 class="font-display text-5xl md:text-6xl text-white mt-2 uppercase">The Daily <span class="text-white/20">Fuel</span></h2>
+            </div>
+
+            <!-- Horizontal Scroll on Mobile, Grid on Desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="menu-card group relative h-96 rounded-2xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1550186936-3914a87a710f?q=80&w=1974&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Freddo Espresso">
+                    <div class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"></div>
+                    <div class="absolute bottom-0 p-8 w-full">
+                        <div class="flex justify-between items-end mb-2">
+                            <h3 class="font-display text-3xl text-white uppercase">Freddo Espresso</h3>
+                            <span class="font-sans text-aman-accent text-xl font-bold">€3.00</span>
+                        </div>
+                        <p class="text-white/70 font-sans text-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                            The Cyprus staple. Double shot espresso, blended with ice to foam perfection.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="menu-card group relative h-96 rounded-2xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b5c7fa51?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Iced Latte">
+                    <div class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"></div>
+                    <div class="absolute bottom-0 p-8 w-full">
+                        <div class="flex justify-between items-end mb-2">
+                            <h3 class="font-display text-3xl text-white uppercase">Iced Oat Latte</h3>
+                            <span class="font-sans text-aman-accent text-xl font-bold">€4.20</span>
+                        </div>
+                        <p class="text-white/70 font-sans text-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                            Smooth, creamy, and dairy-free options available. The perfect morning lift.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="menu-card group relative h-96 rounded-2xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?q=80&w=1974&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Snacks">
+                    <div class="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"></div>
+                    <div class="absolute bottom-0 p-8 w-full">
+                        <div class="flex justify-between items-end mb-2">
+                            <h3 class="font-display text-3xl text-white uppercase">Power Snacks</h3>
+                            <span class="font-sans text-aman-accent text-xl font-bold">from €2.50</span>
+                        </div>
+                        <p class="text-white/70 font-sans text-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                            Protein bars, fresh croissants, and savory pies for the on-the-go breakfast.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-12 text-center">
+                <button class="text-white border-b border-aman-accent pb-1 hover:text-aman-accent transition-colors font-display text-lg tracking-wide">
+                    View Full Menu PDF
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Routine -->
+    <section id="location" class="relative py-24 bg-aman-black flex flex-col md:flex-row">
+        <div class="w-full md:w-1/2 min-h-[400px] relative">
+            <!-- Simulated Map Style -->
+            <div class="absolute inset-0 bg-gray-800 grayscale invert opacity-50">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.508544671454!2d33.0333!3d34.6833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDQxJzAwLjAiTiAzM8KwMDInMDAuMCJF!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0; filter: grayscale(100%) invert(90%) contrast(85%);" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="bg-aman-accent text-black px-4 py-2 font-bold font-display uppercase tracking-wider shadow-xl animate-pulse">
+                    <i class="ph-fill ph-map-pin"></i> We Are Here
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 px-6 md:px-16 flex flex-col justify-center py-12">
+            <h2 class="font-display text-4xl md:text-5xl text-white mb-6 uppercase">Your Morning <br><span class="text-aman-accent">Pitstop</span></h2>
+            <p class="text-white/60 font-sans text-lg mb-8">
+                Strategically located on the main avenue to minimize your detour. We seamlessly integrate into your daily commute to work or university.
+            </p>
+            
+            <div class="space-y-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-aman-accent">
+                        <i class="ph-bold ph-clock text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-display uppercase tracking-wide">Opening Hours</h4>
+                        <p class="text-white/50 text-sm">Mon-Fri: 06:00 - 19:00 <br> Sat-Sun: 07:00 - 17:00</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-aman-accent">
+                        <i class="ph-bold ph-navigation-arrow text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-display uppercase tracking-wide">Directions</h4>
+                        <a href="#" class="text-white/50 text-sm hover:text-white underline">Get Google Maps Directions</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10">
+                <a href="#" class="w-full md:w-auto inline-block text-center bg-white text-black px-8 py-4 rounded-full font-display font-bold text-lg uppercase tracking-wide hover:bg-aman-accent transition-colors">
+                    Start Navigation
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Footer -->
+    <footer class="bg-aman-dark border-t border-white/5 pt-20 pb-10 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div class="col-span-1 md:col-span-2">
+                    <h2 class="font-display text-6xl text-white font-bold tracking-tighter mb-6">AMAN<span class="text-aman-accent">.</span></h2>
+                    <p class="text-white/40 max-w-sm">
+                        Redefining the drive-thru experience in Limassol. Speed, quality, and style in every cup.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-display uppercase mb-4">Connect</h4>
+                    <ul class="space-y-2 text-white/50 text-sm">
+                        <li><a href="#" class="hover:text-aman-accent transition-colors">Instagram</a></li>
+                        <li><a href="#" class="hover:text-aman-accent transition-colors">TikTok</a></li>
+                        <li><a href="#" class="hover:text-aman-accent transition-colors">Facebook</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-display uppercase mb-4">Contact</h4>
+                    <ul class="space-y-2 text-white/50 text-sm">
+                        <li>hello@amancoffee.cy</li>
+                        <li>+357 25 123 456</li>
+                        <li>Limassol, Cyprus</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-xs text-white/30 font-sans uppercase tracking-widest">
+                <p>&copy; 2024 Aman Coffee. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">Privacy</a>
+                    <a href="#" class="hover:text-white">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // 2. Loading Sequence
+        document.addEventListener("DOMContentLoaded", () => {
+            const loader = document.getElementById('loader');
+            const bar = document.querySelector('.loader-bar');
+            
+            // Simple loading simulation
+            gsap.to(bar, {
+                width: "100%",
+                duration: 1.5,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    gsap.to(loader, {
+                        yPercent: -100,
+                        duration: 0.8,
+                        ease: "power4.inOut",
+                        onComplete: initAnimations
+                    });
+                }
+            });
+        });
+
+        // 3. Register GSAP Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        function initAnimations() {
+            // Navbar Glass Effect
+            const nav = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.remove('py-4');
+                    nav.classList.add('py-2', 'bg-black/50', 'backdrop-blur-md');
+                } else {
+                    nav.classList.add('py-4');
+                    nav.classList.remove('py-2', 'bg-black/50', 'backdrop-blur-md');
+                }
+            });
+
+            // Hero Text Reveal
+            gsap.from(".hero-reveal", {
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Parallax Hero Background
+            gsap.to("#hero-bg", {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Feature Cards Reveal
+            gsap.utils.toArray('.feature-item').forEach((item, i) => {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                    },
+                    x: -50,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: "power3.out"
+                });
+            });
+
+            // Image Reveal
+            gsap.from(".image-reveal", {
+                scrollTrigger: {
+                    trigger: ".image-reveal",
+                    start: "top 80%",
+                },
+                scale: 0.9,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out"
+            });
+            
+            // Section Titles
+            gsap.utils.toArray('.section-title').forEach(title => {
+                gsap.from(title, {
+                    scrollTrigger: {
+                        trigger: title,
+                        start: "top 80%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            });
+
+            // Menu Cards Stagger
+            gsap.from(".menu-card", {
+                scrollTrigger: {
+                    trigger: "#menu",
+                    start: "top 75%",
+                },
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "back.out(1.7)"
+            });
+        }
+    </script>
+</body>
+</html>
