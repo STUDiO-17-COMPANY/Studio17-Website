@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICONIC OPTICAL | Limassol</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Removed Bodoni Moda, focused on Manrope for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.0.42/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Unifying fonts: Both are now Manrope to ensure consistency
+                        serif: ['"Manrope"', 'sans-serif'], 
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    colors: {
+                        'iconic-cream': '#F9F5F0',     
+                        'iconic-wood': '#3E2723',      
+                        'iconic-gold': '#B8860B',      
+                        'iconic-sand': '#E8E4DC',      
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F5F0;
+            color: #3E2723;
+            overflow-x: hidden;
+            font-family: 'Manrope', sans-serif; /* Global font reset */
+        }
+
+        /* Lenis */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        /* Loader */
+        .curtain {
+            position: fixed;
+            inset: 0;
+            background: #3E2723;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #F9F5F0;
+        }
+        
+        /* Wood Texture Gradient */
+        .bg-wood-gradient {
+            background: linear-gradient(to bottom, #3E2723, #251614);
+        }
+
+        /* Nav Transition */
+        nav.scrolled {
+            background-color: rgba(249, 245, 240, 0.98);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Product Hover */
+        .product-card .add-to-cart {
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .product-card:hover .add-to-cart {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Form Input Styles */
+        .input-premium {
+            background: transparent;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            transition: border-color 0.3s ease;
+        }
+        .input-premium:focus {
+            outline: none;
+            border-color: #B8860B;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Curtain Loader -->
+    <div class="curtain" id="curtain">
+        <div class="flex flex-col items-center">
+            <!-- Updated Typography: Bold Sans -->
+            <h1 class="font-sans font-extrabold text-5xl md:text-7xl italic overflow-hidden tracking-tighter">
+                <span class="inline-block translate-y-full curtain-text">ICONIC</span>
+            </h1>
+            <p class="font-sans text-xs tracking-[0.3em] mt-4 uppercase text-iconic-gold overflow-hidden font-bold">
+                <span class="inline-block translate-y-full curtain-sub">Limassol</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <!-- Updated Typography: Bold Sans -->
+        <a href="#" class="font-sans text-2xl tracking-tighter z-50 text-iconic-wood font-extrabold">ICONIC.</a>
+        
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex gap-10 font-sans text-xs font-bold tracking-widest uppercase items-center text-iconic-wood">
+            <a href="#shop" class="hover:text-iconic-gold transition-colors">Shop</a>
+            <a href="#clinical" class="hover:text-iconic-gold transition-colors">Clinical</a>
+            
+            <!-- Shopping Cart Icon -->
+            <button class="relative group flex items-center gap-2 hover:text-iconic-gold transition-colors">
+                <span class="hidden group-hover:block transition-all duration-300">Bag</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+                <span class="absolute -top-2 -right-2 bg-iconic-wood text-iconic-cream text-[9px] w-4 h-4 flex items-center justify-center rounded-full group-hover:bg-iconic-gold transition-colors font-bold">0</span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Icon -->
+        <div class="md:hidden flex items-center gap-4">
+             <button class="text-iconic-wood">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+             </button>
+            <button class="text-iconic-wood font-sans text-xs uppercase tracking-widest font-extrabold">
+                Menu
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen w-full flex items-center overflow-hidden bg-iconic-cream pt-20">
+            <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center h-full">
+                
+                <!-- Text Content -->
+                <div class="relative z-10 order-2 md:order-1 pb-12 md:pb-0">
+                    <p class="font-sans text-xs font-bold tracking-[0.3em] mb-6 uppercase text-iconic-gold hero-anim opacity-0 translate-y-4">Luxury Optical Boutique</p>
+                    
+                    <h1 class="font-sans font-extrabold text-5xl md:text-7xl lg:text-8xl leading-none hero-anim opacity-0 translate-y-8 text-iconic-wood mb-8 tracking-tight">
+                        WARMTH <br>
+                        TEXTURE <br>
+                        <span class="text-iconic-gold">VISION</span>
+                    </h1>
+                    <p class="font-sans text-sm font-medium text-gray-600 max-w-sm hero-anim opacity-0 leading-relaxed mb-8">
+                        A curated selection of the world's finest fashion houses. Now available for purchase online or at our Limassol atelier.
+                    </p>
+                    <div class="hero-anim opacity-0">
+                        <a href="#shop" class="inline-block bg-iconic-wood text-iconic-cream px-10 py-4 rounded-sm font-sans text-xs font-bold uppercase tracking-widest hover:bg-iconic-gold transition-colors duration-300">
+                            Shop Collections
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="relative h-[60vh] md:h-[80vh] w-full order-1 md:order-2 overflow-hidden rounded-sm hero-anim opacity-0 scale-95 origin-center">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768657136/Gemini_Generated_Image_mmvrxwmmvrxwmmvr_aq2cnx.png" 
+                         alt="Modern Luxury Optical" 
+                         class="w-full h-full object-cover hero-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- The Shop Section -->
+        <section id="shop" class="py-24 bg-iconic-sand">
+            <div class="container mx-auto px-6 md:px-12">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-iconic-wood/10 pb-6">
+                    <div>
+                        <span class="font-sans text-xs font-bold text-iconic-gold tracking-widest uppercase mb-2 block">New Arrivals</span>
+                        <!-- Updated Typography: Bold Sans -->
+                        <h2 class="font-sans font-bold text-4xl md:text-5xl text-iconic-wood tracking-tight">CURATED SELECTION</h2>
+                    </div>
+                    <a href="#" class="font-sans text-xs font-bold uppercase tracking-widest text-iconic-wood hover:text-iconic-gold mt-4 md:mt-0">View All Frames &rarr;</a>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Product 1 -->
+                    <div class="product-card group cursor-pointer">
+                        <div class="relative aspect-[3/4] mb-4 bg-white overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?q=80&w=2673&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Tom Ford 5178">
+                            
+                            <!-- Quick Add Overlay -->
+                            <div class="absolute bottom-0 left-0 w-full p-4 add-to-cart">
+                                <button class="w-full bg-iconic-wood text-iconic-cream py-3 text-xs font-bold uppercase tracking-widest hover:bg-iconic-gold transition-colors">
+                                    Add to Bag — €450
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <!-- Updated Typography: Bold Sans -->
+                                <h3 class="font-sans font-bold text-xl text-iconic-wood tracking-tight">TOM FORD</h3>
+                                <p class="font-sans text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">FT5178 'Classic'</p>
+                            </div>
+                            <span class="font-sans text-sm font-extrabold text-iconic-wood">€450</span>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card group cursor-pointer md:mt-12">
+                        <div class="relative aspect-[3/4] mb-4 bg-white overflow-hidden">
+                            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768657467/0GC002379__1100B2__PIC01__noshad__fr_ncfkwz.avif" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Gucci Aviator">
+                             <div class="absolute bottom-0 left-0 w-full p-4 add-to-cart">
+                                <button class="w-full bg-iconic-wood text-iconic-cream py-3 text-xs font-bold uppercase tracking-widest hover:bg-iconic-gold transition-colors">
+                                    Add to Bag — €380
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-sans font-bold text-xl text-iconic-wood tracking-tight">GUCCI</h3>
+                                <p class="font-sans text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">GG0061S Round</p>
+                            </div>
+                            <span class="font-sans text-sm font-extrabold text-iconic-wood">€380</span>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card group cursor-pointer">
+                        <div class="relative aspect-[3/4] mb-4 bg-white overflow-hidden">
+                            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768657467/0GC002379__1100B2__PIC01__noshad__fr_ncfkwz.avif" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Prada Symbole">
+                             <div class="absolute bottom-0 left-0 w-full p-4 add-to-cart">
+                                <button class="w-full bg-iconic-wood text-iconic-cream py-3 text-xs font-bold uppercase tracking-widest hover:bg-iconic-gold transition-colors">
+                                    Add to Bag — €520
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-sans font-bold text-xl text-iconic-wood tracking-tight">PRADA</h3>
+                                <p class="font-sans text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">Symbole Geometric</p>
+                            </div>
+                            <span class="font-sans text-sm font-extrabold text-iconic-wood">€520</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Interior Experience (Using REAL Image) -->
+        <section id="philosophy" class="py-32 px-6 md:px-12 bg-iconic-cream">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row gap-16 items-center">
+                    <div class="md:w-1/2 relative group">
+                        <!-- Added a border frame effect for luxury feel -->
+                        <div class="absolute -inset-4 border border-iconic-wood/20 z-0"></div>
+                        <!-- Using Cloudinary Image provided by user -->
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768656290/unnamed_1_lcfxku.jpg" alt="Iconic Optical Store Interior" class="relative z-10 w-full aspect-[4/3] object-cover shadow-2xl reveal-img filter sepia-[0.15]">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-iconic-wood border border-iconic-wood px-3 py-1 rounded-full mb-6 inline-block">The Experience</span>
+                        <!-- Updated Typography: Bold Sans -->
+                        <h2 class="font-sans font-bold text-4xl md:text-6xl text-iconic-wood leading-tight mb-8 tracking-tight">
+                            SURROUNDED BY <br><span class="text-iconic-gold">CRAFTSMANSHIP</span>
+                        </h2>
+                        <p class="font-sans text-sm font-medium text-gray-700 leading-relaxed mb-6">
+                            Iconic Optical is designed to feel less like a clinic and more like a private library. Rich mahogany shelves line the walls, showcasing eyewear like rare artifacts. 
+                        </p>
+                        <p class="font-sans text-sm font-medium text-gray-700 leading-relaxed mb-8">
+                            Sit in our leather lounge chairs, enjoy an espresso, and let our stylists guide you through the new collections.
+                        </p>
+                        <a href="#visit" class="text-iconic-wood font-sans text-xs font-bold uppercase tracking-widest border-b-2 border-iconic-wood pb-1 hover:text-iconic-gold hover:border-iconic-gold transition-colors">
+                            Book a Styling Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clinical (Subtle Tech) -->
+        <section id="clinical" class="py-24 bg-white border-t border-iconic-sand">
+            <div class="container mx-auto px-6 md:px-12 text-center max-w-4xl">
+                <span class="block font-sans font-bold uppercase tracking-widest text-sm text-iconic-gold mb-4">Precision</span>
+                <!-- Updated Typography: Bold Sans -->
+                <h2 class="font-sans font-extrabold text-3xl md:text-5xl uppercase tracking-tight text-iconic-wood mb-12">Clinical Excellence</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-8 border border-gray-100 hover:border-iconic-gold transition-colors">
+                        <div class="text-iconic-gold text-4xl mb-4 font-sans font-light">01.</div>
+                        <h3 class="font-bold text-iconic-wood text-sm uppercase tracking-wide mb-2">Eye Health</h3>
+                        <p class="text-xs font-medium text-gray-600 leading-relaxed">Comprehensive examinations using hospital-grade diagnostics.</p>
+                    </div>
+                    <div class="p-8 border border-gray-100 hover:border-iconic-gold transition-colors bg-iconic-cream">
+                        <div class="text-iconic-gold text-4xl mb-4 font-sans font-light">02.</div>
+                        <h3 class="font-bold text-iconic-wood text-sm uppercase tracking-wide mb-2">Zeiss Lenses</h3>
+                        <p class="text-xs font-medium text-gray-600 leading-relaxed">Official partner of Zeiss. Digital centration for perfect optics.</p>
+                    </div>
+                    <div class="p-8 border border-gray-100 hover:border-iconic-gold transition-colors">
+                        <div class="text-iconic-gold text-4xl mb-4 font-sans font-light">03.</div>
+                        <h3 class="font-bold text-iconic-wood text-sm uppercase tracking-wide mb-2">Fitting</h3>
+                        <p class="text-xs font-medium text-gray-600 leading-relaxed">Expert frame fitting based on facial structure and lifestyle.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Improved Contact & Footer -->
+        <section id="visit" class="bg-wood-gradient text-iconic-cream pt-24 pb-12 px-6 md:px-12 relative overflow-hidden">
+             
+             <!-- Decorative Top Border -->
+             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-iconic-gold to-transparent opacity-30"></div>
+
+             <div class="container mx-auto relative z-10">
+                 
+                 <!-- Main Content Row -->
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-20">
+                     
+                     <!-- Left: Info -->
+                     <div class="flex flex-col justify-center">
+                         <!-- Updated Typography: Bold Sans -->
+                         <h2 class="font-sans font-extrabold text-5xl md:text-7xl mb-8 leading-none tracking-tight">VISIT THE <br><span class="text-iconic-gold">ATELIER</span></h2>
+                         <p class="font-sans text-sm font-medium text-white/60 max-w-md mb-12 leading-relaxed">
+                             Experience the collection in person. Appointments recommended for eye exams, walk-ins welcome for browsing.
+                         </p>
+                         
+                         <div class="grid grid-cols-2 gap-8 font-sans text-sm">
+                             <div>
+                                 <span class="block text-iconic-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-3">Address</span>
+                                 <p class="text-white/80 font-medium">Makariou III Avenue,<br>Limassol, Cyprus</p>
+                             </div>
+                             <div>
+                                 <span class="block text-iconic-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-3">Contact</span>
+                                 <p class="text-white/80 font-medium hover:text-white transition-colors cursor-pointer">+357 25 000 000</p>
+                                 <p class="text-white/80 font-medium hover:text-white transition-colors cursor-pointer">hello@iconicoptical.cy</p>
+                             </div>
+                             <div>
+                                 <span class="block text-iconic-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-3">Hours</span>
+                                 <p class="text-white/80 font-medium">Mon-Sat: 10:00 - 19:30<br>Sunday: Private Appts.</p>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- Right: Enhanced Form -->
+                     <div class="bg-white/5 p-8 md:p-12 backdrop-blur-md border border-white/10 relative">
+                         <div class="absolute top-0 right-0 p-4 opacity-20">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>
+                         </div>
+                         
+                         <!-- Updated Typography: Bold Sans -->
+                         <h3 class="font-sans font-bold text-2xl uppercase tracking-widest mb-8 text-white">Concierge Service</h3>
+                         <form class="space-y-8">
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                 <div>
+                                     <label class="block text-[10px] font-bold uppercase tracking-widest text-iconic-gold mb-2">Name</label>
+                                     <input type="text" class="w-full input-premium py-2 text-white placeholder-white/20 font-medium" placeholder="Your Name">
+                                 </div>
+                                 <div>
+                                     <label class="block text-[10px] font-bold uppercase tracking-widest text-iconic-gold mb-2">Phone</label>
+                                     <input type="tel" class="w-full input-premium py-2 text-white placeholder-white/20 font-medium" placeholder="+357 ...">
+                                 </div>
+                             </div>
+                             <div>
+                                 <label class="block text-[10px] font-bold uppercase tracking-widest text-iconic-gold mb-2">Interest</label>
+                                 <select class="w-full input-premium py-2 text-white bg-transparent font-medium">
+                                     <option class="bg-iconic-wood text-white">Eye Examination</option>
+                                     <option class="bg-iconic-wood text-white">Styling Session</option>
+                                     <option class="bg-iconic-wood text-white">Order Inquiry</option>
+                                 </select>
+                             </div>
+                             <div>
+                                 <label class="block text-[10px] font-bold uppercase tracking-widest text-iconic-gold mb-2">Message</label>
+                                 <textarea class="w-full input-premium py-2 text-white placeholder-white/20 h-20 bg-transparent resize-none font-medium" placeholder="Tell us how we can help..."></textarea>
+                             </div>
+                             <button class="w-full bg-iconic-gold text-iconic-wood font-sans font-bold uppercase text-xs tracking-widest py-4 mt-4 hover:bg-white transition-colors duration-500">
+                                 Send Request
+                             </button>
+                         </form>
+                     </div>
+
+                 </div>
+                 
+                 <!-- Footer Bottom -->
+                 <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-widest text-white/40 font-sans">
+                     <p>&copy; 2024 ICONIC OPTICAL. All rights reserved.</p>
+                     <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-iconic-gold transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-iconic-gold transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-iconic-gold transition-colors">Facebook</a>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- LENIS ---
+            let lenis;
+            if (typeof Lenis !== 'undefined') {
+                lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            // GSAP Registration
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- CURTAIN REVEAL ---
+            const curtainTl = gsap.timeline();
+            
+            curtainTl.to(".curtain-text", { y: 0, duration: 1, ease: "power4.out" })
+                     .to(".curtain-sub", { y: 0, duration: 1, ease: "power4.out" }, "-=0.8")
+                     .to({}, { duration: 0.5 }) // Pause
+                     .to("#curtain", { 
+                         yPercent: -100, 
+                         duration: 1.2, 
+                         ease: "power4.inOut" 
+                     })
+                     .to(".hero-anim", {
+                         y: 0,
+                         opacity: 1,
+                         duration: 1,
+                         stagger: 0.1,
+                         ease: "power3.out"
+                     }, "-=0.5")
+                     .to(".hero-img", {
+                         scale: 1,
+                         opacity: 1,
+                         duration: 1.5,
+                         ease: "power2.out"
+                     }, "-=1.0");
+
+            // --- NAVBAR SCROLL EFFECT ---
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // --- IMAGE REVEAL ON SCROLL ---
+            const revealImgs = document.querySelectorAll('.reveal-img');
+            revealImgs.forEach(img => {
+                gsap.from(img, {
+                    scale: 0.9,
+                    opacity: 0,
+                    duration: 1.5,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: img,
+                        start: "top 75%"
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
