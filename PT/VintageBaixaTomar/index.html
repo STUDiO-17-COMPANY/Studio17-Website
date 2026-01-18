@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Baixa Tomar | Alojamento Histórico</title>
+    <meta name="description" content="Alojamento vintage no coração histórico de Tomar. Quartos confortáveis com casa de banho privativa na Rua Aurora Macedo.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vintage-cream': '#F9F7F2',
+                        'vintage-stone': '#E6E2DD',
+                        'vintage-clay': '#C16F48',
+                        'vintage-olive': '#5A614A',
+                        'vintage-charcoal': '#2C2C2C',
+                        'vintage-gold': '#D4AF37'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Lenis Smooth Scroll Setup */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Styles */
+        body {
+            background-color: #F9F7F2;
+            color: #2C2C2C;
+            overflow-x: hidden;
+        }
+        
+        .image-container {
+            overflow: hidden;
+            background-color: #E6E2DD; /* Fallback color while loading */
+        }
+        
+        .image-parallax {
+            will-change: transform;
+            transform-origin: center center;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Text reveal mask */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        /* Grain Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E');
+        }
+        
+        img {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Navbar Transition Helper Classes */
+        .nav-scrolled {
+            background-color: rgba(249, 247, 242, 0.95); /* vintage-cream with opacity */
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            color: #2C2C2C !important; /* vintage-charcoal */
+        }
+
+        .nav-transparent {
+            background-color: transparent;
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
+            color: #F9F7F2 !important; /* vintage-cream */
+        }
+        
+        /* Button Styles based on context */
+        .nav-scrolled .btn-reserve {
+            border-color: #2C2C2C;
+            color: #2C2C2C;
+        }
+        .nav-scrolled .btn-reserve:hover {
+            background-color: #2C2C2C;
+            color: #F9F7F2;
+        }
+
+        .nav-transparent .btn-reserve {
+            border-color: #F9F7F2;
+            color: #F9F7F2;
+        }
+        .nav-transparent .btn-reserve:hover {
+            background-color: #F9F7F2;
+            color: #2C2C2C;
+        }
+
+        /* Map Styles */
+        .map-filter {
+            filter: grayscale(0.5) sepia(0.2);
+            transition: filter 0.5s ease;
+        }
+        .map-container:hover .map-filter {
+            filter: grayscale(0);
+        }
+
+        /* Modal Styles */
+        .modal-open {
+            overflow: hidden;
+        }
+        #availability-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transform: translateY(20px);
+            transition: transform 0.3s ease-in-out;
+        }
+        #availability-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Room Card Styles - Ensure visibility */
+        .room-card {
+            opacity: 1 !important; /* Force visibility overrides GSAP if stuck */
+            transform: none !important;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-500 px-6 nav-transparent" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl md:text-3xl font-semibold tracking-wide transition-colors duration-300 text-current">
+                Vintage Baixa.
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 transition-colors duration-300 text-current">
+                <a href="#conceito" class="hover:text-vintage-clay transition-colors text-sm uppercase tracking-widest font-medium">O Espaço</a>
+                <a href="#quartos" class="hover:text-vintage-clay transition-colors text-sm uppercase tracking-widest font-medium">Alojamento</a>
+                <a href="#info" class="hover:text-vintage-clay transition-colors text-sm uppercase tracking-widest font-medium">Informações</a>
+            </div>
+
+            <button onclick="openModal()" class="btn-reserve hidden md:inline-flex items-center justify-center px-6 py-3 border bg-transparent transition-all duration-300 rounded-full text-sm uppercase tracking-widest font-medium group relative overflow-hidden cursor-pointer">
+                <span class="relative z-10">Ver Disponibilidade</span>
+            </button>
+
+            <button class="md:hidden z-50 text-current transition-colors duration-300" id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 bg-vintage-cream z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 md:hidden" id="mobile-menu">
+        <a href="#conceito" class="mobile-link text-3xl font-serif text-vintage-charcoal">O Espaço</a>
+        <a href="#quartos" class="mobile-link text-3xl font-serif text-vintage-charcoal">Alojamento</a>
+        <a href="#info" class="mobile-link text-3xl font-serif text-vintage-charcoal">Informações</a>
+        <button onclick="openModal()" class="mobile-link text-3xl font-serif text-vintage-clay italic">Ver Disponibilidade</button>
+        <button id="close-menu" class="absolute top-6 right-6">
+            <i data-lucide="x" class="w-8 h-8 text-vintage-charcoal"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 image-container">
+            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768584709/download_nubjst.jpg" alt="Interior Vintage Baixa Tomar" class="w-full h-full object-cover image-parallax scale-110 opacity-90" data-speed="0.5">
+            <div class="absolute inset-0 bg-black/40"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <p class="hero-subtitle text-vintage-cream text-sm md:text-base uppercase tracking-[0.2em] mb-4 opacity-0">Rua Aurora de Macedo, Tomar</p>
+            <h1 class="hero-title font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[1.1] mb-8 opacity-0">
+                Simplicidade <br> & <span class="italic text-vintage-stone">Charme Antigo</span>
+            </h1>
+            <div class="hero-cta opacity-0 mt-8">
+                <button onclick="openModal()" class="inline-flex items-center gap-2 bg-vintage-cream text-vintage-charcoal px-8 py-4 rounded-full hover:bg-vintage-clay hover:text-white transition-all duration-300 uppercase tracking-widest text-sm font-medium">
+                    Ver Disponibilidade
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro / Concept Section -->
+    <section id="conceito" class="py-24 md:py-32 px-6 bg-vintage-cream relative">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 relative">
+                <div class="image-container rounded-sm overflow-hidden aspect-[4/5] relative">
+                    <img 
+                        src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585929/2e824686-a079-4465-9088-216efbdfd368.png" 
+                        alt="Detalhe Quarto Vintage" 
+                        class="w-full h-full object-cover image-parallax" 
+                        data-speed="0.2">
+                </div>
+                <!-- Floating Badge -->
+                <div class="absolute -bottom-10 -right-10 bg-white p-6 md:p-8 rounded-full shadow-xl hidden md:block animate-spin-slow">
+                    <svg viewBox="0 0 100 100" width="100" height="100">
+                        <defs>
+                            <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/>
+                        </defs>
+                        <text font-size="11" font-family="Inter" font-weight="500" letter-spacing="2">
+                            <textPath xlink:href="#circle">
+                                VINTAGE BAIXA • TOMAR • PORTUGAL •
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 space-y-8">
+                <h2 class="section-title font-serif text-4xl md:text-5xl text-vintage-charcoal leading-tight">
+                    Um refúgio onde o <span class="text-vintage-clay italic">tempo abranda</span>.
+                </h2>
+                <div class="space-y-6 text-vintage-charcoal/80 font-light text-lg leading-relaxed">
+                    <p class="reveal-p">
+                        Situado na <strong>Rua Aurora Macedo</strong>, nas ruas empedradas da baixa histórica, o Vintage Baixa Tomar não é apenas um lugar para dormir. 
+                    </p>
+                    <p class="reveal-p">
+                        Privilegiamos o conforto clássico — chão em parquet, aquecimento, ar condicionado e roupa de cama de qualidade. Oferecemos uma estadia autêntica com todas as comodidades modernas, incluindo Wi-Fi gratuito e televisão de ecrã plano em todos os quartos.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <div class="flex items-center gap-2 bg-vintage-stone/20 px-4 py-2 rounded-full">
+                        <i data-lucide="wifi" class="text-vintage-clay w-4 h-4"></i>
+                        <span class="text-xs uppercase tracking-widest">Wi-Fi Grátis</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-vintage-stone/20 px-4 py-2 rounded-full">
+                        <i data-lucide="wind" class="text-vintage-clay w-4 h-4"></i>
+                        <span class="text-xs uppercase tracking-widest">Ar Condicionado</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-vintage-stone/20 px-4 py-2 rounded-full">
+                        <i data-lucide="tv" class="text-vintage-clay w-4 h-4"></i>
+                        <span class="text-xs uppercase tracking-widest">TV Ecrã Plano</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="quartos" class="py-24 bg-vintage-stone/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-vintage-clay text-sm uppercase tracking-widest font-semibold block mb-4">A Nossa Coleção</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-vintage-charcoal mb-6">Alojamento com História</h2>
+                <p class="text-vintage-charcoal/70">Escolha o quarto ideal para a sua estadia. Diferentes configurações para o seu conforto.</p>
+            </div>
+
+            <!-- Rooms Grid (Explicitly listing all 7 types) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Room 1: Double 15m Duche -->
+                <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768584384/download_ubsnow.jpg" alt="Quarto Duplo Duche" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">15 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Duplo Standard <br><span class="text-sm font-sans font-light text-gray-500">(Duche)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€62<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Cama de Casal, Duche privativo, Parquet.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <!-- Room 2: Double 20m Bath -->
+                <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768584709/download_nubjst.jpg" alt="Quarto Duplo Banheira Grande" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">20 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Duplo Superior <br><span class="text-sm font-sans font-light text-gray-500">(Banheira)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€66<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Espaçoso, Banheira e Duche, Roupeiro grande.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <!-- Room 3: Double 15m Bath (Conforto) -->
+                <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585041/1b12d0a8-b109-45dd-b94b-4bd5dc98a278.png" alt="Quarto Duplo Banheira" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">15 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Duplo Conforto <br><span class="text-sm font-sans font-light text-gray-500">(Banheira)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€64<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Aconchegante, Banheira, Pisos em madeira.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+                
+                 <!-- Room 4: Double 15m Bath (Elegance/Variation) -->
+                 <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585273/77713159-0128-4293-bbe8-c51bbffe003f.png" alt="Quarto Duplo Banheira Elegance" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">15 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Duplo Elegance <br><span class="text-sm font-sans font-light text-gray-500">(Banheira)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€66<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Banheira relaxante, Ar condicionado, Roupeiro.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+                
+                <!-- Room 5: Double 15m Bath (Classic/Variation) -->
+                 <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585377/9f1ba98c-9041-46f8-a848-d68caaced96f.png" alt="Quarto Duplo Banheira Classico" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">15 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Duplo Clássico <br><span class="text-sm font-sans font-light text-gray-500">(Banheira)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€66<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Estilo vintage, Banheira, TV Ecrã Plano.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                 <!-- Room 6: Single 8m Shower -->
+                 <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585514/5c046464-d34e-4ab0-9663-57ab6a8189f2.png" alt="Quarto Individual" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">8 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Individual <br><span class="text-sm font-sans font-light text-gray-500">(Duche)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€57<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Ideal para viajante solo, Duche privativo.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                 <!-- Room 7: Single 20m Bath -->
+                 <div class="room-card group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="aspect-[4/3] overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585645/9b475469-44aa-4da9-9966-a53fc713aa8c.png" alt="Quarto Individual Superior" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider rounded-full">20 m²</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-vintage-charcoal">Individual Superior <br><span class="text-sm font-sans font-light text-gray-500">(Banheira)</span></h3>
+                            <span class="text-vintage-clay font-bold text-lg">€67<span class="text-xs font-normal text-gray-500">/noite</span></span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">Muito espaçoso para um, Banheira relaxante.</p>
+                        <button onclick="openModal()" class="text-xs uppercase tracking-widest border-b border-vintage-charcoal pb-1 hover:text-vintage-clay hover:border-vintage-clay transition-all">Ver Detalhes</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Details / Marquee Section -->
+    <div class="py-12 bg-vintage-olive overflow-hidden">
+        <div class="marquee-content flex whitespace-nowrap text-vintage-cream/80 font-serif text-3xl md:text-5xl italic">
+            <span class="mx-8">Roupa de cama fresca</span> • 
+            <span class="mx-8">No centro da cidade</span> • 
+            <span class="mx-8">Ar condicionado</span> • 
+            <span class="mx-8">Silêncio e tranquilidade</span> • 
+            <span class="mx-8">Wi-Fi Gratuito</span> • 
+            <span class="mx-8">Casa de banho privativa</span> • 
+            <span class="mx-8">Não fumadores</span> • 
+        </div>
+    </div>
+
+    <!-- Info / Rules Section -->
+    <section id="info" class="py-24 px-6 bg-vintage-cream">
+        <div class="max-w-4xl mx-auto border border-vintage-charcoal/10 p-8 md:p-12 bg-white/50 backdrop-blur-sm rounded-sm">
+            <div class="text-center mb-12">
+                <span class="text-vintage-clay text-sm uppercase tracking-widest font-semibold block mb-2">Informações Úteis</span>
+                <h3 class="font-serif text-3xl md:text-4xl text-vintage-charcoal">Regras e Políticas</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-vintage-stone/30 p-3 rounded-full"><i data-lucide="clock" class="w-6 h-6 text-vintage-charcoal"></i></div>
+                        <div>
+                            <h4 class="font-medium text-lg text-vintage-charcoal">Check-in & Check-out</h4>
+                            <p class="text-gray-600 font-light">Check-in: 15:00 - 20:00</p>
+                            <p class="text-gray-600 font-light">Check-out: 08:00 - 12:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="bg-vintage-stone/30 p-3 rounded-full"><i data-lucide="baby" class="w-6 h-6 text-vintage-charcoal"></i></div>
+                        <div>
+                            <h4 class="font-medium text-lg text-vintage-charcoal">Crianças</h4>
+                            <p class="text-gray-600 font-light">Todas as crianças são bem-vindas.</p>
+                            <p class="text-gray-600 font-light text-sm">Berço (0-2 anos): €20/noite (sujeito a disp.)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-vintage-stone/30 p-3 rounded-full"><i data-lucide="ban" class="w-6 h-6 text-vintage-charcoal"></i></div>
+                        <div>
+                            <h4 class="font-medium text-lg text-vintage-charcoal">Políticas</h4>
+                            <p class="text-gray-600 font-light">Não é permitido fumar.</p>
+                            <p class="text-gray-600 font-light">Animais de estimação não admitidos.</p>
+                            <p class="text-gray-600 font-light">Sem estacionamento privado.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="bg-vintage-stone/30 p-3 rounded-full"><i data-lucide="globe" class="w-6 h-6 text-vintage-charcoal"></i></div>
+                        <div>
+                            <h4 class="font-medium text-lg text-vintage-charcoal">Idiomas</h4>
+                            <p class="text-gray-600 font-light">Português, Inglês, Francês</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="localizacao" class="py-24 px-6 relative bg-vintage-charcoal text-vintage-cream">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-8">
+                <span class="text-vintage-gold text-sm uppercase tracking-widest block">Localização Premium</span>
+                <h2 class="font-serif text-4xl md:text-6xl leading-tight">
+                    A história de Portugal à sua porta.
+                </h2>
+                <p class="text-vintage-stone/80 text-lg font-light leading-relaxed">
+                    Estamos na <strong>Rua Aurora Macedo</strong>, uma localização privilegiada. O icónico <strong>Convento de Cristo</strong> vigia-nos do alto da colina, enquanto o rio Nabão corre suavemente a dois minutos a pé.
+                </p>
+                
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-center gap-4 text-vintage-stone/90">
+                        <span class="w-2 h-2 rounded-full bg-vintage-gold"></span>
+                        Praça da República (2 min a pé)
+                    </li>
+                    <li class="flex items-center gap-4 text-vintage-stone/90">
+                        <span class="w-2 h-2 rounded-full bg-vintage-gold"></span>
+                        Convento de Cristo (15 min a pé / 5 min carro)
+                    </li>
+                    <li class="flex items-center gap-4 text-vintage-stone/90">
+                        <span class="w-2 h-2 rounded-full bg-vintage-gold"></span>
+                        Parque do Mouchão (4 min a pé)
+                    </li>
+                </ul>
+
+                <a href="https://maps.google.com" target="_blank" class="inline-block mt-8 border-b border-vintage-gold pb-1 text-vintage-gold hover:text-white hover:border-white transition-colors">
+                    Ver no Google Maps &rarr;
+                </a>
+            </div>
+
+            <div class="relative h-[500px] w-full bg-vintage-stone/10 rounded-sm overflow-hidden group map-container">
+                <!-- Google Maps Embed for Rua Aurora de Macedo -->
+                <iframe 
+                    class="w-full h-full map-filter"
+                    frameborder="0" 
+                    scrolling="no" 
+                    marginheight="0" 
+                    marginwidth="0" 
+                    src="https://maps.google.com/maps?q=Rua%20Aurora%20de%20Macedo%2044%20Tomar&t=m&z=15&ie=UTF8&iwloc=&output=embed">
+                </iframe>
+                
+                <!-- Decorative Pin Overlay (Optional, keeps the design feel) -->
+                <div class="absolute top-0 right-0 bg-vintage-cream/90 text-vintage-charcoal p-4 m-4 rounded-sm shadow-lg pointer-events-none">
+                     <span class="text-xs uppercase tracking-widest font-bold">Vintage Baixa</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-vintage-charcoal text-vintage-cream pt-20 pb-10 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-2">
+                <a href="#" class="font-serif text-3xl font-semibold mb-6 block">Vintage Baixa.</a>
+                <p class="text-vintage-stone/60 max-w-xs font-light">
+                    Alojamento local registado. Uma experiência autêntica no coração de Portugal.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="text-sm uppercase tracking-widest text-vintage-stone mb-6 font-semibold">Contactos</h4>
+                <ul class="space-y-4 text-vintage-stone/60 font-light">
+                    <li>Rua Aurora Macedo N44-46, Tomar</li>
+                    <li>Portugal</li>
+                    <li>ola@vintagebaixatomar.pt</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-sm uppercase tracking-widest text-vintage-stone mb-6 font-semibold">Social</h4>
+                <ul class="space-y-4 text-vintage-stone/60 font-light">
+                    <li><a href="#" class="hover:text-white transition-colors">Instagram</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Facebook</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Booking</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto border-t border-vintage-stone/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-vintage-stone/40">
+            <p>&copy; 2024 Vintage Baixa Tomar. Todos os direitos reservados.</p>
+            <p class="mt-2 md:mt-0">Design & Concept.</p>
+        </div>
+    </footer>
+
+    <!-- Booking Modal (Hidden by default) -->
+    <div id="availability-modal" class="fixed inset-0 z-[100] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-vintage-cream w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-md shadow-2xl modal-content relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-vintage-charcoal hover:text-vintage-clay z-10 p-2 bg-white/50 rounded-full">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="p-8 md:p-12">
+                <div class="text-center mb-8">
+                    <h2 class="font-serif text-3xl md:text-4xl text-vintage-charcoal mb-2">Verificar Disponibilidade</h2>
+                    <p class="text-gray-500">Selecione o quarto de preferência para enviar um pedido.</p>
+                </div>
+
+                <!-- Simple Date Picker Mockup -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 bg-white p-6 rounded-sm shadow-sm border border-vintage-stone">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-1">Check-in</label>
+                        <input type="date" class="w-full bg-vintage-stone/20 border-b border-vintage-charcoal p-2 outline-none font-serif text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-1">Check-out</label>
+                        <input type="date" class="w-full bg-vintage-stone/20 border-b border-vintage-charcoal p-2 outline-none font-serif text-lg">
+                    </div>
+                    <div>
+                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-1">Hóspedes</label>
+                         <select class="w-full bg-vintage-stone/20 border-b border-vintage-charcoal p-2 outline-none font-serif text-lg">
+                             <option>2 Adultos</option>
+                             <option>1 Adulto</option>
+                             <option>Familia (2+1)</option>
+                         </select>
+                    </div>
+                </div>
+
+                <!-- Room List Selection -->
+                <div class="space-y-4">
+                    <h3 class="text-sm uppercase tracking-widest font-bold text-vintage-olive mb-4">Selecione um Quarto</h3>
+                    
+                    <!-- Room Item 1 -->
+                    <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768584384/download_ubsnow.jpg" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Duplo Standard (Duche)</h4>
+                                <span class="font-bold text-vintage-clay">€62</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">15m² • Cama Casal • WC Privativo com Duche</p>
+                            <button onclick="contactBooking('Duplo Standard (Duche)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+
+                    <!-- Room Item 2 -->
+                    <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768584709/download_nubjst.jpg" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Duplo Superior (Banheira)</h4>
+                                <span class="font-bold text-vintage-clay">€66</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">20m² • Cama Casal • Banheira & Duche</p>
+                            <button onclick="contactBooking('Duplo Superior (Banheira)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+
+                    <!-- Room Item 3 -->
+                    <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585041/1b12d0a8-b109-45dd-b94b-4bd5dc98a278.png" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Duplo Conforto (Banheira)</h4>
+                                <span class="font-bold text-vintage-clay">€64</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">15m² • Cama Casal • Banheira</p>
+                            <button onclick="contactBooking('Duplo Conforto (Banheira)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+
+                    <!-- Room Item 4 -->
+                    <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585273/77713159-0128-4293-bbe8-c51bbffe003f.png" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Duplo Elegance (Banheira)</h4>
+                                <span class="font-bold text-vintage-clay">€66</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">15m² • Cama Casal • Banheira Relaxante</p>
+                            <button onclick="contactBooking('Duplo Elegance (Banheira)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+
+                    <!-- Room Item 5 -->
+                    <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585377/9f1ba98c-9041-46f8-a848-d68caaced96f.png" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Duplo Clássico (Banheira)</h4>
+                                <span class="font-bold text-vintage-clay">€66</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">15m² • Cama Casal • Estilo Clássico</p>
+                            <button onclick="contactBooking('Duplo Clássico (Banheira)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+
+                     <!-- Room Item 6 -->
+                     <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585514/5c046464-d34e-4ab0-9663-57ab6a8189f2.png" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Individual (Duche)</h4>
+                                <span class="font-bold text-vintage-clay">€57</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">8m² • Cama Individual • Duche</p>
+                            <button onclick="contactBooking('Individual (Duche)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+
+                     <!-- Room Item 7 -->
+                     <div class="flex flex-col md:flex-row gap-4 border border-vintage-stone p-4 rounded-sm hover:border-vintage-clay transition-colors bg-white">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1768585645/9b475469-44aa-4da9-9966-a53fc713aa8c.png" class="w-full md:w-32 h-24 object-cover rounded-sm" alt="Quarto">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-serif text-xl">Individual Superior (Banheira)</h4>
+                                <span class="font-bold text-vintage-clay">€67</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">20m² • Cama Individual • Banheira Grande</p>
+                            <button onclick="contactBooking('Individual Superior (Banheira)')" class="bg-vintage-charcoal text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-vintage-clay transition-colors w-full md:w-auto">Selecionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                    <p class="text-sm text-gray-500 mb-4">Prefere falar connosco?</p>
+                    <a href="mailto:ola@vintagebaixatomar.pt" class="inline-block text-vintage-charcoal font-bold hover:text-vintage-clay transition-colors border-b border-current pb-1">Enviar Email Direto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        // Modal Logic
+        const modal = document.getElementById('availability-modal');
+        const body = document.body;
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.add('active');
+                modal.querySelector('.modal-content').style.transform = 'translateY(0)';
+            }, 10);
+            body.classList.add('modal-open'); // Prevent background scroll
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.querySelector('.modal-content').style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                body.classList.remove('modal-open');
+            }, 300); // Wait for transition
+        }
+
+        function contactBooking(roomName) {
+            const email = "ola@vintagebaixatomar.pt";
+            const subject = encodeURIComponent("Pedido de Reserva: " + roomName);
+            const body = encodeURIComponent("Olá,\n\nGostaria de saber a disponibilidade para o quarto " + roomName + " nas seguintes datas:\n\nCheck-in: \nCheck-out: \nNúmero de Hóspedes: \n\nObrigado.");
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+
+        // Close on click outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Icons
+            lucide.createIcons();
+
+            // Initialize Lenis (Smooth Scroll)
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.warn('Lenis library not loaded. Smooth scroll disabled.');
+            }
+
+            // GSAP Setup
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Animations
+            const tl = gsap.timeline();
+            
+            tl.to('.hero-subtitle', { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.2 })
+              .to('.hero-title', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.5')
+              .to('.hero-cta', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
+
+            // Parallax Effect for Images
+            gsap.utils.toArray('.image-parallax').forEach(img => {
+                gsap.to(img, {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img.parentElement,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Text Reveal Animations
+            gsap.utils.toArray('.reveal-p').forEach(text => {
+                gsap.from(text, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: text,
+                        start: "top 85%",
+                    }
+                });
+            });
+
+            // Removed GSAP batch animation for room-cards to fix visibility bug
+            // Cards are now visible by default via CSS.
+
+            // Marquee Animation
+            gsap.to(".marquee-content", {
+                xPercent: -50,
+                ease: "none",
+                duration: 20,
+                repeat: -1
+            });
+
+            // Improved Navbar Transition Logic
+            const navbar = document.getElementById('navbar');
+            const navThreshold = 50;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > navThreshold) {
+                    navbar.classList.remove('nav-transparent');
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                    navbar.classList.add('nav-transparent');
+                }
+            });
+
+            // Mobile Menu Logic
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const closeBtn = document.getElementById('close-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                const isClosed = mobileMenu.classList.contains('translate-x-full');
+                if (isClosed) {
+                    mobileMenu.classList.remove('translate-x-full');
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                }
+            }
+
+            if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
+            if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        });
+    </script>
+</body>
+</html>
