@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Spirits Club | The Curator's Mystery</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            950: '#0c0a09',
+                            900: '#1c1917',
+                        },
+                        gold: {
+                            500: '#d4af37',
+                            600: '#b4941f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        body {
+            background-color: #0c0a09;
+            color: #e7e5e4;
+            overflow-x: hidden;
+            cursor: default;
+        }
+        
+        /* Custom Scrollbar hide */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .clip-text-container {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .char-reveal {
+            transform: translateY(100%);
+        }
+
+        .image-parallax {
+            will-change: transform;
+        }
+
+        /* Subtle grain texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useEffect, useRef, useState, useLayoutEffect } = React;
+
+        // --- Icons ---
+        const MenuIcon = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="square" strokeLinejoin="miter">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+            </svg>
+        );
+
+        const ArrowRight = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="square" strokeLinejoin="miter">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        );
+
+        const WineIcon = () => (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                <path d="M8 22h8M12 22v-9M12 13a5 5 0 0 0 5-5V3H7v5a5 5 0 0 0 5 5Z"/>
+            </svg>
+        );
+
+        const BoxIcon = () => (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                <path d="m3.3 7 8.7 5 8.7-5"/>
+                <path d="M12 22V12"/>
+            </svg>
+        );
+
+        // --- Components ---
+
+        const Loader = ({ onComplete }) => {
+            const containerRef = useRef(null);
+            const textRef = useRef(null);
+
+            useEffect(() => {
+                const tl = gsap.timeline({
+                    onComplete: () => onComplete()
+                });
+
+                tl.to(textRef.current, {
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out"
+                })
+                .to(textRef.current, {
+                    opacity: 0,
+                    y: -20,
+                    duration: 0.8,
+                    delay: 0.5,
+                    ease: "power2.in"
+                })
+                .to(containerRef.current, {
+                    height: 0,
+                    duration: 1,
+                    ease: "expo.inOut"
+                });
+            }, []);
+
+            return (
+                <div ref={containerRef} className="fixed inset-0 z-[100] bg-stone-100 flex items-center justify-center overflow-hidden">
+                    <h1 ref={textRef} className="opacity-0 text-stone-950 font-serif text-2xl tracking-[0.2em] uppercase">
+                        Liquid Spirits Club
+                    </h1>
+                </div>
+            );
+        };
+
+        const Navigation = () => {
+            return (
+                <nav className="fixed top-0 left-0 w-full z-40 px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
+                    <img 
+                        src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1768932548/LOGO_FUNDO_CINZA_u7tjfl.png" 
+                        alt="Liquid Spirits Club" 
+                        className="h-16 w-auto object-contain"
+                    />
+                    <button className="flex items-center gap-2 group">
+                        <span className="font-sans text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Menu</span>
+                        <MenuIcon />
+                    </button>
+                </nav>
+            );
+        };
+
+        const Hero = () => {
+            const containerRef = useRef(null);
+            const imgRef = useRef(null);
+            const textRef = useRef(null);
+
+            useEffect(() => {
+                const ctx = gsap.context(() => {
+                    // Parallax Image
+                    gsap.to(imgRef.current, {
+                        yPercent: 30,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: containerRef.current,
+                            start: "top top",
+                            end: "bottom top",
+                            scrub: true
+                        }
+                    });
+
+                    // Text Entry
+                    gsap.from(".hero-line", {
+                        y: "100%",
+                        duration: 1.5,
+                        stagger: 0.2,
+                        ease: "power4.out",
+                        delay: 0.5
+                    });
+
+                    gsap.from(".hero-sub", {
+                        opacity: 0,
+                        y: 20,
+                        duration: 1,
+                        delay: 1.8,
+                        ease: "power2.out"
+                    });
+                }, containerRef);
+
+                return () => ctx.revert();
+            }, []);
+
+            return (
+                <section ref={containerRef} className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+                    <div className="absolute inset-0 z-0">
+                        <img 
+                            ref={imgRef}
+                            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2940&auto=format&fit=crop" 
+                            alt="Dark Wine Texture" 
+                            className="w-full h-[120%] object-cover opacity-60 filter brightness-75"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent"></div>
+                    </div>
+
+                    <div ref={textRef} className="relative z-10 text-center px-4">
+                        <div className="overflow-hidden mb-2">
+                            <h1 className="hero-line block font-serif text-6xl md:text-8xl lg:text-9xl text-stone-100 leading-[0.9]">
+                                Uncork the
+                            </h1>
+                        </div>
+                        <div className="overflow-hidden mb-8">
+                            <h1 className="hero-line block font-serif text-6xl md:text-8xl lg:text-9xl text-stone-100 italic leading-[0.9]">
+                                Unknown.
+                            </h1>
+                        </div>
+                        <p className="hero-sub font-sans text-sm md:text-base uppercase tracking-[0.2em] text-stone-400 max-w-md mx-auto">
+                            The world's most exclusive wine mystery experience.
+                        </p>
+                    </div>
+
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-pulse">
+                        <div className="w-[1px] h-16 bg-white/20"></div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Concept = () => {
+            const sectionRef = useRef(null);
+            
+            useEffect(() => {
+                const ctx = gsap.context(() => {
+                    gsap.from(".concept-img", {
+                        scale: 1.2,
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true
+                        }
+                    });
+
+                    gsap.from(".concept-text", {
+                        y: 50,
+                        opacity: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: ".concept-content",
+                            start: "top 75%",
+                        }
+                    });
+                }, sectionRef);
+
+                return () => ctx.revert();
+            }, []);
+
+            return (
+                <section ref={sectionRef} className="relative py-24 md:py-40 px-6 md:px-12 bg-stone-950">
+                    <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div className="concept-content order-2 lg:order-1">
+                            <h2 className="concept-text font-serif text-4xl md:text-6xl mb-8 leading-tight">
+                                Curated secrecy,<br />
+                                delivered.
+                            </h2>
+                            <p className="concept-text font-sans text-stone-400 text-lg leading-relaxed mb-8 max-w-md">
+                                Liquid Spirits Club isn't just a subscription; it's an education in the exceptional. Every month, receive a label-less bottle of premium vintage. 
+                            </p>
+                            <p className="concept-text font-sans text-stone-400 text-lg leading-relaxed mb-10 max-w-md">
+                                Taste without prejudice. Discover the region, the grape, and the story through our guided digital sommelier experience before the big reveal.
+                            </p>
+                            <div className="concept-text">
+                                <button className="group flex items-center gap-4 text-white border-b border-white/20 pb-2 hover:border-white transition-all">
+                                    <span className="uppercase tracking-widest text-sm">Explore the Process</span>
+                                    <ArrowRight />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="order-1 lg:order-2 relative h-[600px] w-full overflow-hidden rounded-sm">
+                            <img 
+                                src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=2940&auto=format&fit=crop"
+                                alt="Pouring Wine"
+                                className="concept-img absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                            />
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Features = () => {
+            const features = [
+                {
+                    icon: <BoxIcon />,
+                    title: "The Mystery Box",
+                    desc: "Arrives in a matte black monolithic case. No labels. No bias. Just the liquid and your senses."
+                },
+                {
+                    icon: <WineIcon />,
+                    title: "Rare Vintages",
+                    desc: "Sourced from small-batch vineyards in Bordeaux, Tuscany, and Napa. Wines you cannot find on shelves."
+                },
+                {
+                    icon: <ArrowRight />, // Using arrow as abstract for 'Forward'
+                    title: "The Digital Reveal",
+                    desc: "Scan the QR code to unlock tasting notes, food pairings, and the grand reveal of the winemaker."
+                }
+            ];
+
+            return (
+                <section className="py-24 px-6 border-t border-white/5 bg-stone-950">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                            {features.map((f, i) => (
+                                <div key={i} className="group p-8 border border-white/5 hover:border-white/20 transition-colors duration-500 bg-stone-900/20">
+                                    <div className="mb-6 text-stone-300 group-hover:text-white transition-colors">
+                                        {f.icon}
+                                    </div>
+                                    <h3 className="font-serif text-2xl mb-4 text-stone-200">{f.title}</h3>
+                                    <p className="font-sans text-sm text-stone-500 leading-relaxed group-hover:text-stone-400 transition-colors">
+                                        {f.desc}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Reviews = () => {
+            const sectionRef = useRef(null);
+
+            useEffect(() => {
+                const ctx = gsap.context(() => {
+                    gsap.from(".review-line", {
+                        y: 100,
+                        opacity: 0,
+                        stagger: 0.1,
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top 60%",
+                            end: "bottom bottom",
+                        }
+                    });
+                }, sectionRef);
+                return () => ctx.revert();
+            }, []);
+
+            return (
+                <section ref={sectionRef} className="py-32 px-6 bg-stone-100 text-stone-950">
+                    <div className="max-w-5xl mx-auto text-center">
+                        <div className="mb-12 font-sans uppercase tracking-widest text-xs text-stone-500">
+                            Member Impressions
+                        </div>
+                        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight">
+                            <span className="review-line inline-block">"Liquid Spirits Club</span> <span className="review-line inline-block">changed how I</span> <span className="review-line inline-block">drink wine.</span> <span className="review-line inline-block">The mystery</span> <span className="review-line inline-block">forces you to</span> <span className="review-line inline-block italic text-stone-500">really taste."</span>
+                        </h2>
+                        <div className="mt-12 flex items-center justify-center gap-4">
+                            <div className="h-[1px] w-12 bg-stone-300"></div>
+                            <span className="font-sans font-semibold uppercase tracking-wider text-sm">Elena R., Sommelier</span>
+                            <div className="h-[1px] w-12 bg-stone-300"></div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Contact = () => {
+            return (
+                <section className="relative py-32 px-6 bg-stone-950 min-h-[80vh] flex flex-col justify-center">
+                    <div className="max-w-3xl mx-auto w-full text-center">
+                        <h2 className="font-serif text-5xl md:text-7xl mb-6 text-white">Join the Club</h2>
+                        <p className="font-sans text-stone-400 mb-12 max-w-xl mx-auto">
+                            Membership is limited. Enter your details to request an invitation for the next season's dispatch.
+                        </p>
+
+                        <form className="space-y-12 text-left" onSubmit={(e) => e.preventDefault()}>
+                            <div className="group relative">
+                                <input 
+                                    type="email" 
+                                    placeholder=" "
+                                    className="peer w-full bg-transparent border-b border-stone-800 py-4 text-xl text-white outline-none focus:border-white transition-colors"
+                                />
+                                <label className="absolute left-0 top-4 text-stone-500 transition-all duration-300 peer-focus:-top-6 peer-focus:text-xs peer-focus:text-stone-400 peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-xs pointer-events-none">
+                                    Email Address
+                                </label>
+                            </div>
+                            
+                            <div className="group relative">
+                                <input 
+                                    type="text" 
+                                    placeholder=" "
+                                    className="peer w-full bg-transparent border-b border-stone-800 py-4 text-xl text-white outline-none focus:border-white transition-colors"
+                                />
+                                <label className="absolute left-0 top-4 text-stone-500 transition-all duration-300 peer-focus:-top-6 peer-focus:text-xs peer-focus:text-stone-400 peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-xs pointer-events-none">
+                                    Full Name
+                                </label>
+                            </div>
+
+                            <div className="pt-8 text-center">
+                                <button className="bg-stone-100 text-stone-950 px-10 py-4 font-sans uppercase tracking-widest text-sm hover:bg-stone-300 transition-colors duration-300">
+                                    Request Invitation
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <footer className="absolute bottom-6 left-0 w-full text-center">
+                        <p className="font-serif italic text-stone-600">Liquid Spirits Club &copy; 2024</p>
+                    </footer>
+                </section>
+            );
+        };
+
+        const App = () => {
+            const [loaded, setLoaded] = useState(false);
+
+            useEffect(() => {
+                // Initialize Lenis
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    orientation: 'vertical',
+                    gestureDirection: 'vertical',
+                    smoothWheel: true,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+
+                requestAnimationFrame(raf);
+                
+                // Connect GSAP ScrollTrigger to Lenis
+                gsap.registerPlugin(ScrollTrigger);
+
+                return () => {
+                    lenis.destroy();
+                };
+            }, []);
+
+            return (
+                <div className="antialiased selection:bg-stone-200 selection:text-stone-900">
+                    <div className="noise-overlay"></div>
+                    {!loaded && <Loader onComplete={() => setLoaded(true)} />}
+                    <Navigation />
+                    <main>
+                        <Hero />
+                        <Features />
+                        <Concept />
+                        <Reviews />
+                        <Contact />
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
