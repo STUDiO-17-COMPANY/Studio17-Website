@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Lodge | Sabores de Tomar na Zona Alta</title>
+    <meta name="description" content="Restaurante e Cafetaria na zona alta de Tomar. Comida caseira, vista sobre a cidade, estacionamento privativo e espaços para eventos e casamentos.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles configuration (Must be before Tailwind Script) -->
+    <script>
+        tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        colors: {
+                            'lodge-gold': '#D4A373',
+                            'lodge-brown': '#5E4B35',
+                            'lodge-dark': '#2C2520',
+                            'lodge-cream': '#FAF9F6',
+                            'lodge-green': '#4A5D44'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif'],
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Smooth Scrolling Fixes via Lenis */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        /* Custom Utilities */
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FAF9F6;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-lodge-cream text-lodge-dark antialiased overflow-x-hidden">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-4xl text-lodge-brown mb-2 tracking-widest">LODGE</h1>
+            <p class="text-xs tracking-[0.3em] uppercase text-lodge-gold">Restaurante & Eventos</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 lg:px-12 border-b border-transparent">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo Image Added Here -->
+            <a href="#" class="z-50 block">
+                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769099393/lodge_zmglrz.png" alt="Lodge Logo" class="h-12 md:h-16 w-auto object-contain">
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <!-- text-lodge-dark (preto/castanho escuro) -->
+                <a href="#about" class="text-lodge-dark hover:text-lodge-gold transition-colors text-sm uppercase tracking-widest font-bold">O Restaurante</a>
+                <a href="#food" class="text-lodge-dark hover:text-lodge-gold transition-colors text-sm uppercase tracking-widest font-bold">Cozinha</a>
+                <a href="#events" class="text-lodge-dark hover:text-lodge-gold transition-colors text-sm uppercase tracking-widest font-bold">Eventos</a>
+                <!-- Link updated to #contact -->
+                <a href="#contact" class="bg-lodge-gold hover:bg-lodge-dark hover:text-white text-white px-6 py-2 rounded-sm transition-all duration-300 font-bold uppercase text-xs tracking-widest shadow-md">Reservar</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <!-- text-lodge-dark -->
+            <button id="mobile-menu-btn" class="md:hidden text-lodge-dark z-50 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-lodge-dark transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8 z-40">
+            <a href="#about" class="mobile-link text-2xl text-white font-serif italic">O Restaurante</a>
+            <a href="#food" class="mobile-link text-2xl text-white font-serif italic">Cozinha</a>
+            <a href="#events" class="mobile-link text-2xl text-white font-serif italic">Eventos</a>
+            <a href="#contact" class="mobile-link text-2xl text-lodge-gold font-serif italic">Reservas</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <!-- Background Image with Parallax -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/30 z-10"></div>
+            <!-- DICA: Substitua este URL pela sua foto da vista/pôr-do-sol -->
+            <img id="hero-bg" src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2070&auto=format&fit=crop" alt="Vista Panorâmica Lodge" class="w-full h-full object-cover scale-110">
+        </div>
+
+        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/40 to-transparent z-20 pointer-events-none"></div>
+
+        <div class="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
+            <p class="hero-element opacity-0 translate-y-10 text-lodge-gold uppercase tracking-[0.2em] mb-4 text-sm font-bold">Rua Carlos Maria Pereira, Tomar</p>
+            <h1 class="hero-element opacity-0 translate-y-10 font-serif text-5xl md:text-7xl lg:text-8xl mb-6 leading-tight">
+                Sabores com vista <br> <span class="italic text-lodge-gold">para a alma.</span>
+            </h1>
+            <p class="hero-element opacity-0 translate-y-10 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto text-gray-200">
+                O melhor pôr-do-sol de Tomar, acompanhado pela nossa cozinha tradicional e um ambiente moderno.
+            </p>
+            <div class="hero-element opacity-0 translate-y-10 flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#contact" class="bg-lodge-gold hover:bg-white hover:text-lodge-brown text-white px-8 py-4 rounded-sm transition-all duration-300 font-bold uppercase text-sm tracking-widest shadow-lg">
+                    Reservar Mesa
+                </a>
+                <a href="#events" class="border border-white hover:bg-white hover:text-lodge-dark text-white px-8 py-4 rounded-sm transition-all duration-300 font-bold uppercase text-sm tracking-widest backdrop-blur-sm">
+                    Planear Evento
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20">
+            <i class="fas fa-chevron-down text-xl opacity-70"></i>
+        </div>
+    </header>
+
+    <!-- Section: O Restaurante (Location & Vibe) -->
+    <section id="about" class="py-24 px-6 lg:px-12 bg-lodge-cream relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <!-- Text Content -->
+            <div class="gsap-fade-up">
+                <span class="text-lodge-brown uppercase tracking-widest text-xs font-bold mb-2 block">O Espaço</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-lodge-dark mb-6">Um refúgio na <br><span class="italic text-lodge-gold">Zona Alta</span></h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Situado na Estrada da Serra (Rua Carlos Maria Pereira), o <strong>Lodge</strong> destaca-se pelo ambiente moderno e acolhedor. Fugimos à confusão do centro histórico para lhe oferecer tranquilidade e estacionamento fácil.
+                </p>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    Com várias salas amplas, uma <strong>esplanada perfeita para sunsets</strong> e um jardim, somos o local de eleição para jantares de grupo e festas privadas.
+                </p>
+                
+                <!-- Icons/Features -->
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-lodge-brown/10 flex items-center justify-center text-lodge-brown">
+                            <i class="fas fa-parking"></i>
+                        </div>
+                        <span class="text-sm font-bold text-lodge-dark">Parque Privativo</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-lodge-brown/10 flex items-center justify-center text-lodge-brown">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <span class="text-sm font-bold text-lodge-dark">Música & Ambiente</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-lodge-brown/10 flex items-center justify-center text-lodge-brown">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <span class="text-sm font-bold text-lodge-dark">Wi-Fi Gratuito</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-lodge-brown/10 flex items-center justify-center text-lodge-brown">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <span class="text-sm font-bold text-lodge-dark">Jardim & Esplanada</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Composition -->
+            <div class="relative h-[500px] w-full gsap-image-reveal">
+                <!-- DICA: Coloque aqui foto da esplanada -->
+                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1974&auto=format&fit=crop" alt="Esplanada Lodge" class="absolute top-0 right-0 w-4/5 h-4/5 object-cover rounded-sm shadow-2xl z-10">
+                <!-- DICA: Coloque aqui foto de uma sala moderna -->
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop" alt="Interior Sala" class="absolute bottom-0 left-0 w-3/5 h-3/5 object-cover rounded-sm border-8 border-lodge-cream z-20 shadow-xl">
+                <!-- Decorative Circle -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full border border-lodge-gold/30 rounded-full scale-125 pointer-events-none -z-0"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Gastronomy -->
+    <section id="food" class="py-24 bg-lodge-dark text-lodge-cream">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 gsap-fade-up">
+                <span class="text-lodge-gold uppercase tracking-widest text-xs font-bold mb-2 block">Conceito & Cozinha</span>
+                <h2 class="font-serif text-4xl md:text-5xl mb-4">Clássicos do <br><span class="italic text-lodge-gold">Lodge</span></h2>
+                <p class="max-w-2xl mx-auto text-gray-400 font-light">
+                    Da nossa cozinha saem pratos que honram a tradição. O famoso Bife à Lodge ou o nosso Polvo são paragens obrigatórias.
+                </p>
+            </div>
+
+            <!-- Menu Highlights Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Item 1: Polvo -->
+                <div class="group relative overflow-hidden rounded-sm cursor-pointer gsap-fade-up">
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <!-- DICA: Substitua por foto do Polvo real -->
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=1971&auto=format&fit=crop" alt="Polvo à Lagareiro" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="font-serif text-2xl text-white mb-1">Polvo à Lagareiro</h3>
+                        <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                            Tenro, regado com o melhor azeite e acompanhado de batata a murro.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2: Carne -->
+                <div class="group relative overflow-hidden rounded-sm cursor-pointer gsap-fade-up" style="transition-delay: 0.1s;">
+                    <div class="aspect-[4/5] overflow-hidden">
+                         <!-- DICA: Substitua por foto do Bife à Lodge -->
+                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop" alt="Bife à Lodge" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="font-serif text-2xl text-white mb-1">Bife à Lodge</h3>
+                        <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                            A nossa especialidade da casa. Suculento e com molho especial.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3: Buffet/Eventos -->
+                <div class="group relative overflow-hidden rounded-sm cursor-pointer gsap-fade-up" style="transition-delay: 0.2s;">
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop" alt="Buffets e Saladas" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="font-serif text-2xl text-white mb-1">Buffets & Saladas</h3>
+                        <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                            Opções frescas e variadas, perfeitas para jantares de grupo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badge -->
+            <div class="mt-16 text-center gsap-fade-up">
+                <p class="text-lg font-serif italic text-lodge-gold">"Disponível Diárias, Jantares de Grupo e Take-away"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Events -->
+    <section id="events" class="py-24 px-6 lg:px-12 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16">
+            <!-- Images Stack -->
+            <div class="lg:w-1/2 relative min-h-[500px] gsap-image-reveal">
+                <div class="absolute top-10 left-0 w-3/4 h-3/4 bg-lodge-green/10 rounded-sm -z-0"></div>
+                <!-- DICA: Foto de Casamento/Evento no local -->
+                <img src="https://images.unsplash.com/photo-1519225469958-19e5be1a029d?q=80&w=2070&auto=format&fit=crop" alt="Mesa de Evento" class="absolute top-0 left-4 w-4/5 h-3/4 object-cover rounded-sm shadow-xl z-10">
+                <div class="absolute bottom-10 right-0 w-1/2 bg-lodge-cream p-6 shadow-2xl z-20 rounded-sm border-l-4 border-lodge-gold">
+                    <p class="font-serif text-2xl italic text-lodge-brown mb-2">"O dia mais feliz..."</p>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest">Casamentos & Baptizados</p>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="lg:w-1/2 flex flex-col justify-center gsap-fade-up">
+                <span class="text-lodge-brown uppercase tracking-widest text-xs font-bold mb-2 block">Eventos & Grupos</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-lodge-dark mb-6">Momentos que <br>ficam na <span class="italic text-lodge-gold">memória</span></h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    O Lodge não é apenas um restaurante; é um palco para celebrações. Com capacidade para grandes grupos, pista de dança e menus flexíveis (buffets, jantares temáticos, sunsets), somos o parceiro ideal em Tomar.
+                </p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check text-lodge-gold mt-1"></i>
+                        <span class="text-gray-700"><strong>Casamentos e Baptizados:</strong> Tratamos de tudo com carinho e requinte.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check text-lodge-gold mt-1"></i>
+                        <span class="text-gray-700"><strong>Jantares de Grupo:</strong> Menus completos com bebida à descrição.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-check text-lodge-gold mt-1"></i>
+                        <span class="text-gray-700"><strong>Eventos Corporativos:</strong> Privacidade e profissionalismo.</span>
+                    </li>
+                </ul>
+
+                <a href="#contact" class="inline-block bg-lodge-dark text-white hover:bg-lodge-gold px-8 py-3 rounded-sm w-max transition-colors uppercase tracking-widest text-xs font-bold">
+                    Pedir Orçamento
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section id="reviews" class="py-20 bg-lodge-cream border-t border-lodge-brown/10">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <i class="fas fa-quote-left text-4xl text-lodge-gold/30 mb-6"></i>
+            <div class="gsap-fade-up">
+                <p class="font-serif text-2xl md:text-3xl text-lodge-dark italic mb-8 leading-relaxed">
+                    "O espaço é muito agradável e moderno. A vista sobre a cidade é fantástica e o Bife à Lodge nunca desilude. Recomendo para jantares de Natal!"
+                </p>
+                <div class="flex flex-col items-center">
+                    <span class="font-bold text-lodge-brown uppercase tracking-widest text-sm">Cliente Lodge</span>
+                    <span class="text-gray-500 text-xs mt-1">via Tripadvisor</span>
+                    <div class="flex gap-1 text-lodge-gold text-xs mt-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center gap-8 mt-12 opacity-60 grayscale hover:grayscale-0 transition-all">
+                <!-- Placeholder logos for authority -->
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-certificate text-2xl"></i> <span class="font-bold">Restaurant Guru</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fab fa-tripadvisor text-2xl"></i> <span class="font-bold">Tripadvisor</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW IMPROVED CONTACT/FOOTER SECTION -->
+    <section id="contact" class="relative py-24 bg-lodge-dark text-white overflow-hidden">
+        <!-- Background Pattern/Image with Overlay -->
+        <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-lodge-gold uppercase tracking-widest text-xs font-bold mb-2 block">Fale Connosco</span>
+                <h2 class="font-serif text-4xl md:text-5xl">Reservas & <span class="italic text-lodge-gold">Localização</span></h2>
+            </div>
+    
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+                <!-- Left: Info & Map -->
+                <div class="space-y-10">
+                    <!-- Info Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-lodge-gold font-bold uppercase tracking-widest text-sm mb-4">Morada</h4>
+                            <p class="text-gray-300 font-light leading-relaxed">
+                                Rua Carlos Maria Pereira<br>
+                                (Estrada da Serra)<br>
+                                2300 Tomar, Portugal
+                            </p>
+                            <a href="https://maps.google.com" target="_blank" class="inline-flex items-center mt-2 text-white hover:text-lodge-gold transition-colors text-sm border-b border-lodge-gold/30 pb-1">
+                                <i class="fas fa-location-arrow mr-2"></i> Abrir no GPS
+                            </a>
+                        </div>
+                        <div>
+                             <h4 class="text-lodge-gold font-bold uppercase tracking-widest text-sm mb-4">Contactos</h4>
+                             <p class="text-gray-300 font-light space-y-2">
+                                <a href="tel:+351249346359" class="block hover:text-white transition-colors"><i class="fas fa-phone-alt w-6 text-lodge-gold/50"></i> +351 249 346 359</a>
+                                <a href="mailto:lodgerest@gmail.com" class="block hover:text-white transition-colors"><i class="fas fa-envelope w-6 text-lodge-gold/50"></i> lodgerest@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+    
+                    <!-- Hours -->
+                     <div>
+                        <h4 class="text-lodge-gold font-bold uppercase tracking-widest text-sm mb-4">Horário de Funcionamento</h4>
+                        <div class="flex justify-between items-center border-b border-white/10 pb-2 mb-2">
+                            <span class="text-gray-300">Segunda a Domingo</span>
+                            <span class="font-serif italic">12h00 - 15h00 | 19h00 - 00h00</span>
+                        </div>
+                         <p class="text-xs text-gray-500 italic mt-2">* Aberto todos os dias para almoços e jantares.</p>
+                    </div>
+    
+                    <!-- Map Embed (Grayscale filter) -->
+                    <div class="w-full h-64 rounded-sm overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 border border-white/10">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3064.442377308709!2d-8.414444!3d39.604444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd18779999999999%3A0x123456789abcdef!2sTomar!5e0!3m2!1spt-PT!2spt!4v1625000000000!5m2!1spt-PT!2spt" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+    
+                <!-- Right: Reservation Form Card -->
+                <div class="bg-white text-lodge-dark p-8 md:p-10 rounded-sm shadow-2xl relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-lodge-gold text-white px-6 py-2 uppercase tracking-widest text-xs font-bold rounded-sm shadow-lg">
+                        Reservar Mesa
+                    </div>
+    
+                    <form class="space-y-6 mt-4" onsubmit="event.preventDefault(); alert('Obrigado! A sua mensagem foi enviada. Entraremos em contacto brevemente.');">
+                        <!-- Inputs styling improvement -->
+                         <div class="space-y-1">
+                            <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Nome Completo</label>
+                            <input type="text" class="w-full border-b-2 border-gray-200 py-3 text-lg font-serif focus:border-lodge-gold focus:outline-none transition-colors bg-transparent placeholder-gray-300" placeholder="Ex: Francisco G." required>
+                        </div>
+    
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Telemóvel</label>
+                                <input type="tel" class="w-full border-b-2 border-gray-200 py-3 text-lg font-serif focus:border-lodge-gold focus:outline-none transition-colors bg-transparent" placeholder="+351..." required>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Pessoas</label>
+                                <select class="w-full border-b-2 border-gray-200 py-3 text-lg font-serif focus:border-lodge-gold focus:outline-none transition-colors bg-transparent text-gray-700">
+                                    <option>2 Pessoas</option>
+                                    <option>4 Pessoas</option>
+                                    <option>Grupo (6+)</option>
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="grid grid-cols-2 gap-6">
+                             <div class="space-y-1">
+                                <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Data</label>
+                                <input type="date" class="w-full border-b-2 border-gray-200 py-3 text-gray-700 font-serif focus:border-lodge-gold focus:outline-none transition-colors bg-transparent" required>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Hora</label>
+                                <input type="time" class="w-full border-b-2 border-gray-200 py-3 text-gray-700 font-serif focus:border-lodge-gold focus:outline-none transition-colors bg-transparent" required>
+                            </div>
+                        </div>
+    
+                         <div class="space-y-1">
+                            <label class="text-xs uppercase font-bold text-gray-400 tracking-wider">Observações</label>
+                            <textarea rows="2" class="w-full border-b-2 border-gray-200 py-3 text-gray-700 font-serif focus:border-lodge-gold focus:outline-none transition-colors bg-transparent resize-none" placeholder="Alergias, cadeira de bebé, mesa à janela..."></textarea>
+                        </div>
+    
+                        <button type="submit" class="w-full bg-lodge-dark text-white py-4 mt-4 hover:bg-lodge-gold transition-all duration-300 uppercase tracking-widest text-sm font-bold shadow-lg transform hover:-translate-y-1">
+                            Confirmar Reserva
+                        </button>
+                        
+                        <p class="text-center text-xs text-gray-400 mt-4">
+                            Para eventos ou casamentos, por favor envie email direto ou ligue.
+                        </p>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer Links -->
+            <div class="border-t border-white/10 mt-20 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
+                <p>&copy; 2024 Restaurante Lodge. Tomar.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-white transition-colors">Tripadvisor</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Use a reliable CDN for Lenis -->
+    <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js"></script>
+
+    <script>
+        // 1. Initialize Lenis (Smooth Scroll) with safety check
+        let lenis;
+        if (typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+                smooth: true,
+                lerp: 0.1, // Adjusted for default smooth feel
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        } else {
+            console.warn("Lenis library not loaded, smooth scroll disabled.");
+            // Fallback: Ensure HTML is scrollable if Lenis fails
+            document.documentElement.style.overflow = "auto";
+        }
+
+        // Connect Lenis to GSAP ScrollTrigger
+        if (typeof gsap !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+        }
+        
+        // Loader Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                initAnimations();
+            }, 500);
+        });
+
+        function initAnimations() {
+            if (typeof gsap === 'undefined') return;
+
+            // Hero Animations
+            const heroElements = document.querySelectorAll('.hero-element');
+            gsap.to(heroElements, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Parallax Hero Background
+            gsap.to("#hero-bg", {
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: 100,
+                scale: 1.2
+            });
+
+            // Navbar Background Change on Scroll
+            const navbar = document.getElementById('navbar');
+            ScrollTrigger.create({
+                start: "top -100",
+                end: 99999,
+                onUpdate: (self) => {
+                    if (self.direction === -1 && self.scroll() < 50) {
+                        // Top of page: Transparent background
+                        navbar.classList.remove('bg-lodge-cream/95', 'backdrop-blur-md', 'shadow-md', 'py-2');
+                        navbar.classList.add('py-4');
+                    } else {
+                        // Scrolled: Light Cream background (so black text is visible)
+                        navbar.classList.add('bg-lodge-cream/95', 'backdrop-blur-md', 'shadow-md', 'py-2');
+                        navbar.classList.remove('py-4');
+                    }
+                }
+            });
+
+            // General Fade Up Sections
+            const fadeUps = document.querySelectorAll('.gsap-fade-up');
+            fadeUps.forEach(elem => {
+                gsap.fromTo(elem, 
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0, 
+                        opacity: 1, 
+                        duration: 1, 
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%",
+                        }
+                    }
+                );
+            });
+
+            // Image Reveal Animation
+            const imageReveals = document.querySelectorAll('.gsap-image-reveal');
+            imageReveals.forEach(elem => {
+                gsap.fromTo(elem,
+                    { scale: 0.95, opacity: 0 },
+                    {
+                        scale: 1,
+                        opacity: 1,
+                        duration: 1.2,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 75%",
+                        }
+                    }
+                );
+            });
+        }
+
+        // Mobile Menu Logic
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileBtn.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+                if(lenis) lenis.stop(); // Stop scrolling when menu is open
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                mobileBtn.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+                if(lenis) lenis.start();
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+                mobileBtn.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+                if(lenis) lenis.start();
+            });
+        });
+
+    </script>
+</body>
+</html>
