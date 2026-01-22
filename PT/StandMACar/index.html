@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standmacar - Óbidos</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom Animations */
+        @keyframes fade-in-down {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down {
+            animation: fade-in-down 0.3s ease-out forwards;
+        }
+        
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-up {
+            animation: slide-up 0.8s ease-out forwards;
+        }
+        
+        @keyframes slow-zoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        .animate-slow-zoom {
+            animation: slow-zoom 20s linear infinite alternate;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1d4ed8; }
+
+        /* Utilitários de seleção */
+        ::selection { background-color: #2563eb; color: white; }
+    </style>
+</head>
+<body class="text-slate-800 bg-slate-50 overflow-x-hidden">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 bg-transparent text-white">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-white font-bold text-xl skew-x-[-10deg]">
+                    S
+                </div>
+                <span id="logo-text" class="text-2xl font-bold tracking-tight text-white">
+                    stand<span class="text-blue-600">macar</span>
+                </span>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div id="desktop-menu" class="hidden md:flex gap-8 font-medium text-slate-200">
+                <a href="#stock" class="hover:text-blue-500 transition-colors">Viaturas</a>
+                <a href="#processo" class="hover:text-blue-500 transition-colors">Como Funciona</a>
+                <a href="#sobre" class="hover:text-blue-500 transition-colors">O Stand</a>
+                <a href="#contactos" class="hover:text-blue-500 transition-colors">Contactos</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="#contactos" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg shadow-blue-600/30 flex items-center gap-2">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                    Ligar Agora
+                </a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-toggle" class="md:hidden text-white">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-100 py-6 px-4 flex flex-col gap-4 animate-fade-in-down">
+            <a href="#stock" class="mobile-link text-lg font-medium text-slate-700">Viaturas</a>
+            <a href="#processo" class="mobile-link text-lg font-medium text-slate-700">Como Funciona</a>
+            <a href="#sobre" class="mobile-link text-lg font-medium text-slate-700">O Stand</a>
+            <a href="#contactos" class="mobile-link text-lg font-medium text-slate-700">Contactos</a>
+            <a href="tel:+351910000000" class="bg-blue-600 text-white py-3 rounded-lg text-center font-bold">Ligar para o Stand</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative h-[95vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+        <!-- Background -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-slate-900/40 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1920" alt="Carro desportivo" class="w-full h-full object-cover animate-slow-zoom">
+        </div>
+
+        <div class="container mx-auto px-4 relative z-20 pt-20">
+            <div class="max-w-3xl animate-slide-up">
+                <div class="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 rounded-full px-4 py-1.5 text-blue-100 text-sm font-semibold mb-6 backdrop-blur-sm">
+                    <i data-lucide="star" class="w-3.5 h-3.5 text-yellow-400 fill-yellow-400"></i>
+                    O Stand de Confiança em Óbidos
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+                    Encontre o carro <br />
+                    que <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-200">merece conduzir.</span>
+                </h1>
+                
+                <p class="text-xl text-slate-300 mb-8 max-w-xl leading-relaxed">
+                    Stock atualizado com Garantia e Financiamento. <br/>
+                    Desde comerciais como a <strong>Ford Transit</strong> a familiares premium como a <strong>Mercedes C200</strong>.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#stock" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:-translate-y-1 shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 group">
+                        Ver Viaturas
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#contactos" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-lg transition-all flex items-center justify-center">
+                        Falar com a Equipa
+                    </a>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="mt-12 flex flex-wrap gap-6 text-slate-300 text-sm font-medium">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shield-check" class="text-green-400 w-5 h-5"></i> Garantia 12/18 Meses
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="banknote" class="text-green-400 w-5 h-5"></i> Financiamento 96x
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" class="text-green-400 w-5 h-5"></i> Retoma Fácil
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURED STOCK -->
+    <section id="stock" class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Stock Selecionado</h2>
+                <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+                <p class="text-slate-600 mt-4 max-w-2xl mx-auto">
+                    Cada viatura é vendida com revisão feita e garantia para a sua total tranquilidade.
+                </p>
+            </div>
+
+            <!-- Filters Container -->
+            <div id="filters-container" class="flex flex-wrap justify-center gap-3 mb-12">
+                <!-- Buttons will be injected by JS -->
+            </div>
+
+            <!-- Grid Container -->
+            <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cars will be injected by JS -->
+            </div>
+
+            <div class="mt-12 text-center">
+                <p class="text-slate-500 text-sm italic mb-4">*Mensalidade estimada a 96 meses. Sujeito a aprovação.</p>
+                <a href="#contactos" class="inline-block text-blue-600 font-bold hover:underline">Contacte-nos para saber mais &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="processo" class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500 via-slate-900 to-slate-900"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Como Comprar?</h2>
+                <p class="text-slate-400">Processo simples, transparente e sem surpresas.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                    <div class="bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-blue-900/20 text-blue-500">
+                        <i data-lucide="car" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">1. Escolha a Viatura</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Explore o nosso stock online ou visite o parque em Óbidos.</p>
+                    <div class="hidden md:block absolute top-14 -right-4 w-8 border-t-2 border-dashed border-slate-700 z-0"></div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                    <div class="bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-blue-900/20 text-blue-500">
+                        <i data-lucide="banknote" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">2. Financiamento</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Simulações rápidas até 96 meses com as melhores taxas.</p>
+                    <div class="hidden md:block absolute top-14 -right-4 w-8 border-t-2 border-dashed border-slate-700 z-0"></div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                    <div class="bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-blue-900/20 text-blue-500">
+                        <i data-lucide="calendar" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">3. Test-Drive</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Agende a sua visita e teste o carro sem compromisso.</p>
+                    <div class="hidden md:block absolute top-14 -right-4 w-8 border-t-2 border-dashed border-slate-700 z-0"></div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                    <div class="bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-blue-900/20 text-blue-500">
+                        <i data-lucide="check-circle" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">4. Entrega Chave na Mão</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Tratamos de toda a burocracia. Garantia 12 meses incluída.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="sobre" class="py-24 bg-slate-50">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+            <div class="w-full md:w-1/2">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1562519819-016930b6e655?auto=format&fit=crop&q=80&w=800" alt="Standmacar Office" class="rounded-2xl shadow-2xl z-10 relative">
+                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl z-20 border-l-4 border-blue-600 hidden md:block">
+                        <p class="text-4xl font-bold text-slate-900">10+</p>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wide">Anos de Experiência</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Mais do que um stand, o seu parceiro em Óbidos.</h2>
+                <p class="text-slate-600 mb-6 leading-relaxed">
+                    Localizados estrategicamente em Gaeiras, Óbidos, o <strong>standmacar</strong> destaca-se pela transparência. Não vendemos apenas carros; construímos relações de confiança. Com parque físico próprio, convidamos todos os clientes a ver, tocar e experimentar.
+                </p>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-1 rounded-full"><i data-lucide="check-circle" class="w-4 h-4 text-blue-600"></i></div>
+                        <span class="text-slate-700 font-medium">Garantia completa de 12 a 24 meses</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-1 rounded-full"><i data-lucide="check-circle" class="w-4 h-4 text-blue-600"></i></div>
+                        <span class="text-slate-700 font-medium">Oficina parceira certificada</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-1 rounded-full"><i data-lucide="check-circle" class="w-4 h-4 text-blue-600"></i></div>
+                        <span class="text-slate-700 font-medium">Atendimento personalizado e familiar</span>
+                    </li>
+                </ul>
+
+                <div class="mt-8">
+                    <a href="#contactos" class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1 hover:text-blue-800 hover:border-blue-800 transition-all">
+                        Conheça a nossa equipa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTS SECTION -->
+    <section id="contactos" class="bg-slate-900 text-white">
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+            <!-- Map -->
+            <div class="h-[400px] lg:h-auto bg-slate-800 relative group overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3090.865464161962!2d-9.141508!3d39.363717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd18bba4d2847c9d%3A0xc3f8e4e9f9f9f9f9!2sGaeiras%2C%202510-737%20%C3%93bidos!5e0!3m2!1spt-PT!2spt!4v1699999999999!5m2!1spt-PT!2spt" 
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    class="grayscale group-hover:grayscale-0 transition-all duration-500 opacity-80 group-hover:opacity-100">
+                </iframe>
+                <div class="absolute bottom-6 left-6 bg-white text-slate-900 p-4 rounded-lg shadow-lg max-w-xs">
+                    <p class="font-bold text-sm flex items-center gap-2 mb-1">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> Óbidos, Gaeiras
+                    </p>
+                    <p class="text-xs text-slate-500">Clique no mapa para navegar via GPS.</p>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="p-12 lg:p-24 flex flex-col justify-center">
+                <h2 class="text-3xl font-bold mb-2">Visite-nos</h2>
+                <p class="text-slate-400 mb-8">O café está por nossa conta.</p>
+
+                <div class="space-y-8">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-600/20 p-3 rounded-lg text-blue-400">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Morada</h4>
+                            <p class="text-slate-300">Estrada Nacional 8, n.º 1<br/>Casais Pedrogão<br/>2510-737 Óbidos (Gaeiras)</p>
+                            <p class="text-xs text-blue-400 mt-2 font-medium">Frente à rotunda principal</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-600/20 p-3 rounded-lg text-blue-400">
+                            <i data-lucide="phone" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Contactos</h4>
+                            <p class="text-slate-300 hover:text-white transition-colors"><a href="tel:+351262000000">262 000 000</a> (Chamada rede fixa nacional)</p>
+                            <p class="text-slate-300 hover:text-white transition-colors"><a href="tel:+351910000000">910 000 000</a> (Chamada rede móvel nacional)</p>
+                            <p class="text-slate-400 mt-1 text-sm"><a href="mailto:geral@standmacar.pt">geral@standmacar.pt</a></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-600/20 p-3 rounded-lg text-blue-400">
+                            <i data-lucide="calendar" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Horário</h4>
+                            <p class="text-slate-300">Segunda a Sábado: 09:30 - 19:00</p>
+                            <p class="text-slate-500 text-sm">Domingos e Feriados: Por marcação</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 pt-10 border-t border-slate-800">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white w-full py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/50">
+                        Pedir Proposta / Agendar Visita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-500 py-8 text-center text-sm border-t border-slate-900">
+        <div class="container mx-auto px-4">
+            <p class="mb-2">&copy; <span id="year"></span> Standmacar - Comércio de Automóveis, Lda.</p>
+            <p>A informação disponibilizada, ainda que precisa, não dispensa a sua confirmação nem poderá ser considerada vinculativa.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA ---
+        const CARS = [
+            { id: 1, make: 'Ford', model: 'Transit 2.0 TDCi', price: 14900, year: 2018, km: 154826, fuel: 'Diesel', category: 'Comercial', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769037248/89a3f8b1-6b60-41da-8e3f-3f20c66e211a.png', monthly: 215, extras: 'Garantia, AC, Cruise Control' },
+            { id: 2, make: 'Opel', model: 'Astra K 1.0 Turbo', price: 9900, year: 2017, km: 135778, fuel: 'Gasolina', category: 'Carrinha', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769037516/5fdd3eef-b89b-44a4-a833-f85029963755.png', monthly: 145, extras: 'Sensores Parqueamento, GPS' },
+            { id: 3, make: 'Honda', model: 'HR-V 1.6', price: 3600, year: 1999, km: 144220, fuel: 'Gasolina', category: 'SUV', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769037678/3a3d808b-d3b1-4a70-ae9b-16c09355068a.png', monthly: 65, extras: 'AC, ABS, Estimado' },
+            { id: 4, make: 'Renault', model: 'Mégane Sport Tourer', price: 12700, year: 2014, km: 154293, fuel: 'Diesel', category: 'Carrinha', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769037847/b8f7dc4b-152d-4697-9c1d-a9b5fe6a7e0c.png', monthly: 185, extras: 'GPS, Bancos Aquecidos' },
+            { id: 5, make: 'Fiat', model: 'Panda 1.2', price: 8900, year: 2019, km: 39734, fuel: 'Gasolina', category: 'Citadino', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769037956/dbd872c7-0a58-49bd-9e2e-e7fdd9f4d2d0.png', monthly: 130, extras: 'Estado Novo, Garantia' },
+            { id: 6, make: 'Ford', model: 'Kuga 1.5 TDCi', price: 14700, year: 2017, km: 126331, fuel: 'Diesel', category: 'SUV', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769038124/ecc04033-f87a-4e41-b065-ad686e2cb710.png', monthly: 215, extras: 'GPS, Cruise Control' },
+            { id: 7, make: 'Ford', model: 'Focus SW 1.5 TDCi', price: 9900, year: 2017, km: 209042, fuel: 'Diesel', category: 'Carrinha', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769039382/6218abbd-ba0a-48a4-9691-24ef850710d5.png', monthly: 145, extras: 'GPS, Jantes Liga Leve' },
+            { id: 8, make: 'Mercedes-Benz', model: 'C 200 d SW', price: 19900, year: 2018, km: 107256, fuel: 'Diesel', category: 'Carrinha', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769039605/8b3608eb-89aa-4249-b64b-f26cb6f5387d.png', monthly: 285, extras: 'Bancos Elétricos, GPS' },
+            { id: 9, make: 'Peugeot', model: '208 1.2 PureTech', price: 11700, year: 2019, km: 52412, fuel: 'Gasolina', category: 'Citadino', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769039700/a0855a58-93b8-4d64-9200-7d8388a41534.png', monthly: 170, extras: 'GPS, Cruise Control' },
+            { id: 10, make: 'Citroën', model: 'C3 Aircross 1.6 BlueHDi', price: 12400, year: 2018, km: 105342, fuel: 'Diesel', category: 'SUV', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769039930/5e1728de-2784-430d-815e-e2a1c4d802d2.png', monthly: 180, extras: 'GPS, Sensores Estac.' },
+            { id: 11, make: 'Volkswagen', model: 'Transporter 2.0 TDI', price: 14900, year: 2017, km: 135015, fuel: 'Diesel', category: 'Comercial', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769040163/9722e2c0-263b-45f7-a028-9a740eb2d2ce.png', monthly: 215, extras: '3 Lugares, Cruise Control' },
+            { id: 12, make: 'Renault', model: 'Twingo 1.0 SCe', price: 8900, year: 2017, km: 83380, fuel: 'Gasolina', category: 'Citadino', image: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769040235/299fda6e-d2f8-4d55-8ae0-8c8a3a2c42db.png', monthly: 130, extras: 'Bluetooth, AC' }
+        ];
+
+        const FILTERS = ['Todos', 'Diesel', 'Gasolina', 'Comercial', 'Ford', 'Renault', 'Mercedes-Benz', 'Peugeot', 'Citroën', 'Fiat', 'Volkswagen', 'Opel', 'Honda'];
+
+        let activeFilter = 'Todos';
+
+        // --- DOM ELEMENTS ---
+        const carsGrid = document.getElementById('cars-grid');
+        const filtersContainer = document.getElementById('filters-container');
+        const navbar = document.getElementById('navbar');
+        const logoText = document.getElementById('logo-text');
+        const desktopMenu = document.getElementById('desktop-menu');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const yearSpan = document.getElementById('year');
+
+        // --- RENDER FUNCTIONS ---
+        function renderFilters() {
+            filtersContainer.innerHTML = '';
+            FILTERS.forEach(filter => {
+                const btn = document.createElement('button');
+                btn.textContent = filter;
+                btn.className = `px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 border border-slate-100 ${
+                    activeFilter === filter 
+                    ? 'bg-slate-900 text-white shadow-lg scale-105 border-transparent' 
+                    : 'bg-white text-slate-600 hover:bg-slate-100'
+                }`;
+                btn.onclick = () => {
+                    activeFilter = filter;
+                    renderFilters();
+                    renderCars();
+                };
+                filtersContainer.appendChild(btn);
+            });
+        }
+
+        function renderCars() {
+            carsGrid.innerHTML = '';
+            const filtered = activeFilter === 'Todos' 
+                ? CARS 
+                : CARS.filter(car => car.make === activeFilter || car.fuel === activeFilter || car.category === activeFilter);
+            
+            filtered.forEach(car => {
+                const card = document.createElement('div');
+                card.className = "group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full";
+                
+                const badgeText = car.category === 'Comercial' ? 'IVA Dedutível*' : 'Garantia Incluída';
+                
+                card.innerHTML = `
+                    <div class="relative h-64 overflow-hidden bg-slate-100">
+                        <div class="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
+                            ${badgeText}
+                        </div>
+                        <img src="${car.image}" alt="${car.make} ${car.model}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+                        <div class="absolute bottom-0 left-0 bg-slate-900/80 text-white text-xs px-3 py-1 font-medium backdrop-blur-sm rounded-tr-lg">
+                            ${car.category}
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900">${car.make} ${car.model}</h3>
+                                <p class="text-slate-500 text-xs font-medium uppercase tracking-wide mt-1">${car.extras}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 py-4 border-t border-b border-slate-100 my-4 text-xs text-slate-600 font-medium">
+                            <div class="flex flex-col items-center gap-1">
+                                <i data-lucide="gauge" class="w-4 h-4 text-blue-500"></i>
+                                ${car.km.toLocaleString()} km
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <i data-lucide="fuel" class="w-4 h-4 text-blue-500"></i>
+                                ${car.fuel}
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <i data-lucide="calendar" class="w-4 h-4 text-blue-500"></i>
+                                ${car.year}
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex justify-between items-end mb-4">
+                                <div>
+                                    <p class="text-xs text-slate-400 mb-1">Financiamento desde</p>
+                                    <p class="text-lg font-bold text-blue-600">${car.monthly}€ <span class="text-sm text-slate-400 font-normal">/mês*</span></p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xl font-bold text-slate-900">${car.price.toLocaleString()} €</p>
+                                </div>
+                            </div>
+                            <button class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 group-hover:bg-blue-600 shadow-sm hover:shadow-md">
+                                Ver Detalhes <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                carsGrid.appendChild(card);
+            });
+            
+            // Re-initialize icons for new elements
+            lucide.createIcons();
+        }
+
+        // --- EVENT LISTENERS ---
+        
+        // Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent', 'py-6');
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-lg', 'py-3');
+                
+                // Text color change logic for scroll
+                navbar.classList.remove('text-white');
+                navbar.classList.add('text-slate-800');
+                
+                logoText.classList.remove('text-white');
+                logoText.classList.add('text-slate-900');
+
+                desktopMenu.classList.remove('text-slate-200');
+                desktopMenu.classList.add('text-slate-700');
+
+                mobileToggle.classList.remove('text-white');
+                mobileToggle.classList.add('text-slate-900');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-6');
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-lg', 'py-3');
+                
+                navbar.classList.add('text-white');
+                navbar.classList.remove('text-slate-800');
+                
+                logoText.classList.add('text-white');
+                logoText.classList.remove('text-slate-900');
+
+                desktopMenu.classList.add('text-slate-200');
+                desktopMenu.classList.remove('text-slate-700');
+
+                mobileToggle.classList.add('text-white');
+                mobileToggle.classList.remove('text-slate-900');
+            }
+        });
+
+        // Mobile Menu
+        mobileToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Current Year
+        yearSpan.textContent = new Date().getFullYear();
+
+        // --- INIT ---
+        renderFilters();
+        renderCars();
+        lucide.createIcons();
+
+    </script>
+</body>
+</html>
