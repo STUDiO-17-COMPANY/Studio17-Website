@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opticana Cyprus | Luxury Eyewear & Optician Services</title>
+    <meta name="description" content="The premier destination for luxury eyewear and professional vision care in Cyprus. Visit us at MYMALL Limassol and Metropolis Mall Larnaca.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#0a0a0a',
+                        'brand-gold': '#C5CF2A',
+                        'brand-cream': '#F9F8F6',
+                        'brand-gray': '#888888'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles for Lenis & Custom Cursor -->
+    <style>
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: black;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="bg-brand-cream text-brand-black overflow-x-hidden selection:bg-brand-black selection:text-white">
+
+    <!-- Preloader with Logo -->
+    <div class="loader">
+        <div class="loader-content opacity-0 transform translate-y-4">
+            <!-- Removed brightness-0 invert to show original logo color -->
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769166417/257541082_100237425827270_7297182892514050779_n-Photoroom_1_audqi2.png" 
+                 alt="Opticana Loader" 
+                 class="h-24 w-auto object-contain mb-4">
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 py-6 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="#" class="z-50 logo-container">
+            <!-- Removed brightness-0 invert to show original logo color -->
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769166417/257541082_100237425827270_7297182892514050779_n-Photoroom_1_audqi2.png" alt="Opticana Logo" class="h-12 w-auto object-contain transition-all duration-300" id="nav-logo">
+        </a>
+        
+        <div class="hidden md:flex gap-8 items-center px-6 py-2 rounded-full transition-all duration-300" id="nav-links-container">
+            <a href="#collections" class="nav-link font-sans text-sm font-medium text-white hover:text-brand-gold transition-colors">Collections</a>
+            <a href="#shop" class="nav-link font-sans text-sm font-medium text-white hover:text-brand-gold transition-colors">Shop</a>
+            <a href="#services" class="nav-link font-sans text-sm font-medium text-white hover:text-brand-gold transition-colors">Services</a>
+            <a href="#locations" class="nav-link font-sans text-sm font-medium text-white hover:text-brand-gold transition-colors">Locations</a>
+        </div>
+
+        <button class="bg-white text-black px-6 py-2 rounded-full font-sans text-sm font-semibold hover:bg-brand-gold hover:text-white transition-all duration-300 transform hover:scale-105 hidden md:block shadow-lg border border-transparent" id="nav-cta">
+            Book Appointment
+        </button>
+
+        <!-- Mobile Menu Icon -->
+        <button class="md:hidden z-50 text-white mix-blend-difference" id="menu-btn">
+            <i data-lucide="menu" class="w-8 h-8"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 bg-brand-black z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8 md:hidden" id="mobile-menu">
+        <a href="#collections" class="font-serif text-3xl text-white mobile-link">Collections</a>
+        <a href="#shop" class="font-serif text-3xl text-white mobile-link">Shop</a>
+        <a href="#services" class="font-serif text-3xl text-white mobile-link">Services</a>
+        <a href="#locations" class="font-serif text-3xl text-white mobile-link">Locations</a>
+        <a href="#" class="font-sans text-lg text-brand-gold mobile-link">Book Now</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+            <!-- Background Images (Slideshow) -->
+            <div class="absolute inset-0 z-0">
+                <!-- Image 1 -->
+                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769167715/ChatGPT_Image_Jan_23_2026_01_28_22_PM_gzn7vq.png" 
+                     alt="Luxury Sunglasses Model 1" 
+                     class="hero-slide absolute inset-0 w-full h-full object-cover opacity-0 scale-110">
+                
+                <!-- Image 2 -->
+                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769167752/ChatGPT_Image_Jan_23_2026_01_29_02_PM_ws0tyy.png" 
+                     alt="Luxury Sunglasses Model 2" 
+                     class="hero-slide absolute inset-0 w-full h-full object-cover opacity-0 scale-110">
+                
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-black/30 z-10"></div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+                <p class="hero-text text-white/90 font-sans tracking-[0.2em] text-xs md:text-sm uppercase mb-4 translate-y-10 opacity-0">Premium Optics Cyprus</p>
+                <h1 class="hero-text font-serif text-5xl md:text-8xl lg:text-9xl text-white italic leading-[0.9] mb-8 translate-y-10 opacity-0">
+                    Reframing <br> <span class="not-italic font-light">Luxury</span>
+                </h1>
+                <div class="hero-text translate-y-10 opacity-0 mt-8">
+                    <a href="#collections" class="group inline-flex items-center gap-2 text-white border-b border-white pb-1 hover:text-brand-gold hover:border-brand-gold transition-all duration-300">
+                        <span class="font-sans tracking-widest text-sm">EXPLORE COLLECTIONS</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 animate-bounce z-20">
+                <i data-lucide="chevron-down" class="w-6 h-6"></i>
+            </div>
+        </section>
+
+        <!-- Brand Marquee -->
+        <section class="py-10 border-b border-gray-200 bg-white overflow-hidden">
+            <div class="marquee-wrapper flex gap-12 items-center whitespace-nowrap">
+                <div class="marquee-content flex gap-16 items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                    <span class="text-3xl font-serif">GUCCI</span>
+                    <span class="text-3xl font-serif">PRADA</span>
+                    <span class="text-3xl font-serif">TOM FORD</span>
+                    <span class="text-3xl font-serif">CARTIER</span>
+                    <span class="text-3xl font-serif">RAY-BAN</span>
+                    <span class="text-3xl font-serif">VERSACE</span>
+                    <span class="text-3xl font-serif">CELINE</span>
+                    <span class="text-3xl font-serif">DIOR</span>
+                    <span class="text-3xl font-serif">OLIVER PEOPLES</span>
+                    <span class="text-3xl font-serif">GUCCI</span>
+                    <span class="text-3xl font-serif">PRADA</span>
+                    <span class="text-3xl font-serif">TOM FORD</span>
+                    <span class="text-3xl font-serif">CARTIER</span>
+                    <span class="text-3xl font-serif">RAY-BAN</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections Showcase -->
+        <section class="py-24 bg-white" id="collections">
+            <div class="px-6 md:px-12 mb-12 flex justify-between items-end">
+                <div>
+                    <span class="font-sans text-xs tracking-widest uppercase text-brand-gray">Seasonal Edit</span>
+                    <h2 class="font-serif text-4xl md:text-5xl mt-2">Curated Collections</h2>
+                </div>
+                <div class="hidden md:block">
+                     <span class="font-sans text-xs uppercase tracking-widest text-brand-black border-b border-black pb-1 cursor-pointer hover:text-brand-gold hover:border-brand-gold transition-colors">View All Lookbooks</span>
+                </div>
+            </div>
+            
+            <div class="px-6 md:px-12 max-w-[1920px] mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 h-auto md:h-[80vh]">
+                    
+                    <!-- Large Featured Item (Left) -->
+                    <div class="lg:col-span-8 relative group overflow-hidden cursor-pointer h-[500px] md:h-full">
+                        <!-- Updated Gentleman Image -->
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769167320/cq5dam.web.hebebed.1000.1000_1_xz6b6g.avif" 
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                             alt="Men's Collection">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500"></div>
+                        
+                        <div class="absolute bottom-8 left-8 text-white z-10">
+                            <span class="font-sans text-xs uppercase tracking-widest bg-brand-gold text-black px-2 py-1 mb-3 inline-block">Featured</span>
+                            <h3 class="font-serif text-5xl md:text-6xl italic mb-2">The Gentleman</h3>
+                            <p class="font-sans text-sm opacity-80 max-w-xs transition-all duration-500">
+                                Sophisticated frames for the modern man. Featuring Tom Ford, Persol, and Cartier.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column (Stacked) -->
+                    <div class="lg:col-span-4 flex flex-col gap-4 h-full">
+                        
+                        <!-- Top Right -->
+                        <div class="relative group overflow-hidden cursor-pointer flex-1 h-[300px] md:h-auto">
+                            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=800&auto=format&fit=crop" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                 alt="Women's Collection">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500"></div>
+                            <div class="absolute bottom-6 left-6 text-white z-10">
+                                <h3 class="font-serif text-3xl md:text-4xl italic">High Fashion</h3>
+                                <p class="font-sans text-xs mt-2 uppercase tracking-widest border-b border-transparent group-hover:border-white inline-block transition-all">Explore Women's</p>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Right -->
+                        <div class="relative group overflow-hidden cursor-pointer flex-1 h-[300px] md:h-auto">
+                            <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?q=80&w=800&auto=format&fit=crop" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                 alt="Summer Collection">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500"></div>
+                            <div class="absolute bottom-6 left-6 text-white z-10">
+                                <h3 class="font-serif text-3xl md:text-4xl italic">Sun Seeker</h3>
+                                <p class="font-sans text-xs mt-2 uppercase tracking-widest border-b border-transparent group-hover:border-white inline-block transition-all">Vacation Edit</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section class="py-24 md:py-32 px-6 md:px-12 bg-brand-cream" id="shop">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="font-sans text-brand-gold font-bold tracking-widest uppercase text-xs mb-2 block">Online Exclusive</span>
+                    <h2 class="font-serif text-4xl md:text-6xl leading-tight text-brand-black">
+                        Shop Best Sellers
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
+                    <div class="group">
+                        <div class="relative h-[400px] w-full bg-white overflow-hidden mb-6 rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Gucci Sunglasses" 
+                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            
+                            <div class="absolute top-4 right-4 bg-brand-gold text-white text-xs font-bold px-3 py-1 rounded-full">NEW</div>
+                            
+                            <!-- Add to Cart Overlay -->
+                            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <button class="w-full bg-brand-black text-white py-3 font-sans text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors">
+                                    Add to Bag
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-serif text-2xl text-brand-black">Gucci Oversized Square</h3>
+                            <p class="font-sans text-gray-500 text-sm mt-1">Black Acetate / Grey Lens</p>
+                            <p class="font-sans font-bold text-brand-black mt-2">€320.00</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="group">
+                        <div class="relative h-[400px] w-full bg-white overflow-hidden mb-6 rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Prada Sunglasses" 
+                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                             
+                             <!-- Add to Cart Overlay -->
+                            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <button class="w-full bg-brand-black text-white py-3 font-sans text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors">
+                                    Add to Bag
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-serif text-2xl text-brand-black">Prada Symbole</h3>
+                            <p class="font-sans text-gray-500 text-sm mt-1">Tortoiseshell / Brown Lens</p>
+                            <p class="font-sans font-bold text-brand-black mt-2">€410.00</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="group">
+                        <div class="relative h-[400px] w-full bg-white overflow-hidden mb-6 rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Tom Ford Sunglasses" 
+                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            
+                            <!-- Add to Cart Overlay -->
+                            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <button class="w-full bg-brand-black text-white py-3 font-sans text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors">
+                                    Add to Bag
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-serif text-2xl text-brand-black">Tom Ford Falconer</h3>
+                            <p class="font-sans text-gray-500 text-sm mt-1">Gold Metal / Green Lens</p>
+                            <p class="font-sans font-bold text-brand-black mt-2">€390.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <a href="#collections" class="inline-flex items-center gap-2 text-brand-black border-b border-brand-black pb-1 hover:text-brand-gold hover:border-brand-gold transition-all duration-300">
+                        <span class="font-sans tracking-widest text-sm uppercase">View All Products</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="py-24 bg-brand-black text-white" id="services">
+            <div class="px-6 md:px-12 max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-white/20 pb-8">
+                    <h2 class="font-serif text-4xl md:text-6xl">Expertise</h2>
+                    <p class="font-sans text-white/60 mt-4 md:mt-0">Comprehensive optical services.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div class="service-card group border-t border-white/10 pt-8 cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-sans text-brand-gold text-sm">01</span>
+                            <i data-lucide="eye" class="w-6 h-6 text-white/50 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl mb-3 group-hover:translate-x-2 transition-transform duration-300">Precision Eye Exams</h3>
+                        <p class="font-sans text-sm text-gray-400 leading-relaxed group-hover:text-gray-300">
+                            State-of-the-art diagnostic technology manned by certified opticians to ensure crystal clear vision and eye health tracking.
+                        </p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="service-card group border-t border-white/10 pt-8 cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-sans text-brand-gold text-sm">02</span>
+                            <i data-lucide="glasses" class="w-6 h-6 text-white/50 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl mb-3 group-hover:translate-x-2 transition-transform duration-300">Frame Styling</h3>
+                        <p class="font-sans text-sm text-gray-400 leading-relaxed group-hover:text-gray-300">
+                            Personalized consultation to find the perfect frame shape and material that complements your face structure and personal style.
+                        </p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-card group border-t border-white/10 pt-8 cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-sans text-brand-gold text-sm">03</span>
+                            <i data-lucide="wrench" class="w-6 h-6 text-white/50 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl mb-3 group-hover:translate-x-2 transition-transform duration-300">Lens Technology</h3>
+                        <p class="font-sans text-sm text-gray-400 leading-relaxed group-hover:text-gray-300">
+                            Offering the thinnest, lightest lenses with advanced coatings for blue light protection, driving, and UV resistance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Locations Section -->
+        <section class="py-24 bg-brand-cream relative" id="locations">
+            <div class="px-6 md:px-12 max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="font-serif text-5xl md:text-7xl mb-4">Our Boutiques</h2>
+                    <p class="font-sans text-brand-gray max-w-xl mx-auto">Experience Opticana at Cyprus's leading retail destinations. Walk in for a fitting or book a VIP consultation.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Location 1: Limassol -->
+                    <div class="location-card bg-white p-8 md:p-12 hover:shadow-2xl transition-all duration-500 group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gold/10 rounded-bl-full -mr-8 -mt-8"></div>
+                        <h3 class="font-serif text-4xl mb-2">MYMALL Limassol</h3>
+                        <p class="font-sans text-sm text-brand-gray uppercase tracking-widest mb-6">Limassol, Cyprus</p>
+                        
+                        <div class="space-y-4 font-sans text-brand-black/80">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                <span>Franklin Roosevelt 285</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                <span>Mon-Sat: 10:00 - 20:00</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                                <span>+357 25 000 000</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-gray-100">
+                             <button class="flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:text-brand-gold transition-colors">
+                                Get Directions <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Location 2: Larnaca -->
+                    <div class="location-card bg-white p-8 md:p-12 hover:shadow-2xl transition-all duration-500 group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-black/5 rounded-bl-full -mr-8 -mt-8"></div>
+                        <h3 class="font-serif text-4xl mb-2">Metropolis Mall</h3>
+                        <p class="font-sans text-sm text-brand-gray uppercase tracking-widest mb-6">Larnaca, Cyprus</p>
+                        
+                        <div class="space-y-4 font-sans text-brand-black/80">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                <span>European Union Ave 5</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                <span>Mon-Sat: 10:00 - 20:00</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                                <span>+357 24 000 000</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-gray-100">
+                             <button class="flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:text-brand-gold transition-colors">
+                                Get Directions <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="relative py-24 md:py-32 bg-brand-black text-white overflow-hidden">
+            <!-- Subtle background accent -->
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+                <div class="flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+                    
+                    <!-- Text Content -->
+                    <div class="flex-1 text-center md:text-left">
+                        <span class="font-sans text-brand-gold text-xs tracking-[0.2em] uppercase mb-4 block">Book Your Visit</span>
+                        <h2 class="font-serif text-5xl md:text-7xl leading-[1.1] mb-6">
+                            Elevate your <br>
+                            <span class="italic text-gray-400">perspective.</span>
+                        </h2>
+                        <p class="font-sans text-gray-400 text-lg leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
+                            Whether you need a comprehensive eye exam with our certified opticians or a private styling consultation for the season's latest frames, we are ready to welcome you.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <button class="bg-white text-brand-black px-8 py-4 rounded-full font-sans font-bold text-sm tracking-widest hover:bg-brand-gold hover:text-white transition-all duration-300">
+                                BOOK EYE EXAM
+                            </button>
+                            <button class="border border-white/30 text-white px-8 py-4 rounded-full font-sans font-bold text-sm tracking-widest hover:bg-white hover:text-black transition-all duration-300">
+                                STYLE CONSULTATION
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visual/Service Feature -->
+                    <div class="flex-1 w-full">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white/5 p-6 md:p-8 rounded-sm border border-white/10 hover:border-brand-gold/50 transition-colors duration-300">
+                                <i data-lucide="eye" class="w-8 h-8 text-brand-gold mb-4"></i>
+                                <h3 class="font-serif text-2xl mb-2">Clinical Care</h3>
+                                <p class="font-sans text-xs text-gray-400 leading-relaxed">Advanced diagnostic technology for precise prescription and health monitoring.</p>
+                            </div>
+                            <div class="bg-white/5 p-6 md:p-8 rounded-sm border border-white/10 hover:border-brand-gold/50 transition-colors duration-300 translate-y-8">
+                                <i data-lucide="crown" class="w-8 h-8 text-brand-gold mb-4"></i>
+                                <h3 class="font-serif text-2xl mb-2">VIP Styling</h3>
+                                <p class="font-sans text-xs text-gray-400 leading-relaxed">Private sessions with our eyewear curators to define your personal image.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-black text-white pt-24 pb-12 border-t border-white/10">
+        <div class="px-6 md:px-12 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="md:col-span-1">
+                <a href="#" class="block mb-6">
+                    <!-- Also removed filter here for consistency if desired, otherwise kept white for footer contrast. Keeping original request context "no logo" usually means header, but I will update footer too for brand consistency if the original logo is legible on black. -->
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769166417/257541082_100237425827270_7297182892514050779_n-Photoroom_1_audqi2.png" alt="Opticana Logo" class="h-10 w-auto object-contain">
+                </a>
+                <p class="font-sans text-sm text-gray-400">The premier luxury eyewear destination in Cyprus.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-sans font-bold text-sm uppercase tracking-widest mb-6">Explore</h4>
+                <ul class="space-y-4 font-sans text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Sunglasses</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Optical Frames</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Lenses</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Gift Cards</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-sans font-bold text-sm uppercase tracking-widest mb-6">Social</h4>
+                <ul class="space-y-4 font-sans text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Instagram</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Facebook</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">TikTok</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-sans font-bold text-sm uppercase tracking-widest mb-6">Newsletter</h4>
+                <form class="flex border-b border-white/30 pb-2">
+                    <input type="email" placeholder="Your email address" class="bg-transparent outline-none w-full text-sm placeholder-gray-500">
+                    <button type="submit" class="text-xs uppercase font-bold hover:text-brand-gold">Join</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="px-6 md:px-12 text-center md:text-left pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="font-sans text-xs text-gray-500">&copy; 2024 Opticana Cyprus. All rights reserved.</p>
+            <p class="font-sans text-xs text-gray-500">Designed for Visionaries.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect Lenis to ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Preloader Animation
+        window.addEventListener("load", () => {
+            const tl = gsap.timeline({
+                onComplete: startHeroSlideshow // Start slideshow after intro
+            });
+
+            tl.to(".loader-content", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            })
+            .to(".loader-content", {
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.5,
+                delay: 0.5
+            })
+            .to(".loader", {
+                height: 0,
+                duration: 1,
+                ease: "power4.inOut"
+            })
+            // Animate only the first slide initially
+            .to(".hero-slide:first-child", {
+                scale: 1,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power2.out"
+            }, "-=0.5")
+            .to(".hero-text", {
+                y: 0,
+                opacity: 1,
+                stagger: 0.2,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=1");
+        });
+
+        // Hero Slideshow Logic
+        function startHeroSlideshow() {
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlide = 0;
+            const slideInterval = 5000; // 5 seconds
+
+            setInterval(() => {
+                const nextSlide = (currentSlide + 1) % slides.length;
+                
+                // Fade out current
+                gsap.to(slides[currentSlide], {
+                    opacity: 0,
+                    duration: 1.5,
+                    ease: "power2.inOut"
+                });
+
+                // Fade in next (and reset scale for subtle zoom effect if desired, or keep static)
+                gsap.fromTo(slides[nextSlide], 
+                    { scale: 1.1 }, // start slightly zoomed in
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1.5,
+                        ease: "power2.inOut"
+                    }
+                );
+
+                currentSlide = nextSlide;
+            }, slideInterval);
+        }
+
+        // Marquee Animation (Kept as it is structural loop)
+        gsap.to(".marquee-content", {
+            xPercent: -50,
+            repeat: -1,
+            duration: 20,
+            ease: "linear"
+        });
+
+        // Reverted Navbar Logic (White Background on Scroll)
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navLogo = document.getElementById('nav-logo');
+        const navCta = document.getElementById('nav-cta');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                // Add White Background & Blur
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.remove('py-6');
+                
+                // Switch text/elements to black
+                navLinks.forEach(link => {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-black');
+                });
+                
+                // Removed logo filter logic here - logo stays original
+                
+                // Add border to CTA for visibility if needed, or keep white bg
+                navCta.classList.add('border-black', 'bg-brand-black', 'text-white');
+                navCta.classList.remove('bg-white', 'text-black', 'border-transparent');
+
+            } else {
+                // Revert to transparent
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.add('py-6');
+                
+                // Revert text to white
+                navLinks.forEach(link => {
+                    link.classList.add('text-white');
+                    link.classList.remove('text-black');
+                });
+
+                // Removed logo filter logic here - logo stays original
+                
+                // Revert CTA
+                navCta.classList.remove('border-black', 'bg-brand-black', 'text-white');
+                navCta.classList.add('bg-white', 'text-black', 'border-transparent');
+            }
+        });
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with lag
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+        
+        // Hover effects for cursor
+        const hoverables = document.querySelectorAll('a, button, .service-card, .location-card, .group');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.transform = "translate(-50%, -50%) scale(1.5)";
+                cursorOutline.style.borderColor = "rgba(197, 207, 42, 0.5)"; // Brand Gold tint
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+                cursorOutline.style.borderColor = "rgba(0, 0, 0, 0.5)";
+            });
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+                lenis.stop(); // Stop Lenis scroll
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+                lenis.start(); // Start Lenis scroll
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+                lenis.start();
+            });
+        });
+
+    </script>
+</body>
+</html>
