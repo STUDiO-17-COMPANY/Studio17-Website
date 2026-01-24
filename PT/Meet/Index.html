@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEET Torres Novas | Hambúrgueres, Kebabs & Pizzas</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#FF4141',
+                            yellow: '#FFC800',
+                            dark: '#0F0F0F',
+                            gray: '#1A1A1A'
+                        }
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Styles for Lenis & Custom Animations -->
+    <style>
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        body {
+            background-color: #0F0F0F;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Marquee Animation */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #FFC800;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 200, 0, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        /* Loader */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #0F0F0F;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-red selection:text-white">
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769277113/blue_gin_logo_ooxzep.jpg" alt="MEET Logo" class="h-20 md:h-32 w-auto animate-pulse object-contain rounded-full">
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 px-6 py-4 mix-blend-difference text-white">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <a href="#" class="block hover:scale-105 transition-transform duration-300">
+                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769277113/blue_gin_logo_ooxzep.jpg" alt="MEET Logo" class="h-10 md:h-12 w-auto object-contain rounded-full">
+            </a>
+            <a href="#link-hub" class="md:hidden bg-white text-black px-4 py-2 rounded-full font-bold text-sm">
+                Pedir
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-widest">
+                <a href="#link-hub" class="hover:text-brand-yellow transition-colors">Conectar</a>
+                <a href="#menu" class="hover:text-brand-yellow transition-colors">Menu</a>
+                <a href="#location" class="hover:text-brand-yellow transition-colors">Localização</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative bg-noise">
+        
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex flex-col justify-center items-center px-6 pt-20 overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 z-0 opacity-100">
+                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769278313/burguer2_oerh9i.png" 
+                     class="w-full h-full object-cover filter brightness-75" 
+                     data-speed="0.5" 
+                     alt="Burger Background">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-[#0F0F0F]"></div>
+            </div>
+
+            <div class="relative z-10 text-center max-w-4xl mx-auto">
+                <p class="hero-sub text-brand-yellow font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base drop-shadow-md">
+                    Est. Torres Novas
+                </p>
+                <h1 class="hero-title font-display text-7xl md:text-[9rem] leading-none font-bold uppercase mb-6 mix-blend-overlay opacity-90">
+                    Meet<br>The Taste
+                </h1>
+                <p class="hero-text text-gray-300 text-lg md:text-xl max-w-lg mx-auto mb-10 font-light">
+                    O local favorito da cidade para Hambúrgueres, Kebabs e Pizzas premium.
+                    <span class="hidden md:inline">Boa comida, boa vibe, bem no centro.</span>
+                </p>
+                
+                <div class="hero-btns flex flex-col md:flex-row gap-4 justify-center items-center w-full">
+                    <a href="#link-hub" class="w-full md:w-auto bg-brand-yellow text-brand-dark px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-white hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+                        Fazer Pedido <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#menu" class="w-full md:w-auto border border-white/30 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300">
+                        Ver Menu
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marquee -->
+        <div class="bg-brand-yellow text-brand-dark py-4 font-display font-bold text-3xl md:text-5xl uppercase tracking-tight -rotate-1 z-20 relative border-y-4 border-black">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    HAMBÚRGUERES • KEBABS • PIZZAS • TORRES NOVAS • INGREDIENTES FRESCOS • MELHOR VIBE • HAMBÚRGUERES • KEBABS • PIZZAS • TORRES NOVAS • INGREDIENTES FRESCOS • MELHOR VIBE •
+                </div>
+                <div class="marquee-content" aria-hidden="true">
+                     HAMBÚRGUERES • KEBABS • PIZZAS • TORRES NOVAS • INGREDIENTES FRESCOS • MELHOR VIBE • HAMBÚRGUERES • KEBABS • PIZZAS • TORRES NOVAS • INGREDIENTES FRESCOS • MELHOR VIBE •
+                </div>
+            </div>
+        </div>
+
+        <!-- The "Linktree" Hub Section -->
+        <section id="link-hub" class="py-20 px-6 max-w-lg mx-auto relative z-10">
+            <div class="text-center mb-12 section-header">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-2">Conecte-se</h2>
+                <div class="h-1 w-20 bg-brand-yellow mx-auto rounded-full"></div>
+                <p class="mt-4 text-gray-400">Pede delivery ou confere as novidades.</p>
+            </div>
+
+            <div class="flex flex-col gap-4 link-container">
+                <!-- Uber Eats -->
+                <a href="#" class="link-card group relative overflow-hidden bg-white text-black p-1 rounded-2xl transition-transform hover:scale-[1.02]">
+                    <div class="bg-[#06C167] p-6 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-white p-2 rounded-full text-[#06C167]">
+                                <i data-lucide="utensils-crossed" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold text-xl text-white">Uber Eats</h3>
+                                <p class="text-white/80 text-sm">Pedir Agora</p>
+                            </div>
+                        </div>
+                        <i data-lucide="external-link" class="text-white opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" class="link-card group relative overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 p-6 rounded-2xl flex items-center justify-between transition-transform hover:scale-[1.02]">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="instagram" class="w-8 h-8 text-white"></i>
+                        <div class="text-left text-white">
+                            <h3 class="font-bold text-xl">Instagram</h3>
+                            <p class="text-white/80 text-sm">@meet.torresnovas</p>
+                        </div>
+                    </div>
+                    <i data-lucide="arrow-right" class="text-white opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+
+                <!-- Facebook -->
+                <a href="#" class="link-card group relative overflow-hidden bg-blue-600 p-6 rounded-2xl flex items-center justify-between transition-transform hover:scale-[1.02]">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="facebook" class="w-8 h-8 text-white"></i>
+                        <div class="text-left text-white">
+                            <h3 class="font-bold text-xl">Facebook</h3>
+                            <p class="text-white/80 text-sm">Segue a nossa página</p>
+                        </div>
+                    </div>
+                    <i data-lucide="arrow-right" class="text-white opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Menu Grid -->
+        <section id="menu" class="py-20 px-6 bg-brand-gray relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 section-header">
+                    <div>
+                        <h2 class="font-display text-4xl md:text-6xl font-bold uppercase">Os Favoritos</h2>
+                        <p class="text-gray-400 mt-2">Feito com paixão em Torres Novas.</p>
+                    </div>
+                    <a href="#" class="hidden md:flex items-center gap-2 text-brand-yellow hover:text-white transition-colors mt-4 md:mt-0">
+                        Ver Menu Completo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Item 1 -->
+                    <div class="menu-item group cursor-pointer">
+                        <div class="relative overflow-hidden rounded-2xl aspect-[4/5] mb-4">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10"></div>
+                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769278313/burguer2_oerh9i.png" 
+                                 alt="Signature Burger" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute bottom-4 left-4 z-20 bg-brand-yellow text-brand-dark px-3 py-1 font-bold rounded text-sm">
+                                Mais Vendido
+                            </div>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold uppercase group-hover:text-brand-yellow transition-colors">The Meet Burger</h3>
+                        <p class="text-gray-400 text-sm mt-1">Hambúrguer duplo, cheddar, cebola caramelizada, molho da casa.</p>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="menu-item group cursor-pointer md:mt-12">
+                        <div class="relative overflow-hidden rounded-2xl aspect-[4/5] mb-4">
+                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769278797/Pizza_4_Queijos_f2x25k.png" 
+                                 alt="Pizza 4 Queijos" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <h3 class="font-display text-2xl font-bold uppercase group-hover:text-brand-yellow transition-colors">Pizza 4 Queijos</h3>
+                        <p class="text-gray-400 text-sm mt-1">Molho de tomate e uma deliciosa combinação de 4 queijos.</p>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="menu-item group cursor-pointer">
+                        <div class="relative overflow-hidden rounded-2xl aspect-[4/5] mb-4">
+                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769279446/kebab2_jmmtcm.png" 
+                                 alt="Kebab Plate" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <h3 class="font-display text-2xl font-bold uppercase group-hover:text-brand-yellow transition-colors">Kebab Especial</h3>
+                        <p class="text-gray-400 text-sm mt-1">Carne premium, salada fresca, molho de iogurte e alho, batatas.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center md:hidden">
+                    <a href="#" class="inline-flex items-center gap-2 text-brand-yellow hover:text-white transition-colors">
+                        Ver Menu Completo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About & Location Split -->
+        <section id="location" class="py-0 grid grid-cols-1 md:grid-cols-2">
+            <div class="bg-brand-dark p-10 md:p-20 flex flex-col justify-center border-r border-white/5">
+                <span class="text-brand-yellow font-bold uppercase tracking-widest mb-4">A Localização</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">No Coração de Torres Novas</h2>
+                <p class="text-gray-400 mb-8 leading-relaxed">
+                    Mais do que apenas comida, o MEET é onde os amigos se reúnem. Seja para um almoço rápido ou um jantar com bebidas, o nosso ambiente moderno e descontraído cria o clima perfeito.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="map-pin" class="text-brand-yellow shrink-0 mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-white">Visite-nos</h4>
+                            <p class="text-gray-500">Praça 5 de Outubro, Torres Novas</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="clock" class="text-brand-yellow shrink-0 mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-white">Horário</h4>
+                            <p class="text-gray-500">Ter - Dom: 12:00 - 15:00 / 19:00 - 23:00</p>
+                            <p class="text-gray-500 text-sm">Encerrado à Segunda</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-96 md:h-auto bg-gray-800 relative grayscale hover:grayscale-0 transition-all duration-500">
+                <!-- Map Placeholder Image (Simulating Map) -->
+                 <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3086.196397394541!2d-8.5416045!3d39.4795275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1871e462000001%3A0x6b80145877c4860!2sTorres%20Novas!5e0!3m2!1sen!2spt!4v1700000000000!5m2!1sen!2spt" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="w-full h-full opacity-70 hover:opacity-100 transition-opacity">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- CTA / Footer -->
+        <footer class="bg-black pt-20 pb-10 px-6 border-t border-white/10">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="font-display text-5xl md:text-8xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-800 mb-8 footer-title">
+                    Ficaste com Água na Boca?
+                </h2>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-16">
+                    <a href="tel:+351910000000" class="flex items-center gap-3 text-xl font-bold hover:text-brand-yellow transition-colors">
+                        <i data-lucide="phone"></i> +351 912 345 678
+                    </a>
+                    <span class="hidden md:block text-gray-700">•</span>
+                    <a href="mailto:hello@meettorresnovas.com" class="flex items-center gap-3 text-xl font-bold hover:text-brand-yellow transition-colors">
+                        hello@meet.pt
+                    </a>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-gray-500 text-sm">
+                    <p>&copy; 2024 MEET Torres Novas. Todos os direitos reservados.</p>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white">Privacidade</a>
+                        <a href="#" class="hover:text-white">Termos</a>
+                        <a href="#" class="hover:text-white">Uber Eats</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Floating Order Button (Mobile Only) -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 md:hidden w-full px-6">
+        <a href="#" class="block w-full bg-[#06C167] text-white font-bold py-4 rounded-full text-center shadow-lg shadow-green-900/50 flex items-center justify-center gap-2">
+            <i data-lucide="utensils-crossed" class="w-5 h-5"></i> Pedir no Uber Eats
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // 1. Initialize Lenis (Smooth Scroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 2. Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with lag (handled by CSS transition or GSAP for smoother feel)
+            // Using simple GSAP for smoother lag
+            gsap.to(cursorOutline, {
+                x: posX,
+                y: posY,
+                duration: 0.15,
+                ease: "power2.out"
+            });
+        });
+
+        // Hover effects for cursor
+        const interactables = document.querySelectorAll('a, button, .menu-item');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.transform = "translate(-50%, -50%) scale(1.5)";
+                cursorOutline.style.backgroundColor = "rgba(255, 200, 0, 0.1)";
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+                cursorOutline.style.backgroundColor = "transparent";
+            });
+        });
+
+        // 3. GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Loader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            tl.to("#loader", {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => document.getElementById('loader').style.display = 'none'
+            })
+            .from(".hero-sub", { y: 20, opacity: 0, duration: 0.6 })
+            .from(".hero-title", { y: 50, opacity: 0, duration: 0.8 }, "-=0.4")
+            .from(".hero-text", { y: 30, opacity: 0, duration: 0.8 }, "-=0.6")
+            .from(".hero-btns a", { y: 20, opacity: 0, stagger: 0.2, duration: 0.6 }, "-=0.4");
+        });
+
+        // ScrollTriggers
+        
+        // Link Hub
+        gsap.from(".link-card", {
+            scrollTrigger: {
+                trigger: "#link-hub",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            stagger: 0.15,
+            duration: 0.8,
+            ease: "power3.out"
+        });
+
+        // Menu Items
+        gsap.from(".menu-item", {
+            scrollTrigger: {
+                trigger: "#menu",
+                start: "top 75%",
+            },
+            y: 100,
+            opacity: 0,
+            stagger: 0.2,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        // Location text
+        gsap.from("#location h2, #location p, #location .space-y-4", {
+            scrollTrigger: {
+                trigger: "#location",
+                start: "top 70%",
+            },
+            x: -50,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.8
+        });
+
+        // Parallax Effect for Hero Image
+        gsap.to("[data-speed]", {
+            y: (i, el) => (1 - parseFloat(el.getAttribute("data-speed"))) * ScrollTrigger.maxScroll(window),
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 0
+            }
+        });
+
+        // Footer Reveal
+        gsap.from(".footer-title", {
+            scrollTrigger: {
+                trigger: "footer",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+
+    </script>
+</body>
+</html>
