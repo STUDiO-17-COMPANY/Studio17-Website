@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHÓS OPTICS | Shop Luxury Eyewear</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        phos: {
+                            black: '#1a1a1a',
+                            charcoal: '#2d2d2d',
+                            cream: '#fcfcf7',
+                            gold: '#d4af37',
+                            mist: '#e5e7eb',
+                            red: '#9e2a2b'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fcfcf7;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            cursor: none; /* Hiding default cursor for custom one */
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #1a1a1a;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(26, 26, 26, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Hover state for cursor */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+        }
+
+        /* Typography Utilities */
+        .text-reveal-wrapper {
+            overflow: hidden;
+        }
+        
+        .text-reveal {
+            transform: translateY(100%);
+            display: block;
+        }
+
+        /* Image Reveal Mask */
+        .img-mask {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        
+        .img-mask.active {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* Custom Scrollbar hide */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Hero Slideshow */
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: -1;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(252,252,247,0.85) 0%, rgba(252,252,247,0.4) 50%, rgba(252,252,247,0.95) 100%);
+            z-index: 0;
+        }
+
+        /* Cart Sidebar Transitions */
+        .cart-sidebar {
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .cart-open .cart-sidebar {
+            transform: translateX(0);
+        }
+        .cart-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .cart-open .cart-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Badge Animation */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+        .badge-pop {
+            animation: pop 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="#" class="text-2xl font-serif font-bold tracking-widest hover-trigger">PHÓS</a>
+        
+        <div class="hidden md:flex gap-12 font-sans text-sm tracking-widest uppercase">
+            <a href="#shop" class="hover:text-phos-gold transition-colors hover-trigger">Shop</a>
+            <a href="#clinical" class="hover:text-phos-gold transition-colors hover-trigger">Clinical</a>
+            <a href="#experience" class="hover:text-phos-gold transition-colors hover-trigger">Experience</a>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <button id="cart-btn" class="relative group hover-trigger">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-phos-black group-hover:text-phos-gold transition-colors"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-phos-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-sans hidden">0</span>
+            </button>
+            <a href="#contact" class="hidden md:block border border-phos-black px-6 py-2 rounded-full font-sans text-xs uppercase tracking-widest hover:bg-phos-black hover:text-white transition-all hover-trigger">
+                Book Exam
+            </a>
+        </div>
+    </nav>
+
+    <!-- Cart Overlay & Sidebar -->
+    <div id="cart-overlay" class="cart-overlay fixed inset-0 bg-black/40 backdrop-blur-sm z-[60]"></div>
+    <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 w-full md:w-[450px] h-full bg-white z-[70] shadow-2xl flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-phos-cream">
+            <h2 class="font-serif text-xl">Your Bag <span id="cart-total-count" class="text-sm font-sans text-gray-500">(0)</span></h2>
+            <button id="close-cart" class="hover:text-phos-gold transition-colors hover-trigger">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- Cart items injected here -->
+            <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                <i data-lucide="shopping-bag" class="w-12 h-12 mb-4 opacity-20"></i>
+                <p class="font-sans text-sm">Your bag is empty.</p>
+            </div>
+        </div>
+
+        <div class="p-6 border-t border-gray-100 bg-phos-cream">
+            <div class="flex justify-between mb-4 font-serif text-lg">
+                <span>Total</span>
+                <span id="cart-total-price">€0.00</span>
+            </div>
+            <p class="text-xs text-gray-500 text-center mb-4 font-sans"><i data-lucide="check-circle" class="w-3 h-3 inline mr-1 text-green-600"></i>Free Shipping & Authenticity Guaranteed</p>
+            <button class="w-full bg-phos-black text-white py-4 font-sans uppercase tracking-widest text-xs hover:bg-phos-gold transition-colors hover-trigger">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="min-h-screen flex flex-col justify-center px-6 md:px-24 pt-20 relative overflow-hidden">
+            <!-- Background Slideshow -->
+            <div class="absolute inset-0 z-0">
+                <div class="hero-slide active" style="background-image: url('https://res.cloudinary.com/dnxoz9alm/image/upload/v1769167752/ChatGPT_Image_Jan_23_2026_01_29_02_PM_ws0tyy.png');"></div>
+                <div class="hero-slide" style="background-image: url('https://res.cloudinary.com/dnxoz9alm/image/upload/v1769167715/ChatGPT_Image_Jan_23_2026_01_28_22_PM_gzn7vq.png');"></div>
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="max-w-6xl relative z-10">
+                <h1 class="font-serif text-6xl md:text-[9vw] leading-[0.9] text-phos-black mb-8">
+                    <div class="text-reveal-wrapper"><span class="text-reveal">Where Light</span></div>
+                    <div class="text-reveal-wrapper"><span class="text-reveal">Meets <i class="font-light text-phos-gold">Vision</i></span></div>
+                </h1>
+                
+                <div class="flex flex-col md:flex-row justify-between items-end mt-12 border-t border-gray-400/30 pt-8 opacity-0 hero-fade">
+                    <div class="max-w-md">
+                        <p class="font-sans text-lg text-phos-charcoal leading-relaxed font-medium">
+                            Limassol's premier Optometry Boutique. High-tech diagnostics meets curated designer eyewear.
+                        </p>
+                        <div class="mt-8 flex gap-4">
+                            <a href="#shop" class="bg-phos-black text-white px-8 py-3 rounded-full font-sans uppercase tracking-widest text-xs hover:bg-phos-gold transition-colors hover-trigger shadow-lg">
+                                Shop Collection
+                            </a>
+                            <a href="#contact" class="backdrop-blur-sm bg-white/50 border border-phos-black px-8 py-3 rounded-full font-sans uppercase tracking-widest text-xs hover:bg-phos-black hover:text-white transition-colors hover-trigger">
+                                Book Exam
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-8 md:mt-0 flex gap-4">
+                         <span class="flex items-center gap-2 font-sans text-xs uppercase tracking-widest text-phos-charcoal font-semibold">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i> Limassol, CY
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHOP / BEST SELLERS -->
+        <section id="shop" class="py-24 px-6 md:px-24 bg-white relative">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <span class="font-sans text-xs uppercase tracking-[0.2em] text-phos-gold mb-2 block">Online Exclusive</span>
+                    <h2 class="font-serif text-4xl md:text-5xl">Best Sellers</h2>
+                </div>
+                <a href="#" class="hidden md:block text-sm font-sans border-b border-black pb-1 hover:text-phos-gold hover:border-phos-gold transition-colors hover-trigger">View All Frames</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden bg-gray-50 h-[350px] mb-4 hover-trigger">
+                        <img src="https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Jacques Marie Mage">
+                        <button onclick="addToCart('Jacques Marie Mage - Dealan', 890, 'https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=2070&auto=format&fit=crop')" class="absolute bottom-4 right-4 bg-white text-black p-3 rounded-full shadow-lg translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-phos-black hover:text-white" aria-label="Add to cart">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-lg">Dealan</h3>
+                            <p class="text-xs text-gray-500 font-sans uppercase tracking-wider">Jacques Marie Mage</p>
+                        </div>
+                        <span class="font-sans font-medium">€890</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden bg-gray-50 h-[350px] mb-4 hover-trigger">
+                        <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=1780&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Mykita Studio">
+                        <button onclick="addToCart('Mykita - Studio 7', 550, 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=1780&auto=format&fit=crop')" class="absolute bottom-4 right-4 bg-white text-black p-3 rounded-full shadow-lg translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-phos-black hover:text-white" aria-label="Add to cart">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </button>
+                        <span class="absolute top-4 left-4 bg-phos-gold text-white text-[10px] uppercase font-sans tracking-widest px-2 py-1">New In</span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-lg">Studio 7</h3>
+                            <p class="text-xs text-gray-500 font-sans uppercase tracking-wider">Mykita</p>
+                        </div>
+                        <span class="font-sans font-medium">€550</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden bg-gray-50 h-[350px] mb-4 hover-trigger">
+                        <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Dita Grandmaster">
+                        <button onclick="addToCart('Dita - Grandmaster', 750, 'https://images.unsplash.com/photo-1591076482161-42ce6da69f67?q=80&w=2000&auto=format&fit=crop')" class="absolute bottom-4 right-4 bg-white text-black p-3 rounded-full shadow-lg translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-phos-black hover:text-white" aria-label="Add to cart">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-lg">Grandmaster</h3>
+                            <p class="text-xs text-gray-500 font-sans uppercase tracking-wider">Dita</p>
+                        </div>
+                        <span class="font-sans font-medium">€750</span>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden bg-gray-50 h-[350px] mb-4 hover-trigger">
+                        <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Lindberg N.O.W">
+                        <button onclick="addToCart('Lindberg - N.O.W', 620, 'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?q=80&w=2070&auto=format&fit=crop')" class="absolute bottom-4 right-4 bg-white text-black p-3 rounded-full shadow-lg translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-phos-black hover:text-white" aria-label="Add to cart">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-serif text-lg">N.O.W</h3>
+                            <p class="text-xs text-gray-500 font-sans uppercase tracking-wider">Lindberg</p>
+                        </div>
+                        <span class="font-sans font-medium">€620</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center md:hidden">
+                <a href="#" class="inline-block border-b border-black pb-1 text-sm font-sans uppercase tracking-widest">View All Frames</a>
+            </div>
+        </section>
+
+        <!-- CLINICAL EXCELLENCE -->
+        <section id="clinical" class="py-24 px-6 md:px-24 bg-white/50 backdrop-blur-sm relative border-t border-gray-100">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1 relative">
+                    <div class="img-mask w-full h-[500px] bg-gray-100 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2080&auto=format&fit=crop" 
+                             alt="Advanced Eye Examination" 
+                             class="w-full h-full object-cover parallax-img scale-110">
+                    </div>
+                </div>
+                
+                <div class="order-1 md:order-2">
+                    <span class="font-sans text-xs uppercase tracking-[0.2em] text-phos-gold mb-4 block">Clinical Excellence</span>
+                    <h2 class="font-serif text-3xl md:text-5xl mb-6 leading-tight">Technology driven <br>Eye Care.</h2>
+                    <p class="font-sans text-gray-600 mb-8 leading-relaxed">
+                        We believe that seeing well is living well. Equipped with state-of-the-art diagnostic technology for precise prescriptions.
+                    </p>
+                    <a href="#contact" class="text-phos-black font-serif italic hover:text-phos-gold transition-colors hover-trigger">Learn more about our exams &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BRAND MARQUEE -->
+        <section id="collection" class="py-16 bg-phos-black text-phos-cream overflow-hidden">
+            <div class="relative flex overflow-x-hidden">
+                <div class="py-4 animate-marquee whitespace-nowrap flex gap-16 items-center opacity-40">
+                    <span class="text-4xl font-serif italic">Mykita</span>
+                    <span class="text-4xl font-serif italic">Jacques Marie Mage</span>
+                    <span class="text-4xl font-serif italic">Lindberg</span>
+                    <span class="text-4xl font-serif italic">Dita</span>
+                    <span class="text-4xl font-serif italic">Matsuda</span>
+                    <span class="text-4xl font-serif italic">Cartier</span>
+                    <span class="text-4xl font-serif italic">Mykita</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="py-24 px-6 md:px-24">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover-trigger">
+                    <i data-lucide="user" class="text-phos-charcoal mb-4 w-8 h-8"></i>
+                    <h3 class="font-serif text-xl mb-2">Face Styling</h3>
+                    <p class="font-sans text-sm text-gray-500">
+                        Opticians trained as stylists to find the perfect frame for your features.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover-trigger">
+                    <i data-lucide="layers" class="text-phos-charcoal mb-4 w-8 h-8"></i>
+                    <h3 class="font-serif text-xl mb-2">Bespoke Lenses</h3>
+                    <p class="font-sans text-sm text-gray-500">
+                        Partnering with Zeiss for ultra-thin, high-definition optical clarity.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover-trigger">
+                    <i data-lucide="truck" class="text-phos-charcoal mb-4 w-8 h-8"></i>
+                    <h3 class="font-serif text-xl mb-2">Global Shipping</h3>
+                    <p class="font-sans text-sm text-gray-500">
+                        Complimentary secured shipping on all eyewear orders over €300.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISIT / CONTACT (Redesigned) -->
+        <section id="contact" class="relative py-24 px-6 md:px-24 bg-phos-charcoal text-white overflow-hidden">
+            <!-- Decorative circle -->
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="text-center mb-16">
+                    <span class="font-sans text-xs uppercase tracking-[0.2em] text-phos-gold mb-4 block">Visit Us</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-white">Experience PHÓS</h2>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+                    
+                    <!-- Left Column: Info -->
+                    <div class="lg:col-span-5 space-y-12">
+                        <!-- Location -->
+                        <div class="flex gap-6 group">
+                            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:border-phos-gold group-hover:text-phos-gold transition-colors">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-xl mb-2">Our Boutique</h4>
+                                <p class="text-gray-400 font-sans leading-relaxed">Gladstonos 124,<br>Limassol 3032, Cyprus</p>
+                                <a href="https://maps.google.com" target="_blank" class="text-xs uppercase tracking-widest text-phos-gold mt-4 inline-block hover:text-white transition-colors hover-trigger">Get Directions &rarr;</a>
+                            </div>
+                        </div>
+
+                        <!-- Contact -->
+                        <div class="flex gap-6 group">
+                            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:border-phos-gold group-hover:text-phos-gold transition-colors">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-xl mb-2">Contact</h4>
+                                <p class="text-gray-400 font-sans leading-relaxed">
+                                    <a href="tel:+35725123456" class="hover:text-white transition-colors block mb-1 hover-trigger">+357 25 123 456</a>
+                                    <a href="mailto:hello@phosoptics.cy" class="hover:text-white transition-colors block hover-trigger">hello@phosoptics.cy</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Hours -->
+                        <div class="flex gap-6 group">
+                            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:border-phos-gold group-hover:text-phos-gold transition-colors">
+                                <i data-lucide="clock" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-xl mb-2">Opening Hours</h4>
+                                <ul class="text-gray-400 font-sans text-sm space-y-1">
+                                    <li class="flex justify-between w-48"><span>Mon - Fri</span> <span>09:00 - 19:00</span></li>
+                                    <li class="flex justify-between w-48"><span>Saturday</span> <span>09:00 - 14:00</span></li>
+                                    <li class="flex justify-between w-48"><span>Sunday</span> <span>Closed</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Form & Map Visual -->
+                    <div class="lg:col-span-7 bg-white text-phos-black p-8 md:p-10 rounded-sm shadow-2xl">
+                        <h3 class="font-serif text-2xl mb-6">Quick Inquiry</h3>
+                        <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thank you for your inquiry. We will contact you shortly.');">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Name</label>
+                                    <input type="text" class="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-phos-black transition-colors bg-transparent" placeholder="Your Name">
+                                </div>
+                                <div>
+                                    <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Phone</label>
+                                    <input type="tel" class="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-phos-black transition-colors bg-transparent" placeholder="+357 ...">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Message</label>
+                                <textarea rows="3" class="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-phos-black transition-colors bg-transparent resize-none" placeholder="I'm interested in an eye exam..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-phos-black text-white py-4 font-sans uppercase tracking-widest text-xs hover:bg-phos-gold transition-colors hover-trigger">Send Message</button>
+                        </form>
+                        
+                        <!-- Mini Map Visual -->
+                        <div class="mt-8 h-32 w-full bg-gray-100 rounded-sm overflow-hidden relative group cursor-pointer hover-trigger">
+                             <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale" alt="Map Location">
+                             <div class="absolute inset-0 flex items-center justify-center">
+                                 <span class="bg-white px-4 py-2 rounded-full text-xs font-bold shadow-md flex items-center gap-2">
+                                     <i data-lucide="map" class="w-3 h-3"></i> View on Map
+                                 </span>
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-phos-black text-white py-12 px-6 md:px-24 border-t border-gray-800">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <span class="font-serif text-2xl tracking-widest">PHÓS</span>
+                <div class="text-gray-500 text-xs font-sans tracking-wide">
+                    &copy; 2024 PHÓS Optics. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+    </main>
+    
+    <!-- Scripts loaded at the end to ensure DOM is ready and reduce blocking -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <script>
+        // --- HERO SLIDESHOW LOGIC ---
+        function startHeroSlideshow() {
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlide = 0;
+            
+            if(slides.length > 1) {
+                setInterval(() => {
+                    // Remove active from current
+                    slides[currentSlide].classList.remove('active');
+                    
+                    // Move to next
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    
+                    // Add active to next
+                    slides[currentSlide].classList.add('active');
+                }, 3000); // 3 seconds
+            }
+        }
+
+        // --- CART LOGIC ---
+        let cart = [];
+        
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCountEl = document.getElementById('cart-count');
+            const cartTotalCountEl = document.getElementById('cart-total-count');
+            const cartTotalPriceEl = document.getElementById('cart-total-price');
+            
+            // Update counts
+            const totalItems = cart.length;
+            cartCountEl.textContent = totalItems;
+            cartTotalCountEl.textContent = `(${totalItems})`;
+            
+            if (totalItems > 0) {
+                cartCountEl.classList.remove('hidden');
+                cartCountEl.classList.add('badge-pop');
+                setTimeout(() => cartCountEl.classList.remove('badge-pop'), 300);
+            } else {
+                cartCountEl.classList.add('hidden');
+            }
+
+            // Calculate Total
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cartTotalPriceEl.textContent = `€${total.toFixed(2)}`;
+
+            // Render Items
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mb-4 opacity-20"></i>
+                        <p class="font-sans text-sm">Your bag is empty.</p>
+                        <button onclick="toggleCart()" class="mt-4 text-xs font-bold uppercase tracking-widest text-phos-black hover:text-phos-gold">Start Shopping</button>
+                    </div>`;
+            } else {
+                cartItemsContainer.innerHTML = cart.map((item, index) => `
+                    <div class="flex gap-4 p-4 bg-gray-50 rounded-sm group relative">
+                        <img src="${item.image}" class="w-20 h-20 object-cover" alt="${item.name}">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-serif text-sm pr-4">${item.name}</h4>
+                                <button onclick="removeFromCart(${index})" class="text-gray-400 hover:text-red-500 transition-colors">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1 font-sans">Optical Grade</p>
+                            <p class="font-sans font-medium text-sm mt-2">€${item.price}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            lucide.createIcons(); // Re-init icons for new cart items
+        }
+
+        window.addToCart = function(name, price, image) {
+            cart.push({ name, price, image });
+            updateCartUI();
+            
+            // Open cart automatically on add
+            if (!document.body.classList.contains('cart-open')) {
+                toggleCart();
+            }
+        };
+
+        window.removeFromCart = function(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        };
+
+        window.toggleCart = function() {
+            document.body.classList.toggle('cart-open');
+        };
+
+        // Event Listeners for Cart
+        document.getElementById('cart-btn').addEventListener('click', toggleCart);
+        document.getElementById('close-cart').addEventListener('click', toggleCart);
+        document.getElementById('cart-overlay').addEventListener('click', toggleCart);
+
+
+        // --- ANIMATION & SETUP ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            startHeroSlideshow();
+
+            // Smooth Scroll
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    smooth: true,
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            // GSAP Animations
+            if (typeof gsap !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Text Reveal
+                gsap.to('.text-reveal', {
+                    y: 0,
+                    duration: 1.5,
+                    stagger: 0.2,
+                    ease: 'power4.out',
+                    delay: 0.2
+                });
+
+                gsap.to('.hero-fade', {
+                    opacity: 1,
+                    duration: 1,
+                    delay: 1,
+                    ease: 'power2.out'
+                });
+
+                // Image Masks
+                const masks = document.querySelectorAll('.img-mask');
+                masks.forEach(mask => {
+                    ScrollTrigger.create({
+                        trigger: mask,
+                        start: "top 80%",
+                        onEnter: () => mask.classList.add('active'),
+                        once: true
+                    });
+                });
+            }
+
+            // Cursor Logic
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const triggers = document.querySelectorAll('.hover-trigger');
+
+            if (cursorDot && cursorOutline) {
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+                    cursorDot.style.left = `${posX}px`;
+                    cursorDot.style.top = `${posY}px`;
+                    cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+                });
+
+                // Re-apply hover listeners for dynamic content
+                document.body.addEventListener('mouseover', (e) => {
+                    if (e.target.closest('.hover-trigger')) {
+                        document.body.classList.add('hovering');
+                    } else {
+                        document.body.classList.remove('hovering');
+                    }
+                });
+            }
+
+            // Navbar Blur
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                    navbar.classList.remove('py-6');
+                } else {
+                    navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                    navbar.classList.add('py-6');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
