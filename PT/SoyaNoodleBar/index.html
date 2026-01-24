@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOYA Noodle Bar | Fusão Asiática e Tailandesa</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP & Lenis -->
+    <!-- Updated Lenis to the new package name and stable version for browser usage -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soya-red': '#E63946',
+                        'soya-dark': '#1A1A1A',
+                        'soya-cream': '#F1FAEE',
+                        'soya-gold': '#E9C46A',
+                    },
+                    fontFamily: {
+                        display: ['Oswald', 'sans-serif'],
+                        body: ['Space Grotesk', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'pattern': "url('https://www.transparenttextures.com/patterns/cubes.png')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F1FAEE;
+            color: #1A1A1A;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor logic */
+        }
+        
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #E63946;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #E63946;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(230, 57, 70, 0.1);
+            border-color: transparent;
+        }
+
+        /* Hide scrollbar for clean look but allow functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
+            background: transparent;
+        }
+        
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .clip-text-image {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: url('https://images.unsplash.com/photo-1555126634-323283e090fa?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #1A1A1A;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #F1FAEE;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-soya-red selection:text-white">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Preloader -->
+    <div class="loader">
+        <div class="text-6xl font-display font-bold tracking-tighter counter">0%</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-soya-cream transition-all duration-300" id="navbar">
+        <div class="flex items-center gap-8">
+            <div class="text-2xl font-display font-bold tracking-widest hover-trigger">SOYA.</div>
+            
+            <!-- Language Switcher (Visual Only) -->
+            <div class="hidden lg:flex items-center gap-2 text-xs font-bold tracking-widest border border-current rounded-full px-3 py-1">
+                <span class="text-soya-red cursor-pointer">PT</span>
+                <span class="opacity-50">|</span>
+                <span class="hover:text-soya-red cursor-pointer transition-colors hover-trigger">EN</span>
+                <span class="opacity-50">|</span>
+                <span class="hover:text-soya-red cursor-pointer transition-colors hover-trigger">ES</span>
+            </div>
+        </div>
+
+        <div class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest">
+            <a href="#menu" class="hover:text-soya-red transition-colors hover-trigger">Menu</a>
+            <a href="#locations" class="hover:text-soya-red transition-colors hover-trigger">Localizações</a>
+            <a href="#philosophy" class="hover:text-soya-red transition-colors hover-trigger">Filosofia</a>
+        </div>
+        <a href="#book" class="border border-current px-6 py-2 rounded-full uppercase text-xs font-bold tracking-widest hover:bg-soya-cream hover:text-soya-dark transition-colors hover-trigger">
+            Reservar
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-soya-dark text-soya-cream">
+        <!-- Background Overlay -->
+        <div class="absolute inset-0 opacity-40 bg-[url('https://res.cloudinary.com/dnxoz9alm/image/upload/v1769239794/ChatGPT_Image_24_01_2026_09_29_45_aonicv.png')] bg-cover bg-center scale-110" id="hero-bg"></div>
+        
+        <div class="relative z-10 text-center px-4">
+            <p class="hero-sub text-soya-red font-bold tracking-[0.3em] uppercase mb-4 text-sm md:text-base">Fusão Asiática e Especialidades Tailandesas</p>
+            <h1 class="hero-title text-7xl md:text-9xl font-display font-bold uppercase leading-none mb-6">
+                <span class="block overflow-hidden"><span class="block transform translate-y-full">Alma</span></span>
+                <span class="block overflow-hidden"><span class="block transform translate-y-full">Numa</span></span>
+                <span class="block overflow-hidden"><span class="block transform translate-y-full text-soya-red">Taça</span></span>
+            </h1>
+            <div class="hero-cta overflow-hidden mt-8 opacity-0 translate-y-10">
+                <a href="#menu" class="hover-trigger inline-flex items-center gap-2 bg-soya-cream text-soya-dark px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-soya-red hover:text-white transition-all duration-300">
+                    Ver Menu <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee -->
+    <div class="w-full bg-soya-red text-soya-cream py-4 rotate-1 scale-105 border-y-4 border-soya-dark z-20 relative">
+        <div class="marquee-container flex gap-8 text-4xl font-display font-bold uppercase tracking-tighter">
+            <span class="marquee-item">Sabores Autênticos</span> • <span class="marquee-item">Ingredientes Frescos</span> • <span class="marquee-item">Picante Tailandês</span> • <span class="marquee-item">Doses Generosas</span> • <span class="marquee-item">Opções Vegan</span> • <span class="marquee-item">Cascais</span> • <span class="marquee-item">Setúbal</span> • <span class="marquee-item">Algés</span> • 
+            <span class="marquee-item">Sabores Autênticos</span> • <span class="marquee-item">Ingredientes Frescos</span> • <span class="marquee-item">Picante Tailandês</span> • <span class="marquee-item">Doses Generosas</span> •
+        </div>
+    </div>
+
+    <main>
+        <!-- Philosophy / Intro -->
+        <section id="philosophy" class="py-24 px-6 md:px-20 bg-soya-cream">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal-text">
+                    <h2 class="text-5xl md:text-7xl font-display font-bold uppercase mb-8 text-soya-dark leading-none">
+                        Perfeição <br><span class="text-soya-red">Pan-Asiática</span>
+                    </h2>
+                    <p class="text-lg md:text-xl text-gray-700 leading-relaxed mb-8">
+                        No SOYA, trazemos a energia vibrante da comida de rua asiática para o coração de Portugal. Dos woks ardentes de Banguecoque às reconfortantes taças de ramen de Tóquio, o nosso menu é um passaporte de sabores. Acreditamos em <strong>doses generosas</strong>, <strong>especiarias ousadas</strong> e comida que aquece a alma.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="flex flex-col gap-2">
+                            <div class="p-3 bg-soya-dark text-soya-cream w-fit rounded-lg"><i data-lucide="leaf"></i></div>
+                            <h4 class="font-bold text-lg">Opções 100% Vegan</h4>
+                            <p class="text-sm text-gray-600">Todos os pratos de noodles podem ser feitos à base de plantas.</p>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="p-3 bg-soya-red text-soya-cream w-fit rounded-lg"><i data-lucide="flame"></i></div>
+                            <h4 class="font-bold text-lg">Aqueça o Paladar</h4>
+                            <p class="text-sm text-gray-600">Do suave ao "Picante Tailandês" - você escolhe a intensidade.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative h-[600px] w-full rounded-2xl overflow-hidden reveal-image">
+                    <img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?q=80&w=2070&auto=format&fit=crop" alt="Chef Cooking Wok" class="absolute inset-0 w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- Signature Dishes -->
+        <section id="menu" class="py-24 bg-soya-dark text-soya-cream">
+            <div class="px-6 md:px-12 mb-16 flex flex-col md:flex-row justify-between items-end border-b border-gray-700 pb-8">
+                <h2 class="text-6xl md:text-8xl font-display font-bold uppercase">Assinatura</h2>
+                <p class="text-soya-red font-bold uppercase tracking-widest text-right mt-4 md:mt-0">Prove os mais vendidos</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-1 px-4">
+                <!-- Dish 1 -->
+                <div class="group relative h-[500px] overflow-hidden bg-gray-900 border border-gray-800 hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1559314809-0d155014e29e?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt="Pad Thai">
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black to-transparent">
+                        <div class="flex justify-between items-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <div>
+                                <h3 class="text-3xl font-display font-bold uppercase">Pad Thai</h3>
+                                <p class="text-gray-300 text-sm mt-2">Noodles de arroz, tamarindo, amendoins, lima.</p>
+                            </div>
+                            <span class="text-soya-red font-bold text-xl">€12.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 2 -->
+                <div class="group relative h-[500px] overflow-hidden bg-gray-900 border border-gray-800 hover-trigger md:translate-y-12">
+                    <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=2080&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt="Ramen">
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black to-transparent">
+                        <div class="flex justify-between items-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <div>
+                                <h3 class="text-3xl font-display font-bold uppercase">Ramen Picante</h3>
+                                <p class="text-gray-300 text-sm mt-2">Caldo rico, rebentos de bambu, ovo mal cozido.</p>
+                            </div>
+                            <span class="text-soya-red font-bold text-xl">€13.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 3 -->
+                <div class="group relative h-[500px] overflow-hidden bg-gray-900 border border-gray-800 hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1563245312-13d164833d8d?q=80&w=1954&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt="Gua Bao">
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black to-transparent">
+                        <div class="flex justify-between items-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <div>
+                                <h3 class="text-3xl font-display font-bold uppercase">Bao de Barriga de Porco</h3>
+                                <p class="text-gray-300 text-sm mt-2">Pão cozido a vapor, molho hoisin, pepino em conserva.</p>
+                            </div>
+                            <span class="text-soya-red font-bold text-xl">€6.50</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20">
+                <a href="#" class="inline-block border border-soya-cream px-10 py-4 rounded-full hover:bg-soya-red hover:border-soya-red transition-all duration-300 hover-trigger font-bold tracking-widest uppercase">Ver Menu Completo</a>
+            </div>
+        </section>
+
+        <!-- Locations Horizontal Scroll -->
+        <section id="locations" class="py-24 bg-soya-cream overflow-hidden">
+            <div class="container mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-end">
+                <h2 class="text-5xl md:text-6xl font-display font-bold uppercase text-soya-dark">Encontre-nos em <br> Portugal</h2>
+                
+                <!-- Navigation Controls -->
+                <div class="flex gap-4 mt-8 md:mt-0">
+                    <button id="scroll-left" class="hover-trigger p-4 border border-soya-dark rounded-full hover:bg-soya-red hover:text-white hover:border-soya-red transition-all duration-300">
+                        <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                    </button>
+                    <button id="scroll-right" class="hover-trigger p-4 border border-soya-dark rounded-full hover:bg-soya-red hover:text-white hover:border-soya-red transition-all duration-300">
+                        <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Horizontal scroll container -->
+            <div id="locations-container" class="locations-wrapper flex gap-6 px-6 overflow-x-auto pb-8 snap-x snap-mandatory no-scrollbar cursor-grab active:cursor-grabbing select-none">
+                
+                <!-- Card 1 -->
+                <div class="min-w-[85vw] md:min-w-[400px] snap-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 hover-trigger group">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555893608-f463200938f3?q=80&w=2072&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Cascais">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-3xl font-display font-bold uppercase text-soya-dark">Cascais</h3>
+                            <i data-lucide="map-pin" class="text-soya-red"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6">Localizado no centro histórico, perfeito para um noodle pós-praia.</p>
+                        <div class="flex flex-col gap-2 text-sm font-bold text-soya-dark">
+                            <span><i data-lucide="clock" class="w-4 h-4 inline mr-2 text-soya-red"></i> 12:00 - 23:00</span>
+                            <span class="text-soya-red mt-2">Rua Visconde da Luz, 14</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="min-w-[85vw] md:min-w-[400px] snap-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 hover-trigger group">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534234828563-02511c137459?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Carcavelos">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-3xl font-display font-bold uppercase text-soya-dark">Carcavelos</h3>
+                            <i data-lucide="map-pin" class="text-soya-red"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6">Surf, Sol e Soya. Junto ao campus da Nova SBE.</p>
+                        <div class="flex flex-col gap-2 text-sm font-bold text-soya-dark">
+                            <span><i data-lucide="clock" class="w-4 h-4 inline mr-2 text-soya-red"></i> 11:30 - 22:30</span>
+                            <span class="text-soya-red mt-2">Praça do Junqueiro, 4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="min-w-[85vw] md:min-w-[400px] snap-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 hover-trigger group">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Algés">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-3xl font-display font-bold uppercase text-soya-dark">Algés</h3>
+                            <i data-lucide="map-pin" class="text-soya-red"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6">Vibes urbanas perto do Mercado. Almoços rápidos e jantares longos.</p>
+                        <div class="flex flex-col gap-2 text-sm font-bold text-soya-dark">
+                            <span><i data-lucide="clock" class="w-4 h-4 inline mr-2 text-soya-red"></i> 12:00 - 23:00</span>
+                            <span class="text-soya-red mt-2">Av. dos Combatentes, 12</span>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Card 4 -->
+                 <div class="min-w-[85vw] md:min-w-[400px] snap-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 hover-trigger group">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1542528180-a1208c5169a5?q=80&w=2077&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Setúbal">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-3xl font-display font-bold uppercase text-soya-dark">Setúbal</h3>
+                            <i data-lucide="map-pin" class="text-soya-red"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6">Vistas para o rio e sabores picantes. O membro mais novo da família.</p>
+                        <div class="flex flex-col gap-2 text-sm font-bold text-soya-dark">
+                            <span><i data-lucide="clock" class="w-4 h-4 inline mr-2 text-soya-red"></i> 12:00 - 23:30</span>
+                            <span class="text-soya-red mt-2">Av. Luísa Todi, 100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Improved Contact Section -->
+        <section id="book" class="relative py-24 bg-soya-dark text-soya-cream overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-soya-red/5 -skew-x-12 transform translate-x-32 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-soya-red/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="mb-16 text-center">
+                    <h2 class="text-5xl md:text-7xl font-display font-bold uppercase mb-4 text-white">Fale Connosco</h2>
+                    <p class="text-gray-400 text-lg">Dúvidas? Reservas? Apenas dizer olá?</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+                    <!-- Left: Info & Reservation -->
+                    <div class="flex flex-col justify-center space-y-8">
+                        <!-- Testimonial Mini -->
+                        <div class="mb-4 p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
+                            <div class="flex gap-1 text-soya-gold mb-2">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                            <p class="italic text-gray-300">"O pato vegan é inovador. O melhor serviço da cidade!"</p>
+                            <p class="text-sm text-soya-red mt-2 font-bold">— FoodieLisbon</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-display font-bold uppercase mb-6 text-soya-red">Contactos</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-center gap-6 group">
+                                    <div class="w-14 h-14 rounded-full bg-soya-red/10 border border-soya-red/20 flex items-center justify-center text-soya-red group-hover:bg-soya-red group-hover:text-white transition-colors duration-300">
+                                        <i data-lucide="phone" class="w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Ligue-nos</p>
+                                        <p class="text-xl md:text-2xl font-bold text-white hover:text-soya-red transition-colors cursor-pointer">+351 21 000 0000</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-6 group">
+                                    <div class="w-14 h-14 rounded-full bg-soya-red/10 border border-soya-red/20 flex items-center justify-center text-soya-red group-hover:bg-soya-red group-hover:text-white transition-colors duration-300">
+                                        <i data-lucide="mail" class="w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Envie Email</p>
+                                        <p class="text-xl md:text-2xl font-bold text-white hover:text-soya-red transition-colors cursor-pointer">hello@soyanoodlebar.pt</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <button class="w-full md:w-auto bg-soya-red text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-soya-red transition-all duration-300 shadow-lg hover:shadow-soya-red/50 hover-trigger text-lg">
+                                Reservar Mesa Agora
+                            </button>
+                            <p class="mt-4 text-sm text-gray-500">Para grupos superiores a 10, por favor ligue-nos diretamente.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Form -->
+                    <div class="bg-white/5 border border-white/10 p-8 md:p-10 rounded-3xl backdrop-blur-md shadow-2xl">
+                        <h3 class="text-2xl font-display font-bold uppercase mb-6 text-white">Enviar Mensagem</h3>
+                        <form class="space-y-5">
+                            <div class="grid md:grid-cols-2 gap-5">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-2">Nome</label>
+                                    <input type="text" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-soya-red transition-colors text-white placeholder-gray-600" placeholder="O seu nome">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-2">Telefone</label>
+                                    <input type="tel" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-soya-red transition-colors text-white placeholder-gray-600" placeholder="+351...">
+                                </div>
+                            </div>
+                            
+                            <!-- NEW LOCATION SELECTOR -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-2">Localização</label>
+                                <div class="relative">
+                                    <select class="w-full bg-black/40 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-soya-red transition-colors text-white appearance-none cursor-pointer hover-trigger">
+                                        <option value="" class="bg-soya-dark text-gray-500">Selecione uma loja...</option>
+                                        <option value="cascais" class="bg-soya-dark">Cascais</option>
+                                        <option value="carcavelos" class="bg-soya-dark">Carcavelos</option>
+                                        <option value="alges" class="bg-soya-dark">Algés</option>
+                                        <option value="setubal" class="bg-soya-dark">Setúbal</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"></i>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-2">Email</label>
+                                <input type="email" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-soya-red transition-colors text-white placeholder-gray-600" placeholder="ola@exemplo.com">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-2">Mensagem</label>
+                                <textarea rows="4" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-soya-red transition-colors text-white placeholder-gray-600 resize-none" placeholder="Diga-nos o que lhe apetece..."></textarea>
+                            </div>
+                            <button type="button" class="w-full bg-white text-soya-dark px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-soya-red hover:text-white transition-all duration-300 hover-trigger mt-4">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white py-12 border-t border-gray-900">
+        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-4xl font-display font-bold mb-4">SOYA.</h4>
+                <p class="text-gray-500 text-sm">Sabores asiáticos autênticos em Portugal.</p>
+            </div>
+            <div>
+                <h5 class="font-bold uppercase tracking-widest mb-4 text-soya-red">Explorar</h5>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Menu</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Localizações</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Sobre Nós</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold uppercase tracking-widest mb-4 text-soya-red">Social</h5>
+                <div class="flex gap-4">
+                    <a href="#" class="p-2 bg-gray-800 rounded-full hover:bg-soya-red transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="p-2 bg-gray-800 rounded-full hover:bg-soya-red transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+            <div>
+                <h5 class="font-bold uppercase tracking-widest mb-4 text-soya-red">Newsletter</h5>
+                <form class="flex border-b border-gray-700 pb-2">
+                    <input type="email" placeholder="O seu email" class="bg-transparent outline-none w-full text-white placeholder-gray-600">
+                    <button type="submit" class="text-soya-red font-bold uppercase text-sm">Juntar-se</button>
+                </form>
+            </div>
+        </div>
+        <div class="text-center mt-12 text-gray-700 text-xs">
+            © 2024 SOYA Noodle Bar. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Initialize Lenis (Smooth Scroll)
+        try {
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    orientation: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } else {
+                console.warn("Lenis is not loaded. Smooth scrolling disabled.");
+            }
+        } catch (e) {
+            console.error("Lenis init error:", e);
+        }
+
+        // Integrate Lenis with ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Loader Animation
+        const counterElement = document.querySelector('.counter');
+        let count = 0;
+        
+        const updateCounter = () => {
+            count += Math.floor(Math.random() * 10) + 1;
+            if (count > 100) count = 100;
+            counterElement.textContent = count + '%';
+            
+            if (count < 100) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                gsap.to('.loader', {
+                    yPercent: -100,
+                    duration: 1.2,
+                    ease: 'power4.inOut',
+                    delay: 0.2,
+                    onComplete: initSiteAnimations
+                });
+            }
+        };
+        
+        // Start loader logic slightly delayed to allow DOM paint
+        setTimeout(updateCounter, 100);
+
+        function initSiteAnimations() {
+            // Hero Text Stagger
+            const tl = gsap.timeline();
+            
+            tl.to('.hero-title span span', {
+                y: 0,
+                duration: 1.5,
+                stagger: 0.1,
+                ease: 'power4.out'
+            })
+            .to('.hero-cta', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            }, '-=1');
+
+            // Marquee Animation
+            gsap.to('.marquee-container', {
+                xPercent: -50,
+                repeat: -1,
+                duration: 20,
+                ease: 'linear'
+            });
+
+            // Parallax Hero Background
+            gsap.to('#hero-bg', {
+                yPercent: 30,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: 'header',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // Reveal Text & Images on Scroll
+            const revealElements = document.querySelectorAll('.reveal-text, .reveal-image');
+            revealElements.forEach(el => {
+                gsap.from(el, {
+                    y: 100,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                    }
+                });
+            });
+            
+            // Locations Interaction Logic
+            const scrollContainer = document.getElementById('locations-container');
+            const leftBtn = document.getElementById('scroll-left');
+            const rightBtn = document.getElementById('scroll-right');
+            
+            if (scrollContainer && leftBtn && rightBtn) {
+                leftBtn.addEventListener('click', () => {
+                    scrollContainer.scrollBy({ left: -400, behavior: 'smooth' });
+                });
+                rightBtn.addEventListener('click', () => {
+                    scrollContainer.scrollBy({ left: 400, behavior: 'smooth' });
+                });
+            }
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            scrollContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                scrollContainer.classList.add('active'); // for cursor style
+                startX = e.pageX - scrollContainer.offsetLeft;
+                scrollLeft = scrollContainer.scrollLeft;
+            });
+
+            scrollContainer.addEventListener('mouseleave', () => {
+                isDown = false;
+                scrollContainer.classList.remove('active');
+            });
+
+            scrollContainer.addEventListener('mouseup', () => {
+                isDown = false;
+                scrollContainer.classList.remove('active');
+            });
+
+            scrollContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scrollContainer.offsetLeft;
+                const walk = (x - startX) * 2;
+                scrollContainer.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            gsap.to(cursorOutline, {
+                x: posX,
+                y: posY,
+                duration: 0.15,
+                ease: 'power2.out'
+            });
+        });
+
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                cursorOutline.classList.add('hovered');
+                cursorDot.classList.add('hidden');
+            });
+            trigger.addEventListener('mouseleave', () => {
+                cursorOutline.classList.remove('hovered');
+                cursorDot.classList.remove('hidden');
+            });
+        });
+
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('backdrop-blur-md', 'bg-black/50');
+            } else {
+                nav.classList.remove('backdrop-blur-md', 'bg-black/50');
+            }
+        });
+
+    </script>
+</body>
+</html>
