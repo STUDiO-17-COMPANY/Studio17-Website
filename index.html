@@ -292,6 +292,34 @@
             </div>
         </section>
 
+        <!-- TRUSTED BY SECTION -->
+        <section class="py-12 border-y border-white/10 bg-black overflow-hidden relative z-20">
+            <div class="container mx-auto px-4 md:px-8 mb-8 flex items-center gap-4">
+                <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+                <span class="font-mono text-xs text-brand-gray uppercase tracking-widest">Trusted By_</span>
+            </div>
+            
+            <!-- Marquee Container -->
+            <div class="relative w-full overflow-hidden">
+                <div class="flex whitespace-nowrap gap-16 md:gap-32 marquee-track hoverable">
+                    <!-- Logos (Text based for style) -->
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">NEOBANK</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">AEROSPACE_LABS</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">VORTEX.IO</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">LINEAR_SYSTEMS</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">HYPER_FIT</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">Q_LEDGER</span>
+                    <!-- Duplicate for infinite loop -->
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">NEOBANK</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">AEROSPACE_LABS</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">VORTEX.IO</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">LINEAR_SYSTEMS</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">HYPER_FIT</span>
+                    <span class="text-2xl md:text-4xl font-bold text-white/30 hover:text-white transition-colors cursor-default">Q_LEDGER</span>
+                </div>
+            </div>
+        </section>
+
         <!-- Horizontal Scroll Section (Selected Works) -->
         <section id="work" class="relative overflow-hidden py-24 bg-brand-black">
             <div class="container mx-auto px-8 mb-12">
@@ -608,6 +636,14 @@
                     scrub: 1
                 },
                 y: -100
+            });
+
+            // 6. Trusted By Marquee Animation
+            gsap.to(".marquee-track", {
+                xPercent: -50,
+                repeat: -1,
+                duration: 20,
+                ease: "linear"
             });
 
         }; // End initApp
