@@ -171,7 +171,7 @@
         <div class="hidden md:flex gap-12 font-sans text-sm tracking-widest uppercase">
             <a href="#shop" class="hover:text-phos-gold transition-colors hover-trigger">Shop</a>
             <a href="#clinical" class="hover:text-phos-gold transition-colors hover-trigger">Clinical</a>
-            <a href="#experience" class="hover:text-phos-gold transition-colors hover-trigger">Experience</a>
+            <!-- Removed Experience Link -->
         </div>
 
         <div class="flex items-center gap-6">
@@ -235,6 +235,17 @@
                 
                 <div class="flex flex-col md:flex-row justify-between items-end mt-12 border-t border-gray-400/30 pt-8 opacity-0 hero-fade">
                     <div class="max-w-md">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="flex text-phos-gold">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                            <span class="font-sans text-sm font-semibold tracking-wide">4.9 <span class="font-light text-gray-500">(1,269 Reviews)</span></span>
+                        </div>
+
                         <p class="font-sans text-lg text-phos-charcoal leading-relaxed font-medium">
                             Limassol's premier Optometry Boutique. High-tech diagnostics meets curated designer eyewear.
                         </p>
@@ -364,46 +375,75 @@
             </div>
         </section>
 
-        <!-- BRAND MARQUEE -->
-        <section id="collection" class="py-16 bg-phos-black text-phos-cream overflow-hidden">
-            <div class="relative flex overflow-x-hidden">
-                <div class="py-4 animate-marquee whitespace-nowrap flex gap-16 items-center opacity-40">
-                    <span class="text-4xl font-serif italic">Mykita</span>
-                    <span class="text-4xl font-serif italic">Jacques Marie Mage</span>
-                    <span class="text-4xl font-serif italic">Lindberg</span>
-                    <span class="text-4xl font-serif italic">Dita</span>
-                    <span class="text-4xl font-serif italic">Matsuda</span>
-                    <span class="text-4xl font-serif italic">Cartier</span>
-                    <span class="text-4xl font-serif italic">Mykita</span>
-                </div>
+        <!-- SOCIAL PROOF / TESTIMONIALS -->
+        <section id="testimonials" class="py-24 px-6 md:px-24 bg-phos-cream border-t border-gray-100">
+            <div class="text-center mb-16">
+                <span class="font-sans text-xs uppercase tracking-[0.2em] text-phos-gold mb-4 block">Client Stories</span>
+                <h2 class="font-serif text-3xl md:text-4xl">Trusted by Limassol</h2>
             </div>
-        </section>
-
-        <!-- EXPERIENCE -->
-        <section id="experience" class="py-24 px-6 md:px-24">
+            
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover-trigger">
-                    <i data-lucide="user" class="text-phos-charcoal mb-4 w-8 h-8"></i>
-                    <h3 class="font-serif text-xl mb-2">Face Styling</h3>
-                    <p class="font-sans text-sm text-gray-500">
-                        Opticians trained as stylists to find the perfect frame for your features.
-                    </p>
-                </div>
-                
-                <div class="bg-white p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover-trigger">
-                    <i data-lucide="layers" class="text-phos-charcoal mb-4 w-8 h-8"></i>
-                    <h3 class="font-serif text-xl mb-2">Bespoke Lenses</h3>
-                    <p class="font-sans text-sm text-gray-500">
-                        Partnering with Zeiss for ultra-thin, high-definition optical clarity.
-                    </p>
+                <!-- Review 1 -->
+                <div class="bg-white p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex text-phos-gold mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="font-serif text-lg italic mb-6 text-gray-700">"The most thorough eye exam I've ever had. The team took the time to explain everything, and the frame selection is simply unmatched in Cyprus."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-sans text-sm font-bold">Sarah M.</p>
+                            <p class="text-xs text-gray-400">Limassol</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="bg-white p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover-trigger">
-                    <i data-lucide="truck" class="text-phos-charcoal mb-4 w-8 h-8"></i>
-                    <h3 class="font-serif text-xl mb-2">Global Shipping</h3>
-                    <p class="font-sans text-sm text-gray-500">
-                        Complimentary secured shipping on all eyewear orders over €300.
-                    </p>
+                <!-- Review 2 -->
+                <div class="bg-white p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex text-phos-gold mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="font-serif text-lg italic mb-6 text-gray-700">"Finally, a place that understands style. They helped me find a pair of Jacques Marie Mage frames that fit my face perfectly. Highly recommended."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-sans text-sm font-bold">Andreas K.</p>
+                            <p class="text-xs text-gray-400">Nicosia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex text-phos-gold mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="font-serif text-lg italic mb-6 text-gray-700">"Professional, clean, and incredibly friendly. The new clinic equipment is impressive. I felt in very safe hands with Dr. Elena."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-sans text-sm font-bold">Maria P.</p>
+                            <p class="text-xs text-gray-400">Limassol</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -466,8 +506,14 @@
                     </div>
 
                     <!-- Right Column: Form & Map Visual -->
-                    <div class="lg:col-span-7 bg-white text-phos-black p-8 md:p-10 rounded-sm shadow-2xl">
-                        <h3 class="font-serif text-2xl mb-6">Quick Inquiry</h3>
+                    <div class="lg:col-span-7 bg-white text-phos-black p-8 md:p-10 rounded-sm shadow-2xl relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-serif text-2xl">Quick Inquiry</h3>
+                             <a href="#" class="hidden md:inline-block bg-phos-gold/10 text-phos-gold px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-phos-gold hover:text-white transition-colors">
+                                Book Online &rarr;
+                            </a>
+                        </div>
+                        
                         <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thank you for your inquiry. We will contact you shortly.');">
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
