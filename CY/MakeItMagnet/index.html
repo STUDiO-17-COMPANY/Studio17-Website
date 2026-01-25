@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make It Magnet | Custom Keepsakes Cyprus</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'magnet-cream': '#F9F5F1',
+                        'magnet-stone': '#E6E1DC',
+                        'magnet-brown': '#5D5448',
+                        'magnet-orange': '#D97757',
+                        'magnet-dark': '#2C2723',
+                    },
+                    fontFamily: {
+                        serif: ['"DM Serif Display"', 'serif'],
+                        sans: ['"Quicksand"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        body {
+            background-color: #F9F5F1;
+            color: #2C2723;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F5F1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D97757;
+            border-radius: 4px;
+        }
+
+        /* Magnet Hover Effect */
+        .magnet-card {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+        .magnet-card:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 10px 10px 25px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        /* Polaroid Tape */
+        .tape {
+            background-color: rgba(255,255,255,0.6);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-white/80 backdrop-blur-md rounded-full px-6 py-3 shadow-sm border border-magnet-stone/50">
+            <div class="flex items-center gap-2">
+                <i class="ph-fill ph-magnet text-3xl text-magnet-orange"></i>
+                <span class="font-serif text-xl md:text-2xl text-magnet-dark tracking-wide">Make It Magnet</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 font-medium text-magnet-brown">
+                <a href="#process" class="hover:text-magnet-orange transition-colors">How it Works</a>
+                <a href="#products" class="hover:text-magnet-orange transition-colors">Products</a>
+                <a href="#reviews" class="hover:text-magnet-orange transition-colors">Love</a>
+            </div>
+            <button onclick="openModal()" class="bg-magnet-dark text-white px-5 py-2 rounded-full font-bold hover:bg-magnet-orange transition-colors text-sm md:text-base">
+                Order Now
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden">
+        <!-- Background Blobs -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+            <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-magnet-orange/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-yellow-200/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Text Content -->
+            <div class="hero-text opacity-0 translate-y-10 z-10">
+                <span class="inline-block px-3 py-1 bg-magnet-orange/10 text-magnet-orange rounded-full text-sm font-bold tracking-wider mb-4 border border-magnet-orange/20">
+                    MADE IN CYPRUS 🇨🇾
+                </span>
+                <h1 class="font-serif text-5xl md:text-7xl leading-[1.1] mb-6 text-magnet-dark">
+                    Turn your <br>
+                    <span class="text-magnet-orange italic">camera roll</span> <br>
+                    into keepsakes.
+                </h1>
+                <p class="text-lg text-magnet-brown mb-8 max-w-md leading-relaxed">
+                    Don't let your memories stay stuck in the cloud. We transform your favorite photos into premium magnets and ornaments. Hand-crafted and shipped island-wide.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="openModal()" class="bg-magnet-orange text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-magnet-dark transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                        Start Creating <i class="ph-bold ph-arrow-right"></i>
+                    </button>
+                    <a href="#process" class="bg-white border-2 border-magnet-stone text-magnet-brown px-8 py-4 rounded-full font-bold text-lg hover:border-magnet-orange hover:text-magnet-orange transition-all flex items-center justify-center">
+                        How it Works
+                    </a>
+                </div>
+                
+                <div class="mt-8 flex items-center gap-4 text-sm text-magnet-brown/80 font-medium">
+                    <div class="flex -space-x-2">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-8 h-8 rounded-full border-2 border-white" alt="User">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-8 h-8 rounded-full border-2 border-white" alt="User">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-8 h-8 rounded-full border-2 border-white" alt="User">
+                    </div>
+                    <p>Loved by 500+ families in Cyprus</p>
+                </div>
+            </div>
+
+            <!-- Visual Content (Scattered Magnets) -->
+            <div class="relative h-[400px] md:h-[600px] w-full flex items-center justify-center hero-visual">
+                <!-- Magnet 1 -->
+                <div class="hero-magnet absolute top-[10%] left-[10%] w-48 bg-white p-3 pb-8 shadow-xl transform rotate-[-6deg] z-10 rounded-sm">
+                    <div class="w-full h-40 bg-gray-200 overflow-hidden rounded-sm relative">
+                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=600&auto=format&fit=crop" class="object-cover w-full h-full" alt="Family">
+                    </div>
+                    <p class="font-serif text-center mt-3 text-magnet-dark">Agia Napa '24</p>
+                    <div class="tape absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-24 rotate-45 opacity-50"></div>
+                </div>
+
+                <!-- Magnet 2 -->
+                <div class="hero-magnet absolute bottom-[20%] right-[10%] w-56 bg-white p-3 pb-8 shadow-xl transform rotate-[4deg] z-20 rounded-sm">
+                    <div class="w-full h-48 bg-gray-200 overflow-hidden rounded-sm relative">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop" class="object-cover w-full h-full" alt="Friends">
+                    </div>
+                    <p class="font-serif text-center mt-3 text-magnet-dark">Besties ❤️</p>
+                    <div class="tape absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-24 -rotate-12 opacity-50"></div>
+                </div>
+
+                <!-- Magnet 3 -->
+                <div class="hero-magnet absolute top-[40%] right-[30%] w-40 bg-white p-2 pb-6 shadow-xl transform rotate-[-12deg] z-0 rounded-sm blur-[1px]">
+                    <div class="w-full h-32 bg-gray-200 overflow-hidden rounded-sm relative">
+                        <img src="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?q=80&w=600&auto=format&fit=crop" class="object-cover w-full h-full" alt="Cat">
+                    </div>
+                     <p class="font-serif text-center mt-2 text-magnet-dark text-sm">Luna</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="process" class="py-24 bg-white rounded-[3rem] mx-2 md:mx-6 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 section-header">
+                <h2 class="font-serif text-4xl md:text-5xl text-magnet-dark mb-4">From Phone to Fridge</h2>
+                <p class="text-magnet-brown max-w-xl mx-auto">Simple, personalized, and delivered to your door.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="step-card bg-magnet-cream p-8 rounded-3xl text-center relative overflow-hidden group">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-magnet-orange/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-magnet-orange text-3xl shadow-sm mx-auto mb-6 relative z-10">
+                        <i class="ph-duotone ph-upload-simple"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-magnet-dark mb-3">1. Send Photos</h3>
+                    <p class="text-magnet-brown">Send us your favorite digital photos via DM or WhatsApp. We accept high-res images directly from your phone.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card bg-magnet-cream p-8 rounded-3xl text-center relative overflow-hidden group">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-blue-100 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-blue-500 text-3xl shadow-sm mx-auto mb-6 relative z-10">
+                        <i class="ph-duotone ph-paint-brush-broad"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-magnet-dark mb-3">2. We Create</h3>
+                    <p class="text-magnet-brown">We print on premium magnetic material, laminate for durability, and cut to your chosen shape.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card bg-magnet-cream p-8 rounded-3xl text-center relative overflow-hidden group">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-100 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-green-500 text-3xl shadow-sm mx-auto mb-6 relative z-10">
+                        <i class="ph-duotone ph-truck"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-magnet-dark mb-3">3. Delivery</h3>
+                    <p class="text-magnet-brown">Received via Akis Express or Travel Express anywhere in Cyprus (Limassol, Nicosia, Paphos, Larnaca).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 section-header">
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl text-magnet-dark mb-4">Pick Your Format</h2>
+                    <p class="text-magnet-brown">Classic squares, retro strips, or holiday specials.</p>
+                </div>
+                <button onclick="openModal()" class="hidden md:flex items-center gap-2 text-magnet-orange font-bold hover:gap-4 transition-all">
+                    See Pricing <i class="ph-bold ph-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="magnet-card group cursor-pointer bg-white p-4 rounded-xl shadow-md rotate-1 hover:rotate-0 transition-all duration-300">
+                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4 relative">
+                        <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=600&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700" alt="Square Magnets">
+                        <div class="absolute bottom-3 right-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                            Best Seller
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center px-2">
+                        <div>
+                            <h3 class="font-serif text-2xl text-magnet-dark">Classic Square</h3>
+                            <p class="text-sm text-magnet-brown">7x7cm • Glossy Finish</p>
+                        </div>
+                        <div class="w-10 h-10 bg-magnet-cream rounded-full flex items-center justify-center text-magnet-dark group-hover:bg-magnet-orange group-hover:text-white transition-colors">
+                            <i class="ph-bold ph-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="magnet-card group cursor-pointer bg-white p-4 rounded-xl shadow-md -rotate-1 hover:rotate-0 transition-all duration-300">
+                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4 relative">
+                        <img src="https://images.unsplash.com/photo-1531169509526-f8f1fdaa4a67?q=80&w=600&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700" alt="Photo Strips">
+                    </div>
+                    <div class="flex justify-between items-center px-2">
+                        <div>
+                            <h3 class="font-serif text-2xl text-magnet-dark">Photobooth Strip</h3>
+                            <p class="text-sm text-magnet-brown">3 photos per strip</p>
+                        </div>
+                        <div class="w-10 h-10 bg-magnet-cream rounded-full flex items-center justify-center text-magnet-dark group-hover:bg-magnet-orange group-hover:text-white transition-colors">
+                            <i class="ph-bold ph-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="magnet-card group cursor-pointer bg-white p-4 rounded-xl shadow-md rotate-2 hover:rotate-0 transition-all duration-300">
+                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4 relative">
+                        <img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?q=80&w=600&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700" alt="Polaroid Style">
+                    </div>
+                    <div class="flex justify-between items-center px-2">
+                        <div>
+                            <h3 class="font-serif text-2xl text-magnet-dark">Mini Polaroid</h3>
+                            <p class="text-sm text-magnet-brown">With caption space</p>
+                        </div>
+                        <div class="w-10 h-10 bg-magnet-cream rounded-full flex items-center justify-center text-magnet-dark group-hover:bg-magnet-orange group-hover:text-white transition-colors">
+                            <i class="ph-bold ph-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center md:hidden">
+                <button onclick="openModal()" class="bg-magnet-dark text-white px-8 py-3 rounded-full font-bold">View All Options</button>
+            </div>
+    <!-- Social Proof (Static Grid) -->
+    <section id="reviews" class="py-24 bg-magnet-dark text-magnet-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl text-magnet-cream">Fridge Wall of Fame</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Review 1 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/20 transition-colors">
+                    <div class="flex text-magnet-orange mb-3">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="italic mb-4 text-sm leading-relaxed">"Absolutely love them! The quality is amazing and they look so cute on my fridge. Fast delivery to Limassol too!"</p>
+                    <p class="font-bold text-sm">— Elena K.</p>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/20 transition-colors">
+                    <div class="flex text-magnet-orange mb-3">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="italic mb-4 text-sm leading-relaxed">"Ordered 20 magnets as wedding favors. Best decision ever. Everyone loved the personal touch."</p>
+                    <p class="font-bold text-sm">— Andreas & Maria</p>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/20 transition-colors">
+                    <div class="flex text-magnet-orange mb-3">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="italic mb-4 text-sm leading-relaxed">"The perfect gift for grandparents. They have the whole family on their fridge now. Thank you Make It Magnet!"</p>
+                    <p class="font-bold text-sm">— Sarah P.</p>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/20 transition-colors">
+                    <div class="flex text-magnet-orange mb-3">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="italic mb-4 text-sm leading-relaxed">"Super friendly service and quick turnaround. The matte finish is really elegant."</p>
+                    <p class="font-bold text-sm">— Giorgos M.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ & CTA -->
+    <section class="py-24 px-6 max-w-4xl mx-auto">
+        <h2 class="font-serif text-4xl text-center text-magnet-dark mb-12">Common Questions</h2>
+        
+        <div class="space-y-4">
+            <details class="group bg-white p-6 rounded-2xl shadow-sm cursor-pointer open:ring-2 open:ring-magnet-orange/20 transition-all">
+                <summary class="flex justify-between items-center font-bold text-lg text-magnet-dark list-none">
+                    How long does delivery take?
+                    <span class="transition group-open:rotate-180"><i class="ph-bold ph-caret-down"></i></span>
+                </summary>
+                <p class="text-magnet-brown mt-4 leading-relaxed">
+                    Production typically takes 2-3 business days. Shipping via Akis Express or Travel Express usually takes another 24 hours to reach your nearest pick-up point anywhere in Cyprus.
+                </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-2xl shadow-sm cursor-pointer open:ring-2 open:ring-magnet-orange/20 transition-all">
+                <summary class="flex justify-between items-center font-bold text-lg text-magnet-dark list-none">
+                    Is there a minimum order?
+                    <span class="transition group-open:rotate-180"><i class="ph-bold ph-caret-down"></i></span>
+                </summary>
+                <p class="text-magnet-brown mt-4 leading-relaxed">
+                    We recommend a minimum set of 4 magnets to make shipping worthwhile, but there is no strict minimum!
+                </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-2xl shadow-sm cursor-pointer open:ring-2 open:ring-magnet-orange/20 transition-all">
+                <summary class="flex justify-between items-center font-bold text-lg text-magnet-dark list-none">
+                    How do I send my photos?
+                    <span class="transition group-open:rotate-180"><i class="ph-bold ph-caret-down"></i></span>
+                </summary>
+                <p class="text-magnet-brown mt-4 leading-relaxed">
+                    Once you confirm your order via DM, you can send photos via WhatsApp (Document mode) or email to ensure the highest quality print.
+                </p>
+            </details>
+        </div>
+
+        <div class="mt-20 bg-magnet-orange rounded-[3rem] p-12 text-center text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">Ready to preserve your memories?</h2>
+                <p class="text-white/90 text-lg mb-8 max-w-lg mx-auto">Join hundreds of happy homes in Cyprus. Create your custom magnet set today.</p>
+                <button onclick="openModal()" class="bg-white text-magnet-orange px-10 py-4 rounded-full font-bold text-lg hover:bg-magnet-dark hover:text-white transition-all shadow-lg">
+                    Order via Instagram
+                </button>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 px-6 border-t border-magnet-stone">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i class="ph-fill ph-magnet text-2xl text-magnet-orange"></i>
+                <span class="font-serif text-xl text-magnet-dark">Make It Magnet</span>
+            </div>
+            <p class="text-magnet-brown text-sm">© 2024 Make It Magnet Cyprus. Crafted with ❤️ in Limassol.</p>
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 bg-magnet-cream rounded-full flex items-center justify-center text-magnet-dark hover:bg-magnet-orange hover:text-white transition-colors">
+                    <i class="ph-bold ph-instagram-logo"></i>
+                </a>
+                <a href="#" class="w-10 h-10 bg-magnet-cream rounded-full flex items-center justify-center text-magnet-dark hover:bg-magnet-orange hover:text-white transition-colors">
+                    <i class="ph-bold ph-facebook-logo"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Modal Overlay -->
+    <div id="orderModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-magnet-dark/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl m-4 animate-modal-in">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-serif text-2xl text-magnet-dark">Start Your Order</h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-magnet-cream flex items-center justify-center hover:bg-red-100 text-magnet-dark hover:text-red-500 transition-colors">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+            <p class="text-magnet-brown mb-6">We process all orders personally to ensure quality. Choose your preferred method to send us your photos:</p>
+            
+            <div class="space-y-3">
+                <a href="#" class="flex items-center gap-4 p-4 border-2 border-magnet-stone rounded-xl hover:border-magnet-orange hover:bg-magnet-orange/5 transition-all group">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl">
+                        <i class="ph-bold ph-instagram-logo"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-magnet-dark">Instagram DM</div>
+                        <div class="text-sm text-magnet-brown">Fastest response</div>
+                    </div>
+                    <i class="ph-bold ph-arrow-right ml-auto text-magnet-stone group-hover:text-magnet-orange"></i>
+                </a>
+
+                <a href="#" class="flex items-center gap-4 p-4 border-2 border-magnet-stone rounded-xl hover:border-green-500 hover:bg-green-50 transition-all group">
+                    <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl">
+                        <i class="ph-bold ph-whatsapp-logo"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-magnet-dark">WhatsApp</div>
+                        <div class="text-sm text-magnet-brown">For high-res photos</div>
+                    </div>
+                    <i class="ph-bold ph-arrow-right ml-auto text-magnet-stone group-hover:text-green-500"></i>
+                </a>
+
+                <a href="mailto:hello@makeitmagnet.cy" class="flex items-center gap-4 p-4 border-2 border-magnet-stone rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all group">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl">
+                        <i class="ph-bold ph-envelope-simple"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-magnet-dark">Email Us</div>
+                        <div class="text-sm text-magnet-brown">hello@makeitmagnet.cy</div>
+                    </div>
+                    <i class="ph-bold ph-arrow-right ml-auto text-magnet-stone group-hover:text-blue-500"></i>
+                </a>
+            </div>
+            
+            <p class="text-xs text-center text-gray-400 mt-6">Island-wide shipping via Akis/Travel Express</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 2. GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        const tl = gsap.timeline();
+        
+        tl.to(".hero-text", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.2
+        })
+        .from(".hero-magnet", {
+            y: 100,
+            opacity: 0,
+            rotation: 0,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "back.out(1.7)"
+        }, "-=0.5");
+
+        // Parallax effect for magnets in hero
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            
+            gsap.to(".hero-visual", {
+                x: x,
+                y: y,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+
+        // Section Headers Fade Up
+        gsap.utils.toArray('.section-header').forEach(header => {
+            gsap.from(header, {
+                scrollTrigger: {
+                    trigger: header,
+                    start: "top 80%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Step Cards Stagger
+        gsap.from(".step-card", {
+            scrollTrigger: {
+                trigger: "#process",
+                start: "top 70%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+            }
+        });
+
+        // Modal Functions
+        function openModal() {
+            const modal = document.getElementById('orderModal');
+            modal.classList.remove('hidden');
+            // Animate in
+            gsap.fromTo(modal.children[1], 
+                { scale: 0.9, opacity: 0 }, 
+                { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.2)" }
+            );
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('orderModal');
+            gsap.to(modal.children[1], {
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.2,
+                onComplete: () => modal.classList.add('hidden')
+            });
+        }
+    </script>
+</body>
+</html>
