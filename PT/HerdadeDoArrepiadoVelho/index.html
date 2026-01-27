@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-pt-24">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herdade do Arrepiado Velho | Sousel, Alentejo</title>
+    <meta name="description" content="Vinhos de autor e Enoturismo no Alto Alentejo. Herdade do Arrepiado Velho.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    colors: {
+                        'wine-dark': '#4A0404',
+                        'wine-light': '#722F37',
+                        'earth': '#8B7E74',
+                        'sand': '#F5F2EA',
+                        'olive': '#556B2F',
+                        'dark-bg': '#121212'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles -->
+    <style>
+        /* Lenis & Utils */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        
+        body { background-color: #F5F2EA; color: #1a1a1a; overflow-x: hidden; }
+        
+        .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%); }
+        
+        /* Hide Scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Loader */
+        #loader {
+            position: fixed; inset: 0; background: #F5F2EA; z-index: 9999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+        }
+
+        /* Modal Transitions */
+        .modal {
+            opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out;
+        }
+        .modal.active {
+            opacity: 1; visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.95); transition: all 0.3s ease-in-out;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Wine Card Hover */
+        .wine-card:hover .wine-img { transform: scale(1.05) rotate(2deg); }
+        .wine-img { transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+
+        /* Filter Active State */
+        .filter-btn.active { color: white; border-bottom: 1px solid white; }
+    </style>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769297521/706d5cda-c34d-4579-a28f-03de25a2243d.png" alt="Logo Loader" class="w-32 mb-4 opacity-0" id="loader-logo">
+        <div class="w-16 h-0.5 bg-wine-light/30 overflow-hidden">
+            <div class="w-full h-full bg-wine-dark -translate-x-full" id="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Wine Details Modal -->
+    <div id="wine-modal" class="modal fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="modal-content bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg relative flex flex-col md:flex-row">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 text-gray-500 hover:text-black">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            
+            <!-- Dynamic Content -->
+            <div class="w-full md:w-1/3 bg-gray-100 p-8 flex items-center justify-center">
+                <img id="modal-img" src="" alt="Vinho" class="h-64 md:h-96 object-contain drop-shadow-xl">
+            </div>
+            <div class="w-full md:w-2/3 p-8 md:p-12 overflow-y-auto">
+                <span id="modal-type" class="text-wine-light text-xs font-bold tracking-widest uppercase"></span>
+                <h2 id="modal-title" class="text-3xl font-serif text-wine-dark mt-2 mb-4"></h2>
+                <div class="space-y-6 text-sm text-gray-600 font-light">
+                    <div>
+                        <h4 class="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1" data-i18n="modal_grapes">Castas</h4>
+                        <p id="modal-grapes"></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1" data-i18n="modal_tasting">Nota de Prova</h4>
+                        <p id="modal-tasting"></p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1" data-i18n="modal_alcohol">Álcool</h4>
+                            <p id="modal-alcohol"></p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1" data-i18n="modal_aging">Estágio</h4>
+                            <p id="modal-aging"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 uppercase text-xs tracking-wider mb-1" data-i18n="modal_pairing">Harmonização</h4>
+                        <p id="modal-pairing"></p>
+                    </div>
+                    <div class="border-t pt-4 mt-4">
+                        <p class="text-xs text-gray-400" id="modal-logistics"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="modal-content bg-sand w-full max-w-3xl max-h-[80vh] overflow-y-auto rounded-none p-8 md:p-12 relative shadow-2xl border border-wine-dark/10">
+            <button onclick="togglePrivacy()" class="absolute top-6 right-6 text-wine-dark hover:text-wine-light">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <h2 class="text-2xl font-serif text-wine-dark mb-6" data-i18n="privacy_title">Política de Privacidade</h2>
+            <div class="prose prose-sm text-gray-600 font-light space-y-4">
+                <p data-i18n="privacy_text1">A navegação no nosso site pressupõe a aceitação da Política de Privacidade.</p>
+                <p data-i18n="privacy_text2">Zelamos pela privacidade dos dados pessoais dos nossos clientes.</p>
+                <!-- Full text simplified for demo purposes -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 flex justify-between items-center text-white" id="navbar">
+        <a href="#">
+            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769297521/706d5cda-c34d-4579-a28f-03de25a2243d.png" alt="Logo HAV" class="h-16 md:h-20 w-auto">
+        </a>
+        
+        <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium items-center">
+            <a href="#historia" class="hover:text-gray-300 transition-colors" data-i18n="nav_about">Sobre</a>
+            <a href="#vinhos" class="hover:text-gray-300 transition-colors" data-i18n="nav_wines">Vinhos</a>
+            <a href="#country-house" class="hover:text-gray-300 transition-colors" data-i18n="nav_tourism">Enoturismo</a>
+            
+            <!-- Language Selector -->
+            <div class="flex items-center space-x-2 border-l border-white/30 pl-6 ml-2 cursor-pointer">
+                <button onclick="setLanguage('pt')" id="btn-pt" class="font-bold opacity-100 hover:opacity-100 transition-opacity">PT</button>
+                <span class="opacity-50">|</span>
+                <button onclick="setLanguage('en')" id="btn-en" class="opacity-50 hover:opacity-100 transition-opacity">EN</button>
+            </div>
+        </div>
+
+        <a href="#reservas" class="hidden md:inline-block border border-white px-6 py-2 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300" data-i18n="nav_book">
+            Reservar
+        </a>
+
+        <button class="md:hidden text-white" id="mobile-menu-btn">
+            <i data-lucide="menu" class="w-8 h-8"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 bg-wine-dark z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8" id="mobile-menu">
+        <button class="absolute top-6 right-6 text-white" id="close-menu-btn">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <a href="#historia" class="text-3xl font-serif text-sand mobile-link" data-i18n="nav_about">Sobre</a>
+        <a href="#vinhos" class="text-3xl font-serif text-sand mobile-link" data-i18n="nav_wines">Vinhos</a>
+        <a href="#country-house" class="text-3xl font-serif text-sand mobile-link" data-i18n="nav_tourism">Enoturismo</a>
+        <a href="#reservas" class="text-3xl font-serif text-sand mobile-link" data-i18n="nav_contact">Contactos</a>
+        <div class="flex space-x-4 mt-8">
+            <button onclick="setLanguage('pt')" class="text-xl font-bold text-sand">PT</button>
+            <button onclick="setLanguage('en')" class="text-xl font-light text-sand">EN</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 z-0" id="hero-bg">
+            <img 
+                src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769276288/foto12_i1htu7.jpg" 
+                alt="Herdade Paisagem" 
+                class="w-full h-full object-cover scale-110"
+            >
+            <div class="hero-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <p class="text-sand/90 text-sm md:text-base uppercase tracking-[0.3em] mb-4 reveal-text">Sousel, Alto Alentejo</p>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-tight mb-8 reveal-text drop-shadow-lg">
+                Herdade do <br> 
+                <span class="italic font-light">Arrepiado Velho</span>
+            </h1>
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center mt-8 reveal-text">
+                <a href="#vinhos" class="bg-white text-wine-dark px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-sand transition-colors min-w-[200px]" data-i18n="hero_cta_wines">
+                    Descobrir Vinhos
+                </a>
+                <a href="#country-house" class="border border-white text-white px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-white hover:text-wine-dark transition-colors min-w-[200px]" data-i18n="hero_cta_stay">
+                    Country House
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+        </div>
+    </header>
+
+    <!-- Sobre Nós -->
+    <section class="py-24 md:py-32 px-6 bg-sand" id="historia">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 relative group">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769272974/foto4_nps6sr.jpg" class="w-full h-64 object-cover rounded-sm gs-reveal">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769272980/2_rgrze0.jpg" class="w-full h-64 object-cover rounded-sm mt-8 gs-reveal">
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 space-y-6 gs-reveal">
+                <span class="text-wine-light font-bold tracking-widest text-xs uppercase border-b border-wine-light pb-1" data-i18n="about_since">Desde 2001</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-wine-dark leading-tight" data-i18n="about_title">
+                    Vinha dos 100 Pontos
+                </h2>
+                <p class="text-gray-600 leading-relaxed font-light text-lg" data-i18n="about_text1">
+                    No Alentejo, encontramos um paraíso, onde com toda a dedicação nascem vinhos únicos. A Herdade do Arrepiado Velho está localizada em Sousel, a cerca de 40 km de Portalegre.
+                </p>
+                <p class="text-gray-600 leading-relaxed font-light text-sm" data-i18n="about_text2">
+                    O monte alentejano do séc. XIX foi reconstruído de acordo com a arquitectura tradicional. Com 100 hectares, a barragem destaca-se entre vinhas e olival. Em 2002, 33 hectares de vinha foram plantados num terroir de solos xistosos e declives acentuados.
+                </p>
+                <p class="text-gray-600 leading-relaxed font-light text-sm italic border-l-2 border-wine-light pl-4" data-i18n="about_quote">
+                    Um projeto familiar fundado por <strong>Isabel e Manuel Antunes</strong>, com enologia de <strong>António Maçanita</strong>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vinhos (Dinâmico) -->
+    <section id="vinhos" class="py-24 bg-dark-bg text-sand relative">
+        <div class="max-w-7xl mx-auto px-6 mb-12 gs-reveal text-center md:text-left flex flex-col md:flex-row justify-between items-end">
+            <div>
+                <span class="text-gray-500 font-bold tracking-widest text-xs uppercase" data-i18n="wines_subtitle">A Nossa Adega</span>
+                <h2 class="text-4xl md:text-5xl font-serif mb-2 mt-2" data-i18n="wines_title">Gamas & Edições</h2>
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-4 mt-6 md:mt-0 justify-center md:justify-end text-xs uppercase tracking-widest font-medium">
+                <button onclick="filterWines('all')" class="filter-btn active text-white border-b border-white pb-1 hover:text-wine-light transition-colors" data-filter="all" data-i18n="filter_all">Todos</button>
+                <button onclick="filterWines('Colheita')" class="filter-btn text-gray-500 hover:text-white transition-colors" data-filter="Colheita" data-i18n="filter_harvest">Colheitas</button>
+                <button onclick="filterWines('White Series')" class="filter-btn text-gray-500 hover:text-white transition-colors" data-filter="White Series">White Series</button>
+                <button onclick="filterWines('Reserva')" class="filter-btn text-gray-500 hover:text-white transition-colors" data-filter="Reserva" data-i18n="filter_reserve">Reservas</button>
+                <button onclick="filterWines('Edição Especial')" class="filter-btn text-gray-500 hover:text-white transition-colors" data-filter="Edição Especial" data-i18n="filter_special">Edições Especiais</button>
+            </div>
+        </div>
+
+        <!-- Wine Grid -->
+        <div id="wines-grid" class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- JavaScript will populate this -->
+        </div>
+    </section>
+
+    <!-- Country House (Enoturismo) -->
+    <section id="country-house" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 gs-reveal">
+                    <span class="text-olive font-bold tracking-widest text-xs uppercase" data-i18n="tourism_subtitle">Enoturismo</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-wine-dark mt-4 mb-6 leading-tight" data-i18n="tourism_title">
+                        Arrepiado Country House
+                    </h2>
+                    <p class="text-gray-600 mb-6 font-light text-lg" data-i18n="tourism_intro">
+                        Entre barragem e vinhas, numa paisagem tranquila de cortar a respiração.
+                    </p>
+                    <div class="space-y-4 text-sm text-gray-600 font-light mb-8">
+                        <p><strong data-i18n="tourism_space_label">O Espaço:</strong> <span data-i18n="tourism_space_text">Paisagem Alentejana Única, lugar muito calmo sem vizinhança. Casa de Arquitectura e decoração tradicional alentejana, muito confortável e acolhedora.</span></p>
+                        <p><strong data-i18n="tourism_access_label">Acesso:</strong> <span data-i18n="tourism_access_text">Piscina, sala de estar com internet e TV, acesso à adega.</span></p>
+                        <p><strong data-i18n="tourism_exp_label">Experiências:</strong> <span data-i18n="tourism_exp_text">Provas vínicas, almoços/jantares vínicos com os anfitriões, Stand Up Paddle.</span></p>
+                        <p class="text-olive flex items-center gap-2">
+                            <i data-lucide="paw-print" class="w-4 h-4"></i>
+                            <span data-i18n="tourism_pets">Receção calorosa pelos nossos Labradores.</span>
+                        </p>
+                    </div>
+
+                    <a href="#reservas" class="inline-block bg-wine-dark text-white px-8 py-4 text-xs uppercase tracking-widest font-semibold hover:opacity-90 transition-opacity" data-i18n="btn_book_stay">
+                        Reservar Estadia
+                    </a>
+                </div>
+
+                <div class="lg:col-span-7 grid grid-cols-2 gap-4 gs-reveal min-h-[400px]">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769274192/2-1_xxtt2q.jpg" class="w-full h-80 object-cover rounded-lg">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769274190/3_muuiv9.jpg" class="w-full h-80 object-cover rounded-lg mt-12">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769274186/1_dyf4fa.jpg" class="col-span-2 w-full h-64 object-cover rounded-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contacts -->
+    <footer id="reservas" class="bg-wine-dark text-sand pt-24 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 gs-reveal">
+                <!-- Vinhos -->
+                <div>
+                    <h4 class="font-serif text-xl mb-6 text-white border-b border-white/20 pb-2 inline-block" data-i18n="contact_wines">Vinhos</h4>
+                    <p class="font-bold">Daniel Santos</p>
+                    <a href="mailto:dsantos@arrepiadovelho.com" class="block text-sand/70 hover:text-white text-sm mt-1">dsantos@arrepiadovelho.com</a>
+                    <a href="tel:+351913625489" class="block text-sand/70 hover:text-white text-sm mt-1">+351 913 625 489</a>
+                    <p class="text-[10px] text-white/30 mt-2 leading-tight" data-i18n="contact_call_cost">Chamada para rede móvel nacional</p>
+                </div>
+
+                <!-- Enoturismo -->
+                <div>
+                    <h4 class="font-serif text-xl mb-6 text-white border-b border-white/20 pb-2 inline-block" data-i18n="contact_tourism">Enoturismo</h4>
+                    <p class="font-bold">Ana Antunes</p>
+                    <a href="mailto:aantunes@arrepiadovelho.com" class="block text-sand/70 hover:text-white text-sm mt-1">aantunes@arrepiadovelho.com</a>
+                    <a href="tel:+351913366486" class="block text-sand/70 hover:text-white text-sm mt-1">+351 913 366 486</a>
+                    <p class="text-[10px] text-white/30 mt-2 leading-tight" data-i18n="contact_call_cost">Chamada para rede móvel nacional</p>
+                </div>
+
+                <!-- Informação -->
+                <div>
+                    <h4 class="font-serif text-xl mb-6 text-white border-b border-white/20 pb-2 inline-block" data-i18n="contact_info">Informação</h4>
+                    <p class="font-bold">Claudia Perdiz</p>
+                    <a href="mailto:acperdiz@arrepiadovelho.com" class="block text-sand/70 hover:text-white text-sm mt-1">acperdiz@arrepiadovelho.com</a>
+                    <a href="tel:+351969592343" class="block text-sand/70 hover:text-white text-sm mt-1">+351 969 592 343</a>
+                    <p class="text-[10px] text-white/30 mt-2 leading-tight" data-i18n="contact_call_cost">Chamada para rede móvel nacional</p>
+                </div>
+
+                <!-- Moradas -->
+                <div class="text-sm text-sand/80 font-light space-y-6">
+                    <div>
+                        <strong class="block text-white mb-1" data-i18n="address_winery">Adega | Winery</strong>
+                        <p>Apartado 23 EC Sousel</p>
+                        <p>7470-182 Sousel - Portugal</p>
+                    </div>
+                    <div>
+                        <strong class="block text-white mb-1" data-i18n="address_office">Escritório | Office</strong>
+                        <p>Av. Joaquim Oliveira e Silva</p>
+                        <p>Ed. Palmeiras I, loja 414</p>
+                        <p>3885-415 Esmoriz - Portugal</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273443/18aabbf5-8915-45e0-b361-90410fc0e08a.png" alt="Cofinanciado" class="h-8 opacity-80">
+                    <p class="text-xs text-sand/40">&copy; 2024 Herdade do Arrepiado Velho.</p>
+                </div>
+                
+                <div class="flex items-center gap-6 text-xs uppercase tracking-widest text-sand/60">
+                    <button onclick="togglePrivacy()" class="hover:text-white" data-i18n="privacy_title">Política de Privacidade</button>
+                    <a href="https://www.livroreclamacoes.pt" target="_blank" class="hover:text-white" data-i18n="complaints_book">Livro de Reclamações</a>
+                    <div class="flex gap-4 ml-4">
+                        <i data-lucide="instagram" class="w-4 h-4 hover:text-white cursor-pointer"></i>
+                        <i data-lucide="facebook" class="w-4 h-4 hover:text-white cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        // --- TRANSLATIONS ---
+        const translations = {
+            pt: {
+                nav_about: "Sobre", nav_wines: "Vinhos", nav_tourism: "Enoturismo", nav_book: "Reservar", nav_contact: "Contactos",
+                hero_cta_wines: "Descobrir Vinhos", hero_cta_stay: "Country House",
+                about_since: "Desde 2001", about_title: "Vinha dos 100 Pontos",
+                about_text1: "No Alentejo, encontramos um paraíso, onde com toda a dedicação nascem vinhos únicos. A Herdade do Arrepiado Velho está localizada em Sousel, a cerca de 40 km de Portalegre.",
+                about_text2: "O monte alentejano do séc. XIX foi reconstruído de acordo com a arquitectura tradicional. Com 100 hectares, a barragem destaca-se entre vinhas e olival. Em 2002, 33 hectares de vinha foram plantados num terroir de solos xistosos e declives acentuados.",
+                about_quote: "Um projeto familiar fundado por Isabel e Manuel Antunes, com enologia de António Maçanita.",
+                wines_subtitle: "A Nossa Adega", wines_title: "Gamas & Edições",
+                filter_all: "Todos", filter_harvest: "Colheitas", filter_reserve: "Reservas", filter_special: "Edições Especiais",
+                btn_details: "Ver Detalhes",
+                tourism_subtitle: "Enoturismo",
+                tourism_title: "Arrepiado Country House",
+                tourism_intro: "Entre barragem e vinhas, numa paisagem tranquila de cortar a respiração.",
+                tourism_space_label: "O Espaço:", tourism_space_text: "Paisagem Alentejana Única, lugar muito calmo sem vizinhança. Casa de Arquitectura e decoração tradicional alentejana, muito confortável e acolhedora.",
+                tourism_access_label: "Acesso:", tourism_access_text: "Piscina, sala de estar com internet e TV, acesso à adega.",
+                tourism_exp_label: "Experiências:", tourism_exp_text: "Provas vínicas, almoços/jantares vínicos com os anfitriões, Stand Up Paddle.",
+                tourism_pets: "Receção calorosa pelos nossos Labradores.",
+                btn_book_stay: "Reservar Estadia",
+                contact_wines: "Vinhos", contact_tourism: "Enoturismo", contact_info: "Informação", contact_call_cost: "Chamada para rede móvel nacional",
+                address_winery: "Adega | Winery", address_office: "Escritório | Office",
+                privacy_title: "Política de Privacidade", complaints_book: "Livro de Reclamações",
+                modal_grapes: "Castas", modal_tasting: "Nota de Prova", modal_alcohol: "Álcool", modal_aging: "Estágio", modal_pairing: "Harmonização"
+            },
+            en: {
+                nav_about: "About", nav_wines: "Wines", nav_tourism: "Tourism", nav_book: "Book Now", nav_contact: "Contact",
+                hero_cta_wines: "Discover Wines", hero_cta_stay: "Country House",
+                about_since: "Since 2001", about_title: "The 100-Point Vineyard",
+                about_text1: "In Alentejo, we found a paradise where unique wines are born with total dedication. Herdade do Arrepiado Velho is located in Sousel, about 40 km from Portalegre.",
+                about_text2: "The 19th-century Alentejo mound was rebuilt according to traditional architecture. With 100 hectares, the dam stands out among vineyards and olive groves. In 2002, 33 hectares of vineyards were planted on a terroir of schist soils and steep slopes.",
+                about_quote: "A family project founded by Isabel and Manuel Antunes, with winemaking by António Maçanita.",
+                wines_subtitle: "Our Winery", wines_title: "Ranges & Editions",
+                filter_all: "All", filter_harvest: "Harvests", filter_reserve: "Reserves", filter_special: "Special Editions",
+                btn_details: "View Details",
+                tourism_subtitle: "Wine Tourism",
+                tourism_title: "Arrepiado Country House",
+                tourism_intro: "Between dam and vineyards, in a breathtakingly quiet landscape.",
+                tourism_space_label: "The Space:", tourism_space_text: "Unique Alentejo Landscape, very calm place without neighbors. Traditional Alentejo architecture and decoration, very comfortable and cozy.",
+                tourism_access_label: "Access:", tourism_access_text: "Pool, living room with internet and TV, access to the winery.",
+                tourism_exp_label: "Experiences:", tourism_exp_text: "Wine tastings, wine lunches/dinners with hosts, Stand Up Paddle.",
+                tourism_pets: "Warm welcome by our Labradors.",
+                btn_book_stay: "Book Stay",
+                contact_wines: "Wines", contact_tourism: "Tourism", contact_info: "Information", contact_call_cost: "Call to national mobile network",
+                address_winery: "Adega | Winery", address_office: "Escritório | Office",
+                privacy_title: "Privacy Policy", complaints_book: "Complaints Book",
+                modal_grapes: "Grapes", modal_tasting: "Tasting Notes", modal_alcohol: "Alcohol", modal_aging: "Aging", modal_pairing: "Pairing"
+            }
+        };
+
+        let currentLang = 'pt';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update UI Text
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key]; // Using innerHTML to keep strong tags if any
+                }
+            });
+
+            // Update Buttons Opacity
+            document.getElementById('btn-pt').classList.toggle('opacity-50', lang !== 'pt');
+            document.getElementById('btn-pt').classList.toggle('opacity-100', lang === 'pt');
+            document.getElementById('btn-en').classList.toggle('opacity-50', lang !== 'en');
+            document.getElementById('btn-en').classList.toggle('opacity-100', lang === 'en');
+
+            // Re-render Wines to update their text
+            renderWines(document.querySelector('.filter-btn.active').dataset.filter);
+        }
+
+        // --- DATA: WINES ---
+        const wines = [
+            // Colheitas (Harvests)
+            {
+                id: 1, category: "Colheita", 
+                name: "Herdade Arrepiado Velho Tinto", 
+                type: "Tinto", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273123/hav_red_1200-800x800_brkyr3.jpg",
+                grapes: "100% Touriga Nacional", alcohol: "14%", 
+                aging: "Parcial barrica carvalho francês", aging_en: "Partial French oak barrels",
+                tasting: "Cor violeta concentrado, nariz intenso, floral com notas de frutos pretos. Ataque cheio, encorpado, com taninos redondos.",
+                tasting_en: "Concentrated violet color, intense nose, floral with black fruit notes. Full attack, bodied, with round tannins.",
+                pairing: "Pratos de caça ou carnes vermelhas bem temperadas.", pairing_en: "Game dishes or well-seasoned red meats.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 7, category: "Colheita",
+                name: "Herdade Arrepiado Branco", 
+                type: "Branco", type_en: "White",
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273125/hav_white_1200-800x800_l4utnb.jpg",
+                grapes: "80% Antão Vaz, 20% Verdelho", alcohol: "13%", 
+                aging: "Inox", aging_en: "Stainless Steel",
+                tasting: "Fresco, ananás, mineral. Corpo untuoso e final persistente.",
+                tasting_en: "Fresh, pineapple, mineral. Unctuous body and persistent finish.",
+                pairing: "Peixe grelhado, pratos simples.", pairing_en: "Grilled fish, simple dishes.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 12, category: "Colheita",
+                name: "Herdade Arrepiado Rosé", 
+                type: "Rosé", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273133/hav_rose2__1200-800x800_icdzae.jpg",
+                grapes: "80% Petit Verdot, 20% Touriga Nacional", alcohol: "12%", 
+                aging: "Inox", aging_en: "Stainless Steel",
+                tasting: "Delicado, aromas florais e frutos negros maduros.",
+                tasting_en: "Delicate, floral aromas and ripe black fruits.",
+                pairing: "Sushi, saladas, massa.", pairing_en: "Sushi, salads, pasta.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+
+            // White Series
+            {
+                id: 9, category: "White Series",
+                name: "Riesling", 
+                type: "Branco", type_en: "White",
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273250/riesling__1200-800x800_jz0wgh.jpg",
+                grapes: "100% Riesling", alcohol: "12,5%", 
+                aging: "Inox", aging_en: "Stainless Steel",
+                tasting: "Toranja fresca com toque mineral. Textura rica e boa persistência.",
+                tasting_en: "Fresh grapefruit with mineral touch. Rich texture and good persistence.",
+                pairing: "Fumados, peixes assados, marisco.", pairing_en: "Smoked dishes, roasted fish, seafood.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 10, category: "White Series",
+                name: "Viognier", 
+                type: "Branco", type_en: "White",
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273257/viogner_1200-800x800_pjxn7t.jpg",
+                grapes: "100% Viognier", alcohol: "13,5%", 
+                aging: "Inox", aging_en: "Stainless Steel",
+                tasting: "Alperce, citrinos e especiarias. Boca generosa e rica.",
+                tasting_en: "Apricot, citrus and spices. Generous and rich mouth.",
+                pairing: "Massa al dente, peixe grelhado.", pairing_en: "Al dente pasta, grilled fish.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 11, category: "White Series",
+                name: "Verdelho", 
+                type: "Branco", type_en: "White",
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273270/verdelho__1200-800x800_yrynwk.jpg",
+                grapes: "100% Verdelho", alcohol: "13,5%", 
+                aging: "Inox", aging_en: "Stainless Steel",
+                tasting: "Limão, folha de chá, ananás. Frescura e mineralidade.",
+                tasting_en: "Lemon, tea leaf, pineapple. Freshness and minerality.",
+                pairing: "Peixe grelhado, massa.", pairing_en: "Grilled fish, pasta.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+
+            // Reservas
+            {
+                id: 2, category: "Reserva",
+                name: "Arrepiado Collection Tinto", 
+                type: "Tinto", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273279/arrepiado_collection_tinto_1200-800x800_ci6mgt.jpg",
+                grapes: "65% Touriga Nacional, 15% Syrah, 10% Petit Verdot, 10% C.Sauvignon", alcohol: "15%", 
+                aging: "24 meses barricas carvalho francês", aging_en: "24 months French oak barrels",
+                tasting: "Violeta-ruby concentrado. Aromas de frutos pretos, balsâmico e tabaco. Encorpado, taninos redondos.",
+                tasting_en: "Concentrated violet-ruby. Black fruit aromas, balsamic and tobacco. Full-bodied, round tannins.",
+                pairing: "Carnes assadas, caça ou queijo Roquefort.", pairing_en: "Roasted meats, game or Roquefort cheese.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 8, category: "Reserva",
+                name: "Arrepiado Collection Branco", 
+                type: "Branco", type_en: "White",
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273281/arrepiado_collection_branco_1200-800x800_zkbowl.jpg",
+                grapes: "70% Antão Vaz, 15% Chardonnay, 15% Riesling", alcohol: "13%", 
+                aging: "12 meses barricas com battônage", aging_en: "12 months barrels with battonage",
+                tasting: "Nariz exuberante, especiarias, 'pain grillé'. Rico, textura presente.",
+                tasting_en: "Exuberant nose, spices, 'pain grillé'. Rich, present texture.",
+                pairing: "Peixe assado, pratos de carne, marisco.", pairing_en: "Roasted fish, meat dishes, seafood.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 3, category: "Reserva",
+                name: "Arrepiado Tradição Tinto", 
+                type: "Tinto", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273336/arrepiado_tradicao_tinto_1200-800x800_wl09yn.jpg",
+                grapes: "100% Touriga Nacional", alcohol: "15%", 
+                aging: "18 meses barricas novas", aging_en: "18 months new barrels",
+                tasting: "Vulcão no palato. Taninos frescos, notas intensas de baga vermelha e chocolate.",
+                tasting_en: "Volcano on the palate. Fresh tannins, intense notes of red berry and chocolate.",
+                pairing: "Carnes vermelhas, caça, queijo de Azeitão.", pairing_en: "Red meats, game, Azeitão cheese.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+
+            // Edições Especiais
+            {
+                id: 4, category: "Edição Especial",
+                name: "Brett Edition", 
+                type: "Tinto", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273349/brett-800x800_ztkhuk.jpg",
+                grapes: "100% Syrah", alcohol: "14,5%", 
+                aging: "16 meses carvalho francês", aging_en: "16 months French oak",
+                tasting: "Nariz exuberante, caixa de cigarro, couro, especiarias. Ataque redondo, suave e rico.",
+                tasting_en: "Exuberant nose, cigar box, leather, spices. Round attack, smooth and rich.",
+                pairing: "Grelhados, cordeiro, queijos fortes.", pairing_en: "Grilled dishes, lamb, strong cheeses.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 5, category: "Edição Especial",
+                name: "Petit Verdot Unoaked", 
+                type: "Tinto", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769297199/1bae787c-bb0b-4fb2-8169-6bb736878ef3.png",
+                grapes: "100% Petit Verdot", alcohol: "15%", 
+                aging: "Inox", aging_en: "Stainless Steel",
+                tasting: "Violeta escuro muito concentrado. Frutos negros frescos e tinta. Rusticidade e complexidade.",
+                tasting_en: "Very concentrated dark violet. Fresh black fruits and ink. Rusticity and complexity.",
+                pairing: "Grelhados, carnes vermelhas, queijos.", pairing_en: "Grilled dishes, red meats, cheeses.",
+                logistics: "6 garrafas/caixa", logistics_en: "6 bottles/box"
+            },
+            {
+                id: 6, category: "Edição Especial",
+                name: "Amma 2015", 
+                type: "Tinto", 
+                img: "https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769273352/cf156f51-3411-4ad2-89c3-5cea5ddba5b9.png",
+                grapes: "Cabernet Sauvignon, Petit Verdot", alcohol: "15,5%", 
+                aging: "24 meses barrica + 12 garrafa", aging_en: "24 months barrel + 12 bottle",
+                tasting: "Amoras e mirtilos esmagados, amêndoas tostadas. Taninos firmes e muito maduros. Final infinito.",
+                tasting_en: "Crushed blackberries and blueberries, toasted almonds. Firm and very ripe tannins. Infinite finish.",
+                pairing: "Caça caramelizada, queijos fortes.", pairing_en: "Caramelized game, strong cheeses.",
+                logistics: "Estojo de 1 garrafa", logistics_en: "1 bottle case"
+            }
+        ];
+
+        // --- RENDER FUNCTIONS ---
+        const grid = document.getElementById('wines-grid');
+
+        function renderWines(filter = 'all') {
+            grid.innerHTML = '';
+            
+            wines.forEach((wine, index) => {
+                if (filter === 'all' || wine.category === filter) {
+                    const card = document.createElement('div');
+                    card.className = `wine-card group cursor-pointer bg-[#1a1a1a] p-6 rounded-sm hover:bg-[#222] transition-colors duration-500`;
+                    
+                    // Determine text based on language
+                    const type = currentLang === 'en' && wine.type_en ? wine.type_en : wine.type;
+                    const grapes = wine.grapes; // Grapes usually same names
+                    const btnText = translations[currentLang].btn_details;
+
+                    card.innerHTML = `
+                        <div class="relative h-80 flex items-center justify-center overflow-hidden mb-4">
+                            <img src="${wine.img}" alt="${wine.name}" class="wine-img h-full object-contain">
+                        </div>
+                        <div class="text-center">
+                            <span class="text-xs text-wine-light uppercase tracking-widest font-bold block mb-2">${type}</span>
+                            <h3 class="text-xl font-serif text-white mb-2 leading-tight">${wine.name}</h3>
+                            <p class="text-xs text-gray-400 font-light truncate">${grapes}</p>
+                            <button onclick="openModal(${wine.id})" class="mt-4 text-[10px] uppercase tracking-[0.2em] text-white border-b border-white/20 pb-1 hover:border-white transition-colors">
+                                ${btnText}
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                    
+                    // Animate In
+                    gsap.fromTo(card, {y: 30, opacity:0}, {y:0, opacity:1, duration: 0.5, delay: index * 0.05});
+                }
+            });
+        }
+
+        function filterWines(category) {
+            // Update Active Button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.classList.add('active');
+                    btn.classList.remove('text-gray-500');
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.add('text-gray-500');
+                }
+            });
+            renderWines(category);
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(id) {
+            const wine = wines.find(w => w.id === id);
+            if(!wine) return;
+
+            // Get translated values
+            const type = currentLang === 'en' && wine.type_en ? wine.type_en : wine.type;
+            const tasting = currentLang === 'en' && wine.tasting_en ? wine.tasting_en : wine.tasting;
+            const aging = currentLang === 'en' && wine.aging_en ? wine.aging_en : wine.aging;
+            const pairing = currentLang === 'en' && wine.pairing_en ? wine.pairing_en : wine.pairing;
+            const logistics = currentLang === 'en' && wine.logistics_en ? wine.logistics_en : wine.logistics;
+
+            document.getElementById('modal-img').src = wine.img;
+            document.getElementById('modal-type').textContent = type;
+            document.getElementById('modal-title').textContent = wine.name;
+            document.getElementById('modal-grapes').textContent = wine.grapes;
+            document.getElementById('modal-tasting').textContent = tasting;
+            document.getElementById('modal-alcohol').textContent = wine.alcohol;
+            document.getElementById('modal-aging').textContent = aging;
+            document.getElementById('modal-pairing').textContent = pairing;
+            document.getElementById('modal-logistics').textContent = `Logística: ${logistics}`;
+
+            const modal = document.getElementById('wine-modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('wine-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Privacy Modal
+        function togglePrivacy() {
+            const modal = document.getElementById('privacy-modal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const wineModal = document.getElementById('wine-modal');
+            const privacyModal = document.getElementById('privacy-modal');
+            if (event.target == wineModal) closeModal();
+            if (event.target == privacyModal) togglePrivacy();
+        }
+
+        // --- INIT ---
+        lucide.createIcons();
+        renderWines(); // Initial Render with default filter (all) and default lang (pt)
+
+        // Animations Setup
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            // Register ScrollTrigger immediately here (safe)
+            gsap.registerPlugin(ScrollTrigger);
+
+            tl.to("#loader-logo", { opacity: 1, duration: 0.8, y: -10 })
+              .to("#loader-bar", { x: "0%", duration: 1 })
+              .to("#loader", { yPercent: -100, duration: 0.8, ease: "power4.inOut" })
+              .from(".reveal-text", { y: 50, opacity: 0, duration: 1, stagger: 0.1 }, "-=0.5")
+              .add(() => {
+                  // Re-calculate ScrollTrigger positions after loader and images are ready
+                  ScrollTrigger.refresh();
+              });
+
+            // Scroll Reveal Setup - Modified for safety
+            gsap.utils.toArray('.gs-reveal').forEach(el => {
+                // Remove opacity 0 from here if you want it visible by default if JS breaks,
+                // but setting it via GSAP immediately is standard.
+                gsap.fromTo(el, { y: 50, opacity: 0 }, {
+                    scrollTrigger: { trigger: el, start: "top 90%" }, // Trigger earlier (90%)
+                    y: 0, opacity: 1, duration: 1
+                });
+            });
+        });
+
+        // Lenis
+        if (typeof Lenis !== 'undefined') {
+            const lenis = new Lenis({ duration: 1.2, smooth: true });
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+            
+            // Connect Lenis to ScrollTrigger
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time)=>{
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        // Navbar Scroll
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-wine-dark/95', 'backdrop-blur-md', 'py-2', 'shadow-lg');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.remove('bg-wine-dark/95', 'backdrop-blur-md', 'py-2', 'shadow-lg');
+                nav.classList.add('py-4');
+            }
+        });
+        
+        // Mobile Menu
+        document.getElementById('mobile-menu-btn').onclick = () => {
+            document.getElementById('mobile-menu').classList.remove('translate-x-full');
+        };
+        document.getElementById('close-menu-btn').onclick = () => {
+            document.getElementById('mobile-menu').classList.add('translate-x-full');
+        };
+
+    </script>
+</body>
+</html>
