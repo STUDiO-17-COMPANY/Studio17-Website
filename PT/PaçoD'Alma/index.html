@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paço D'Alma | Restaurante Contemporâneo em Tomar</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1a1a1a',
+                            green: '#2C3E30', /* Deep Olive */
+                            gold: '#C5A059',
+                            cream: '#F5F0E6',
+                            gray: '#8C8C8C'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"DM Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F5F0E6;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Lenis Required Styles */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        /* Utility */
+        .image-wrapper {
+            overflow: hidden;
+        }
+        
+        .image-parallax {
+            height: 120%;
+            width: 100%;
+            object-fit: cover;
+            transform-origin: center;
+        }
+
+        /* Navigation Transition */
+        nav {
+            transition: background-color 0.4s ease, padding 0.4s ease;
+        }
+        
+        nav.scrolled {
+            background-color: rgba(245, 240, 230, 0.98);
+            backdrop-filter: blur(10px);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Modal Styles */
+        #imageModal {
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        #imageModal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #imageModal:not(.hidden) {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Custom Scrollbar for Modal to make it visible but pretty */
+        #modalScrollContainer::-webkit-scrollbar {
+            width: 8px;
+        }
+        #modalScrollContainer::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        #modalScrollContainer::-webkit-scrollbar-thumb {
+            background: #C5A059;
+            border-radius: 4px;
+        }
+        #modalScrollContainer {
+            scrollbar-color: #C5A059 #1a1a1a;
+            scrollbar-width: thin;
+        }
+
+        /* Hide scrollbar in feedback carousel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-green selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 px-6 py-4 flex justify-between items-center text-brand-dark transition-all duration-300">
+        <div class="w-16 h-16 md:w-20 md:h-20 overflow-hidden rounded-full border-2 border-brand-gold/20 bg-white shadow-sm flex items-center justify-center">
+            <!-- Logo Image -->
+            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470652/490803997_543325028818667_8218167233877368846_n_ux2vvx.jpg" 
+                 alt="Paço D'Alma Logo" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium text-brand-dark/80 bg-white/50 px-8 py-3 rounded-full backdrop-blur-sm border border-brand-gold/10">
+            <a href="#chef" class="hover:text-brand-gold transition-colors">Sobre</a>
+            <a href="#menu" class="hover:text-brand-gold transition-colors">Pratos</a>
+            <a href="#ementas" class="hover:text-brand-gold transition-colors">Ementas</a>
+            <a href="#space" class="hover:text-brand-gold transition-colors">Espaço</a>
+            <a href="#reservas" class="hover:text-brand-gold transition-colors">Contactos</a>
+        </div>
+        
+        <a href="#reservas" class="bg-brand-green text-white px-6 py-3 rounded-sm text-xs uppercase tracking-widest hover:bg-brand-gold transition-colors duration-300 shadow-lg">
+            Reservar
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- Background Image: Sala com vista -->
+            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470876/612d0ec3-10eb-47d0-bdf9-b93e179cb00d.png" 
+                 alt="Paço D'Alma Sala com Vista" 
+                 class="w-full h-full object-cover opacity-90 scale-105" id="hero-bg">
+            <div class="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
+        </div>
+
+        <div class="relative z-10 text-center text-white px-4 max-w-5xl mx-auto mt-16">
+            <p class="hero-sub text-sm md:text-base tracking-[0.3em] uppercase mb-4 opacity-0 translate-y-4">Tomar, Portugal</p>
+            <h1 class="hero-title font-serif text-5xl md:text-7xl lg:text-9xl mb-6 leading-tight opacity-0 translate-y-8 tracking-tight">
+                Paço D'Alma
+            </h1>
+            <p class="hero-desc font-light text-lg md:text-xl max-w-lg mx-auto mb-10 text-white/90 opacity-0 translate-y-4 border-l-2 border-brand-gold pl-6 text-left md:text-center md:border-l-0 md:border-b-2 md:pb-4 md:pl-0">
+                Uma interpretação contemporânea da cozinha portuguesa, onde a vista sobre Tomar encontra o sabor da tradição reinventada.
+            </p>
+            <div class="hero-btn opacity-0 translate-y-4 flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#menu" class="bg-white text-brand-green px-8 py-4 text-xs uppercase tracking-widest hover:bg-brand-gold hover:text-white transition-all duration-300 font-semibold">
+                    Descobrir a Cozinha
+                </a>
+                <a href="#ementas" class="border border-white/40 px-8 py-4 text-xs uppercase tracking-widest hover:bg-white hover:text-brand-green transition-all duration-300 backdrop-blur-sm">
+                    Ver Ementas
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70">
+            <span class="text-[10px] uppercase tracking-widest mb-2 text-white">Scroll</span>
+            <div class="w-[1px] h-12 bg-white/50 overflow-hidden">
+                <div class="w-full h-full bg-white animate-pulseslide"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introduction / Philosophy Section -->
+    <section id="chef" class="py-24 md:py-32 px-6 md:px-12 bg-brand-cream relative">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row gap-12 md:gap-24 items-center">
+                
+                <!-- Text Content -->
+                <div class="md:w-1/2 order-2 md:order-1 gs_reveal">
+                    <div class="w-12 h-[1px] bg-brand-gold mb-6"></div>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-green mb-8 leading-tight">
+                        História & <br>Modernidade
+                    </h2>
+                    <p class="text-brand-dark/70 mb-6 leading-relaxed font-light text-lg">
+                        Localizado na icónica rua dos Voluntários da República, o Paço D'Alma é mais do que um restaurante; é um ponto de encontro entre o passado histórico de Tomar e o futuro da gastronomia.
+                    </p>
+                    <p class="text-brand-dark/70 mb-8 leading-relaxed font-light">
+                        Com uma equipa dedicada e um ambiente familiar, convidamo-lo a desfrutar de momentos únicos, seja num almoço executivo, num jantar intimista ou num evento de grupo, sempre com a nossa assinatura de qualidade.
+                    </p>
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470905/f224a277-c66e-4ae4-8a6a-157403387f74.png" alt="Detalhe interior" class="w-full h-48 object-cover rounded-sm shadow-sm mt-4 md:hidden">
+                </div>
+
+                <!-- Image: Intro Image -->
+                <div class="md:w-1/2 order-1 md:order-2 w-full h-[500px] md:h-[650px] image-wrapper relative group gs_reveal shadow-xl">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471160/5f5469cf-0c9f-4259-8bd6-e8422de8d44c.png" 
+                         alt="Paço D'Alma Ambiente" 
+                         class="image-parallax absolute top-0 left-0 w-full h-full object-cover transition-all duration-700">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu / Signature Dishes (Photos) -->
+    <section id="menu" class="py-24 bg-brand-green text-brand-cream relative overflow-hidden">
+        <!-- Decorative -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gs_reveal">
+                <div>
+                    <span class="text-brand-gold text-xs uppercase tracking-widest block mb-4">A Nossa Cozinha</span>
+                    <h2 class="font-serif text-4xl md:text-5xl">Pratos de Assinatura</h2>
+                </div>
+                <p class="md:max-w-md font-light text-white/60 mt-4 md:mt-0 text-right">
+                    Ingredientes frescos, apresentação cuidada e sabores que confortam a alma.
+                </p>
+            </div>
+
+            <!-- Dishes Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Dish 1 -->
+                <div class="group cursor-pointer gs_reveal">
+                    <div class="h-80 overflow-hidden mb-4 relative rounded-sm">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470966/faeae6b7-da8e-4828-bef8-85ef7195e1b7.png" 
+                             alt="Prato Assinatura 1" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out">
+                    </div>
+                </div>
+
+                <!-- Dish 2 -->
+                <div class="group cursor-pointer gs_reveal" style="transition-delay: 0.1s;">
+                    <div class="h-80 overflow-hidden mb-4 relative rounded-sm">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470979/9e72f413-4f5d-4195-8839-91be552655f1.png" 
+                             alt="Prato Assinatura 2" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out">
+                    </div>
+                </div>
+
+                <!-- Dish 3 -->
+                <div class="group cursor-pointer gs_reveal" style="transition-delay: 0.2s;">
+                    <div class="h-80 overflow-hidden mb-4 relative rounded-sm">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470983/d855c430-557b-4d72-b743-ec0582be5a79.png" 
+                             alt="Prato Assinatura 3" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out">
+                    </div>
+                </div>
+
+                <!-- Dish 4 -->
+                <div class="group cursor-pointer gs_reveal" style="transition-delay: 0.3s;">
+                    <div class="h-80 overflow-hidden mb-4 relative rounded-sm">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471021/56d13e2c-05c5-44fe-a43a-25811954ef77.png" 
+                             alt="Prato Assinatura 4" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Menus Section (Interactive) -->
+    <section id="ementas" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 gs_reveal">
+                <span class="text-brand-green text-xs uppercase tracking-widest block mb-4">Consulte as Nossas Cartas</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-dark">Ementas Completas</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Executivo -->
+                <button onclick="openModal(['https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470754/40257ad8-8959-4f08-a117-33b5c6ffaf6e.png'])" 
+                        class="group relative h-64 overflow-hidden rounded-sm gs_reveal block text-left w-full shadow-lg">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470754/40257ad8-8959-4f08-a117-33b5c6ffaf6e.png" 
+                         class="absolute inset-0 w-full h-full object-top object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-50 group-hover:brightness-75">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-serif text-2xl mb-1">Menu Executivo</h3>
+                        <span class="text-brand-gold text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">Ver Menu</span>
+                    </div>
+                </button>
+
+                <!-- Comida (Multiple Pages) -->
+                <button onclick="openModal([
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471277/7cdaaa7f-c6a0-4dff-9e9d-7fa715a2f4c7.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471302/8c60e841-7028-4ae3-8344-7715d99d80fc.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471311/9be4d001-49c8-4502-857f-6b93e8a25e85.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471314/61f6d42a-e6d6-4c96-baad-60a1a8fe4c9a.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471328/b57edf72-1f78-4f00-a77a-14b5ca2ad519.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471342/1b3ec828-6ca4-4d6a-b577-e15de27e83e2.png'
+                ])" class="group relative h-64 overflow-hidden rounded-sm gs_reveal block text-left w-full shadow-lg">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471311/9be4d001-49c8-4502-857f-6b93e8a25e85.png" 
+                         class="absolute inset-0 w-full h-full object-top object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-50 group-hover:brightness-75">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-serif text-2xl mb-1">Carta de Comida</h3>
+                        <span class="text-brand-gold text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">Ver Carta (6 Páginas)</span>
+                    </div>
+                </button>
+
+                <!-- Vinhos (Multiple Pages) -->
+                <button onclick="openModal([
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471421/75a571ce-56c4-43fb-a0e8-8ca66e05187c.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471434/b3196313-5ef7-4ae5-8218-3bfed7edf201.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471449/59d923dd-10c1-47b6-938e-70f418dc9356.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471475/065500dd-6701-4bd0-a1ce-ddc17d3a95d5.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471495/c0de2165-cd6f-493b-8a75-2adeb677202f.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471499/17a75a9f-f884-469f-8957-f9dca70b4ba7.png'
+                ])" class="group relative h-64 overflow-hidden rounded-sm gs_reveal block text-left w-full shadow-lg">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471434/b3196313-5ef7-4ae5-8218-3bfed7edf201.png" 
+                         class="absolute inset-0 w-full h-full object-top object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-50 group-hover:brightness-75">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-serif text-2xl mb-1">Vinhos & Bebidas</h3>
+                        <span class="text-brand-gold text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">Ver Vinhos</span>
+                    </div>
+                </button>
+
+                <!-- Grupos -->
+                <button onclick="openModal([
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471228/3ee662c7-b510-478f-b4db-d972733f1a17.png',
+                    'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471196/68f10d0e-3f0a-4e99-815b-f93f9430d4f9.png'
+                ])" class="group relative h-64 overflow-hidden rounded-sm gs_reveal block text-left w-full shadow-lg">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471228/3ee662c7-b510-478f-b4db-d972733f1a17.png" 
+                         class="absolute inset-0 w-full h-full object-top object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-50 group-hover:brightness-75">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-serif text-2xl mb-1">Menus de Grupo</h3>
+                        <span class="text-brand-gold text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">Festas & Eventos</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Space / Atmosphere -->
+    <section id="space" class="relative py-32 bg-brand-cream">
+        <div class="container mx-auto px-6">
+            
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <!-- Using the second space image -->
+                <div class="lg:w-7/12 relative h-[500px] w-full image-wrapper gs_reveal shadow-xl">
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769470905/f224a277-c66e-4ae4-8a6a-157403387f74.png" 
+                         alt="Interior Sala de Jantar" 
+                         class="image-parallax absolute inset-0 w-full h-full object-cover">
+                </div>
+                
+                <div class="lg:w-5/12 gs_reveal">
+                    <span class="text-brand-green text-xs uppercase tracking-widest block mb-4">O Espaço</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6">Ambiente Envolvente</h2>
+                    <p class="text-brand-dark/70 mb-6 font-light leading-relaxed">
+                        Design moderno e acolhedor, ideal para quem procura tranquilidade no centro da cidade. A nossa sala oferece vistas privilegiadas, criando o cenário perfeito para a sua refeição.
+                    </p>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-serif text-xl mb-6 text-brand-green">O que dizem os nossos clientes:</h4>
+                        <!-- Feedbacks agora aumentados e clicáveis -->
+                        <div class="flex gap-4 overflow-x-auto pb-6 no-scrollbar snap-x">
+                            <button onclick="openModal(['https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471618/227cb223-b6e6-4cf3-ba04-3f823a3d7240.png'])" 
+                                    class="flex-shrink-0 snap-start transform hover:scale-105 transition-transform duration-300">
+                                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471618/227cb223-b6e6-4cf3-ba04-3f823a3d7240.png" class="h-48 rounded shadow-md border border-brand-gold/10">
+                            </button>
+                            <button onclick="openModal(['https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471622/79b85b28-2642-4119-9ee5-501c25b4729e.png'])" 
+                                    class="flex-shrink-0 snap-start transform hover:scale-105 transition-transform duration-300">
+                                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471622/79b85b28-2642-4119-9ee5-501c25b4729e.png" class="h-48 rounded shadow-md border border-brand-gold/10">
+                            </button>
+                            <button onclick="openModal(['https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471702/9e9bb73d-0e0f-43a6-ae50-2e701ab8c9e4.png'])" 
+                                    class="flex-shrink-0 snap-start transform hover:scale-105 transition-transform duration-300">
+                                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471702/9e9bb73d-0e0f-43a6-ae50-2e701ab8c9e4.png" class="h-48 rounded shadow-md border border-brand-gold/10">
+                            </button>
+                            <button onclick="openModal(['https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471742/967ce648-fa99-49da-a2e7-d54d96d92c81.png'])" 
+                                    class="flex-shrink-0 snap-start transform hover:scale-105 transition-transform duration-300">
+                                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471742/967ce648-fa99-49da-a2e7-d54d96d92c81.png" class="h-48 rounded shadow-md border border-brand-gold/10">
+                            </button>
+                        </div>
+                        <p class="text-xs text-brand-gray mt-2 italic">Clique nas avaliações para ampliar.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reservations & Footer -->
+    <section id="reservas" class="bg-brand-dark text-brand-cream py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                
+                <!-- Booking & Contact Info -->
+                <div class="gs_reveal">
+                    <h2 class="font-serif text-4xl md:text-6xl mb-8 text-white">Contactos</h2>
+                    <p class="text-white/60 mb-12 font-light max-w-md">
+                        Recomendamos reserva antecipada. Estamos à sua espera no centro de Tomar.
+                    </p>
+
+                    <div class="space-y-8 mb-12">
+                        <!-- Address & Phone -->
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-start">
+                                <span class="text-brand-gold w-6 mt-1 text-lg">📍</span>
+                                <div>
+                                    <p class="text-white text-lg">Voluntários da República N° 154</p>
+                                    <p class="text-white/50 text-sm">2300 Tomar, Portugal</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-brand-gold w-6 text-lg">📞</span>
+                                <a href="tel:249159566" class="text-white text-lg hover:text-brand-gold transition-colors">249 159 566</a>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-brand-gold w-6 text-lg">✉️</span>
+                                <a href="mailto:pacodalma25@gmail.com" class="text-white/80 hover:text-brand-gold transition-colors">pacodalma25@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Schedule Image Display -->
+                        <div class="border-t border-white/10 pt-8">
+                            <h4 class="uppercase text-xs tracking-widest text-brand-gold mb-4">Horário de Funcionamento</h4>
+                            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769471114/410f7156-13ca-48dc-a62a-ed22c362beac.png" 
+                                 alt="Horário Paço D'Alma" 
+                                 class="w-full max-w-sm rounded opacity-90 hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+
+                    <!-- Social Media Buttons -->
+                     <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/pacodalma/" target="_blank" class="border border-white/20 px-6 py-3 rounded-full hover:bg-white hover:text-brand-dark transition-all flex items-center gap-2">
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61574482097502" target="_blank" class="border border-white/20 px-6 py-3 rounded-full hover:bg-white hover:text-brand-dark transition-all flex items-center gap-2">
+                            <span>Facebook</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="w-full h-[500px] relative border border-white/10 gs_reveal rounded-sm overflow-hidden group">
+                    <!-- Updated Map Image -->
+                    <a href="https://maps.app.goo.gl/QxunimCZHgEZX12JA" target="_blank" class="block w-full h-full relative">
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769472081/f75a2135-8bc3-499f-8726-7f946ca627aa.png" 
+                             class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-60 transition-all duration-500">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-all">
+                            <div class="bg-white text-brand-dark px-6 py-4 rounded shadow-lg transform group-hover:scale-105 transition-transform text-center">
+                                <p class="font-serif text-lg mb-1">Ver no Mapa</p>
+                                <p class="text-xs uppercase tracking-widest text-brand-gray">Google Maps</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/10 mt-24 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/30 uppercase tracking-wider">
+                <p>&copy; 2026 Paço D'Alma. Todos os direitos reservados.</p>
+                <p class="mt-2 md:mt-0">Tomar, Portugal</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal (Improved) -->
+    <div id="imageModal" class="fixed inset-0 z-[1000] bg-black/95 hidden">
+        <!-- Close button fixed at top right with better visibility -->
+        <button onclick="closeModal()" class="fixed top-6 right-6 text-white hover:text-brand-gold z-[1010] p-3 bg-brand-dark/80 rounded-full shadow-lg border border-white/10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <!-- Scrollable container taking full height -->
+        <div class="h-full w-full overflow-y-auto" id="modalScrollContainer">
+            <div class="flex flex-col items-center gap-6 py-12 px-4 md:px-12 pb-32" id="modalContent">
+                <!-- Hint text and Images will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Define global variables first to prevent hoisting errors
+        let lenis;
+        
+        // Modal functions - Define in global scope so onclick HTML attributes can find them
+        function openModal(imageUrls) {
+            const modal = document.getElementById('imageModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            if (!modal || !modalContent) {
+                console.error("Modal elements not found");
+                return;
+            }
+
+            modalContent.innerHTML = ''; // Clear previous
+            
+            // Add scroll hint if multiple pages
+            if (imageUrls.length > 1) {
+                const hint = document.createElement('div');
+                hint.className = 'text-white/60 text-sm uppercase tracking-widest mb-2 animate-pulse flex flex-col items-center';
+                hint.innerHTML = '<span>Deslize para ver mais páginas</span><span class="text-lg mt-1">↓</span>';
+                modalContent.appendChild(hint);
+            }
+
+            imageUrls.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                // Full width, auto height, no max-height restriction
+                img.className = "w-full max-w-3xl h-auto shadow-2xl rounded-sm mb-4 border border-white/5"; 
+                modalContent.appendChild(img);
+            });
+            modal.classList.remove('hidden');
+            
+            if (lenis) lenis.stop(); // Stop website scrolling if lenis is active
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) modal.classList.add('hidden');
+            
+            if (lenis) lenis.start(); // Resume website scrolling
+            document.body.style.overflow = '';
+        }
+
+        // Initialize everything when DOM is ready
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // 1. Initialize Lenis (Smooth Scroll)
+            try {
+                if (typeof Lenis !== 'undefined') {
+                    lenis = new Lenis({
+                        duration: 1.2,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+                        direction: 'vertical',
+                        gestureDirection: 'vertical',
+                        smooth: true,
+                        mouseMultiplier: 1,
+                        touchMultiplier: 2,
+                    });
+
+                    function raf(time) {
+                        lenis.raf(time);
+                        requestAnimationFrame(raf);
+                    }
+                    requestAnimationFrame(raf);
+                } else {
+                    console.warn("Lenis not loaded");
+                }
+            } catch (e) {
+                console.error("Lenis initialization failed", e);
+            }
+
+            // 2. GSAP Animations (Wrapped in try/catch)
+            try {
+                if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    // Navbar Transition
+                    const nav = document.querySelector('nav');
+                    window.addEventListener('scroll', () => {
+                        if (window.scrollY > 50) {
+                            nav.classList.add('scrolled');
+                        } else {
+                            nav.classList.remove('scrolled');
+                        }
+                    });
+
+                    // Hero Animations
+                    const tl = gsap.timeline();
+                    tl.to(".hero-sub", { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.2 })
+                      .to(".hero-title", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.7")
+                      .to(".hero-desc", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.7")
+                      .to(".hero-btn", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
+
+                    // Reveal Elements on Scroll
+                    const revealElements = document.querySelectorAll(".gs_reveal");
+                    revealElements.forEach((elem) => {
+                        gsap.fromTo(elem, 
+                            { y: 50, opacity: 0 },
+                            {
+                                y: 0, 
+                                opacity: 1, 
+                                duration: 1.0, 
+                                ease: "power3.out",
+                                scrollTrigger: {
+                                    trigger: elem,
+                                    start: "top 90%",
+                                    toggleActions: "play none none reverse"
+                                }
+                            }
+                        );
+                    });
+
+                    // Parallax Effect
+                    gsap.utils.toArray('.image-wrapper').forEach((wrapper) => {
+                        const img = wrapper.querySelector('.image-parallax');
+                        if (img) {
+                            gsap.to(img, {
+                                yPercent: 20, 
+                                ease: "none",
+                                scrollTrigger: {
+                                    trigger: wrapper,
+                                    start: "top bottom", 
+                                    end: "bottom top",
+                                    scrub: true
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    console.warn("GSAP or ScrollTrigger not loaded properly.");
+                    // Fallback: Show elements if GSAP fails
+                    document.querySelectorAll(".gs_reveal").forEach(el => {
+                        el.style.opacity = 1;
+                        el.style.transform = "none";
+                    });
+                    document.querySelectorAll(".hero-sub, .hero-title, .hero-desc, .hero-btn").forEach(el => {
+                        el.style.opacity = 1;
+                        el.style.transform = "none";
+                    });
+                }
+            } catch (e) {
+                console.error("GSAP Error:", e);
+                // Fallback in case of error
+                document.querySelectorAll(".gs_reveal").forEach(el => {
+                    el.style.opacity = 1;
+                    el.style.transform = "none";
+                });
+            }
+
+            // Modal Background Click Listener
+            const modalScrollContainer = document.getElementById('modalScrollContainer');
+            if (modalScrollContainer) {
+                modalScrollContainer.addEventListener('click', (e) => {
+                    if (e.target === modalScrollContainer || e.target.id === 'modalContent') {
+                        closeModal();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
