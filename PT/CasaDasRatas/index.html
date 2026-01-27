@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa das Ratas | Tomar</title>
+    <meta name="description" content="A tasca mais castiça de Tomar. Iscas, Maranhos e Fatias de Tomar no coração histórico.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:opsz,wght@9..40,300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tasca-dark': '#1c1917',
+                        'tasca-wood': '#451a03',
+                        'tasca-gold': '#d97706',
+                        'tasca-cream': '#f5f5dc',
+                    },
+                    fontFamily: {
+                        'serif': ['"Abril Fatface"', 'cursive'],
+                        'sans': ['"DM Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #1c1917;
+            color: #f5f5dc;
+        }
+        
+        /* Smooth Scroll */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(245, 245, 220, 0.2);
+            color: transparent;
+        }
+        
+        .clip-diagonal {
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        /* Modal Styles */
+        #menu-modal {
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: #d97706 #1c1917;
+        }
+
+        /* Custom Scrollbar for Modal */
+        #menu-modal::-webkit-scrollbar { width: 6px; }
+        #menu-modal::-webkit-scrollbar-track { background: #1c1917; }
+        #menu-modal::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
+
+        /* Gallery Styles */
+        .gallery-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .gallery-container::-webkit-scrollbar { display: none; }
+        .gallery-item {
+            flex: 0 0 80%;
+            scroll-snap-align: center;
+            margin-right: 1rem;
+        }
+        @media (min-width: 768px) {
+            .gallery-item { flex: 0 0 40%; }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-tasca-dark flex items-center justify-center">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-serif text-tasca-gold animate-pulse uppercase tracking-tighter">Casa das Ratas</h1>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-4 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="#" class="text-xl md:text-2xl font-serif text-tasca-cream drop-shadow-lg">Casa das Ratas</a>
+        <div class="flex items-center gap-4">
+            <button onclick="toggleMenuModal()" class="text-tasca-cream hover:text-tasca-gold text-sm uppercase tracking-widest font-bold hidden sm:block">Ementa</button>
+            <a href="#reservas" class="bg-tasca-gold text-tasca-dark px-5 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white transition-all">Reservar</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="relative h-[90vh] flex items-center justify-center overflow-hidden clip-diagonal">
+        <div class="absolute inset-0 z-0">
+            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769555196/c12a12c6-7eba-47a1-9be8-6d385f6e4611.png" 
+                 class="w-full h-full object-cover opacity-60 scale-105" id="hero-bg">
+            <div class="absolute inset-0 bg-gradient-to-t from-tasca-dark via-transparent to-black/30"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <h1 class="text-6xl md:text-9xl font-serif leading-none text-tasca-cream mb-6 drop-shadow-2xl">
+                A Tasca <br> <span class="text-tasca-gold italic">Genuína</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-lg mx-auto font-light drop-shadow-md">
+                No centro histórico de Tomar, onde o tacho manda e a conversa não acaba.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="toggleMenuModal()" class="border-2 border-tasca-gold text-tasca-gold px-8 py-3 rounded-sm font-bold uppercase tracking-widest hover:bg-tasca-gold hover:text-white transition-all">Ver Ementa</button>
+                <a href="#reservas" class="bg-tasca-gold text-tasca-dark px-8 py-3 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all">Reservar Mesa</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTÓRIA -->
+    <section class="py-24 px-6 bg-tasca-dark overflow-hidden">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="reveal-text">
+                <h2 class="text-4xl md:text-6xl font-serif mb-8">Tradição de Tacho</h2>
+                <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                    A **Casa das Ratas** é mais do que um restaurante; é um ponto de encontro histórico em Tomar. Famosa pelo ambiente castiço e pelas suas iguarias como as **Iscas** e os **Maranhos**.
+                </p>
+                <p class="text-gray-400 italic">"Entra-se para comer, fica-se para conviver."</p>
+            </div>
+            <div class="relative group reveal-image">
+                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769555081/5ef4dea7-6808-4dc6-aeef-1c7d4826b714.png" 
+                     class="rounded-lg shadow-2xl border border-white/10 group-hover:scale-[1.02] transition-transform duration-500" alt="Interior da Tasca">
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERIA MANUAL -->
+    <section class="py-20 bg-[#161412]">
+        <div class="max-w-7xl mx-auto px-6 mb-10 flex justify-between items-end">
+            <div>
+                <span class="text-tasca-gold uppercase tracking-[0.3em] text-xs font-bold">Galeria</span>
+                <h2 class="text-4xl font-serif mt-2">O nosso espaço</h2>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="scrollGallery(-1)" class="w-12 h-12 rounded-full border border-tasca-gold/30 flex items-center justify-center hover:bg-tasca-gold hover:text-white transition-all">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="scrollGallery(1)" class="w-12 h-12 rounded-full border border-tasca-gold/30 flex items-center justify-center hover:bg-tasca-gold hover:text-white transition-all">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="gallery-container px-6" id="gallery">
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554891/caption_vs9c3v.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Interior"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554883/caption_jw4cx5.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Pormenor"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554877/caption_jy55ik.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Ambiente"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554870/caption_lglcjv.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Comida"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554808/caption_wimxta.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Petiscos"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554533/caption_uzia3c.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Prato do dia"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554485/caption_duvdnm.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Especialidade"></div>
+            <div class="gallery-item"><img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769554976/caption_wa2gzk.jpg" class="w-full aspect-video object-cover rounded-lg" alt="Exterior"></div>
+        </div>
+    </section>
+
+    <!-- INFO & RESERVAS -->
+    <section id="reservas" class="py-24 px-6 bg-tasca-dark">
+        <div class="max-w-4xl mx-auto bg-[#231f1f] rounded-xl p-8 md:p-16 border border-white/10 text-center relative overflow-hidden shadow-2xl">
+            <h2 class="text-4xl font-serif mb-6">Estamos à tua espera</h2>
+            <p class="text-gray-400 mb-10 leading-relaxed">Recomendamos reserva, especialmente para o famoso **Cabrito** ao Sábado e o **Polvo** ao Domingo. <br> <span class="text-tasca-gold font-bold">Atenção:</span> Estamos abertos quase todos os dias para te servir!</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="p-6 bg-black/20 rounded-lg border border-white/5">
+                    <i class="fa-solid fa-phone text-tasca-gold mb-4 text-2xl"></i>
+                    <h3 class="font-bold mb-2">Reserva por Telefone</h3>
+                    <a href="tel:+351249312000" class="text-2xl font-serif text-white hover:text-tasca-gold transition-colors">+351 249 312 000</a>
+                </div>
+                <div class="p-6 bg-black/20 rounded-lg border border-white/5">
+                    <i class="fa-solid fa-clock text-tasca-gold mb-4 text-2xl"></i>
+                    <h3 class="font-bold mb-2 uppercase tracking-widest text-xs text-tasca-gold">Horário de Funcionamento</h3>
+                    <div class="mt-4 space-y-1 text-sm">
+                        <p class="text-tasca-cream">Quarta a Segunda: <span class="text-white font-bold">12:00-15:00 | 19:30-22:00</span></p>
+                        <p class="text-tasca-cream">Domingo: <span class="text-white font-bold">12:00-15:00</span></p>
+                        <p class="text-red-500 font-bold mt-2 uppercase tracking-tighter">Terça-Feira: Encerrado para descanso</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 text-tasca-gold hover:underline">
+                <i class="fa-solid fa-location-dot"></i>
+                Rua Dr. Joaquim Jacinto, Tomar
+            </a>
+        </div>
+    </section>
+
+    <!-- FULL MENU MODAL -->
+    <div id="menu-modal" class="fixed inset-0 z-[60] bg-tasca-dark overflow-y-auto p-6">
+        <div class="max-w-3xl mx-auto relative pt-20 pb-12">
+            <button onclick="toggleMenuModal()" class="fixed top-8 right-8 text-tasca-cream text-3xl hover:text-tasca-gold transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-7xl font-serif text-tasca-gold">Ementa Completa</h2>
+                <div class="h-1 w-20 bg-tasca-gold mx-auto mt-4"></div>
+            </div>
+
+            <!-- ENTRADAS -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-serif text-white border-b border-tasca-gold/30 pb-2 mb-6 uppercase tracking-widest">Entradas & Petiscos</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-baseline group">
+                        <span class="text-tasca-cream group-hover:text-tasca-gold transition-colors">Sopa de Legumes</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 border-dotted"></div>
+                        <span class="font-bold">3,00 €</span>
+                    </div>
+                    <div class="flex justify-between items-baseline group">
+                        <span class="text-tasca-cream group-hover:text-tasca-gold">Gaspacho (Sazonal)</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 border-dotted"></div>
+                        <span class="font-bold">3,50 €</span>
+                    </div>
+                    <div class="flex justify-between items-baseline group">
+                        <span class="text-tasca-cream group-hover:text-tasca-gold font-bold">Iscas das Ratas</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 border-dotted"></div>
+                        <span class="font-bold">5,00 €</span>
+                    </div>
+                    <div class="flex justify-between items-baseline group">
+                        <span class="text-tasca-cream group-hover:text-tasca-gold font-bold">Maranhos</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 border-dotted"></div>
+                        <span class="font-bold">5,00 €</span>
+                    </div>
+                    <div class="flex justify-between items-baseline group">
+                        <span class="text-tasca-cream group-hover:text-tasca-gold">Peixinhos da Horta</span>
+                        <div class="flex-grow border-b border-white/10 mx-4 border-dotted"></div>
+                        <span class="font-bold">5,00 €</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRATOS -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-serif text-white border-b border-tasca-gold/30 pb-2 mb-6 uppercase tracking-widest">Pratos Principais</h3>
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between items-baseline mb-1">
+                            <span class="text-xl font-bold text-tasca-gold">Bife das Ratas</span>
+                            <span class="font-bold">14,50 €</span>
+                        </div>
+                        <p class="text-sm text-gray-400">A alma da nossa cozinha.</p>
+                    </div>
+                    <div class="p-4 bg-tasca-wood/20 border-l-4 border-tasca-gold">
+                        <p class="text-xs uppercase font-bold text-tasca-gold mb-2 italic">Sugestões do Dia</p>
+                        <div class="flex justify-between mb-2">
+                            <span>Sábado: Cabrito Assado no Forno</span>
+                            <span class="font-bold">14,00 €</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Dom/Sab: Arroz de Pato</span>
+                            <span class="font-bold">10,00 €</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Domingo: Polvo à Lagareiro</span>
+                            <span class="font-bold">14,00 €</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOBREMESAS -->
+            <div>
+                <h3 class="text-2xl font-serif text-white border-b border-tasca-gold/30 pb-2 mb-6 uppercase tracking-widest">Sobremesas de Tomar</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span class="font-bold text-tasca-gold">Fatias de Tomar</span>
+                        <span class="font-bold">3,50 €</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span>Arroz Doce</span>
+                        <span class="font-bold">3,50 €</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span>Sericaia</span>
+                        <span class="font-bold">4,50 €</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span>Pêras Bêbedas</span>
+                        <span class="font-bold">3,50 €</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 text-center text-gray-600 text-xs border-t border-white/5">
+        <p class="mb-2 uppercase tracking-widest">Casa das Ratas - Tomar</p>
+        <p>&copy; 2026. Sabores genuínos no coração da cidade.</p>
+    </footer>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            gsap.to("#preloader", {
+                yPercent: -100,
+                duration: 1,
+                ease: "power4.inOut",
+                onComplete: () => document.getElementById('preloader').style.display = 'none'
+            });
+        });
+
+        // Lenis Smooth Scrolling
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP Scroll Effects
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.to("#hero-bg", {
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            yPercent: 30
+        });
+
+        // Modal (Ementa) Logic
+        function toggleMenuModal() {
+            const modal = document.getElementById('menu-modal');
+            const isVisible = modal.style.display === 'block';
+            
+            if (isVisible) {
+                gsap.to(modal, { opacity: 0, y: 50, duration: 0.4, onComplete: () => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }});
+            } else {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                gsap.fromTo(modal, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
+            }
+        }
+
+        // Gallery Slider Logic
+        function scrollGallery(direction) {
+            const container = document.getElementById('gallery');
+            const scrollAmount = container.offsetWidth * 0.8;
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Section Reveal Animations
+        const revealElements = document.querySelectorAll(".reveal-text, .reveal-image");
+        revealElements.forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
