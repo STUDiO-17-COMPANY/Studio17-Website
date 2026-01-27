@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quinta Gracinda Mateus | Eventos em Valdonas, Tomar</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- External Libraries (GSAP & Lenis) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        /* Base Styles - WordPress Feel */
+        body {
+            font-family: 'Montserrat', sans-serif; /* Mais comum em temas modernos */
+            background-color: #ffffff;
+            color: #2c2c2c;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Image Enhancement Class */
+        .wp-image {
+            filter: contrast(1.05) saturate(1.05); /* Boost visual quality */
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.3s ease;
+            backface-visibility: hidden;
+        }
+        .group:hover .wp-image {
+            transform: scale(1.03); /* Subtle premium zoom */
+            filter: contrast(1.1) saturate(1.1);
+        }
+
+        /* Utilities */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Accordion transition */
+        .accordion-content {
+            transition: max-height 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        /* Sticky Header Transition */
+        .scrolled-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden selection:bg-stone-900 selection:text-white flex flex-col min-h-screen">
+
+    <!-- TOP BAR (WordPress Style Widget Area) -->
+    <div class="bg-stone-900 text-stone-300 text-xs py-2 px-6 hidden md:block">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex space-x-6">
+                <span class="flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-2"></i> Valdonas, Tomar</span>
+                <span class="flex items-center"><i data-lucide="phone" class="w-3 h-3 mr-2"></i> +351 912 345 678</span>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-3 h-3"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="facebook" class="w-3 h-3"></i></a>
+                <a href="mailto:info@quintagracindamateus.pt" class="hover:text-white transition-colors">info@quintagracindamateus.pt</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav id="main-nav" class="fixed w-full z-50 top-0 md:top-8 left-0 px-6 py-6 transition-all duration-300 border-b border-transparent">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl md:text-2xl font-serif font-bold tracking-tight text-stone-900 z-50">
+                Quinta Gracinda Mateus
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center font-medium text-sm text-stone-700">
+                <a href="#sobre" class="hover:text-stone-900 transition-colors uppercase tracking-widest text-xs">Sobre</a>
+                <a href="#eventos" class="hover:text-stone-900 transition-colors uppercase tracking-widest text-xs">Eventos</a>
+                <a href="#catering" class="hover:text-stone-900 transition-colors uppercase tracking-widest text-xs">Catering</a>
+                <a href="#espacos" class="hover:text-stone-900 transition-colors uppercase tracking-widest text-xs">Espaços</a>
+                <a href="#faq" class="hover:text-stone-900 transition-colors uppercase tracking-widest text-xs">FAQ</a>
+                
+                <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" 
+                    class="px-6 py-2.5 bg-stone-900 text-white text-xs uppercase tracking-widest hover:bg-stone-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Agendar Visita
+                </button>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden z-50 text-stone-900 p-2">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Fullscreen Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-white flex flex-col items-center justify-center space-y-8 transition-transform duration-500 md:hidden translate-x-full z-40">
+            <a href="#sobre" class="mobile-link text-3xl font-serif text-stone-900">Sobre</a>
+            <a href="#eventos" class="mobile-link text-3xl font-serif text-stone-900">Eventos</a>
+            <a href="#catering" class="mobile-link text-3xl font-serif text-stone-900">Catering</a>
+            <a href="#espacos" class="mobile-link text-3xl font-serif text-stone-900">Espaços</a>
+            <a href="#faq" class="mobile-link text-3xl font-serif text-stone-900">FAQ</a>
+            <button onclick="document.getElementById('mobile-menu').classList.add('translate-x-full'); document.getElementById('contact').scrollIntoView();" 
+                class="px-8 py-3 bg-stone-900 text-white uppercase tracking-widest text-sm">
+                Agendar Visita
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Main Hero Image Enhanced & Positioned - Removed 'wp-image' class to reduce blur and centered background -->
+        <div class="hero-bg absolute inset-0 bg-cover z-0" 
+             style="background-image: url('https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125354/39e0f2d8-bc8c-46c1-9f4c-297601671d5c.png'); background-position: center center;">
+        </div>
+        
+        <!-- Gradient Overlay for better text readability (Classic WP Slider look) -->
+        <div class="absolute inset-0 bg-gradient-to-b from-stone-900/40 via-stone-900/20 to-stone-900/60 z-10"></div>
+        
+        <div class="relative z-20 text-center px-4 max-w-5xl mx-auto text-white fade-up pt-16">
+            <div class="mb-6">
+                <span class="inline-block py-1 px-3 border border-white/30 text-xs uppercase tracking-[0.2em] backdrop-blur-sm">Valdonas, Tomar</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif mb-8 leading-tight drop-shadow-lg">
+                O Cenário Perfeito <br/><span class="italic font-light">Para a Sua História</span>
+            </h1>
+            <p class="text-lg md:text-xl text-stone-100 mb-10 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-md">
+                Casamentos, batizados e eventos corporativos com requinte, conforto e a tranquilidade de quem cuida de tudo por si.
+            </p>
+            <div class="flex flex-col md:flex-row gap-5 justify-center">
+                <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
+                    class="px-8 py-4 bg-white text-stone-900 text-xs font-bold uppercase tracking-widest hover:bg-stone-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Pedir Proposta
+                </button>
+                <button onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})"
+                    class="px-8 py-4 bg-transparent border border-white text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-stone-900 transition-all">
+                    Descobrir a Quinta
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS / USP SECTION -->
+    <section id="sobre" class="py-24 bg-white relative z-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Icon Box Grid (Elementor style) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 stagger-grid mb-24">
+                <!-- Item 1 -->
+                <div class="group p-8 bg-stone-50 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 border border-transparent hover:border-stone-100 text-center">
+                    <div class="w-14 h-14 mx-auto bg-stone-200 text-stone-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-stone-900 group-hover:text-white transition-colors">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-serif text-lg font-bold mb-3">Até 600 Pax</h4>
+                    <p class="text-xs text-stone-500 uppercase tracking-wide">Capacidade Flexível</p>
+                </div>
+                <!-- Item 2 -->
+                <div class="group p-8 bg-stone-50 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 border border-transparent hover:border-stone-100 text-center">
+                    <div class="w-14 h-14 mx-auto bg-stone-200 text-stone-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-stone-900 group-hover:text-white transition-colors">
+                        <i data-lucide="utensils" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-serif text-lg font-bold mb-3">Cozinha Própria</h4>
+                    <p class="text-xs text-stone-500 uppercase tracking-wide">Gastronomia Local</p>
+                </div>
+                <!-- Item 3 -->
+                <div class="group p-8 bg-stone-50 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 border border-transparent hover:border-stone-100 text-center">
+                    <div class="w-14 h-14 mx-auto bg-stone-200 text-stone-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-stone-900 group-hover:text-white transition-colors">
+                        <i data-lucide="calendar" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-serif text-lg font-bold mb-3">Climatização</h4>
+                    <p class="text-xs text-stone-500 uppercase tracking-wide">Conforto Todo o Ano</p>
+                </div>
+                <!-- Item 4 -->
+                <div class="group p-8 bg-stone-50 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 border border-transparent hover:border-stone-100 text-center">
+                    <div class="w-14 h-14 mx-auto bg-stone-200 text-stone-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-stone-900 group-hover:text-white transition-colors">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-serif text-lg font-bold mb-3">Valdonas</h4>
+                    <p class="text-xs text-stone-500 uppercase tracking-wide">Estacionamento Privado</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="fade-up order-2 md:order-1 relative group overflow-hidden rounded-lg shadow-xl">
+                    <!-- About Section Image Enhanced -->
+                    <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125531/912382d4-162e-4d8d-a9b9-1a6de55f0324.png" 
+                         alt="Detalhe de mesa" 
+                         class="w-full h-[600px] object-cover wp-image">
+                </div>
+                <div class="fade-up order-1 md:order-2 pl-0 md:pl-10">
+                    <div class="mb-6">
+                         <span class="text-stone-400 font-bold text-xs uppercase tracking-widest">Sobre Nós</span>
+                         <div class="h-0.5 w-12 bg-stone-900 mt-2"></div>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-serif mb-8 leading-tight text-stone-900">
+                        Confiança, Simplicidade <br/> e Tradição.
+                    </h2>
+                    <p class="text-stone-600 mb-6 leading-relaxed text-lg font-light">
+                        Localizada em Valdonas, a poucos minutos do centro histórico de Tomar, a Quinta Gracinda Mateus destaca-se pela versatilidade.
+                    </p>
+                    <p class="text-stone-600 mb-10 leading-relaxed font-light">
+                        Esqueça as complicações. Focamo-nos em dar aos anfitriões total confiança através de um planeamento de capacidade claro, orçamentos transparentes por escrito e a flexibilidade de transitar entre os nossos jardins e os salões climatizados conforme o clima ou o momento da festa.
+                    </p>
+                    
+                    <div class="space-y-4 mb-10">
+                        <div class="flex items-center text-stone-700 bg-stone-50 p-4 rounded border border-stone-100">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 mr-4 text-stone-900"></i> <span class="text-sm font-medium">Plantas e sugestões de layout personalizadas</span>
+                        </div>
+                        <div class="flex items-center text-stone-700 bg-stone-50 p-4 rounded border border-stone-100">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 mr-4 text-stone-900"></i> <span class="text-sm font-medium">Orçamentos "Chave na Mão" sem surpresas</span>
+                        </div>
+                        <div class="flex items-center text-stone-700 bg-stone-50 p-4 rounded border border-stone-100">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 mr-4 text-stone-900"></i> <span class="text-sm font-medium">Gestão experiente e familiar</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="inline-flex items-center space-x-2 text-stone-900 font-bold uppercase text-xs tracking-widest hover:text-stone-600 transition-colors border-b-2 border-stone-900 pb-1">
+                        <span>Conheça a nossa história</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENT TYPES (Portfolio Grid Style) -->
+    <section id="eventos" class="py-24 bg-stone-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 text-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-3">Celebre connosco</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-stone-900">Tipos de Eventos</h2>
+                <div class="w-16 h-0.5 bg-stone-300 mx-auto mt-6"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 stagger-grid">
+                <!-- Event 1 -->
+                <div class="group bg-white shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                    <div class="h-72 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 z-10 transition-colors duration-500"></div>
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125429/844df9f0-8e29-4a53-9231-17b3da57b609.png" 
+                             alt="Casamentos" 
+                             class="w-full h-full object-cover wp-image">
+                    </div>
+                    <div class="p-10 relative">
+                        <div class="absolute -top-6 right-8 bg-stone-900 text-white p-3 rounded-full shadow-lg group-hover:scale-110 transition-transform">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif mb-4 group-hover:text-stone-600 transition-colors">Casamentos</h3>
+                        <p class="text-stone-500 mb-8 text-sm leading-relaxed font-light">O cenário idílico para o "Sim". Jardins para a cerimónia civil e salões elegantes para o copo d'água.</p>
+                        <a href="#contact" class="text-xs font-bold uppercase tracking-widest text-stone-900 hover:text-stone-600">
+                            Pedir Layout &rarr;
+                        </a>
+                    </div>
+                </div>
+                <!-- Event 2 -->
+                <div class="group bg-white shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                    <div class="h-72 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 z-10 transition-colors duration-500"></div>
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125503/516800f5-012e-4bf0-be25-8697e64ecd1e.png" 
+                             alt="Batizados" 
+                             class="w-full h-full object-cover wp-image">
+                    </div>
+                    <div class="p-10 relative">
+                         <div class="absolute -top-6 right-8 bg-stone-900 text-white p-3 rounded-full shadow-lg group-hover:scale-110 transition-transform">
+                            <i data-lucide="star" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif mb-4 group-hover:text-stone-600 transition-colors">Batizados</h3>
+                        <p class="text-stone-500 mb-8 text-sm leading-relaxed font-light">Celebre os marcos da vida com a família e amigos num ambiente seguro e acolhedor.</p>
+                        <a href="#contact" class="text-xs font-bold uppercase tracking-widest text-stone-900 hover:text-stone-600">
+                            Pedir Layout &rarr;
+                        </a>
+                    </div>
+                </div>
+                <!-- Event 3 -->
+                <div class="group bg-white shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                    <div class="h-72 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 z-10 transition-colors duration-500"></div>
+                        <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769126102/7ecc1dc4-0a32-4d1c-95b0-3d5c4170cb07.png" 
+                             alt="Corporativo" 
+                             class="w-full h-full object-cover wp-image">
+                    </div>
+                    <div class="p-10 relative">
+                         <div class="absolute -top-6 right-8 bg-stone-900 text-white p-3 rounded-full shadow-lg group-hover:scale-110 transition-transform">
+                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif mb-4 group-hover:text-stone-600 transition-colors">Corporativos</h3>
+                        <p class="text-stone-500 mb-8 text-sm leading-relaxed font-light">Jantares de natal, reuniões ou apresentações. Profissionalismo e eficiência no serviço.</p>
+                        <a href="#contact" class="text-xs font-bold uppercase tracking-widest text-stone-900 hover:text-stone-600">
+                            Pedir Layout &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATERING & SERVICES -->
+    <section id="catering" class="py-0 flex flex-col md:flex-row min-h-[70vh]">
+        <div class="w-full md:w-1/2 bg-stone-900 text-stone-100 p-12 md:p-24 flex flex-col justify-center relative overflow-hidden">
+            <!-- Decorative pattern typically found in WP themes -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-stone-800 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+            
+            <div class="fade-up max-w-lg relative z-10">
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-400 block mb-4">Gastronomia</span>
+                <h2 class="text-4xl md:text-5xl font-serif mb-8 leading-tight">
+                    Sabores Autênticos, <br/>Cozinha Própria.
+                </h2>
+                <p class="text-stone-300 mb-10 leading-relaxed text-lg font-light">
+                    Acreditamos que a memória de uma festa vive também no paladar. A nossa cozinha, 100% interna, garante a máxima qualidade e frescura.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="border-l-2 border-stone-700 pl-6 py-1">
+                        <h4 class="text-lg font-serif mb-1 text-white">Pacotes Completos</h4>
+                        <p class="text-stone-400 text-sm font-light">Cocktail, refeição completa e buffets incluídos.</p>
+                    </div>
+                    <div class="border-l-2 border-stone-700 pl-6 py-1">
+                        <h4 class="text-lg font-serif mb-1 text-white">Flexibilidade</h4>
+                        <p class="text-stone-400 text-sm font-light">Opções vegetarianas e adaptações alimentares.</p>
+                    </div>
+                    <div class="border-l-2 border-stone-700 pl-6 py-1">
+                        <h4 class="text-lg font-serif mb-1 text-white">Serviço Premium</h4>
+                        <p class="text-stone-400 text-sm font-light">Staff de sala, atoalhados e loiças incluídos.</p>
+                    </div>
+                </div>
+
+                <div class="mt-14">
+                    <button onclick="document.getElementById('contact').scrollIntoView()" class="px-8 py-4 bg-white text-stone-900 text-xs font-bold uppercase tracking-widest hover:bg-stone-200 transition-colors">
+                        Ver Ementas Exemplo
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative group overflow-hidden">
+            <!-- Catering Image Enhanced -->
+            <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125372/a74ca0a7-c55f-4c22-8865-64a14a592d2f.png" 
+                 alt="Catering Setup" 
+                 class="absolute inset-0 w-full h-full object-cover wp-image">
+        </div>
+    </section>
+
+    <!-- SPACES / GALLERY SLIDER -->
+    <section id="espacos" class="py-24 bg-white overflow-hidden">
+        <div class="mb-16 text-center">
+            <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-3">Indoor & Outdoor</span>
+            <h2 class="text-4xl md:text-5xl font-serif text-stone-900">Os Nossos Espaços</h2>
+            <div class="w-16 h-0.5 bg-stone-300 mx-auto mt-6"></div>
+        </div>
+        
+        <!-- Scroller with WP Gallery Style hover effects -->
+        <div class="flex overflow-x-auto snap-x space-x-6 px-6 pb-12 max-w-full scrollbar-hide stagger-grid">
+            <!-- Space 1 -->
+            <div class="min-w-[85vw] md:min-w-[400px] snap-center relative group overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl transition-all">
+                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125362/14d41065-cb4c-42e8-a952-aae1fbe4fda8.png" alt="Salão Principal" class="w-full h-96 object-cover wp-image"/>
+                <div class="absolute bottom-0 left-0 p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent w-full">
+                    <h3 class="text-white text-2xl font-serif mb-1 translate-y-2 group-hover:translate-y-0 transition-transform">Salão Principal</h3>
+                    <p class="text-stone-300 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity delay-75">Capacidade: 400 pax</p>
+                </div>
+            </div>
+            <!-- Space 2 -->
+            <div class="min-w-[85vw] md:min-w-[400px] snap-center relative group overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl transition-all">
+                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125375/93327098-23a0-47d1-a538-2d406e26e726.png" alt="Jardins" class="w-full h-96 object-cover wp-image"/>
+                <div class="absolute bottom-0 left-0 p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent w-full">
+                    <h3 class="text-white text-2xl font-serif mb-1 translate-y-2 group-hover:translate-y-0 transition-transform">Jardins</h3>
+                    <p class="text-stone-300 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity delay-75">Cerimónias ao ar livre</p>
+                </div>
+            </div>
+            <!-- Space 3 -->
+            <div class="min-w-[85vw] md:min-w-[400px] snap-center relative group overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl transition-all">
+                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125385/e398e1af-97ec-473c-b4f5-1cd90591400b.png" alt="Salão Secundário" class="w-full h-96 object-cover wp-image"/>
+                <div class="absolute bottom-0 left-0 p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent w-full">
+                    <h3 class="text-white text-2xl font-serif mb-1 translate-y-2 group-hover:translate-y-0 transition-transform">Salão Secundário</h3>
+                    <p class="text-stone-300 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity delay-75">Capacidade: 200 pax</p>
+                </div>
+            </div>
+            <!-- Space 4 -->
+            <div class="min-w-[85vw] md:min-w-[400px] snap-center relative group overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-xl transition-all">
+                <img src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1769125389/76b5b267-595f-41d1-b787-2965dee947a1.png" alt="Esplanada" class="w-full h-96 object-cover wp-image"/>
+                <div class="absolute bottom-0 left-0 p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent w-full">
+                    <h3 class="text-white text-2xl font-serif mb-1 translate-y-2 group-hover:translate-y-0 transition-transform">Esplanada</h3>
+                    <p class="text-stone-300 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity delay-75">Zona de Cocktails</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & INFO -->
+    <section class="py-24 bg-stone-50 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div class="fade-up">
+                 <div class="mb-10 text-left">
+                    <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-3">Valdonas, Tomar</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-stone-900">Como Chegar</h2>
+                    <div class="w-12 h-0.5 bg-stone-900 mt-6"></div>
+                 </div>
+                 <p class="text-stone-600 mb-10 leading-relaxed font-light text-lg">
+                   Localizada numa zona tranquila mas de fácil acesso, a Quinta Gracinda Mateus oferece a privacidade que o seu evento precisa, a apenas 5 minutos do centro de Tomar.
+                 </p>
+                 <div class="bg-white p-8 rounded shadow-lg border-l-4 border-stone-900 space-y-6">
+                    <div class="flex items-start">
+                        <div class="bg-stone-100 p-2 rounded-full mr-4">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-stone-900"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-stone-900 text-sm uppercase tracking-wide mb-1">Morada</h5>
+                            <p class="text-stone-600 text-sm mb-2">Rua Principal, Valdonas, Tomar, Portugal</p>
+                            <a href="https://maps.app.goo.gl/ydKtF3YqQ5acm4w46" target="_blank" class="text-xs font-bold text-stone-900 border-b border-stone-300 hover:border-stone-900 transition-colors">Ver no Google Maps &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-stone-100 p-2 rounded-full mr-4">
+                            <i data-lucide="clock" class="w-5 h-5 text-stone-900"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-stone-900 text-sm uppercase tracking-wide mb-1">Visitas</h5>
+                            <p class="text-stone-600 text-sm">Por marcação prévia (Segunda a Sábado).</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+            
+            <!-- Map Embed Styled -->
+            <div class="h-96 bg-stone-200 rounded-lg relative overflow-hidden fade-up shadow-2xl border-4 border-white">
+                 <iframe 
+                    src="https://maps.google.com/maps?q=Quinta+Gracinda+Mateus+Valdonas&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    style="border:0; filter: grayscale(20%) contrast(1.1);" 
+                    allowfullscreen="" 
+                    aria-hidden="false" 
+                    tabindex="0">
+                 </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF & FAQ -->
+    <section id="faq" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-20 fade-up bg-stone-50 p-12 rounded-lg border border-stone-100">
+                <div class="flex justify-center mb-6 text-yellow-500 gap-1">
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-serif italic text-stone-800 mb-4 leading-relaxed">
+                    "Um serviço impecável. A comida estava divinal e o staff foi incansável."
+                </h3>
+                <p class="text-xs font-bold tracking-[0.2em] uppercase text-stone-400">- Mariana & João, Casamento 2024</p>
+            </div>
+
+            <div class="mb-12 text-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-3">Dúvidas?</span>
+                <h2 class="text-3xl md:text-4xl font-serif text-stone-900">Perguntas Frequentes</h2>
+            </div>
+            
+            <div class="space-y-4 fade-up" id="faq-container">
+                <!-- FAQ Item 1 -->
+                <div class="border border-stone-200 rounded-lg accordion-item overflow-hidden">
+                    <button class="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-white hover:bg-stone-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="text-base font-bold text-stone-800">Qual é a capacidade máxima dos salões?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content bg-stone-50">
+                        <p class="px-6 pb-6 pt-2 text-stone-600 leading-relaxed text-sm">
+                            Dispomos de dois salões climatizados com capacidade combinada para até 600 pessoas em formato banquete, adaptáveis a eventos mais íntimos com configurações de sala reduzida.
+                        </p>
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="border border-stone-200 rounded-lg accordion-item overflow-hidden">
+                    <button class="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-white hover:bg-stone-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="text-base font-bold text-stone-800">O que está incluído no serviço de Catering?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content bg-stone-50">
+                        <p class="px-6 pb-6 pt-2 text-stone-600 leading-relaxed text-sm">
+                            Os nossos pacotes 'chave na mão' incluem cocktail de boas-vindas, refeição completa (sopa, pratos principais, sobremesa), bebidas, buffet de frutas e doces/ceia. O serviço de staff está sempre incluído.
+                        </p>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="border border-stone-200 rounded-lg accordion-item overflow-hidden">
+                    <button class="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-white hover:bg-stone-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="text-base font-bold text-stone-800">Realizam mais de um evento por dia?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content bg-stone-50">
+                        <p class="px-6 pb-6 pt-2 text-stone-600 leading-relaxed text-sm">
+                            Privilegiamos a exclusividade. Dependendo da dimensão, garantimos privacidade total ou separação completa dos espaços e estacionamento.
+                        </p>
+                    </div>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="border border-stone-200 rounded-lg accordion-item overflow-hidden">
+                    <button class="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-white hover:bg-stone-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="text-base font-bold text-stone-800">Têm estacionamento próprio?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content bg-stone-50">
+                        <p class="px-6 pb-6 pt-2 text-stone-600 leading-relaxed text-sm">
+                            Sim, a Quinta Gracinda Mateus dispõe de um amplo parque de estacionamento privado e gratuito para todos os seus convidados dentro do recinto.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA / CONTACT (WP Form Style) -->
+    <section id="contact" class="py-24 bg-stone-900 text-white border-t-8 border-white">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-20">
+            <div class="fade-up">
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-3">Contacto</span>
+                <h2 class="text-4xl md:text-5xl font-serif mb-8">Comece a planear o seu dia.</h2>
+                <p class="text-stone-400 mb-10 text-lg leading-relaxed font-light">
+                    Entre em contacto para verificar disponibilidade, pedir uma proposta detalhada ou agendar uma visita ao espaço sem compromisso.
+                </p>
+                
+                <div class="space-y-8">
+                    <div class="flex items-center text-lg group">
+                        <div class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center mr-6 group-hover:bg-stone-700 transition-colors">
+                            <i data-lucide="phone" class="text-white"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-stone-500 uppercase tracking-wider mb-1">Telefone</span>
+                            <span class="font-serif text-xl">+351 912 345 678</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-lg group">
+                        <div class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center mr-6 group-hover:bg-stone-700 transition-colors">
+                            <i data-lucide="mail" class="text-white"></i>
+                        </div>
+                        <div>
+                             <span class="block text-xs text-stone-500 uppercase tracking-wider mb-1">Email</span>
+                            <a href="mailto:info@quintagracindamateus.pt" class="font-serif text-xl hover:text-stone-300 transition-colors">info@quintagracindamateus.pt</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form styled like Contact Form 7 / WPForms -->
+            <div class="bg-white text-stone-900 p-10 rounded shadow-2xl fade-up">
+                <h3 class="font-serif text-2xl mb-6">Envie-nos uma mensagem</h3>
+                <form class="space-y-5" onsubmit="event.preventDefault()">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Nome</label>
+                            <input type="text" class="w-full bg-stone-50 border border-stone-200 rounded px-4 py-3 focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" placeholder="O seu nome">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Telemóvel</label>
+                            <input type="tel" class="w-full bg-stone-50 border border-stone-200 rounded px-4 py-3 focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" placeholder="912 345 678">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Email</label>
+                        <input type="email" class="w-full bg-stone-50 border border-stone-200 rounded px-4 py-3 focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" placeholder="email@exemplo.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Tipo de Evento</label>
+                        <select class="w-full bg-stone-50 border border-stone-200 rounded px-4 py-3 focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all cursor-pointer">
+                            <option>Casamento</option>
+                            <option>Batizado</option>
+                            <option>Evento Corporativo</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Mensagem</label>
+                        <textarea class="w-full bg-stone-50 border border-stone-200 rounded px-4 py-3 focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all h-32 resize-none" placeholder="Conte-nos um pouco sobre a data e n.º de convidados..."></textarea>
+                    </div>
+                    <button class="w-full mt-2 px-8 py-4 bg-stone-900 text-white font-bold text-xs uppercase tracking-widest hover:bg-stone-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        Pedir Orçamento Gratuito
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Widget Columns Style) -->
+    <footer class="bg-stone-950 text-stone-400 py-16 text-sm border-t border-stone-900">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            
+            <!-- Column 1: Brand -->
+            <div class="col-span-1 md:col-span-1">
+                 <div class="text-xl font-serif font-bold text-white mb-6">Quinta Gracinda Mateus</div>
+                 <p class="mb-6 leading-relaxed">
+                     Criamos momentos inesquecíveis em Valdonas, Tomar. Onde a tradição encontra a elegância.
+                 </p>
+                 <div class="flex space-x-4">
+                    <a href="#" class="w-8 h-8 rounded bg-stone-900 flex items-center justify-center hover:bg-white hover:text-stone-900 transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                    <a href="#" class="w-8 h-8 rounded bg-stone-900 flex items-center justify-center hover:bg-white hover:text-stone-900 transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                 </div>
+            </div>
+
+            <!-- Column 2: Links -->
+            <div>
+                <h5 class="text-white uppercase tracking-widest text-xs font-bold mb-6">Menu</h5>
+                <ul class="space-y-3">
+                    <li><a href="#sobre" class="hover:text-white transition-colors">Sobre Nós</a></li>
+                    <li><a href="#eventos" class="hover:text-white transition-colors">Eventos</a></li>
+                    <li><a href="#catering" class="hover:text-white transition-colors">Catering</a></li>
+                    <li><a href="#espacos" class="hover:text-white transition-colors">Galeria</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Contact -->
+            <div>
+                <h5 class="text-white uppercase tracking-widest text-xs font-bold mb-6">Contacto</h5>
+                <ul class="space-y-3">
+                    <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mr-3 mt-1 flex-shrink-0"></i> Valdonas, Tomar</li>
+                    <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-3 flex-shrink-0"></i> +351 912 345 678</li>
+                    <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-3 flex-shrink-0"></i> info@quintagracindamateus.pt</li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Legal -->
+            <div>
+                 <h5 class="text-white uppercase tracking-widest text-xs font-bold mb-6">Legal</h5>
+                 <ul class="space-y-3">
+                    <li><a href="#" class="hover:text-white transition-colors">Política de Privacidade</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Termos e Condições</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Livro de Reclamações</a></li>
+                 </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-stone-900 text-center text-xs text-stone-600">
+            &copy; <span id="year"></span> Quinta Gracinda Mateus. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Set Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Sticky Navbar Logic (WordPress Theme Effect)
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled-nav');
+            } else {
+                nav.classList.remove('scrolled-nav');
+            }
+        });
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const menuLinks = document.querySelectorAll('.mobile-link');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                menu.classList.remove('translate-x-full');
+                menuIcon.setAttribute('data-lucide', 'x');
+                document.body.style.overflow = 'hidden'; // Prevent scroll when menu open
+            } else {
+                menu.classList.add('translate-x-full');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                document.body.style.overflow = '';
+            }
+            lucide.createIcons();
+        });
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                menu.classList.add('translate-x-full');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                document.body.style.overflow = '';
+                lucide.createIcons();
+            });
+        });
+
+        // Accordion Logic (Updated Icon behavior)
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('[data-lucide="plus"]');
+            
+            // Toggle current
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                icon.style.transform = 'rotate(0deg)';
+                // Re-create icon as plus
+            } else {
+                // Close others
+                document.querySelectorAll('.accordion-content').forEach(el => el.style.maxHeight = '0px');
+                document.querySelectorAll('.accordion-item [data-lucide="plus"]').forEach(el => el.style.transform = 'rotate(0deg)');
+
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = 'rotate(45deg)'; // Rotate plus to make x
+            }
+        }
+
+        // Initialize Lenis and GSAP
+        document.addEventListener("DOMContentLoaded", (event) => {
+            
+            // Lenis Smooth Scroll
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            // GSAP ScrollTrigger
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Fade Up
+                gsap.utils.toArray('.fade-up').forEach(elem => {
+                    gsap.fromTo(elem, 
+                        { opacity: 0, y: 30 },
+                        { 
+                            opacity: 1, 
+                            y: 0, 
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            scrollTrigger: {
+                                trigger: elem,
+                                start: 'top 90%',
+                            }
+                        }
+                    );
+                });
+
+                // Stagger Grids
+                gsap.utils.toArray('.stagger-grid').forEach(grid => {
+                    gsap.fromTo(grid.children,
+                        { opacity: 0, y: 20 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            stagger: 0.1,
+                            scrollTrigger: {
+                                trigger: grid,
+                                start: 'top 85%',
+                            }
+                        }
+                    );
+                });
+            }
+        });
+    </script>
+</body>
+</html>
