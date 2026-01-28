@@ -1,50 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100PRATOS | Authentic Portuguese Petiscos & Catering</title>
-    <meta name="description" content="Boutique culinary service in Setúbal delivering authentic Portuguese finger food and Mediterranean catering to Lisbon and surrounds.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <title>100 Pratos | Boutique Catering & Petiscos</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- GSAP & Lenis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-
+    <!-- Custom Config & Styles -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: '#012254',       // Main Brand Color (73%)
-                        gold: '#CEA011',       // Accent Color (5%)
-                        white: '#FEFEFE',      // Background/Text (20%)
-                        cream: '#F9FAFB',      // Subtle offset for sections
-                        stone: '#44403C',      // Neutral text
+                        cream: '#F9F5F0',
+                        brandBlue: '#012255',
+                        brandGold: '#CFA011',
+                        charcoal: '#2C2C2C',
+                        sand: '#E8E1D5'
                     },
                     fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Lato"', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
                     },
-                    animation: {
-                        'marquee': 'marquee 40s linear infinite',
-                    },
-                    keyframes: {
-                        marquee: {
-                            '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-50%)' },
-                        }
+                    backgroundImage: {
+                        'texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
                     }
                 }
             }
@@ -52,7 +41,13 @@
     </script>
 
     <style>
-        /* Lenis Smooth Scroll Recommended CSS */
+        body {
+            background-color: #F9F5F0;
+            color: #2C2C2C;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        
+        /* Smooth Scroll Setup */
         html.lenis {
             height: auto;
         }
@@ -69,468 +64,452 @@
             pointer-events: none;
         }
 
-        /* Custom Utilities */
+        /* Utilities */
         .clip-image {
             clip-path: inset(0 0 0 0);
         }
         
+        .reveal-text {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        /* Loader */
         .loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: #FEFEFE;
+            height: 100vh;
+            background-color: #012255;
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease;
+            color: #F9F5F0;
         }
-        
-        /* Ensure content is visible if JS fails */
-        .no-js .opacity-0 {
-            opacity: 1 !important;
+
+        /* Image hover effects */
+        .menu-card:hover .menu-img {
+            transform: scale(1.05);
+        }
+
+        /* Form styling */
+        .form-input {
+            width: 100%;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 0;
+            color: #F9F5F0;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            border-color: #CFA011;
+        }
+        .form-input::placeholder {
+            color: rgba(249, 245, 240, 0.5);
         }
     </style>
 </head>
-<body class="bg-white text-navy antialiased overflow-x-hidden selection:bg-gold selection:text-white">
+<body class="font-sans antialiased selection:bg-brandGold selection:text-white">
 
-    <!-- Loading Screen -->
-    <div class="loader flex-col" id="loader">
-        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png" alt="100PRATOS Logo" class="w-32 animate-pulse mb-4">
-        <p class="font-serif text-navy italic text-lg">Taste the soul of Setúbal.</p>
+    <!-- Loader -->
+    <div class="loader">
+        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png" alt="100 Pratos Logo" class="w-48 md:w-64 animate-pulse">
     </div>
 
     <!-- Navigation -->
-    <!-- Initial State: Transparent BG, White Text -->
-    <nav class="fixed top-0 w-full z-50 transition-all duration-300 px-6 py-4 text-white" id="navbar">
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="relative z-50">
-                <!-- Logo: Starts with brightness-0 invert (White) on dark hero -->
-                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png" 
-                     alt="100PRATOS" 
-                     id="nav-logo"
-                     class="h-16 md:h-20 drop-shadow-sm transition-all duration-300 hover:scale-105 brightness-0 invert">
+            <!-- Logo -->
+            <a href="#" class="z-50 relative">
+                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png" alt="100 Pratos" class="h-16 w-auto brightness-0 invert" id="nav-logo">
             </a>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#menu" class="font-sans text-sm tracking-widest uppercase hover:text-gold transition-colors">Signature Menus</a>
-                <a href="#chef" class="font-sans text-sm tracking-widest uppercase hover:text-gold transition-colors">The Chef</a>
-                <a href="#process" class="font-sans text-sm tracking-widest uppercase hover:text-gold transition-colors">How it Works</a>
-                <a href="#occasions" class="font-sans text-sm tracking-widest uppercase hover:text-gold transition-colors">Occasions</a>
-                <a href="#contact" class="bg-gold text-navy px-6 py-2 rounded-full font-serif italic hover:bg-yellow-500 transition-all transform hover:-translate-y-1 shadow-lg font-semibold">Request Quote</a>
+            
+            <div class="hidden md:flex items-center space-x-8 text-white z-50">
+                <a href="#concept" class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">O Conceito</a>
+                <a href="#chef" class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">A Chef</a>
+                <a href="#menu" class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">Menu</a>
+                <a href="#process" class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">Como Funciona</a>
+                
+                <!-- Language Switcher -->
+                <div class="relative group cursor-pointer ml-4">
+                    <div class="flex items-center space-x-1 hover:text-brandGold transition-colors">
+                        <span class="uppercase text-xs tracking-widest font-bold">PT</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                    </div>
+                    <!-- Dropdown -->
+                    <div class="absolute right-0 mt-2 w-20 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 overflow-hidden">
+                        <a href="#" class="block px-4 py-2 text-xs text-brandBlue hover:bg-gray-100 font-bold uppercase tracking-widest">PT</a>
+                        <a href="#" class="block px-4 py-2 text-xs text-gray-500 hover:bg-gray-100 font-bold uppercase tracking-widest hover:text-brandBlue">EN</a>
+                    </div>
+                </div>
             </div>
 
+            <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="hidden md:block bg-brandGold hover:bg-white hover:text-brandGold text-brandBlue px-6 py-2 rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 text-sm uppercase tracking-wide z-50">
+                Reservar
+            </button>
+
             <!-- Mobile Menu Button -->
-            <button class="md:hidden z-50 p-2 transition-colors duration-300" id="menu-btn" aria-label="Open Menu">
+            <button class="md:hidden z-50 text-white" id="mobile-menu-btn">
                 <i data-lucide="menu" class="w-8 h-8"></i>
             </button>
         </div>
     </nav>
 
     <!-- Mobile Menu Overlay -->
-    <div class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8" id="mobile-menu">
-        <button class="absolute top-6 right-6 text-navy p-2" id="close-menu-btn" aria-label="Close Menu">
-            <i data-lucide="x" class="w-10 h-10"></i>
-        </button>
-        <a href="#menu" class="font-serif text-3xl text-navy hover:text-gold mobile-link">Menus</a>
-        <a href="#chef" class="font-serif text-3xl text-navy hover:text-gold mobile-link">The Chef</a>
-        <a href="#process" class="font-serif text-3xl text-navy hover:text-gold mobile-link">Process</a>
-        <a href="#occasions" class="font-serif text-3xl text-navy hover:text-gold mobile-link">Occasions</a>
-        <a href="#contact" class="font-serif text-3xl text-gold mobile-link">Contact Us</a>
+    <div class="fixed inset-0 bg-brandBlue z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8" id="mobile-menu">
+        <a href="#concept" class="mobile-link font-serif text-3xl text-cream">O Conceito</a>
+        <a href="#chef" class="mobile-link font-serif text-3xl text-cream">A Chef</a>
+        <a href="#menu" class="mobile-link font-serif text-3xl text-cream">Menu</a>
+        <a href="#process" class="mobile-link font-serif text-3xl text-cream">Como Funciona</a>
+        <div class="flex space-x-4">
+            <span class="text-brandGold font-bold text-xl">PT</span>
+            <span class="text-white/50 text-xl">EN</span>
+        </div>
+        <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="bg-brandGold text-brandBlue px-8 py-3 rounded-full text-xl font-serif font-bold">Pedir Orçamento</button>
     </div>
 
     <!-- Hero Section -->
-    <header class="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-        <!-- Background Image with Overlay -->
+    <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <!-- Background Image with Parallax -->
         <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-navy/50 z-10"></div>
-            <!-- High quality Mediterranean food spread -->
-            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2574&auto=format&fit=crop" 
-                 alt="Portuguese Petiscos Spread" 
-                 class="w-full h-full object-cover hero-bg scale-110">
+            <div class="absolute inset-0 bg-brandBlue/40 z-10"></div> <!-- Overlay -->
+            <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Mesa Mediterrânica" 
+                 class="w-full h-full object-cover hero-img scale-110">
         </div>
 
         <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-            <span class="block text-white/90 font-sans tracking-[0.2em] text-sm md:text-base mb-4 uppercase hero-subtitle">From Setúbal to Lisbon</span>
-            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 leading-tight hero-title">
-                Authentic <span class="italic text-gold">Petiscos</span><br> for Effortless Hosting.
+            <p class="hero-sub text-cream/90 uppercase tracking-[0.2em] text-sm md:text-base mb-4 font-bold">Setúbal &bull; Lisboa &bull; Cascais</p>
+            <h1 class="hero-title font-serif text-5xl md:text-7xl lg:text-8xl text-cream leading-tight mb-6">
+                Autênticos Petiscos<br>
+                <span class="italic text-brandGold">Portugueses</span> para Eventos
             </h1>
-            <p class="text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto mb-10 hero-text">
-                Elevate your private gatherings with culturally authentic, Mediterranean-style finger food. We bring the soul of Portuguese sharing plates directly to your table.
+            <p class="hero-desc text-cream/90 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+                Elevamos os seus convívios com ingredientes mediterrânicos frescos e um serviço de catering boutique sem complicações.
             </p>
             <div class="hero-cta opacity-0">
-                <a href="#menu" class="inline-block bg-white text-navy px-8 py-4 rounded-full font-serif text-lg shadow-xl hover:bg-gold hover:text-white transition-all transform hover:scale-105">
-                    Explore Our Menus
+                <a href="#menu" class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-cream hover:text-brandBlue transition-all duration-300 transform hover:scale-105">
+                    Ver Menu
                 </a>
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-            <i data-lucide="chevron-down" class="w-8 h-8 opacity-80"></i>
-        </div>
-    </header>
-
-    <!-- Intro / Philosophy Section -->
-    <section class="py-24 px-6 md:px-12 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="order-2 lg:order-1 relative">
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Updated with new images -->
-                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811979/549794035_122144086268820076_3341570067094229826_n_b9eyot.jpg" alt="Detail Food" class="rounded-lg object-cover h-64 w-full translate-y-8 parallax-img shadow-lg">
-                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811950/587362361_17874169929456062_2799684152371114719_n_r6s2xt.jpg" alt="Table Spread" class="rounded-lg object-cover h-64 w-full parallax-img-fast shadow-lg">
-                </div>
-                <!-- Decorative Circle in Gold/Navy tint -->
-                <div class="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gold/10 rounded-full blur-3xl"></div>
-            </div>
-            
-            <div class="order-1 lg:order-2 intro-text">
-                <h4 class="text-gold font-bold font-sans text-sm tracking-widest uppercase mb-4">Our Philosophy</h4>
-                <h2 class="font-serif text-4xl md:text-5xl text-navy mb-6">More than food. <br>It's about connection.</h2>
-                <p class="text-stone-600 text-lg leading-relaxed mb-6">
-                    At <span class="font-bold text-navy">100PRATOS</span>, we believe the best conversations happen over shared plates. Based in the heart of Setúbal, we source the freshest local seafood, artisanal cheeses, and sun-ripened produce to craft grazing tables and hot petiscos that spark joy.
-                </p>
-                <ul class="space-y-3 font-serif text-lg text-navy">
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-gold"></i> Authentic Portuguese Recipes</li>
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-gold"></i> Farm-fresh Mediterranean Ingredients</li>
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-gold"></i> Beautifully Plated & Ready to Serve</li>
-                </ul>
-            </div>
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-brandGold z-20">
+            <i data-lucide="arrow-down" class="w-6 h-6"></i>
         </div>
     </section>
 
-    <!-- MEET THE CHEF SECTION -->
-    <section id="chef" class="py-24 bg-cream relative">
+    <!-- Concept Section -->
+    <section id="concept" class="py-24 md:py-32 bg-cream relative">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                
-                <!-- Chef Image -->
-                <div class="w-full md:w-1/2 relative chef-img-container">
-                    <div class="relative rounded-t-full overflow-hidden border-b-8 border-gold shadow-2xl mx-auto max-w-md aspect-[3/4]">
-                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811569/581523494_122146952066820076_8636538268897339470_n_yjvdmv.jpg" 
-                             alt="Chef Rita Braz" 
-                             class="w-full h-full object-cover">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <!-- Image Collage -->
+                <div class="relative h-[600px] w-full hidden md:block concept-images">
+                    <div class="absolute top-0 left-0 w-3/4 h-3/4 overflow-hidden rounded-tr-[100px] rounded-bl-[40px] shadow-2xl z-10 border-4 border-white">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767812021/504370381_17856154566456062_3236832142533241151_n_1_hlef0x.png" class="w-full h-full object-cover parallax-img" alt="Setup de Catering">
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-2/3 h-2/3 overflow-hidden rounded-tl-[100px] rounded-br-[40px] shadow-2xl z-20 border-8 border-cream">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811950/587362361_17874169929456062_2799684152371114719_n_r6s2xt.jpg" class="w-full h-full object-cover parallax-img-slow" alt="Vinho e Queijo">
                     </div>
                 </div>
 
-                <!-- Chef Bio -->
-                <div class="w-full md:w-1/2 text-left chef-text">
-                    <span class="text-gold font-bold font-sans text-sm tracking-widest uppercase">The Hands Behind the Flavor</span>
-                    <h2 class="font-serif text-4xl md:text-5xl text-navy mt-4 mb-6">Meet Chef Rita Braz</h2>
-                    <div class="w-20 h-1 bg-gold mb-8"></div>
-                    <p class="text-stone-600 text-lg leading-relaxed mb-6">
-                        Born from a passion for authentic flavors and the joy of hosting, Rita Braz founded 100PRATOS to bring the warmth of a Portuguese family table to your events.
-                    </p>
-                    <p class="text-stone-600 text-lg leading-relaxed mb-8">
-                        With a deep respect for seasonal ingredients and traditional recipes passed down through generations, Rita transforms simple, fresh components into sophisticated <em>Petiscos</em> that encourage sharing, storytelling, and celebration.
+                <!-- Text Content -->
+                <div class="space-y-8 concept-text">
+                    <span class="text-brandGold uppercase tracking-widest font-bold text-sm">A Nossa Filosofia</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight">
+                        Sabores Autênticos,<br><span class="italic">Pratos de Partilha</span>.
+                    </h2>
+                    <p class="text-charcoal/80 text-lg leading-relaxed">
+                        Na <strong>100PRATOS</strong>, acreditamos que as melhores conversas acontecem à volta de pratos partilhados. Sediados no coração de Setúbal, selecionamos o marisco local mais fresco, queijos artesanais e produtos amadurecidos ao sol para criar "grazing tables" e petiscos quentes que trazem alegria.
                     </p>
                     
-                    <div class="flex items-center gap-4">
-                        <span class="font-serif italic text-navy text-xl">"Cooking is my way of giving love."</span>
-                        <div class="h-px w-12 bg-navy/30"></div>
-                        <span class="font-sans font-bold text-navy text-sm uppercase">Rita Braz</span>
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="text-brandGold w-6 h-6"></i>
+                            <span class="font-serif text-xl text-brandBlue">Receitas Tradicionais Portuguesas</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="text-brandGold w-6 h-6"></i>
+                            <span class="font-serif text-xl text-brandBlue">Ingredientes Mediterrânicos Frescos</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="text-brandGold w-6 h-6"></i>
+                            <span class="font-serif text-xl text-brandBlue">Empratamento cuidado e pronto a servir</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chef Rita Braz Section -->
+    <section id="chef" class="py-24 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <!-- Text Content (Left on desktop) -->
+                <div class="order-2 md:order-1 space-y-6">
+                    <span class="text-brandGold uppercase tracking-widest font-bold text-sm">As Mãos por Trás do Sabor</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight">
+                        Conheça a Chef <span class="italic">Rita Braz</span>
+                    </h2>
+                    
+                    <p class="text-charcoal/80 text-lg leading-relaxed">
+                        Nascida de uma paixão por sabores autênticos e pela alegria de receber, Rita Braz fundou a 100PRATOS para trazer o calor de uma mesa familiar portuguesa para os seus eventos.
+                    </p>
+                    
+                    <p class="text-charcoal/80 text-lg leading-relaxed">
+                        Com um profundo respeito pelos ingredientes sazonais e receitas tradicionais passadas de geração em geração, a Rita transforma componentes simples e frescos em Petiscos sofisticados que incentivam a partilha, as histórias e a celebração.
+                    </p>
+
+                    <div class="pt-6 relative">
+                        <i data-lucide="quote" class="w-10 h-10 text-brandGold/30 absolute -top-2 left-0"></i>
+                        <p class="font-serif text-2xl text-brandBlue italic relative z-10 pl-6 border-l-4 border-brandGold">
+                            "Cozinhar é a minha forma de dar amor."
+                        </p>
+                        <p class="mt-2 pl-6 font-bold text-sm uppercase tracking-wide text-brandGold">— Rita Braz</p>
+                    </div>
+                </div>
+
+                <!-- Image (Right on desktop) -->
+                <div class="order-1 md:order-2 relative flex justify-center">
+                    <div class="relative w-full max-w-md aspect-[4/5]">
+                         <!-- Decor background blob -->
+                         <div class="absolute inset-0 bg-brandBlue rounded-tr-[80px] rounded-bl-[80px] transform translate-x-4 translate-y-4 opacity-10"></div>
+                         
+                         <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811569/581523494_122146952066820076_8636538268897339470_n_yjvdmv.jpg" 
+                              alt="Chef Rita Braz" 
+                              class="w-full h-full object-cover rounded-tr-[80px] rounded-bl-[80px] shadow-xl relative z-10">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Signature Menus (Contrast Fixed) -->
-    <section id="menu" class="py-24 bg-gray-50 relative">
+    <!-- Marquee Separator -->
+    <div class="bg-brandBlue py-6 overflow-hidden whitespace-nowrap border-y border-brandBlue/10 relative z-10">
+        <div class="inline-block animate-marquee text-brandGold">
+            <span class="text-2xl md:text-4xl font-serif mx-8 italic">Sabores Autênticos</span> •
+            <span class="text-2xl md:text-4xl font-serif text-white mx-8">Ingredientes Frescos</span> •
+            <span class="text-2xl md:text-4xl font-serif mx-8 italic">Feito em Portugal</span> •
+            <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span> •
+            <span class="text-2xl md:text-4xl font-serif mx-8 italic">Sabores Autênticos</span> •
+            <span class="text-2xl md:text-4xl font-serif text-white mx-8">Ingredientes Frescos</span> •
+        </div>
+    </div>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-24 bg-sand/30">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="text-navy/60 font-sans text-sm tracking-widest uppercase">Culinary Excellence</span>
-                <h2 class="font-serif text-4xl md:text-5xl mt-3 text-navy">Signature Collections</h2>
-                <div class="w-24 h-1 bg-gold mx-auto mt-6"></div>
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <span class="text-brandGold uppercase tracking-widest font-bold text-sm">Seleção Curada</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">100 Momentos de Alegria</h2>
+                <p class="text-charcoal/70">Do clássico Bacalhau aos modernos petiscos vegetarianos, o nosso menu foi desenhado para impacto visual e diversidade.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
                 <!-- Card 1 -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 menu-card cursor-pointer flex flex-col h-full opacity-0">
-                    <div class="h-64 overflow-hidden relative shrink-0">
-                        <!-- Portfolio Image 1 -->
-                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767812021/504370381_17856154566456062_3236832142533241151_n_1_hlef0x.png" alt="The Grazing Table" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-navy/20 group-hover:bg-navy/10 transition-colors"></div>
+                <div class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767812021/504370381_17856154566456062_3236832142533241151_n_1_hlef0x.png" 
+                             alt="Tábua de Queijos e Enchidos" class="menu-img w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-brandGold text-brandBlue text-xs font-bold px-3 py-1 rounded-full uppercase">Mais Vendido</div>
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="font-serif text-2xl text-navy mb-3">The Grazing Experience</h3>
-                        <p class="text-stone-600 text-sm mb-4 leading-relaxed">A visually stunning centerpiece for social mixing. Perfect for welcoming guests with authentic Portuguese flavors.</p>
-                        
-                        <div class="mb-6 flex-grow">
-                            <h4 class="text-xs font-bold text-navy uppercase tracking-wider mb-3 border-b border-gray-100 pb-1">Includes</h4>
-                            <ul class="text-sm text-stone-600 space-y-2">
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Premium Portuguese Cured Hams (Presunto)</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Serra da Estrela & Azeitão Cheeses</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Artisanal Pumpkin & Fig Jams</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Crusty Regional Mafra Bread & Crackers</li>
-                            </ul>
+                    <div class="p-8">
+                        <h3 class="font-serif text-2xl text-brandBlue mb-2">Tábua de Setúbal</h3>
+                        <p class="text-sm text-charcoal/60 mb-4 line-clamp-2">Uma seleção luxuosa de Queijo de Azeitão, presunto curado, mel local, nozes e pão rústico artesanal.</p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="font-bold text-brandBlue">Desde €25/pp</span>
+                            <span class="text-brandGold group-hover:translate-x-1 transition-transform">Ver Detalhes →</span>
                         </div>
-
-                        <a href="#contact" class="inline-block text-center w-full border border-navy text-navy font-serif font-bold py-3 rounded hover:bg-navy hover:text-white transition-colors uppercase text-xs tracking-widest">
-                            Request Quote
-                        </a>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 menu-card cursor-pointer flex flex-col h-full opacity-0">
-                    <div class="h-64 overflow-hidden relative shrink-0">
-                         <!-- Portfolio Image 2 -->
-                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811979/549794035_122144086268820076_3341570067094229826_n_b9eyot.jpg" alt="Hot Petiscos" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-navy/20 group-hover:bg-navy/10 transition-colors"></div>
+                <div class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811979/549794035_122144086268820076_3341570067094229826_n_b9eyot.jpg" 
+                             alt="Petiscos Quentes" class="menu-img w-full h-full object-cover transition-transform duration-700">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="font-serif text-2xl text-navy mb-3">Hot Petiscos</h3>
-                        <p class="text-stone-600 text-sm mb-4 leading-relaxed">Comforting, warm bites prepared fresh. The true soul of a Portuguese "Tasca" elevated for your private event.</p>
-                        
-                        <div class="mb-6 flex-grow">
-                            <h4 class="text-xs font-bold text-navy uppercase tracking-wider mb-3 border-b border-gray-100 pb-1">Highlights</h4>
-                            <ul class="text-sm text-stone-600 space-y-2">
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Gambas à Guilho (Garlic Shrimp)</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Chouriço Assado (Flaming Chorizo)</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Warm Meat Croquettes with Mustard</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Pica-Pau (Marinated Pork bites)</li>
-                            </ul>
+                    <div class="p-8">
+                        <h3 class="font-serif text-2xl text-brandBlue mb-2">Coleção de Quentes</h3>
+                        <p class="text-sm text-charcoal/60 mb-4 line-clamp-2">Mini pastéis de bacalhau estaladiços, chouriço assado e gambas ao alho.</p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="font-bold text-brandBlue">Desde €18/pp</span>
+                            <span class="text-brandGold group-hover:translate-x-1 transition-transform">Ver Detalhes →</span>
                         </div>
-
-                        <a href="#contact" class="inline-block text-center w-full border border-navy text-navy font-serif font-bold py-3 rounded hover:bg-navy hover:text-white transition-colors uppercase text-xs tracking-widest">
-                            Request Quote
-                        </a>
                     </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 menu-card cursor-pointer flex flex-col h-full opacity-0">
-                    <div class="h-64 overflow-hidden relative shrink-0">
-                         <!-- Portfolio Image 3 -->
-                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811950/587362361_17874169929456062_2799684152371114719_n_r6s2xt.jpg" alt="Sea & Earth" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-navy/20 group-hover:bg-navy/10 transition-colors"></div>
+                <div class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811950/587362361_17874169929456062_2799684152371114719_n_r6s2xt.jpg" 
+                             alt="Jardim Mediterrânico" class="menu-img w-full h-full object-cover transition-transform duration-700">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="font-serif text-2xl text-navy mb-3">Sea & Earth</h3>
-                        <p class="text-stone-600 text-sm mb-4 leading-relaxed">A balanced fusion of Setúbal’s finest seafood and the rich, savory meats of the Alentejo interior.</p>
-                        
-                        <div class="mb-6 flex-grow">
-                            <h4 class="text-xs font-bold text-navy uppercase tracking-wider mb-3 border-b border-gray-100 pb-1">Selection</h4>
-                            <ul class="text-sm text-stone-600 space-y-2">
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Fried Cuttlefish Strips (Choco Frito)</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Codfish Fritters (Pastéis de Bacalhau)</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Farinheira Scramble with Eggs</li>
-                                <li class="flex items-start gap-2"><span class="text-gold">•</span> Octopus Salad with Peppers</li>
-                            </ul>
+                    <div class="p-8">
+                        <h3 class="font-serif text-2xl text-brandBlue mb-2">Jardim Mediterrânico</h3>
+                        <p class="text-sm text-charcoal/60 mb-4 line-clamp-2">Espetadas de vegetais assados, variedades de húmus, azeitonas marinadas e fruta fresca.</p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="font-bold text-brandBlue">Desde €20/pp</span>
+                            <span class="text-brandGold group-hover:translate-x-1 transition-transform">Ver Detalhes →</span>
                         </div>
-
-                        <a href="#contact" class="inline-block text-center w-full border border-navy text-navy font-serif font-bold py-3 rounded hover:bg-navy hover:text-white transition-colors uppercase text-xs tracking-widest">
-                            Request Quote
-                        </a>
                     </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border border-brandBlue text-brandBlue px-8 py-3 rounded-full hover:bg-brandBlue hover:text-white transition-all duration-300 font-bold">Descarregar Menu em PDF</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="process" class="py-24 bg-brandBlue text-cream relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-brandGold rounded-full blur-3xl opacity-20"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-cream rounded-full blur-3xl opacity-10"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="mb-16">
+                <h2 class="font-serif text-4xl md:text-5xl mb-4">Simples e Perfeito</h2>
+                <div class="w-20 h-1 bg-brandGold"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 process-steps">
+                <!-- Step 1 -->
+                <div class="process-step">
+                    <div class="text-6xl font-serif text-brandGold/50 mb-4">01</div>
+                    <h3 class="text-2xl font-serif mb-3 text-white">Escolha o Menu</h3>
+                    <p class="text-cream/70 leading-relaxed">Explore os nossos pacotes ou personalize a sua seleção com mais de 100 petiscos. Adaptamos a restrições alimentares.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="process-step">
+                    <div class="text-6xl font-serif text-brandGold/50 mb-4">02</div>
+                    <h3 class="text-2xl font-serif mb-3 text-white">Preparação Fresca</h3>
+                    <p class="text-cream/70 leading-relaxed">Os nossos chefs preparam tudo no dia do evento, utilizando ingredientes locais frescos dos mercados de Setúbal.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="process-step">
+                    <div class="text-6xl font-serif text-brandGold/50 mb-4">03</div>
+                    <h3 class="text-2xl font-serif mb-3 text-white">Entrega e Montagem</h3>
+                    <p class="text-cream/70 leading-relaxed">Entregamos à sua porta com estilo. Para eventos maiores, a nossa equipa trata de toda a montagem.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section id="process" class="py-24 bg-navy text-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="font-serif text-4xl md:text-6xl mb-6">Seamless Service.<br>Unforgettable Taste.</h2>
-                    <p class="text-white/80 text-lg mb-8 max-w-md">We handle the complexity of catering so you can focus on being the perfect host.</p>
-                    <a href="#contact" class="inline-flex items-center gap-2 border-b border-gold text-gold pb-1 hover:text-white hover:border-white transition-colors">
-                        Start Planning <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
+    <!-- Reviews / Social Proof -->
+    <section class="py-24 bg-cream">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <i data-lucide="quote" class="w-12 h-12 text-brandGold mx-auto mb-8 opacity-50"></i>
+            <h3 class="font-serif text-2xl md:text-4xl text-brandBlue italic leading-relaxed mb-8">
+                "A 100 Pratos transformou a nossa festa de escritório. A comida não só estava deliciosa como tinha um aspeto deslumbrante. A tábua de queijos foi o tema da noite!"
+            </h3>
+            <div class="flex items-center justify-center space-x-4">
+                <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover">
                 </div>
-
-                <div class="space-y-8">
-                    <!-- Step 1 -->
-                    <div class="flex gap-6 items-start step-card">
-                        <div class="w-12 h-12 rounded-full bg-gold text-navy flex items-center justify-center font-serif text-xl font-bold shrink-0">1</div>
-                        <div>
-                            <h3 class="font-serif text-2xl mb-2">Curate Your Menu</h3>
-                            <p class="text-white/70">Choose from our signature packages or customize a selection of petiscos.</p>
-                        </div>
-                    </div>
-                    <!-- Step 2 -->
-                    <div class="flex gap-6 items-start step-card">
-                        <div class="w-12 h-12 rounded-full bg-gold text-navy flex items-center justify-center font-serif text-xl font-bold shrink-0">2</div>
-                        <div>
-                            <h3 class="font-serif text-2xl mb-2">Crafted in Setúbal</h3>
-                            <p class="text-white/70">Our chefs prepare everything fresh using locally sourced ingredients on the day of your event.</p>
-                        </div>
-                    </div>
-                    <!-- Step 3 -->
-                    <div class="flex gap-6 items-start step-card">
-                        <div class="w-12 h-12 rounded-full bg-gold text-navy flex items-center justify-center font-serif text-xl font-bold shrink-0">3</div>
-                        <div>
-                            <h3 class="font-serif text-2xl mb-2">Delivered to Lisbon</h3>
-                            <p class="text-white/70">We deliver beautifully plated food directly to your venue or home, ready to impress.</p>
-                        </div>
-                    </div>
+                <div class="text-left">
+                    <p class="font-bold text-brandBlue">Maria Silva</p>
+                    <p class="text-xs text-charcoal/60 uppercase tracking-wide">Diretora de Marketing, Lisboa</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Occasions -->
-    <section id="occasions" class="py-24 bg-cream">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-             <h2 class="font-serif text-4xl mb-12 text-navy">Perfect For Every Gathering</h2>
-             
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                 <!-- Private Parties -->
-                 <div class="relative h-80 rounded-lg overflow-hidden group shadow-lg cursor-pointer">
-                     <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Private Party">
-                     <div class="absolute inset-0 bg-navy/40 flex items-center justify-center transition-colors group-hover:bg-navy/30">
-                         <h3 class="text-white font-serif text-2xl italic">Private Parties</h3>
-                     </div>
-                 </div>
-                 <!-- Corporate Events -->
-                 <div class="relative h-80 rounded-lg overflow-hidden group shadow-lg cursor-pointer">
-                     <img src="https://images.unsplash.com/photo-1519225448526-72997dd6cbbe?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Corporate">
-                     <div class="absolute inset-0 bg-navy/40 flex items-center justify-center transition-colors group-hover:bg-navy/30">
-                         <h3 class="text-white font-serif text-2xl italic">Corporate Events</h3>
-                     </div>
-                 </div>
-                 <!-- Social Gatherings -->
-                 <div class="relative h-80 rounded-lg overflow-hidden group shadow-lg cursor-pointer">
-                     <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Social Gatherings">
-                     <div class="absolute inset-0 bg-navy/40 flex items-center justify-center transition-colors group-hover:bg-navy/30">
-                         <h3 class="text-white font-serif text-2xl italic">Social Gatherings</h3>
-                     </div>
-                 </div>
-             </div>
-        </div>
-    </section>
-
-    <!-- Social Proof / Marquee -->
-    <div class="py-12 bg-white border-y border-stone-200 overflow-hidden flex">
-        <div class="flex items-center gap-12 whitespace-nowrap animate-marquee w-max">
-            <!-- Set 1 -->
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"The highlight of our evening!"</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"Authentic Portuguese flavors."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"Beautiful presentation."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"100PRATOS made hosting easy."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"Fresh, delicious, and on time."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"A taste of Setúbal in Lisbon."</span>
-            
-            <!-- Set 2 (Duplicate for Loop) -->
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"The highlight of our evening!"</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"Authentic Portuguese flavors."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"Beautiful presentation."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"100PRATOS made hosting easy."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"Fresh, delicious, and on time."</span>
-            <span class="text-3xl font-serif text-gold">★</span>
-            <span class="text-2xl font-serif text-navy italic">"A taste of Setúbal in Lisbon."</span>
-        </div>
-    </div>
-
-    <!-- CTA Section -->
-    <section id="contact" class="py-24 bg-navy text-white relative overflow-hidden">
-        <!-- Abstract Background Shape -->
-        <div class="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="w-full h-full">
-                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
-            </svg>
-        </div>
-
-        <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
-            <h2 class="font-serif text-5xl md:text-6xl mb-6">Ready to impress your guests?</h2>
-            <p class="text-white/80 text-xl mb-10 max-w-2xl mx-auto">Tell us about your event. We'll craft the perfect Petiscos menu for you.</p>
-            
-            <form id="contact-form" class="max-w-2xl mx-auto space-y-4 text-left">
-                <!-- Row 1: Name & Email -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-gold mb-1 ml-1">Name</label>
-                        <input type="text" placeholder="Your Name" required class="w-full px-4 py-3 rounded bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:bg-white/20 focus:border-gold transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-gold mb-1 ml-1">Email</label>
-                        <input type="email" placeholder="email@address.com" required class="w-full px-4 py-3 rounded bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:bg-white/20 focus:border-gold transition-colors">
-                    </div>
+    <!-- Contact Form Section (New CTA) -->
+    <section id="contact" class="py-20 bg-brandBlue relative z-30">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl border border-white/10">
+                <div class="text-center mb-10">
+                    <span class="text-brandGold uppercase tracking-widest font-bold text-sm">Vamos Conversar</span>
+                    <h2 class="font-serif text-3xl md:text-5xl text-white mt-2">Comece a Planear o Seu Evento</h2>
+                    <p class="text-cream/70 mt-4">Preencha o formulário e entraremos em contacto consigo com um orçamento personalizado em 24h.</p>
                 </div>
 
-                <!-- Row 2: Event Type & Guests -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Nome</label>
+                            <input type="text" placeholder="O seu nome" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Email</label>
+                            <input type="email" placeholder="email@exemplo.com" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Data do Evento</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Nº de Pessoas (aprox.)</label>
+                            <input type="number" placeholder="Ex: 30" class="form-input">
+                        </div>
+                    </div>
+
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-gold mb-1 ml-1">Event Type</label>
-                        <select class="w-full px-4 py-3 rounded bg-white/10 border border-white/20 text-white focus:outline-none focus:bg-white/20 focus:border-gold transition-colors appearance-none">
-                            <option class="text-navy" value="" disabled selected>Select an occasion</option>
-                            <option class="text-navy">Private Party</option>
-                            <option class="text-navy">Corporate Event</option>
-                            <option class="text-navy">Wedding / Baptism</option>
-                            <option class="text-navy">Other</option>
+                        <label class="block text-brandGold text-xs uppercase font-bold mb-2">Tipo de Evento</label>
+                        <select class="form-input text-white bg-transparent">
+                            <option value="" class="bg-brandBlue">Selecione uma opção...</option>
+                            <option value="corporate" class="bg-brandBlue">Evento Corporativo</option>
+                            <option value="private" class="bg-brandBlue">Festa Privada / Aniversário</option>
+                            <option value="wedding" class="bg-brandBlue">Casamento / Batizado</option>
+                            <option value="other" class="bg-brandBlue">Outro</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-gold mb-1 ml-1">Number of Guests</label>
-                        <input type="number" placeholder="e.g. 20" min="1" class="w-full px-4 py-3 rounded bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:bg-white/20 focus:border-gold transition-colors">
+
+                    <div class="pt-4 text-center">
+                        <button type="submit" class="bg-brandGold text-brandBlue px-12 py-4 rounded-full font-bold text-lg hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-lg w-full md:w-auto">
+                            Pedir Orçamento Gratuito
+                        </button>
                     </div>
-                </div>
-
-                <!-- Row 3: Message -->
-                <div>
-                    <label class="block text-xs uppercase tracking-wider text-gold mb-1 ml-1">Additional Details</label>
-                    <textarea rows="4" placeholder="Tell us about your vision, dietary requirements, or any special requests..." class="w-full px-4 py-3 rounded bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:bg-white/20 focus:border-gold transition-colors resize-none"></textarea>
-                </div>
-
-                <button type="submit" class="w-full bg-gold text-navy font-serif font-bold text-lg py-4 rounded hover:bg-yellow-500 transition-colors shadow-lg mt-4">
-                    Request Quote
-                </button>
-            </form>
-            
-            <p class="mt-8 text-sm opacity-70">Or email us directly at <a href="mailto:hello@100pratos.pt" class="underline hover:text-gold">hello@100pratos.pt</a></p>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 text-navy/70 py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="flex items-center gap-4">
-                 <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png" alt="100PRATOS Logo" class="h-12 opacity-100">
-                 <span class="text-sm font-light text-navy">Setúbal • Lisbon • Surroundings</span>
+    <footer class="bg-brandBlue text-sand pt-10 pb-10 border-t border-white/10 relative z-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-sand/50">
+                <div class="mb-4 md:mb-0">
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png" alt="100 Pratos" class="h-12 w-auto brightness-0 invert opacity-50 mb-2">
+                    <p>&copy; 2024 100 Pratos Catering. Todos os direitos reservados.</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="facebook" class="w-4 h-4"></i> Facebook</a>
+                    </div>
+                    <div class="flex flex-col md:items-end text-right">
+                        <span>ola@100pratos.pt</span>
+                        <span>+351 912 345 678</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-gold transition-colors"><i data-lucide="instagram"></i></a>
-                <a href="#" class="hover:text-gold transition-colors"><i data-lucide="facebook"></i></a>
-                <a href="#" class="hover:text-gold transition-colors"><i data-lucide="mail"></i></a>
-            </div>
-            
-            <p class="text-sm">© 2026 100PRATOS. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Mobile Sticky CTA -->
-    <div class="fixed bottom-0 w-full bg-white border-t border-gray-200 p-4 md:hidden z-40 flex justify-between items-center shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
-        <div>
-            <p class="text-xs text-navy/60 uppercase tracking-wide">Planning an event?</p>
-            <p class="font-serif text-navy font-bold">Get a Quote</p>
-        </div>
-        <a href="#contact" class="bg-gold text-navy px-6 py-2 rounded-full font-serif text-sm shadow-md font-bold">
-            Order Now
-        </a>
-    </div>
+    <!-- GSAP & Lenis Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
     <script>
         // Initialize Icons
         lucide.createIcons();
 
-        // 1. Initialize Lenis (Smooth Scrolling)
+        // 1. Initialize Lenis (Smooth Scroll)
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -548,222 +527,107 @@
         }
         requestAnimationFrame(raf);
 
-        // 2. Loading Screen Logic with Safety Timeout & Consolidated Animations
-        const removeLoader = () => {
-             const loader = document.getElementById('loader');
-             if(loader && !loader.classList.contains('hidden')) {
-                 const tl = gsap.timeline({
-                     onComplete: () => {
-                         loader.classList.add('hidden');
-                         // Trigger refresh after layout is revealed
-                         ScrollTrigger.refresh();
-                     }
-                 });
-                 
-                 tl.to('.loader', {
-                    yPercent: -100,
-                    duration: 1,
-                    ease: 'power4.inOut'
-                 })
-                 // Animate Hero Elements AFTER loader moves
-                 .from('.hero-subtitle', {
-                    y: 20,
-                    autoAlpha: 0,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                 }, "-=0.5")
-                 .from('.hero-title', {
-                    y: 50,
-                    autoAlpha: 0,
-                    duration: 1,
-                    ease: 'power3.out'
-                 }, "-=0.6")
-                 .from('.hero-text', {
-                    y: 30,
-                    autoAlpha: 0,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                 }, "-=0.6")
-                 .to('.hero-cta', {
-                    autoAlpha: 1,
-                    y: 0,
-                    duration: 0.5
-                 }, "-=0.4");
-             }
-        };
-
-        // Run when fully loaded
-        window.addEventListener('load', removeLoader);
-        
-        // Safety timeout (max 3 seconds) in case an image hangs
-        setTimeout(() => {
-            removeLoader();
-        }, 3000);
-
-        // 3. GSAP Animations
+        // Sync GSAP with Lenis
         gsap.registerPlugin(ScrollTrigger);
+        
+        // 2. Animations
+        const tl = gsap.timeline();
 
-        // Parallax Effect on Intro Images
-        gsap.to(".parallax-img", {
+        // Loader Animation
+        tl.to(".loader img", {
             y: -50,
-            scrollTrigger: {
-                trigger: ".intro-text",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1.5
-            }
-        });
-        
-        gsap.to(".parallax-img-fast", {
-            y: -80,
-            scrollTrigger: {
-                trigger: ".intro-text",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 2
-            }
-        });
-
-        // Text Reveals
-        gsap.from(".intro-text > *", {
-            y: 50,
-            autoAlpha: 0,
+            opacity: 0,
             duration: 1,
-            stagger: 0.2,
-            scrollTrigger: {
-                trigger: ".intro-text",
-                start: "top 80%",
-            }
-        });
-        
-        // Chef Section Reveal
-        gsap.from(".chef-img-container", {
-            x: -50,
-            autoAlpha: 0,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: "#chef",
-                start: "top 70%",
-            }
-        });
-        
-        gsap.from(".chef-text > *", {
-            x: 50,
-            autoAlpha: 0,
-            duration: 1,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: "#chef",
-                start: "top 70%",
-            }
-        });
-
-        // Menu Cards Stagger - UPDATED for robust visibility
-        // We use autoAlpha for performance and fromTo to ensure start state
-        gsap.fromTo(".menu-card", 
-            { y: 100, autoAlpha: 0 },
-            {
-                y: 0,
-                autoAlpha: 1,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#menu",
-                    start: "top 75%", // Triggers a bit earlier
-                }
-            }
-        );
-
-        // Step Cards Slide In
-        gsap.from(".step-card", {
-            x: 50,
-            autoAlpha: 0,
+            delay: 1.5,
+            ease: "power4.in"
+        })
+        .to(".loader", {
+            yPercent: -100,
+            duration: 1.2,
+            ease: "power4.inOut"
+        })
+        // Hero Reveal
+        .from(".hero-sub", {
+            y: 30,
+            opacity: 0,
             duration: 0.8,
-            stagger: 0.2,
+            ease: "power3.out"
+        }, "-=0.5")
+        .from(".hero-title", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        }, "-=0.6")
+        .from(".hero-desc", {
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        }, "-=0.8")
+        .to(".hero-cta", {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        }, "-=0.6");
+
+        // Parallax Effect for Hero Image
+        gsap.to(".hero-img", {
             scrollTrigger: {
-                trigger: "#process",
-                start: "top 60%",
-            }
+                trigger: "body",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            yPercent: 20,
+            scale: 1.0
         });
 
-        // Navbar Transformation
-        // State 1: Transparent + White Text + White Logo
-        // State 2: White BG + Navy Text + Navy Logo
-        const navbar = document.getElementById('navbar');
-        const navLogo = document.getElementById('nav-logo');
-        const menuBtn = document.getElementById('menu-btn');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                // Scrolled State
-                navbar.classList.add('bg-white', 'shadow-sm', 'text-navy', 'py-2');
-                navbar.classList.remove('bg-transparent', 'text-white', 'py-4');
-                // Revert Logo to original color (Navy) by removing invert
-                navLogo.classList.remove('brightness-0', 'invert');
-                menuBtn.classList.add('text-navy');
-                menuBtn.classList.remove('text-white');
-            } else {
-                // Top State
-                navbar.classList.add('bg-transparent', 'text-white', 'py-4');
-                navbar.classList.remove('bg-white', 'shadow-sm', 'text-navy', 'py-2');
-                // Invert Logo to white
-                navLogo.classList.add('brightness-0', 'invert');
-                menuBtn.classList.add('text-white');
-                menuBtn.classList.remove('text-navy');
-            }
+        // Navbar Transition
+        const navbar = document.querySelector('#navbar');
+        ScrollTrigger.create({
+            start: 'top -80',
+            end: 99999,
+            onEnter: () => navbar.classList.add('bg-brandBlue', 'shadow-lg', 'py-2'),
+            onLeaveBack: () => navbar.classList.remove('bg-brandBlue', 'shadow-lg', 'py-2')
         });
 
-        // Mobile Menu Toggle
-        const menuBtnEl = document.getElementById('menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu-btn');
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
         let isMenuOpen = false;
 
-        function toggleMenu(show) {
-            isMenuOpen = show;
-            if (show) {
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
                 mobileMenu.classList.remove('translate-x-full');
-                gsap.fromTo('.mobile-link', 
-                    { x: 50, opacity: 0 },
-                    { x: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.2 }
-                );
             } else {
                 mobileMenu.classList.add('translate-x-full');
             }
-        }
-
-        menuBtnEl.addEventListener('click', () => toggleMenu(true));
-        closeMenuBtn.addEventListener('click', () => toggleMenu(false));
+        });
 
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
-                toggleMenu(false);
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
             });
         });
 
-        // Form Submit Simulation
-        document.getElementById('contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const btn = e.target.querySelector('button');
-            const originalText = btn.innerText;
-            
-            btn.innerText = "Request Sent!";
-            btn.classList.remove('bg-gold', 'text-navy');
-            btn.classList.add('bg-green-600', 'text-white');
-            
-            setTimeout(() => {
-                alert("Thank you! We have received your request and will contact you shortly.");
-                btn.innerText = originalText;
-                btn.classList.add('bg-gold', 'text-navy');
-                btn.classList.remove('bg-green-600', 'text-white');
-                e.target.reset();
-            }, 500);
-        });
-
     </script>
+    
+    <style>
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+    </style>
 </body>
 </html>
