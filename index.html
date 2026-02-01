@@ -449,53 +449,64 @@
     </section>
 
     <!-- Footer -->
-    <section id="contact" class="min-h-[80vh] flex flex-col justify-between pt-24 pb-8 px-4 md:px-8 bg-brand-accent relative overflow-hidden text-brand-black">
-      <div class="relative z-10 text-white">
-        <h2 class="text-6xl md:text-[10rem] font-bold tracking-tighter leading-none mb-8">
-          READY<br />PLAYER<br />ONE?
-        </h2>
-        <a
-          href="ContactUs"
-          class="inline-flex items-center gap-4 text-xl md:text-2xl font-mono border-b-2 border-white pb-1 hover:gap-6 transition-all duration-300 hoverable"
-        >
-          CONTACT_US <span class="text-3xl">&rarr;</span>
-        </a>
-      </div>
+<section
+  id="contact"
+  class="min-h-[80vh] flex flex-col bg-brand-black relative overflow-hidden"
+>
+  <!-- CTA (BLUE) -->
+  <!-- CTA (BLUE, CONSTRAINED) -->
+<div class="relative z-10 bg-brand-accent text-white">
+  <div class="container mx-auto px-4 md:px-8 py-24">
+    <h2 class="text-6xl md:text-[10rem] font-bold tracking-tighter leading-none mb-8">
+      READY<br />PLAYER<br />ONE?
+    </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/20 pt-8 mt-12 relative z-10 text-white">
+    <a
+      href="ContactUs"
+      class="inline-flex items-center gap-4 text-xl md:text-2xl font-mono border-b-2 border-white pb-1 hover:gap-6 transition-all duration-300 hoverable"
+    >
+      CONTACT_US <span class="text-3xl">&rarr;</span>
+    </a>
+  </div>
+</div>
+
+
+  <!-- Footer strip (BLACK only, pinned to bottom) -->
+  <div class="relative z-20 bg-brand-black mt-auto">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/10 py-4 text-white">
+        
+        <!-- Logo / locations -->
         <div>
-          <div class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
+          <div class="text-3xl font-inter font-black tracking-[-0.10em] hoverable">
             <span class="italic">STU</span>DiO 17
           </div>
-          <p class="font-mono text-sm opacity-70">Portugal / Cyprus / Luxemburg / Germany</p>
+          <p class="font-mono text-sm opacity-70">
+            Portugal / Cyprus / Luxemburg / Germany
+          </p>
         </div>
 
-        <div>
-          <h4 class="font-bold mb-2">Social</h4>
-          <div class="flex gap-4 font-mono text-sm opacity-70">
-            <a href="https://www.linkedin.com/company/studio17world/" target="_blank" rel="noopener noreferrer" class="hover:underline">
-              LinkedIn
-            </a>
-            <a href="https://www.instagram.com/studio17.world/" target="_blank" rel="noopener noreferrer" class="hover:underline">
-              Instagram
-            </a>
+        <!-- Social -->
+        <div class="text-center">
+          <h4 class="font-mono text-xs tracking-widest opacity-50 mb-2">SOCIAL</h4>
+          <div class="flex justify-center gap-4 font-mono text-sm opacity-70">
+            <a href="#" class="hover:underline">LinkedIn</a>
+            <a href="#" class="hover:underline">Instagram</a>
           </div>
         </div>
 
+        <!-- Copyright -->
         <div class="md:text-right">
-          <p class="font-mono text-sm opacity-70">&copy; 2026 STUDiO 17. All rights reserved.</p>
+          <p class="font-mono text-sm opacity-50">
+            © 2026 STUDiO 17. All rights reserved.
+          </p>
         </div>
-      </div>
 
-      <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none">
-        <svg width="400" height="400" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none" />
-          <circle cx="50" cy="50" r="30" stroke="white" stroke-width="1" fill="none" />
-          <circle cx="50" cy="50" r="10" fill="white" />
-          <line x1="50" y1="50" x2="90" y2="50" stroke="white" stroke-width="2" />
-        </svg>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
   </main>
 
   <script>
