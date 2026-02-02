@@ -148,19 +148,20 @@
     <div class="cursor-outline"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-6 flex justify-between items-center backdrop-blur-sm bg-kairus-bg/10 border-b border-white/5">
-        <a href="#" class="text-2xl font-bold tracking-tighter hover-trigger z-50 relative">
+    <!-- FIX: Added md:mix-blend-difference to apply only on desktop. Added bg-kairus-bg/90 for solid mobile bg. -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center backdrop-blur-sm bg-kairus-bg/90 md:bg-kairus-bg/10 border-b border-white/5 md:mix-blend-difference transition-all duration-300">
+        <a href="#" class="text-2xl font-bold tracking-tighter hover-trigger z-50 relative text-white">
             KAIRUS <span class="text-kairus-accent">.</span>
         </a>
         
         <!-- Desktop Links -->
-        <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest">
+        <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-white">
             <a href="#services" class="hover:text-kairus-accent transition-colors hover-trigger">Serviços</a>
             <a href="#process" class="hover:text-kairus-accent transition-colors hover-trigger">Processo</a>
             <a href="#portfolio" class="hover:text-kairus-accent transition-colors hover-trigger">Portfólio</a>
         </div>
         
-        <a href="#contact" class="hidden md:block border border-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-kairus-accent hover:text-kairus-bg hover:border-kairus-accent transition-all duration-300 hover-trigger">
+        <a href="#contact" class="hidden md:block border border-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-kairus-accent hover:text-kairus-bg hover:border-kairus-accent transition-all duration-300 hover-trigger text-white">
             Consultoria
         </a>
 
@@ -185,13 +186,13 @@
     </div>
 
     <!-- Hero Section -->
-    <!-- Changed h-screen to h-[100dvh] for mobile browsers -->
-    <header class="relative w-full h-[100dvh] flex items-center justify-center overflow-hidden bg-kairus-bg bg-grid-pattern bg-[length:40px_40px]">
+    <!-- Changed h-[100dvh] to min-h-[100dvh] to prevent content overlap on very short screens -->
+    <header class="relative w-full min-h-[100dvh] flex items-center justify-center overflow-hidden bg-kairus-bg bg-grid-pattern bg-[length:40px_40px]">
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-kairus-bg via-transparent to-transparent z-10"></div>
         
-        <div class="container mx-auto px-6 relative z-20">
-            <div class="max-w-5xl pt-20 md:pt-0">
+        <div class="container mx-auto px-6 relative z-20 py-24 md:py-0">
+            <div class="max-w-5xl">
                 <p class="text-kairus-accent font-medium tracking-[0.2em] mb-4 overflow-hidden reveal-text text-xs md:text-base">
                     SOLUÇÕES DE ARQUITETURA & DESENVOLVIMENTO
                 </p>
@@ -478,8 +479,11 @@
             }
 
             // --- Lenis Smooth Scroll ---
+            // FIX: Check for mobile via userAgent or width to completely disable Lenis on mobile devices
+            const isMobile = window.innerWidth < 768;
+
             let lenis;
-            if (typeof Lenis !== 'undefined') {
+            if (typeof Lenis !== 'undefined' && !isMobile) {
                 lenis = new Lenis({
                     duration: 1.2,
                     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -487,7 +491,7 @@
                     gestureDirection: 'vertical',
                     smooth: true,
                     mouseMultiplier: 1,
-                    smoothTouch: false, // Keep native touch scroll on mobile for better feel/compatibility
+                    smoothTouch: false,
                     touchMultiplier: 2,
                 });
 
@@ -497,7 +501,7 @@
                 }
                 requestAnimationFrame(raf);
             } else {
-                console.warn("Lenis not loaded, falling back to native scroll");
+                // console.log("Native scroll active");
             }
 
             // --- Mobile Menu Logic ---
@@ -548,8 +552,16 @@
                     toggleMenu();
                     // Allow small delay for menu close before scrolling
                     const targetId = link.getAttribute('href');
+                    
+                    // Scroll logic based on active system
                     if(lenis) {
                         setTimeout(() => lenis.scrollTo(targetId), 300);
+                    } else {
+                        // Native scroll fallback
+                        setTimeout(() => {
+                            const target = document.querySelector(targetId);
+                            if(target) target.scrollIntoView({ behavior: 'smooth' });
+                        }, 300);
                     }
                 });
             });
