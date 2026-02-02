@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAIRUS Projetos | From Paper to Reality</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KAIRUS Projetos | Do Papel à Realidade</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,7 +43,13 @@
             background-color: #2C413C;
             color: #FFFBFF;
             overflow-x: hidden;
-            cursor: none; /* Custom cursor */
+            /* Disable custom cursor by default on mobile via media query below */
+        }
+
+        /* Prevent horizontal scroll issues */
+        html, body {
+            width: 100%;
+            position: relative;
         }
 
         /* Fallback for native smooth scroll if JS fails */
@@ -65,139 +71,142 @@
             overflow: hidden;
         }
 
-        /* Custom Cursor */
-        .cursor-dot,
-        .cursor-outline {
+        /* Custom Cursor - Desktop Only */
+        @media (min-width: 769px) {
+            body {
+                cursor: none;
+            }
+            .cursor-dot,
+            .cursor-outline {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+                z-index: 9999;
+                pointer-events: none;
+                display: block;
+            }
+            .cursor-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #04E6B5;
+            }
+            .cursor-outline {
+                width: 40px;
+                height: 40px;
+                border: 1px solid rgba(4, 230, 181, 0.5);
+                transition: width 0.2s, height 0.2s, background-color 0.2s;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none !important; }
+            body { cursor: auto !important; }
+            
+            /* Fix overlap in process section */
+            .process-content-mobile {
+                padding-left: 3.5rem; /* Space for the timeline line */
+            }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
+            width: 100%;
+            height: 100vh;
+            background-color: #2C413C;
+            z-index: 40;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #04E6B5;
-        }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(4, 230, 181, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        .mobile-menu-overlay.open {
+            transform: translateX(0);
         }
 
         /* Utilities */
-        .clip-text-image {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        
-        .line-clamp-animation span {
-            display: inline-block;
-            transform-origin: bottom left;
+        .reveal-text, .hero-line {
+            will-change: transform, opacity;
         }
 
-        /* Comparison Slider */
-        .img-comp-container {
-            position: relative;
-            height: 500px;
-            overflow: hidden;
-        }
-        .img-comp-img {
-            position: absolute;
-            width: auto;
-            height: auto;
-            overflow: hidden;
-        }
-        .img-comp-img img {
-            display: block;
-            vertical-align: middle;
-        }
-        .slider-handle {
-            position: absolute;
-            z-index: 9;
-            cursor: ew-resize;
-            width: 40px;
-            height: 40px;
-            background-color: #04E6B5;
-            border-radius: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 15px rgba(4, 230, 181, 0.4);
-        }
-        .slider-line {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #04E6B5;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 8;
-            pointer-events: none;
-        }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .cursor-dot, .cursor-outline { display: none; }
-            body { cursor: auto; }
+        /* Slider */
+        #comparison-slider {
+            touch-action: none; /* Prevent scroll while dragging */
         }
     </style>
 </head>
 <body class="antialiased selection:bg-kairus-accent selection:text-kairus-bg">
 
-    <!-- Custom Cursor Elements -->
+    <!-- Custom Cursor Elements (Desktop Only) -->
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-6 flex justify-between items-center backdrop-blur-sm bg-kairus-bg/10 border-b border-white/5">
-        <a href="#" class="text-2xl font-bold tracking-tighter hover-trigger">
+        <a href="#" class="text-2xl font-bold tracking-tighter hover-trigger z-50 relative">
             KAIRUS <span class="text-kairus-accent">.</span>
         </a>
+        
+        <!-- Desktop Links -->
         <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest">
-            <a href="#services" class="hover:text-kairus-accent transition-colors hover-trigger">Services</a>
-            <a href="#process" class="hover:text-kairus-accent transition-colors hover-trigger">Process</a>
-            <a href="#portfolio" class="hover:text-kairus-accent transition-colors hover-trigger">Portfolio</a>
+            <a href="#services" class="hover:text-kairus-accent transition-colors hover-trigger">Serviços</a>
+            <a href="#process" class="hover:text-kairus-accent transition-colors hover-trigger">Processo</a>
+            <a href="#portfolio" class="hover:text-kairus-accent transition-colors hover-trigger">Portfólio</a>
         </div>
+        
         <a href="#contact" class="hidden md:block border border-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-kairus-accent hover:text-kairus-bg hover:border-kairus-accent transition-all duration-300 hover-trigger">
-            Get Consulted
+            Consultoria
         </a>
-        <!-- Mobile Menu Button -->
-        <button class="md:hidden text-white hover-trigger" id="mobile-menu-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-            </svg>
+
+        <!-- Mobile Menu Button (Hamburger) -->
+        <button class="md:hidden text-white hover-trigger z-50 relative focus:outline-none" id="mobile-menu-btn">
+            <div class="w-8 h-8 flex flex-col justify-center items-end gap-1.5">
+                <span class="w-full h-0.5 bg-white transition-all duration-300 origin-right" id="line1"></span>
+                <span class="w-3/4 h-0.5 bg-white transition-all duration-300" id="line2"></span>
+                <span class="w-full h-0.5 bg-white transition-all duration-300 origin-right" id="line3"></span>
+            </div>
         </button>
     </nav>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <div class="flex flex-col gap-8 text-center">
+            <a href="#services" class="text-3xl font-light uppercase tracking-widest hover:text-kairus-accent transition-colors mobile-link">Serviços</a>
+            <a href="#process" class="text-3xl font-light uppercase tracking-widest hover:text-kairus-accent transition-colors mobile-link">Processo</a>
+            <a href="#portfolio" class="text-3xl font-light uppercase tracking-widest hover:text-kairus-accent transition-colors mobile-link">Portfólio</a>
+            <a href="#contact" class="text-3xl font-bold uppercase tracking-widest text-kairus-accent mobile-link">Consultoria</a>
+        </div>
+    </div>
+
     <!-- Hero Section -->
-    <header class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-kairus-bg bg-grid-pattern bg-[length:40px_40px]">
+    <!-- Changed h-screen to h-[100dvh] for mobile browsers -->
+    <header class="relative w-full h-[100dvh] flex items-center justify-center overflow-hidden bg-kairus-bg bg-grid-pattern bg-[length:40px_40px]">
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-kairus-bg via-transparent to-transparent z-10"></div>
         
         <div class="container mx-auto px-6 relative z-20">
-            <div class="max-w-5xl">
-                <p class="text-kairus-accent font-medium tracking-[0.2em] mb-4 overflow-hidden reveal-text">
-                    ARCHITECTURAL SOLUTIONS & DEVELOPMENT
+            <div class="max-w-5xl pt-20 md:pt-0">
+                <p class="text-kairus-accent font-medium tracking-[0.2em] mb-4 overflow-hidden reveal-text text-xs md:text-base">
+                    SOLUÇÕES DE ARQUITETURA & DESENVOLVIMENTO
                 </p>
-                <h1 class="text-5xl md:text-7xl lg:text-9xl font-bold leading-[0.9] tracking-tight mb-8">
-                    <div class="overflow-hidden"><span class="block hero-line">FROM PAPER</span></div>
-                    <div class="overflow-hidden"><span class="block hero-line text-white/30">TO REALITY</span></div>
+                <!-- Adjusted font sizes for mobile to prevent overflow -->
+                <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold leading-[0.95] tracking-tight mb-8">
+                    <div class="overflow-hidden"><span class="block hero-line">DO PAPEL</span></div>
+                    <div class="overflow-hidden"><span class="block hero-line text-white/30">À REALIDADE</span></div>
                 </h1>
                 
-                <div class="flex flex-col md:flex-row gap-8 items-start md:items-center mt-12">
-                    <p class="max-w-md text-lg text-white/70 leading-relaxed reveal-text-delayed">
-                        Bridging architectural vision and physical execution. We provide high-impact renovation, construction management, and data-driven investment optimization.
+                <div class="flex flex-col md:flex-row gap-8 items-start md:items-center mt-8 md:mt-12">
+                    <p class="max-w-md text-base md:text-lg text-white/70 leading-relaxed reveal-text-delayed">
+                        Unimos a visão arquitetónica à execução física. Oferecemos renovação de alto impacto, gestão de obras e otimização de investimento baseada em dados.
                     </p>
                     <a href="#contact" class="group relative px-8 py-4 bg-kairus-accent text-kairus-bg font-bold uppercase tracking-wider rounded-none overflow-hidden hover-trigger reveal-text-delayed">
-                        <span class="relative z-10 group-hover:text-white transition-colors duration-300">Start Project</span>
+                        <span class="relative z-10 group-hover:text-white transition-colors duration-300">Iniciar Projeto</span>
                         <div class="absolute inset-0 bg-kairus-dark transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
                     </a>
                 </div>
@@ -205,7 +214,7 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 right-10 flex flex-col items-center gap-4 z-20 mix-blend-overlay">
+        <div class="absolute bottom-10 right-10 flex flex-col items-center gap-4 z-20 mix-blend-overlay hidden md:flex">
             <span class="text-xs uppercase tracking-widest vertical-text" style="writing-mode: vertical-rl;">Scroll</span>
             <div class="w-[1px] h-16 bg-white/30 overflow-hidden">
                 <div class="w-full h-full bg-kairus-accent animate-scrolldown"></div>
@@ -214,54 +223,51 @@
     </header>
 
     <!-- Services Section -->
-    <section id="services" class="py-24 md:py-32 relative border-t border-white/5">
+    <section id="services" class="py-20 md:py-32 relative border-t border-white/5">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
-                <h2 class="text-4xl md:text-6xl font-light">
-                    Technical <span class="text-kairus-accent font-bold">Versatility</span>
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20">
+                <h2 class="text-3xl md:text-6xl font-light">
+                    Versatilidade <span class="text-kairus-accent font-bold">Técnica</span>
                 </h2>
-                <p class="text-white/50 max-w-sm mt-4 md:mt-0 text-sm tracking-wide text-right">
-                    INTEGRATED SOLUTIONS FOR INVESTORS AND PROPERTY OWNERS
+                <p class="text-white/50 max-w-sm mt-4 md:mt-0 text-sm tracking-wide text-left md:text-right">
+                    SOLUÇÕES INTEGRADAS PARA INVESTIDORES E PROPRIETÁRIOS
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
                 <!-- Service 1 -->
-                <div class="service-card bg-kairus-bg p-12 hover:bg-white/5 transition-colors duration-500 group border-b md:border-b-0 md:border-r border-white/10 hover-trigger">
-                    <div class="text-kairus-accent mb-6 text-3xl">
-                        <i class="fa-solid fa-cube"></i> <!-- Icon placeholder -->
-                        01
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">3D Project Design</h3>
-                    <p class="text-white/60 leading-relaxed">
-                        Hyper-realistic modeling and technical blueprints that ensure every detail is visualized before the first brick is laid. Minimizing error, maximizing aesthetic impact.
+                <div class="service-card bg-kairus-bg p-8 md:p-12 hover:bg-white/5 transition-colors duration-500 group border-b md:border-b-0 md:border-r border-white/10 hover-trigger">
+                    <div class="text-kairus-accent mb-6 text-2xl md:text-3xl">01</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Design 3D</h3>
+                    <p class="text-white/60 leading-relaxed text-sm md:text-base">
+                        Modelagem hiper-realista e plantas técnicas que garantem que cada detalhe é visualizado antes do primeiro tijolo. Minimizando erros, maximizando o impacto estético.
                     </p>
                 </div>
 
                 <!-- Service 2 -->
-                <div class="service-card bg-kairus-bg p-12 hover:bg-white/5 transition-colors duration-500 group border-b border-white/10 hover-trigger">
-                    <div class="text-kairus-accent mb-6 text-3xl">02</div>
-                    <h3 class="text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Construction Consultancy</h3>
-                    <p class="text-white/60 leading-relaxed">
-                        Operational transparency and on-site management. We bridge the gap between contractors and owners, ensuring timelines and budgets are respected.
+                <div class="service-card bg-kairus-bg p-8 md:p-12 hover:bg-white/5 transition-colors duration-500 group border-b border-white/10 hover-trigger">
+                    <div class="text-kairus-accent mb-6 text-2xl md:text-3xl">02</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Consultoria de Obra</h3>
+                    <p class="text-white/60 leading-relaxed text-sm md:text-base">
+                        Transparência operacional e gestão no local. Fazemos a ponte entre empreiteiros e proprietários, garantindo o cumprimento de prazos e orçamentos.
                     </p>
                 </div>
 
                 <!-- Service 3 -->
-                <div class="service-card bg-kairus-bg p-12 hover:bg-white/5 transition-colors duration-500 group border-b md:border-b-0 md:border-r border-white/10 hover-trigger">
-                    <div class="text-kairus-accent mb-6 text-3xl">03</div>
-                    <h3 class="text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Full Renovations</h3>
-                    <p class="text-white/60 leading-relaxed">
-                        Turnkey execution for high-impact remodeling. We handle everything from demolition to the final finishes, focusing on increasing property value.
+                <div class="service-card bg-kairus-bg p-8 md:p-12 hover:bg-white/5 transition-colors duration-500 group border-b md:border-b-0 md:border-r border-white/10 hover-trigger">
+                    <div class="text-kairus-accent mb-6 text-2xl md:text-3xl">03</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Renovação Completa</h3>
+                    <p class="text-white/60 leading-relaxed text-sm md:text-base">
+                        Execução chave-na-mão para remodelações de alto impacto. Tratamos de tudo, desde a demolição até aos acabamentos finais.
                     </p>
                 </div>
 
                 <!-- Service 4 -->
-                <div class="service-card bg-kairus-bg p-12 hover:bg-white/5 transition-colors duration-500 group hover-trigger">
-                    <div class="text-kairus-accent mb-6 text-3xl">04</div>
-                    <h3 class="text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Investment Guidance</h3>
-                    <p class="text-white/60 leading-relaxed">
-                        Data-driven analysis for real estate investors. We identify potential, calculate ROI, and execute renovations specifically designed for market flip or rental yield.
+                <div class="service-card bg-kairus-bg p-8 md:p-12 hover:bg-white/5 transition-colors duration-500 group hover-trigger">
+                    <div class="text-kairus-accent mb-6 text-2xl md:text-3xl">04</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">Investimento</h3>
+                    <p class="text-white/60 leading-relaxed text-sm md:text-base">
+                        Análise baseada em dados para investidores imobiliários. Identificamos potencial, calculamos ROI e executamos obras para flip ou rendimento.
                     </p>
                 </div>
             </div>
@@ -276,7 +282,7 @@
         <div class="container mx-auto px-6 relative z-10">
             <div class="mb-16">
                 <span class="text-kairus-accent text-sm font-bold tracking-widest uppercase block mb-2">Workflow</span>
-                <h2 class="text-4xl md:text-5xl font-bold">The Blueprint</h2>
+                <h2 class="text-3xl md:text-5xl font-bold">O Plano Mestre</h2>
             </div>
 
             <div class="relative">
@@ -286,50 +292,51 @@
                 </div>
 
                 <!-- Step 1 -->
-                <div class="process-step relative flex flex-col md:flex-row items-center gap-8 mb-24 opacity-30">
-                    <div class="w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
-                        <h3 class="text-2xl font-bold text-white mb-2">01. Diagnosis & Viability</h3>
-                        <p class="text-white/60">We analyze the property's structural health and investment potential before sketching a single line.</p>
+                <div class="process-step relative flex flex-col md:flex-row items-center gap-4 md:gap-8 mb-16 md:mb-24 opacity-30">
+                    <!-- Added process-content-mobile class for left padding on mobile -->
+                    <div class="process-content-mobile w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2">01. Diagnóstico</h3>
+                        <p class="text-white/60 text-sm md:text-base">Analisamos a saúde estrutural e o potencial de investimento antes de desenhar uma única linha.</p>
                     </div>
-                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-kairus-accent rounded-full transform -translate-x-1/2 z-10"></div>
-                    <div class="w-full md:w-1/2 md:pl-12 order-3 md:order-2">
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-kairus-accent rounded-full transform -translate-x-1/2 z-10 mt-1 md:mt-0 top-0 md:top-auto"></div>
+                    <div class="process-content-mobile w-full md:w-1/2 md:pl-12 order-3 md:order-2">
                          <span class="text-xs text-kairus-accent border border-kairus-accent/30 px-2 py-1 rounded">Data Driven</span>
                     </div>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="process-step relative flex flex-col md:flex-row items-center gap-8 mb-24 opacity-30">
-                    <div class="w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
-                        <span class="text-xs text-white/50 border border-white/10 px-2 py-1 rounded">Visual Clarity</span>
+                <div class="process-step relative flex flex-col md:flex-row items-center gap-4 md:gap-8 mb-16 md:mb-24 opacity-30">
+                    <div class="process-content-mobile w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
+                        <span class="text-xs text-white/50 border border-white/10 px-2 py-1 rounded">Clareza Visual</span>
                     </div>
-                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-white/20 rounded-full transform -translate-x-1/2 z-10 step-marker"></div>
-                    <div class="w-full md:w-1/2 md:pl-12 order-3 md:order-2">
-                        <h3 class="text-2xl font-bold text-white mb-2">02. 3D Modeling</h3>
-                        <p class="text-white/60">Full visualization. You approve the final look, materials, and lighting in a digital twin of the space.</p>
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-white/20 rounded-full transform -translate-x-1/2 z-10 step-marker mt-1 md:mt-0 top-0 md:top-auto"></div>
+                    <div class="process-content-mobile w-full md:w-1/2 md:pl-12 order-3 md:order-2">
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2">02. Modelação 3D</h3>
+                        <p class="text-white/60 text-sm md:text-base">Visualização completa. Aprova o visual final, materiais e iluminação num gémeo digital do espaço.</p>
                     </div>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="process-step relative flex flex-col md:flex-row items-center gap-8 mb-24 opacity-30">
-                    <div class="w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
-                        <h3 class="text-2xl font-bold text-white mb-2">03. Execution</h3>
-                        <p class="text-white/60">On-site management. We coordinate teams, manage supply chains, and ensure technical standards.</p>
+                <div class="process-step relative flex flex-col md:flex-row items-center gap-4 md:gap-8 mb-16 md:mb-24 opacity-30">
+                    <div class="process-content-mobile w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2">03. Execução</h3>
+                        <p class="text-white/60 text-sm md:text-base">Gestão on-site. Coordenamos equipas, gerimos cadeias de fornecimento e garantimos standards técnicos.</p>
                     </div>
-                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-white/20 rounded-full transform -translate-x-1/2 z-10 step-marker"></div>
-                    <div class="w-full md:w-1/2 md:pl-12 order-3 md:order-2">
-                        <span class="text-xs text-white/50 border border-white/10 px-2 py-1 rounded">No Delays</span>
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-white/20 rounded-full transform -translate-x-1/2 z-10 step-marker mt-1 md:mt-0 top-0 md:top-auto"></div>
+                    <div class="process-content-mobile w-full md:w-1/2 md:pl-12 order-3 md:order-2">
+                        <span class="text-xs text-white/50 border border-white/10 px-2 py-1 rounded">Sem Atrasos</span>
                     </div>
                 </div>
 
                  <!-- Step 4 -->
-                 <div class="process-step relative flex flex-col md:flex-row items-center gap-8 opacity-30">
-                    <div class="w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
-                         <span class="text-xs text-kairus-accent border border-kairus-accent/30 px-2 py-1 rounded">Handover</span>
+                 <div class="process-step relative flex flex-col md:flex-row items-center gap-4 md:gap-8 opacity-30">
+                    <div class="process-content-mobile w-full md:w-1/2 md:text-right md:pr-12 order-2 md:order-1">
+                         <span class="text-xs text-kairus-accent border border-kairus-accent/30 px-2 py-1 rounded">Entrega</span>
                     </div>
-                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-white/20 rounded-full transform -translate-x-1/2 z-10 step-marker"></div>
-                    <div class="w-full md:w-1/2 md:pl-12 order-3 md:order-2">
-                        <h3 class="text-2xl font-bold text-white mb-2">04. Delivery</h3>
-                        <p class="text-white/60">Final quality check and key handover. The paper vision is now built reality.</p>
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-kairus-bg border-2 border-white/20 rounded-full transform -translate-x-1/2 z-10 step-marker mt-1 md:mt-0 top-0 md:top-auto"></div>
+                    <div class="process-content-mobile w-full md:w-1/2 md:pl-12 order-3 md:order-2">
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-2">04. Entrega</h3>
+                        <p class="text-white/60 text-sm md:text-base">Controlo de qualidade final e entrega das chaves. A visão do papel é agora uma realidade construída.</p>
                     </div>
                 </div>
             </div>
@@ -338,31 +345,29 @@
 
     <!-- Portfolio Comparison Section -->
     <section id="portfolio" class="py-24 relative">
-        <div class="container mx-auto px-6 mb-12 flex justify-between items-end">
+        <div class="container mx-auto px-6 mb-8 flex justify-between items-end">
             <div>
-                <h2 class="text-4xl md:text-6xl font-light mb-2">Transformation</h2>
-                <p class="text-kairus-accent tracking-widest uppercase text-sm">Drag to reveal reality</p>
+                <h2 class="text-3xl md:text-6xl font-light mb-2">Transformação</h2>
+                <p class="text-kairus-accent tracking-widest uppercase text-xs md:text-sm">Arraste para revelar</p>
             </div>
         </div>
 
         <!-- Before/After Slider Component -->
-        <div class="w-full h-[60vh] md:h-[80vh] relative overflow-hidden group hover-trigger">
+        <div class="w-full h-[50vh] md:h-[80vh] relative overflow-hidden group hover-trigger touch-pan-y">
             <div id="comparison-slider" class="absolute inset-0 w-full h-full">
                 <!-- After Image (Background) -->
-                <!-- Using a high quality architecture interior for 'After' -->
                 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2700&auto=format&fit=crop');">
-                    <div class="absolute bottom-8 right-8 bg-black/50 backdrop-blur-md px-4 py-2 text-white text-sm font-bold uppercase tracking-wider">Reality</div>
+                    <div class="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/50 backdrop-blur-md px-3 py-1 md:px-4 md:py-2 text-white text-xs md:text-sm font-bold uppercase tracking-wider">Realidade</div>
                 </div>
 
                 <!-- Before Image (Clipped overlay) -->
-                <!-- Using a raw construction/concrete image for 'Before' -->
                 <div id="before-image-wrapper" class="absolute inset-0 w-1/2 overflow-hidden border-r-2 border-kairus-accent bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2689&auto=format&fit=crop');">
-                    <div class="absolute bottom-8 left-8 bg-black/50 backdrop-blur-md px-4 py-2 text-white text-sm font-bold uppercase tracking-wider">Construction</div>
+                    <div class="absolute bottom-4 left-4 md:bottom-8 md:left-8 bg-black/50 backdrop-blur-md px-3 py-1 md:px-4 md:py-2 text-white text-xs md:text-sm font-bold uppercase tracking-wider">Obra</div>
                 </div>
                 
                 <!-- Dragger Handle -->
-                <div id="slider-handle" class="absolute top-1/2 left-1/2 w-12 h-12 -ml-6 -mt-6 rounded-full bg-kairus-accent shadow-[0_0_30px_rgba(4,230,181,0.6)] flex items-center justify-center cursor-ew-resize z-20 pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-kairus-bg">
+                <div id="slider-handle" class="absolute top-1/2 left-1/2 w-10 h-10 md:w-12 md:h-12 -ml-5 -mt-5 md:-ml-6 md:-mt-6 rounded-full bg-kairus-accent shadow-[0_0_30px_rgba(4,230,181,0.6)] flex items-center justify-center cursor-ew-resize z-20 pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 md:w-6 md:h-6 text-kairus-bg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                     </svg>
                 </div>
@@ -374,19 +379,19 @@
             <div class="container mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-kairus-accent counter" data-target="45">0</div>
-                    <div class="text-xs uppercase tracking-widest mt-2 text-white/50">Projects Delivered</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-white/50">Projetos Entregues</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-kairus-accent counter" data-target="12">0</div>
-                    <div class="text-xs uppercase tracking-widest mt-2 text-white/50">Years Experience</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-white/50">Anos de Experiência</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-kairus-accent counter" data-target="100">0</div>
-                    <div class="text-xs uppercase tracking-widest mt-2 text-white/50">% Transparent</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-white/50">% Transparência</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-kairus-accent counter" data-target="250">0</div>
-                    <div class="text-xs uppercase tracking-widest mt-2 text-white/50">Happy Tenants</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-white/50">Clientes Satisfeitos</div>
                 </div>
             </div>
         </div>
@@ -395,15 +400,15 @@
     <!-- Contact Section -->
     <section id="contact" class="py-24 relative overflow-hidden">
         <div class="container mx-auto px-6 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
                 <!-- Text -->
                 <div>
-                    <h2 class="text-5xl md:text-7xl font-bold mb-8">
-                        Let's Build <br>
-                        <span class="text-kairus-accent">Vision.</span>
+                    <h2 class="text-4xl md:text-7xl font-bold mb-8">
+                        Vamos Construir <br>
+                        <span class="text-kairus-accent">Visão.</span>
                     </h2>
-                    <p class="text-white/60 text-lg mb-12 max-w-md">
-                        Whether you are an investor looking for ROI or an owner dreaming of a transformation, KAIRUS is your technical partner.
+                    <p class="text-white/60 text-base md:text-lg mb-12 max-w-md">
+                        Seja um investidor à procura de ROI ou um proprietário a sonhar com uma transformação, a KAIRUS é o seu parceiro técnico.
                     </p>
                     
                     <div class="space-y-4">
@@ -411,13 +416,13 @@
                             <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-kairus-accent">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
                             </div>
-                            <span>contact@kairusprojetos.com</span>
+                            <span>contacto@kairusprojetos.com</span>
                         </div>
                         <div class="flex items-center gap-4 hover-trigger">
                             <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-kairus-accent">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
                             </div>
-                            <span>Lisbon, Portugal</span>
+                            <span>Lisboa, Portugal</span>
                         </div>
                     </div>
                 </div>
@@ -427,23 +432,23 @@
                     <form class="space-y-6">
                         <div class="relative group">
                             <input type="text" id="name" class="block py-4 px-0 w-full text-white bg-transparent border-0 border-b border-white/30 appearance-none focus:outline-none focus:ring-0 focus:border-kairus-accent peer hover-trigger" placeholder=" " required />
-                            <label for="name" class="peer-focus:font-medium absolute text-sm text-white/50 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-kairus-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+                            <label for="name" class="peer-focus:font-medium absolute text-sm text-white/50 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-kairus-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nome</label>
                         </div>
                         <div class="relative group">
                             <input type="email" id="email" class="block py-4 px-0 w-full text-white bg-transparent border-0 border-b border-white/30 appearance-none focus:outline-none focus:ring-0 focus:border-kairus-accent peer hover-trigger" placeholder=" " required />
-                            <label for="email" class="peer-focus:font-medium absolute text-sm text-white/50 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-kairus-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email Address</label>
+                            <label for="email" class="peer-focus:font-medium absolute text-sm text-white/50 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-kairus-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
                         </div>
                         <div class="relative group">
                             <select id="type" class="block py-4 px-0 w-full text-white bg-transparent border-0 border-b border-white/30 appearance-none focus:outline-none focus:ring-0 focus:border-kairus-accent peer hover-trigger">
-                                <option class="bg-kairus-bg" value="" disabled selected>Project Type</option>
-                                <option class="bg-kairus-bg" value="renovation">Renovation</option>
-                                <option class="bg-kairus-bg" value="investment">Investment Consulting</option>
-                                <option class="bg-kairus-bg" value="design">3D Design</option>
+                                <option class="bg-kairus-bg" value="" disabled selected>Tipo de Projeto</option>
+                                <option class="bg-kairus-bg" value="renovation">Renovação</option>
+                                <option class="bg-kairus-bg" value="investment">Consultoria de Investimento</option>
+                                <option class="bg-kairus-bg" value="design">Design 3D</option>
                             </select>
                         </div>
                         <div class="pt-6">
                             <button type="button" class="w-full py-4 bg-white text-kairus-bg font-bold uppercase tracking-wider hover:bg-kairus-accent transition-colors duration-300 hover-trigger">
-                                Submit Inquiry
+                                Enviar Pedido
                             </button>
                         </div>
                     </form>
@@ -453,7 +458,7 @@
     </section>
 
     <footer class="py-8 border-t border-white/10 text-center text-white/30 text-xs uppercase tracking-wider">
-        <p>&copy; 2024 KAIRUS Projetos. All rights reserved.</p>
+        <p>&copy; 2024 KAIRUS Projetos. Todos os direitos reservados.</p>
     </footer>
 
     <!-- Scripts -->
@@ -465,7 +470,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // --- Initialization ---
-            // Check if GSAP is loaded
             if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
                 gsap.registerPlugin(ScrollTrigger);
             } else {
@@ -483,7 +487,7 @@
                     gestureDirection: 'vertical',
                     smooth: true,
                     mouseMultiplier: 1,
-                    smoothTouch: false,
+                    smoothTouch: false, // Keep native touch scroll on mobile for better feel/compatibility
                     touchMultiplier: 2,
                 });
 
@@ -496,29 +500,82 @@
                 console.warn("Lenis not loaded, falling back to native scroll");
             }
 
-            // --- Custom Cursor Logic ---
+            // --- Mobile Menu Logic ---
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const line1 = document.getElementById('line1');
+            const line2 = document.getElementById('line2');
+            const line3 = document.getElementById('line3');
+            let isMenuOpen = false;
+
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                
+                if (isMenuOpen) {
+                    // Open Menu
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden'; // Lock scroll
+                    
+                    // Animate Hamburger
+                    line1.style.transform = 'rotate(45deg) translate(5px, 6px)';
+                    line2.style.opacity = '0';
+                    line3.style.transform = 'rotate(-45deg) translate(5px, -6px)';
+                    
+                    // Reset Lenis if needed
+                    if(lenis) lenis.stop();
+                } else {
+                    // Close Menu
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = ''; // Unlock scroll
+                    
+                    // Animate Hamburger
+                    line1.style.transform = 'none';
+                    line2.style.opacity = '1';
+                    line3.style.transform = 'none';
+                    
+                    if(lenis) lenis.start();
+                }
+            }
+
+            if(menuBtn) {
+                menuBtn.addEventListener('click', toggleMenu);
+            }
+
+            // Close menu when clicking a link
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMenu();
+                    // Allow small delay for menu close before scrolling
+                    const targetId = link.getAttribute('href');
+                    if(lenis) {
+                        setTimeout(() => lenis.scrollTo(targetId), 300);
+                    }
+                });
+            });
+
+            // --- Custom Cursor Logic (Desktop Only) ---
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
             const hoverTriggers = document.querySelectorAll('.hover-trigger');
+            
+            // Basic detection for touch devices to avoid running cursor logic
+            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-            // Only run cursor logic if elements exist (mobile check is in CSS, but JS might run)
-            if (cursorDot && cursorOutline) {
+            if (cursorDot && cursorOutline && !isTouch && window.innerWidth > 768) {
                 window.addEventListener('mousemove', (e) => {
                     const posX = e.clientX;
                     const posY = e.clientY;
 
-                    // Simple follow for dot (no delay)
                     cursorDot.style.left = `${posX}px`;
                     cursorDot.style.top = `${posY}px`;
 
-                    // Lag for outline
                     cursorOutline.animate({
                         left: `${posX}px`,
                         top: `${posY}px`
                     }, { duration: 500, fill: "forwards" });
                 });
 
-                // Hover effects for cursor
                 hoverTriggers.forEach(link => {
                     link.addEventListener('mouseenter', () => {
                         cursorOutline.style.width = '60px';
@@ -606,12 +663,11 @@
                         onEnterBack: () => step.classList.remove('opacity-30'),
                         onLeaveBack: () => step.classList.add('opacity-30'),
                     },
-                    opacity: 1, // Full opacity for GSAP control
+                    opacity: 1, 
                     scale: 1.02,
                     duration: 0.5
                 });
                 
-                // Marker animation
                 const marker = step.querySelector('.step-marker');
                 if(marker) {
                     gsap.to(marker, {
@@ -650,10 +706,8 @@
             const sliderHandle = document.getElementById('slider-handle');
 
             if(sliderContainer) {
-                sliderContainer.addEventListener('mousemove', (e) => {
+                const moveSlider = (x) => {
                     const rect = sliderContainer.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    
                     // Bound check
                     let width = Math.max(0, Math.min(x, rect.width));
                     let percentage = (width / rect.width) * 100;
@@ -661,35 +715,20 @@
                     // Update widths
                     beforeWrapper.style.width = `${percentage}%`;
                     sliderHandle.style.left = `${percentage}%`;
+                };
+
+                sliderContainer.addEventListener('mousemove', (e) => {
+                    const rect = sliderContainer.getBoundingClientRect();
+                    moveSlider(e.clientX - rect.left);
                 });
                 
                 // Touch support for mobile
                 sliderContainer.addEventListener('touchmove', (e) => {
+                    e.preventDefault(); // Prevent page scroll while dragging slider
                     const rect = sliderContainer.getBoundingClientRect();
                     const touch = e.touches[0];
-                    const x = touch.clientX - rect.left;
-                    
-                    let width = Math.max(0, Math.min(x, rect.width));
-                    let percentage = (width / rect.width) * 100;
-
-                    beforeWrapper.style.width = `${percentage}%`;
-                    sliderHandle.style.left = `${percentage}%`;
-                });
-            }
-
-            // --- Mobile Menu Toggle ---
-            const menuBtn = document.getElementById('mobile-menu-btn');
-            
-            if(menuBtn) {
-                menuBtn.addEventListener('click', () => {
-                    // Simple toggle for mobile awareness (In a real app, overlay menu would go here)
-                    // For this single file, we scroll smoothly to footer or contact
-                    if (lenis) {
-                        lenis.scrollTo('#contact');
-                    } else {
-                        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
+                    moveSlider(touch.clientX - rect.left);
+                }, { passive: false });
             }
         });
     </script>
