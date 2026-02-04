@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like Bar | Miranda do Douro</title>
+    <meta name="description" content="Do primeiro café à última bebida. O principal lounge urbano e ponto de encontro em Miranda do Douro.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    },
+                    colors: {
+                        like: {
+                            gold: '#D4AF37',
+                            dark: '#0f0f0f',
+                            charcoal: '#1a1a1a',
+                            accent: '#ff4d00' // Subtle orange for "Coffee" vibe
+                        }
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar Hide */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Smooth text highlight transition */
+        .highlight-text {
+            background: linear-gradient(120deg, #D4AF37 0%, #D4AF37 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0.2em;
+            background-position: 0 88%;
+            transition: background-size 0.25s ease-in;
+        }
+        .highlight-text:hover {
+            background-size: 100% 88%;
+            color: black;
+        }
+
+        /* Marquee Animation */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="bg-like-dark text-white overflow-x-hidden relative">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-4 mix-blend-difference">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <a href="#" class="font-display text-2xl font-bold tracking-tighter uppercase">Like<span class="text-like-gold">.</span></a>
+            <button class="hidden md:flex gap-2 items-center hover:text-like-gold transition-colors duration-300 group">
+                <span class="font-sans text-sm font-semibold tracking-widest uppercase">Visite-nos</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <!-- Mobile Menu Icon -->
+            <button class="md:hidden text-white">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
+        <!-- Background with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/60 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Cocktail Background" 
+                 class="w-full h-full object-cover scale-110 hero-bg">
+        </div>
+
+        <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+            <p class="hero-sub font-sans text-sm md:text-base tracking-[0.3em] uppercase mb-4 text-gray-300">Miranda do Douro</p>
+            <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-none mb-6 overflow-hidden">
+                <span class="hero-line block translate-y-full">Do Primeiro Café</span>
+                <span class="hero-line block translate-y-full text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">À Última Bebida</span>
+            </h1>
+            <div class="hero-cta opacity-0 translate-y-10 mt-8">
+                <a href="#experience" class="inline-block px-8 py-4 border border-white/20 hover:bg-white hover:text-black transition-all duration-300 rounded-full backdrop-blur-sm font-semibold tracking-wide uppercase text-sm">
+                    Descubra a Experiência
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-white/50"></i>
+        </div>
+    </header>
+
+    <main>
+        <!-- Marquee Divider -->
+        <div class="bg-like-gold text-black py-4 border-y border-black/10 marquee-container relative z-30 rotate-1 scale-105 origin-left">
+            <div class="marquee-content font-display text-4xl md:text-5xl font-bold uppercase tracking-tighter">
+                Café • Cocktails • Comunidade • Desporto • Lounge • Esplanada • Música • Café • Cocktails • Comunidade • Desporto • Lounge • Esplanada • Música •
+            </div>
+        </div>
+
+        <!-- The Day-to-Night Experience -->
+        <section id="experience" class="py-24 px-6 relative bg-like-dark">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                    
+                    <!-- Text Content -->
+                    <div class="order-2 lg:order-1 experience-text">
+                        <span class="text-like-gold font-sans font-bold text-sm tracking-widest uppercase mb-2 block">07:00 — 02:00</span>
+                        <h2 class="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                            O Ritmo da <br><span class="text-gray-500">Cidade.</span>
+                        </h2>
+                        <p class="font-sans text-gray-400 text-lg mb-8 leading-relaxed">
+                            O Like Bar não é apenas um lugar; é a sala de estar de Miranda do Douro. Unimos o ritual tradicional do café português com a energia vibrante da vida noturna moderna.
+                        </p>
+                        
+                        <div class="space-y-8">
+                            <div class="flex gap-4 items-start group">
+                                <div class="p-3 bg-white/5 rounded-lg group-hover:bg-like-gold group-hover:text-black transition-colors duration-300">
+                                    <i data-lucide="coffee" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display text-xl font-bold uppercase">Modo Diurno</h3>
+                                    <p class="text-gray-500 text-sm mt-1">Espresso premium, pastelaria fresca e uma esplanada solarenga para trabalhar ou conviver.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 items-start group">
+                                <div class="p-3 bg-white/5 rounded-lg group-hover:bg-indigo-500 group-hover:text-white transition-colors duration-300">
+                                    <i data-lucide="martini" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display text-xl font-bold uppercase">Modo Noturno</h3>
+                                    <p class="text-gray-500 text-sm mt-1">Cocktails de assinatura, batidas selecionadas e um ambiente lounge sofisticado.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Split -->
+                    <div class="order-1 lg:order-2 h-[500px] relative rounded-2xl overflow-hidden experience-img-container">
+                        <!-- Day Image -->
+                        <div class="absolute inset-0 w-full h-full clip-diagonal-1 transition-all duration-700 hover:z-20 z-10">
+                            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover brightness-75 hover:brightness-100 transition-all duration-500" alt="Morning Coffee">
+                            <div class="absolute bottom-4 left-4 font-display text-2xl font-bold">07:00</div>
+                        </div>
+                        <!-- Night Image -->
+                        <div class="absolute inset-0 w-full h-full clip-diagonal-2 z-0">
+                            <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?q=80&w=2029&auto=format&fit=crop" class="w-full h-full object-cover brightness-75" alt="Night Lounge">
+                            <div class="absolute top-4 right-4 font-display text-2xl font-bold text-right">02:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Space & Gallery (Horizontal Scroll) -->
+        <section class="py-24 bg-like-charcoal overflow-hidden">
+            <div class="px-6 mb-12 flex flex-col md:flex-row justify-between items-end max-w-7xl mx-auto">
+                <div>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-2">Vibe Urbana Moderna</h2>
+                    <p class="text-gray-400">Desenhado para o conforto, estilizado para impactar.</p>
+                </div>
+                <div class="flex gap-2 mt-4 md:mt-0">
+                    <button class="gallery-prev p-3 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <button class="gallery-next p-3 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scroll Container -->
+            <div class="gallery-wrapper flex gap-6 px-6 overflow-x-auto no-scrollbar snap-x snap-mandatory">
+                <!-- Item 1 -->
+                <div class="gallery-item min-w-[85vw] md:min-w-[400px] h-[500px] relative rounded-xl overflow-hidden snap-center group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Interior">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="font-display text-2xl font-bold">O Lounge Principal</h3>
+                        <p class="text-gray-300 text-sm">Assentos luxuosos e estética moderna</p>
+                    </div>
+                </div>
+                 <!-- Item 2 -->
+                 <div class="gallery-item min-w-[85vw] md:min-w-[400px] h-[500px] relative rounded-xl overflow-hidden snap-center group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Bar Counter">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="font-display text-2xl font-bold">O Bar</h3>
+                        <p class="text-gray-300 text-sm">Onde a magia acontece</p>
+                    </div>
+                </div>
+                 <!-- Item 3 -->
+                 <div class="gallery-item min-w-[85vw] md:min-w-[400px] h-[500px] relative rounded-xl overflow-hidden snap-center group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?q=80&w=1935&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Social">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="font-display text-2xl font-bold">A Comunidade</h3>
+                        <p class="text-gray-300 text-sm">Reúna-se com amigos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social & Community -->
+        <section class="py-24 px-6 relative">
+            <div class="max-w-4xl mx-auto text-center mb-16">
+                <h2 class="font-display text-5xl md:text-6xl font-bold mb-6">Mais Que Um Bar</h2>
+                <p class="text-gray-400 text-lg">Somos o coração da vida social local. Desde apoiar a sua equipa até dançar pela noite dentro.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1 max-w-7xl mx-auto">
+                <!-- Card 1 -->
+                <div class="group relative h-[400px] bg-gray-900 border border-white/5 overflow-hidden">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=1600&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Sports">
+                    <div class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <i data-lucide="tv" class="w-10 h-10 mb-4 text-like-gold"></i>
+                        <h3 class="font-display text-2xl font-bold uppercase">Desporto ao Vivo</h3>
+                        <p class="text-gray-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">Ecrãs gigantes. Grandes jogos. Atmosfera elétrica.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="group relative h-[400px] bg-gray-900 border-x border-white/5 overflow-hidden">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="DJ">
+                    <div class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <i data-lucide="music" class="w-10 h-10 mb-4 text-purple-500"></i>
+                        <h3 class="font-display text-2xl font-bold uppercase">Eventos e DJ</h3>
+                        <p class="text-gray-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">Sessões de fim de semana e playlists curadas.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="group relative h-[400px] bg-gray-900 border border-white/5 overflow-hidden">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Community">
+                    <div class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <i data-lucide="users" class="w-10 h-10 mb-4 text-blue-500"></i>
+                        <h3 class="font-display text-2xl font-bold uppercase">Ponto de Encontro</h3>
+                        <p class="text-gray-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">O local de encontro de Miranda do Douro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA / Footer -->
+        <footer class="bg-zinc-900 pt-24 pb-12 rounded-t-[3rem] mt-12 relative overflow-hidden">
+            <!-- Decorative circle -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-like-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+                
+                <!-- Brand & Address -->
+                <div class="lg:col-span-4">
+                    <h2 class="font-display text-4xl font-bold mb-6">Like Bar<span class="text-like-gold">.</span></h2>
+                    <p class="text-gray-400 mb-8 max-w-xs">Café urbano contemporâneo e lounge. A mistura perfeita entre tradição e tendência.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-gray-300">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-like-gold"></i>
+                            <span>Miranda do Douro, Portugal</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-300">
+                            <i data-lucide="phone" class="w-5 h-5 text-like-gold"></i>
+                            <span>+351 273 000 000</span>
+                        </div>
+                         <div class="flex items-center gap-3 text-gray-300">
+                            <i data-lucide="mail" class="w-5 h-5 text-like-gold"></i>
+                            <span>hello@likebar.pt</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hours -->
+                <div class="lg:col-span-3">
+                    <h3 class="font-display text-xl font-bold mb-6 uppercase tracking-wider">Horário</h3>
+                    <ul class="space-y-3 text-gray-400 font-sans">
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Seg - Qui</span>
+                            <span class="text-white">07:00 - 00:00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Sex - Sáb</span>
+                            <span class="text-white">07:00 - 02:00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Domingo</span>
+                            <span class="text-white">08:00 - 00:00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Map/Action -->
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="w-full h-48 bg-gray-800 rounded-lg overflow-hidden relative group mb-6">
+                        <!-- Placeholder Map Image -->
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1774&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity" alt="Map">
+                        <a href="#" class="absolute inset-0 flex items-center justify-center">
+                            <span class="bg-white text-black px-4 py-2 rounded-full font-bold text-sm uppercase flex items-center gap-2 hover:scale-105 transition-transform">
+                                <i data-lucide="navigation" class="w-4 h-4"></i> Como Chegar
+                            </span>
+                        </a>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <a href="#" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-like-gold hover:text-black transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 mt-16 pt-8 text-center text-gray-600 text-sm">
+                &copy; 2024 Like Bar. Todos os direitos reservados.
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // 1. Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect Lenis to ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. Hero Animations
+        gsap.to(".hero-bg", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 100, // Parallax effect
+            scale: 1.2
+        });
+
+        gsap.to(".hero-line", {
+            y: 0,
+            duration: 1.5,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 0.2 // Reduced delay since loader is gone
+        });
+
+        gsap.to(".hero-cta", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.8, // Reduced delay
+            ease: "power2.out"
+        });
+
+        // 3. Experience Section Fade-ins
+        gsap.from(".experience-text", {
+            scrollTrigger: {
+                trigger: "#experience",
+                start: "top 70%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1
+        });
+
+        gsap.from(".experience-img-container", {
+            scrollTrigger: {
+                trigger: "#experience",
+                start: "top 70%",
+            },
+            x: 50,
+            opacity: 0,
+            duration: 1,
+            delay: 0.2
+        });
+
+        // 5. Horizontal Gallery Scroll Logic
+        const galleryContainer = document.querySelector('.gallery-wrapper');
+        const prevBtn = document.querySelector('.gallery-prev');
+        const nextBtn = document.querySelector('.gallery-next');
+
+        nextBtn.addEventListener('click', () => {
+            galleryContainer.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+        prevBtn.addEventListener('click', () => {
+            galleryContainer.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+
+        // 6. Navigation Background Change on Scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('backdrop-blur-md', 'bg-black/20');
+            } else {
+                nav.classList.remove('backdrop-blur-md', 'bg-black/20');
+            }
+        });
+
+        // 7. Hover Effect for Gallery
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                gsap.to(item.querySelector('img'), { scale: 1.1, duration: 0.5 });
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(item.querySelector('img'), { scale: 1, duration: 0.5 });
+            });
+        });
+
+    </script>
+</body>
+</html>
