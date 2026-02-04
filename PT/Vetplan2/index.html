@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vetplan 2 - Clínica Veterinária Miranda do Douro</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        vet: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6', // Teal primary
+                            600: '#0d9488',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            dark: '#0f172a'
+                        },
+                        sand: '#f8f5f2'
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles -->
+    <style>
+        body {
+            background-color: #f8f5f2;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        /* Lenis Recommended CSS */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Utilities */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(248,245,242,0) 0%, #f8f5f2 100%);
+        }
+
+        .clip-image {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Image Mask for Hero */
+        .hero-mask {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-vet-100 selection:text-vet-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tight text-vet-800 flex items-center gap-2">
+                <i data-lucide="paw-print" class="w-6 h-6 text-vet-500 fill-current"></i>
+                Vetplan 2
+            </a>
+            
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-600">
+                <a href="#about" class="hover:text-vet-600 transition-colors">Sobre</a>
+                <a href="#services" class="hover:text-vet-600 transition-colors">Serviços</a>
+                <a href="#community" class="hover:text-vet-600 transition-colors">Comunidade</a>
+                <a href="#contact" class="bg-vet-600 text-white px-6 py-2.5 rounded-full hover:bg-vet-800 transition-all shadow-lg shadow-vet-500/30">
+                    Marcar Consulta
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-700" id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 z-40 bg-white transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center gap-8 text-xl" id="mobile-menu">
+        <button class="absolute top-6 right-6" id="close-menu-btn">
+            <i data-lucide="x" class="w-8 h-8 text-gray-600"></i>
+        </button>
+        <a href="#about" class="mobile-link text-gray-800">Sobre</a>
+        <a href="#services" class="mobile-link text-gray-800">Serviços</a>
+        <a href="#community" class="mobile-link text-gray-800">Comunidade</a>
+        <a href="#contact" class="bg-vet-600 text-white px-8 py-3 rounded-full shadow-lg">Marcar Agora</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1768314151/Gemini_Generated_Image_cc3r70cc3r70cc3r_g52x8u.png" 
+                alt="Veterinário a examinar cão" 
+                class="w-full h-full object-cover opacity-90 hero-mask"
+            >
+            <div class="absolute inset-0 bg-gradient-to-r from-vet-50/90 via-vet-50/60 to-transparent"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <div class="max-w-xl hero-content">
+                <div class="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-1.5 rounded-full text-vet-800 text-xs font-bold uppercase tracking-wider mb-6 border border-white/50 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    Ao serviço de Miranda do Douro
+                </div>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] text-gray-900 mb-6 tracking-tight">
+                    Cuidar dos animais,<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-vet-600 to-vet-400">construir comunidade.</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed max-w-md">
+                    Mais do que uma clínica. A Vetplan 2 é o seu parceiro em cuidados preventivos acessíveis, grooming profissional e saúde animal socialmente responsável.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contact" class="bg-vet-800 text-white px-8 py-4 rounded-full font-semibold hover:bg-vet-900 transition-all shadow-xl shadow-vet-900/20 text-center flex items-center justify-center gap-2 group">
+                        Agendar Visita
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#services" class="bg-white text-gray-800 border border-gray-200 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition-all text-center">
+                        Nossos Serviços
+                    </a>
+                </div>
+                
+                <div class="mt-12 flex items-center gap-4 text-sm text-gray-500 font-medium">
+                    <div class="flex -space-x-3">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=100&h=100" alt="Avatar">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1594824476969-23a99085d148?auto=format&fit=crop&w=100&h=100" alt="Avatar">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100" alt="Avatar">
+                    </div>
+                    <p>Confiança de +500 famílias locais</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Mission Section -->
+    <section id="about" class="py-24 bg-white relative">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative order-2 md:order-1 reveal-img">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-vet-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                    <img 
+                        src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2068&auto=format&fit=crop" 
+                        alt="Equipa veterinária amigável" 
+                        class="relative rounded-3xl shadow-2xl w-full object-cover h-[500px]"
+                    >
+                    <div class="absolute bottom-8 left-8 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg max-w-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-vet-100 p-2 rounded-lg text-vet-600">
+                                <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-gray-900">Raízes Locais</p>
+                                <p class="text-xs text-gray-500">Orgulhosamente em Miranda do Douro</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 md:order-2 reveal-text">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Cuidados especializados com coração comunitário.</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Na Vetplan 2, acreditamos que os cuidados veterinários não devem ser intimidantes ou inacessíveis. Localizados no coração de Miranda do Douro, combinamos a fiabilidade da rede Vetplan com um compromisso profundo com os nossos vizinhos.
+                    </p>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        A nossa missão vai além de tratar doenças. Focamo-nos na educação, esterilização acessível e em garantir que cada animal — independentemente do contexto do dono — recebe o amor e cuidado que merece.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-gray-700 font-medium">
+                            <i data-lucide="check-circle-2" class="text-vet-500 w-5 h-5"></i>
+                            Foco em Medicina Preventiva
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-700 font-medium">
+                            <i data-lucide="check-circle-2" class="text-vet-500 w-5 h-5"></i>
+                            Equipamento de Diagnóstico Moderno
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-700 font-medium">
+                            <i data-lucide="check-circle-2" class="text-vet-500 w-5 h-5"></i>
+                            Preços e Comunicação Transparentes
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-sand">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-text">
+                <span class="text-vet-600 font-bold tracking-wide uppercase text-sm">Cuidados Abrangentes</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-2 mb-4">Tudo o que o seu animal precisa</h2>
+                <p class="text-gray-600">Desde check-ups de rotina a grooming profissional, garantimos que o seu animal se mantém feliz e saudável.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Service 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 service-card group">
+                    <div class="w-14 h-14 bg-vet-50 rounded-xl flex items-center justify-center text-vet-600 mb-6 group-hover:bg-vet-600 group-hover:text-white transition-colors">
+                        <i data-lucide="stethoscope" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Consultas</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">
+                        Check-ups de rotina, vacinação e planos de saúde preventiva adaptados à idade e estilo de vida do seu animal.
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 service-card group">
+                    <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="scissors" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Banhos e Tosquias</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">
+                        Banhos profissionais, tosquias e corte de unhas para manter o seu animal com a melhor aparência e bem-estar.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 service-card group">
+                    <div class="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                        <i data-lucide="activity" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Cirurgia</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">
+                        Procedimentos seguros de esterilização e pequenas cirurgias realizados no nosso moderno bloco operatório.
+                    </p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 service-card group">
+                    <div class="w-14 h-14 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                        <i data-lucide="qr-code" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Identificação</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">
+                        Colocação de microchip oficial e registo para garantir que o seu animal encontra sempre o caminho para casa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Responsibility -->
+    <section id="community" class="py-24 bg-vet-900 text-white relative overflow-hidden">
+        <!-- Abstract patterns -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 transform translate-x-20"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal-text">
+                    <div class="inline-block bg-vet-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-vet-700">Impacto Social</div>
+                    <h2 class="text-4xl font-bold mb-6">Uma Clínica para Toda a Comunidade</h2>
+                    <p class="text-vet-100 text-lg mb-8 leading-relaxed">
+                        Acreditamos que restrições financeiras não devem impedir os animais de receber cuidados essenciais. A Vetplan 2 colabora ativamente com entidades locais para melhorar o bem-estar animal em Miranda do Douro.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="bg-white/10 p-3 rounded-lg h-fit">
+                                <i data-lucide="landmark" class="w-6 h-6 text-vet-300"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Parceria Municipal</h3>
+                                <p class="text-vet-200 text-sm">Somos parceiros oficiais nas campanhas municipais de esterilização, ajudando a controlar a população vadia de forma humana.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-white/10 p-3 rounded-lg h-fit">
+                                <i data-lucide="file-check" class="w-6 h-6 text-vet-300"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Cheque Veterinário</h3>
+                                <p class="text-vet-200 text-sm">Aceitamos e promovemos programas de apoio social para prestar cuidados a animais de agregados familiares vulneráveis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative reveal-img">
+                    <img 
+                        src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=2070&auto=format&fit=crop" 
+                        alt="Veterinário a segurar um cachorro" 
+                        class="rounded-3xl shadow-2xl border-4 border-white/10"
+                    >
+                    <div class="absolute -bottom-6 -left-6 bg-white text-gray-900 p-6 rounded-2xl shadow-xl max-w-xs hidden md:block">
+                        <p class="font-serif italic text-lg mb-2">"O apoio deles com o programa de esterilização mudou o nosso bairro."</p>
+                        <p class="text-sm font-bold text-vet-600">— Maria S., Residente Local</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact -->
+    <section id="contact" class="py-24 bg-sand">
+        <div class="container mx-auto px-6">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden grid md:grid-cols-5">
+                <!-- Info -->
+                <div class="md:col-span-2 p-10 bg-vet-800 text-white flex flex-col justify-between relative overflow-hidden">
+                     <div class="absolute top-0 right-0 p-32 bg-vet-700 rounded-full mix-blend-overlay filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2"></div>
+                    
+                    <div>
+                        <h2 class="text-3xl font-bold mb-8">Visite-nos</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <i data-lucide="map-pin" class="w-6 h-6 text-vet-300 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-lg">Miranda do Douro</p>
+                                    <p class="text-vet-200">Rua do Mercado, 45<br>5210-200 Miranda do Douro</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <i data-lucide="phone" class="w-6 h-6 text-vet-300 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-lg">Ligue-nos</p>
+                                    <a href="tel:+351273000000" class="text-vet-200 hover:text-white transition-colors">+351 273 000 000</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <i data-lucide="clock" class="w-6 h-6 text-vet-300 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-lg">Horário</p>
+                                    <p class="text-vet-200">Seg - Sex: 09:00 - 19:00<br>Sáb: 09:00 - 13:00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <p class="text-sm text-vet-300">Contacto de emergência disponível para pacientes registados.</p>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="md:col-span-3 p-10">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Marcar uma Consulta</h3>
+                    <p class="text-gray-500 mb-8">Preencha o formulário e entraremos em contacto para confirmar.</p>
+                    
+                    <form class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">O seu Nome</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-vet-500 focus:ring-2 focus:ring-vet-200 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Animal</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-vet-500 focus:ring-2 focus:ring-vet-200 outline-none transition-all">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Número de Telefone</label>
+                            <input type="tel" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-vet-500 focus:ring-2 focus:ring-vet-200 outline-none transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Serviço Pretendido</label>
+                            <select class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-vet-500 focus:ring-2 focus:ring-vet-200 outline-none transition-all">
+                                <option>Consulta Geral</option>
+                                <option>Vacinação</option>
+                                <option>Banhos e Tosquias</option>
+                                <option>Informação sobre Cirurgia</option>
+                                <option>Outro</option>
+                            </select>
+                        </div>
+
+                        <button type="button" class="w-full bg-vet-600 text-white font-bold py-4 rounded-xl hover:bg-vet-800 transition-all shadow-lg shadow-vet-500/30 mt-4">
+                            Enviar Pedido
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-gray-100">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <a href="#" class="text-xl font-bold tracking-tight text-vet-800 flex items-center gap-2 justify-center md:justify-start">
+                    <i data-lucide="paw-print" class="w-5 h-5 text-vet-500 fill-current"></i>
+                    Vetplan 2
+                </a>
+                <p class="text-sm text-gray-500 mt-2">© 2024 Vetplan 2. Todos os direitos reservados.</p>
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="text-gray-400 hover:text-vet-600 transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                <a href="#" class="text-gray-400 hover:text-vet-600 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP & Lenis Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Switched to jsDelivr for better reliability -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initialize Icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            // Initialize Lenis Smooth Scroll
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+                
+                // Stop/Start Lenis on menu toggle needs to be inside here or accessible
+                window.lenisObj = lenis; 
+            } else {
+                console.warn("Lenis not loaded, falling back to native scroll.");
+                document.documentElement.style.scrollBehavior = "smooth";
+            }
+
+            // GSAP Animations
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Hero Animations
+                const heroTl = gsap.timeline();
+                
+                heroTl.from(".hero-content > *", {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                    delay: 0.2
+                });
+
+                // Section Headers Reveal
+                document.querySelectorAll(".reveal-text").forEach(element => {
+                    gsap.from(element, {
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        },
+                        y: 40,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    });
+                });
+
+                // Image Reveals
+                document.querySelectorAll(".reveal-img").forEach(element => {
+                    gsap.from(element, {
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 75%",
+                            toggleActions: "play none none reverse"
+                        },
+                        scale: 0.95,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power2.out"
+                    });
+                });
+
+                // Service Cards Stagger
+                gsap.from(".service-card", {
+                    scrollTrigger: {
+                        trigger: "#services",
+                        start: "top 70%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: "back.out(1.7)"
+                });
+            }
+
+            // Navbar blur effect on scroll
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('shadow-md');
+                    nav.classList.add('py-2');
+                    nav.classList.remove('py-4');
+                } else {
+                    nav.classList.remove('shadow-md');
+                    nav.classList.remove('py-2');
+                    nav.classList.add('py-4');
+                }
+            });
+
+            // Mobile Menu Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                mobileMenu.classList.toggle('translate-x-full');
+                if (!mobileMenu.classList.contains('translate-x-full')) {
+                    if (window.lenisObj) window.lenisObj.stop(); // Stop scrolling when menu is open
+                } else {
+                    if (window.lenisObj) window.lenisObj.start();
+                }
+            }
+
+            if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMenu);
+            if(closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
+            
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        });
+    </script>
+</body>
+</html>
