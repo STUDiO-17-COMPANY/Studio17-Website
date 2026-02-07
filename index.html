@@ -133,29 +133,101 @@
     <div class="mt-2 text-xs text-brand-gray" id="loader-text">0%</div>
   </div>
 
-  <!-- Navigation -->
-  <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
-    <div class="text-3xl font-inter font-black tracking-[-0.10em] hoverable" data-cursor="exclusion">
-      <span class="italic">STU</span>DiO 17
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
+  <!-- Logo -->
+  <a
+    href="/"
+    class="text-3xl font-inter font-black tracking-[-0.10em] hoverable"
+    data-cursor="exclusion"
+    aria-label="Go to homepage"
+  >
+    <span class="italic">STU</span>DiO 17
+  </a>
+
+  <!-- Desktop links -->
+  <div class="hidden md:flex items-center gap-8 font-mono text-xs tracking-widest uppercase">
+    <a href="#work" class="hover:text-brand-accent transition-colors hoverable">Portfolio</a>
+    <a href="/ContactUs" class="hover:text-brand-accent transition-colors hoverable">Contacts</a>
+    <!-- <a href="/Careers/" class="hover:text-brand-accent transition-colors hoverable">Careers</a>  -->
+  </div>
+
+  <!-- Desktop CTA -->
+  <a
+    href="/ContactUs"
+    class="hidden md:inline-block font-mono text-xs border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all hoverable"
+  >
+    Start Project
+  </a>
+
+  <!-- Mobile hamburger -->
+  <button
+    id="mobileMenuBtn"
+    class="md:hidden inline-flex items-center justify-center w-12 h-12 border border-white/20 hover:bg-white hover:text-black transition-all hoverable"
+    aria-label="Open menu"
+    aria-controls="mobileMenu"
+    aria-expanded="false"
+    type="button"
+  >
+    <!-- Hamburger icon -->
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobileMenu"
+  class="fixed inset-0 z-[110] hidden md:hidden"
+  aria-hidden="true"
+>
+  <!-- Backdrop -->
+  <div id="mobileMenuBackdrop" class="absolute inset-0 bg-black/70"></div>
+
+  <!-- Panel -->
+  <div class="absolute right-0 top-0 h-full w-full max-w-sm bg-brand-black border-l border-white/10 p-6 flex flex-col">
+    <div class="flex items-center justify-between">
+      <div class="text-2xl font-inter font-black tracking-[-0.10em]">
+        <span class="italic">STU</span>DiO 17
+      </div>
+
+      <button
+        id="mobileMenuClose"
+        class="inline-flex items-center justify-center w-12 h-12 border border-white/20 hover:bg-white hover:text-black transition-all hoverable"
+        aria-label="Close menu"
+        type="button"
+      >
+        <!-- X icon -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
 
-    <div class="hidden md:flex gap-8 font-mono text-xs tracking-widest uppercase">
-      <!-- <a href="Services" class="hover:text-brand-accent transition-colors hoverable">Services</a> -->
-      <!-- <a href="Portfolio" class="hover:text-brand-accent transition-colors hoverable">Portfolio</a> -->
-      <a href="ContactUs" class="hover:text-brand-accent transition-colors hoverable">Contacts</a>
-      <a href="Careers/">Careers</a>
-
-    </a>
-
+    <div class="mt-10 flex flex-col gap-6 font-mono text-sm tracking-widest uppercase">
+      <a data-close-menu href="#work" class="hover:text-brand-accent transition-colors hoverable">Portfolio</a>
+      <a data-close-menu href="/ContactUs" class="hover:text-brand-accent transition-colors hoverable">Contacts</a>
+      <a data-close-menu href="/Careers/" class="hover:text-brand-accent transition-colors hoverable">Careers</a>
     </div>
 
     <a
-      href="ContactUs"
-      class="font-mono text-xs border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all hoverable inline-block"
+      data-close-menu
+      href="/ContactUs"
+      class="mt-auto font-mono text-xs border border-white/20 px-4 py-3 hover:bg-white hover:text-black transition-all hoverable text-center"
     >
       Start Project
     </a>
-  </nav>
+
+    <p class="mt-6 font-mono text-xs text-white/40">
+      © 2026 STUDiO 17
+    </p>
+  </div>
+</div>
+
 
   <!-- Main Content -->
   <main>
@@ -543,6 +615,46 @@
       );
     };
 
+    // ---------- MOBILE MENU (MUST BE DEFINED BEFORE USED) ----------
+  function initMobileMenu() {
+    const btn = document.getElementById("mobileMenuBtn");
+    const menu = document.getElementById("mobileMenu");
+    const closeBtn = document.getElementById("mobileMenuClose");
+    const backdrop = document.getElementById("mobileMenuBackdrop");
+
+    if (!btn || !menu || !closeBtn || !backdrop) return;
+
+    const openMenu = () => {
+      menu.classList.remove("hidden");
+      menu.setAttribute("aria-hidden", "false");
+      btn.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeMenu = () => {
+      menu.classList.add("hidden");
+      menu.setAttribute("aria-hidden", "true");
+      btn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    };
+
+    btn.addEventListener("click", openMenu);
+    closeBtn.addEventListener("click", closeMenu);
+    backdrop.addEventListener("click", closeMenu);
+
+    // close on ESC
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.classList.contains("hidden")) closeMenu();
+    });
+
+    // close when clicking a link
+    menu.querySelectorAll("[data-close-menu]").forEach((a) => {
+      a.addEventListener("click", closeMenu);
+    });
+  }
+
+  
+
     // ---------- APP INIT ----------
     const initApp = () => {
       gsap.registerPlugin(ScrollTrigger);
@@ -711,8 +823,10 @@
     // Start
     window.addEventListener("load", () => {
       initCursor();
+      initMobileMenu();
       initLoader();
     });
+
   </script>
 </body>
 </html>
