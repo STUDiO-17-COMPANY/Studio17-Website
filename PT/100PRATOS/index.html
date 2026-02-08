@@ -324,17 +324,34 @@
         </div>
     </section>
 
-    <!-- Marquee Separator -->
-    <div class="bg-brandBlue py-6 overflow-hidden whitespace-nowrap border-y border-brandBlue/10 relative z-10">
-        <div class="inline-block animate-marquee text-brandGold">
-            <span class="text-2xl md:text-4xl font-serif mx-8 italic">Sabores Autênticos</span> •
-            <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span> •
-            <span class="text-2xl md:text-4xl font-serif mx-8 italic">Feito em Portugal</span> •
-            <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span> •
-            <span class="text-2xl md:text-4xl font-serif mx-8 italic">Sabores Autênticos</span> •
-            <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span> •
-        </div>
+    <!-- Marquee Separator (Seamless Infinite) -->
+<div class="marquee bg-brandBlue py-6 border-y border-brandBlue/10 relative z-10">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
+      <span class="text-white/70">•</span>
     </div>
+
+    <!-- duplicate -->
+    <div class="marquee__content" aria-hidden="true">
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
+      <span class="text-white/70">•</span>
+    </div>
+  </div>
+</div>
+
 
     <!-- Menu Section -->
     <section id="menu" class="py-24 bg-sand/30">
@@ -524,18 +541,20 @@
                 </p>
 
                 <div class="flex flex-col items-center justify-center space-y-6">
-                    <a href="mailto:ola@100pratos.pt?subject=Pedido%20de%20Or%C3%A7amento%20-%20100%20Pratos" 
+                    <a href="mailto:info@100pratos.pt?subject=Pedido%20de%20Or%C3%A7amento%20-%20100%20Pratos" 
                        class="inline-block bg-brandGold text-brandBlue px-12 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-[0_0_30px_rgba(207,160,17,0.3)]">
                         Pedir Orçamento Gratuito
                     </a>
                     
                     <div class="pt-4 flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8 text-cream/60 text-sm">
                         <span class="flex items-center gap-2">
-                            <i data-lucide="mail" class="w-4 h-4"></i> ola@100pratos.pt
+                            <i data-lucide="mail" class="w-4 h-4"></i> info@100pratos.pt 
                         </span>
-                        <span class="hidden md:inline">•</span>
                         <span class="flex items-center gap-2">
-                            <i data-lucide="phone" class="w-4 h-4"></i> +351 912 345 678
+                            <i data-lucide="mail" class="w-4 h-4"></i> eventos@100pratos.pt
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4"></i> +351 962515636
                         </span>
                     </div>
                 </div>
@@ -554,12 +573,13 @@
                 </div>
                 <div class="flex flex-col md:flex-row gap-6 items-center">
                     <div class="flex space-x-4">
-                        <a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                        <a href="https://www.instagram.com/100_pratos/" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
                         <a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="facebook" class="w-4 h-4"></i> Facebook</a>
                     </div>
                     <div class="flex flex-col md:items-end text-right">
-                        <span>ola@100pratos.pt</span>
-                        <span>+351 912 345 678</span>
+                        <span>info@100pratos.pt</span>
+                        <span>eventos@100pratos.pt</span>
+                        <span>+351 962515636</span>
                     </div>
                 </div>
             </div>
@@ -743,16 +763,34 @@
     </script>
     
     <style>
-        /* Marquee Animation */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee 20s linear infinite;
-        }
-    </style>
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: marquee 20s linear infinite;
+  }
+
+  .marquee__content {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* optional: respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track { animation: none; }
+  }
+</style>
+
 </body>
 </html>
