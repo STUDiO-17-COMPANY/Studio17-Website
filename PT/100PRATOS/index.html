@@ -122,6 +122,26 @@
             background: #CFA011; 
             border-radius: 4px;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-brandGold selection:text-white">
@@ -334,7 +354,7 @@
                         <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767812021/504370381_17856154566456062_3236832142533241151_n_1_hlef0x.png" 
                              alt="Tábuas de Setúbal" class="menu-img w-full h-full object-cover transition-transform duration-700">
                     </div>
-                    <div class="p-8 flex-grow">
+                    <div class="p-8 flex-grow flex flex-col">
                         <div class="flex justify-between items-baseline mb-2">
                             <h3 class="font-serif text-2xl text-brandBlue">Tábuas de Setúbal</h3>
                             <span class="font-bold text-brandGold whitespace-nowrap">Desde €6/pp</span>
@@ -357,6 +377,13 @@
                                 <strong class="text-brandBlue block mb-1">Tábua de Pães Regionais</strong>
                                 <p class="text-xs opacity-80">Charcutaria vegetal, queijos vegetais (caju), ervas aromáticas.</p>
                             </div>
+                        </div>
+
+                        <!-- Button "Ver Detalhes" added here -->
+                        <div class="mt-auto pt-4">
+                            <button onclick="openModal('modal-tabuas')" class="text-brandGold font-bold uppercase tracking-wider text-sm hover:text-brandBlue transition-colors flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Ver Detalhes <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -477,56 +504,42 @@
         </div>
     </section>
 
-    <!-- Contact Form Section (New CTA) -->
-    <section id="contact" class="py-20 bg-brandBlue relative z-30">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl border border-white/10">
-                <div class="text-center mb-10">
-                    <span class="text-brandGold uppercase tracking-widest font-bold text-sm">Vamos Conversar</span>
-                    <h2 class="font-serif text-3xl md:text-5xl text-white mt-2">Comece a Planear o Seu Evento</h2>
-                    <p class="text-cream/70 mt-4">Preencha o formulário e entraremos em contacto consigo com um orçamento personalizado em 24h.</p>
+    <!-- Contact Section (Simplified CTA) -->
+    <section id="contact" class="py-24 bg-brandBlue relative z-30">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brandGold rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-cream rounded-full blur-[100px] opacity-5 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <div class="bg-white/5 backdrop-blur-md rounded-[2rem] p-10 md:p-20 shadow-2xl border border-white/10 text-center">
+                
+                <span class="text-brandGold uppercase tracking-widest font-bold text-sm mb-4 block">Vamos Conversar</span>
+                
+                <h2 class="font-serif text-3xl md:text-6xl text-white mb-6 leading-tight">
+                    Pronto para um Evento <br><span class="italic text-brandGold">Inesquecível?</span>
+                </h2>
+                
+                <p class="text-cream/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Queremos ouvir as suas ideias. Clique no botão abaixo para nos enviar um email e responderemos com uma proposta personalizada para o seu momento especial.
+                </p>
+
+                <div class="flex flex-col items-center justify-center space-y-6">
+                    <a href="mailto:ola@100pratos.pt?subject=Pedido%20de%20Or%C3%A7amento%20-%20100%20Pratos" 
+                       class="inline-block bg-brandGold text-brandBlue px-12 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-[0_0_30px_rgba(207,160,17,0.3)]">
+                        Pedir Orçamento Gratuito
+                    </a>
+                    
+                    <div class="pt-4 flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8 text-cream/60 text-sm">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4"></i> ola@100pratos.pt
+                        </span>
+                        <span class="hidden md:inline">•</span>
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4"></i> +351 912 345 678
+                        </span>
+                    </div>
                 </div>
 
-                <form class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Nome</label>
-                            <input type="text" placeholder="O seu nome" class="form-input">
-                        </div>
-                        <div>
-                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Email</label>
-                            <input type="email" placeholder="email@exemplo.com" class="form-input">
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Data do Evento</label>
-                            <input type="date" class="form-input">
-                        </div>
-                        <div>
-                            <label class="block text-brandGold text-xs uppercase font-bold mb-2">Nº de Pessoas (aprox.)</label>
-                            <input type="number" placeholder="Ex: 30" class="form-input">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-brandGold text-xs uppercase font-bold mb-2">Tipo de Evento</label>
-                        <select class="form-input text-white bg-transparent">
-                            <option value="" class="bg-brandBlue">Selecione uma opção...</option>
-                            <option value="corporate" class="bg-brandBlue">Evento Corporativo</option>
-                            <option value="private" class="bg-brandBlue">Festa Privada / Aniversário</option>
-                            <option value="wedding" class="bg-brandBlue">Casamento / Batizado</option>
-                            <option value="other" class="bg-brandBlue">Outro</option>
-                        </select>
-                    </div>
-
-                    <div class="pt-4 text-center">
-                        <button type="submit" class="bg-brandGold text-brandBlue px-12 py-4 rounded-full font-bold text-lg hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-lg w-full md:w-auto">
-                            Pedir Orçamento Gratuito
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </section>
@@ -545,14 +558,54 @@
                         <a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="facebook" class="w-4 h-4"></i> Facebook</a>
                     </div>
                     <div class="flex flex-col md:items-end text-right">
-                        <span>info@100pratos.pt</span>
-                        <span>eventos@100pratos.pt</span>
-                        <span>+351 962515636</span>
+                        <span>ola@100pratos.pt</span>
+                        <span>+351 912 345 678</span>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- MODAL - Tábuas de Setúbal -->
+    <div id="modal-tabuas" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-brandBlue/90 backdrop-blur-sm" onclick="closeModal('modal-tabuas')"></div>
+        <div class="modal-content relative bg-cream w-full max-w-lg rounded-2xl shadow-2xl p-8 md:p-12 text-center">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal('modal-tabuas')" class="absolute top-4 right-4 text-brandBlue hover:text-brandGold transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Modal Content -->
+            <h3 class="font-serif text-3xl md:text-4xl text-brandBlue mb-2">Tábuas de Setúbal</h3>
+            <div class="w-16 h-1 bg-brandGold mx-auto mb-8"></div>
+            
+            <div class="space-y-2 text-charcoal/80 mb-10">
+                <p class="font-bold text-brandBlue mb-4 uppercase tracking-wider text-sm">Disponível nos Packs:</p>
+                <ul class="inline-block text-left space-y-3">
+                    <li class="flex items-center gap-3 text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i> PACK Pequeno Almoço
+                    </li>
+                    <li class="flex items-center gap-3 text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i> PACK Coffee Break
+                    </li>
+                    <li class="flex items-center gap-3 text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i> PACK Almoço
+                    </li>
+                    <li class="flex items-center gap-3 text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i> Pack Lanche
+                    </li>
+                    <li class="flex items-center gap-3 text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i> Pack Jantar
+                    </li>
+                </ul>
+            </div>
+
+            <a href="#" class="inline-block bg-brandGold text-brandBlue px-8 py-3 rounded-full font-bold hover:bg-brandBlue hover:text-white transition-all duration-300 shadow-lg w-full md:w-auto">
+                Descarregar Pack Completo em PDF
+            </a>
+        </div>
+    </div>
 
     <!-- GSAP & Lenis Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -660,6 +713,31 @@
                 isMenuOpen = false;
                 mobileMenu.classList.add('translate-x-full');
             });
+        });
+
+        // Modal Logic
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            lenis.stop(); // Stop Lenis scroll
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+            lenis.start(); // Resume Lenis scroll
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.querySelectorAll('.modal-overlay.active');
+                modals.forEach(modal => {
+                    closeModal(modal.id);
+                });
+            }
         });
 
     </script>
