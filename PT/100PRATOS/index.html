@@ -471,31 +471,43 @@
 
     <!-- Marquee Separator (Seamless Infinite) -->
     <div class="marquee bg-brandBlue py-6 border-y border-brandBlue/10 relative z-10">
-        <div class="marquee__track">
-            <div class="marquee__content">
-                <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
-                <span class="text-white/70">•</span>
-                <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
-                <span class="text-white/70">•</span>
-                <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
-                <span class="text-white/70">•</span>
-                <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
-                <span class="text-white/70">•</span>
-            </div>
-
-            <!-- duplicate -->
-            <div class="marquee__content" aria-hidden="true">
-                <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
-                <span class="text-white/70">•</span>
-                <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
-                <span class="text-white/70">•</span>
-                <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
-                <span class="text-white/70">•</span>
-                <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
-                <span class="text-white/70">•</span>
-            </div>
-        </div>
+  <div class="marquee__track">
+    <div class="marquee__group">
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Finger Food</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+      <span class="text-white/70">•</span>
     </div>
+
+    <!-- exact duplicate -->
+    <div class="marquee__group" aria-hidden="true">
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Finger Food</span>
+      <span class="text-white/70">•</span>
+      <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+      <span class="text-white/70">•</span>
+    </div>
+  </div>
+</div>
 
 
     <!-- Menu Section -->
@@ -765,7 +777,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-sm text-sand/50">
                 <div class="mb-4 md:mb-0">
                     <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png"
-                        alt="100 Pratos" class="h-12 w-auto brightness-0 invert opacity-50 mb-2">
+                        alt="100 Pratos" class="h-12 w-auto opacity-90 drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] mb-2"">
                     <p>&copy; 2024 100 Pratos Catering. Todos os direitos reservados.</p>
                 </div>
                 <div class="flex flex-col md:flex-row gap-6 items-center">
@@ -1013,13 +1025,23 @@
             display: flex;
             width: max-content;
             will-change: transform;
-            animation: marquee 20s linear infinite;
+            animation: marquee 18s linear infinite;
         }
 
-        .marquee__content {
-            display: flex;
+        .marquee__group {
+            display: inline-flex;
             align-items: center;
             flex-shrink: 0;
+        }
+
+                /* Move exactly the width of the first group */
+        @keyframes marquee {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+        .marquee__track { animation: none; }
         }
 
         @keyframes marquee {
