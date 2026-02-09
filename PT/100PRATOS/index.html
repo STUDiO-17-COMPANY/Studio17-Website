@@ -15,6 +15,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
         rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
 
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -29,11 +32,15 @@
                         brandBlue: '#012255',
                         brandGold: '#CFA011',
                         charcoal: '#2C2C2C',
-                        sand: '#E8E1D5'
+                        sand: '#E8E1D5',
+                        brand: {
+                            accent: '#0055FF',
+                        },
                     },
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Lato', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     backgroundImage: {
                         'texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
@@ -156,6 +163,110 @@
         .modal-overlay.active .modal-content {
             transform: scale(1);
             opacity: 1;
+        }
+
+        /* Standalone CSS for the Footer - Copy this to client CSS if needed */
+        .s17-footer {
+            background-color: #050505;
+            /* Darker than main bg for contrast */
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 9999;
+            /* Ensure it stays on top */
+        }
+
+        .s17-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (min-width: 768px) {
+            .s17-container {
+                flex-direction: row;
+            }
+        }
+
+        .s17-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #888;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .s17-link:hover {
+            color: #fff;
+        }
+
+        /* Logo styling */
+        .s17-logo {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+
+        .s17-link:hover .s17-logo {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .s17-divider {
+            display: none;
+            width: 1px;
+            height: 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .s17-divider {
+                display: block;
+            }
+        }
+
+        .s17-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #444;
+            font-size: 10px;
+        }
+
+        .s17-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #00FF66;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+            animation: s17-pulse 2s infinite;
+        }
+
+        @keyframes s17-pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -732,7 +843,6 @@
         </div>
     </footer>
     <!-- --- END OF STUDiO 17 FOOTER --- -->
-
 
     <!-- MODAL - Tábuas de Setúbal -->
     <div id="modal-tabuas" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6">
