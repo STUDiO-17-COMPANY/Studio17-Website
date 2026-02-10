@@ -1,476 +1,1586 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Douro Camping | Natureza e Descanso em Miranda do Douro</title>
+    <meta
+      name="description"
+      content="Camping e Glamping no coração do Douro Internacional. Gerido por Vista T1. Chalés, Suites e Autocaravanas."
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Douro Camping - Onde o rio respira</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap"
-        rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'douro-green': '#2C4A3B',
+              'douro-light': '#F4F1EA',
+              'douro-sand': '#E5DEC8',
+              'douro-accent': '#C65D3B',
+              'douro-dark': '#1A1A1A',
+            },
+            fontFamily: {
+              sans: ['Outfit', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Styles -->
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
+      html.lenis,
+      html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
 
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
+      body {
+        background-color: #f4f1ea;
+        color: #1a1a1a;
+        overflow-x: hidden;
+      }
 
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f4f1ea;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #2c4a3b;
+        border-radius: 4px;
+      }
 
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+      /* Modal Styles */
+      .modal-overlay {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease-in-out;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        transform: scale(0.95);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .modal-overlay.open .modal-content {
+        transform: scale(1);
+        opacity: 1;
+      }
 
-        .mix-blend-difference {
-            mix-blend-mode: difference;
-        }
+      /* Calendar Styles */
+      .calendar-day {
+        transition: all 0.2s;
+      }
+      .calendar-day:hover:not(.disabled) {
+        background-color: #e5dec8;
+        color: #2c4a3b;
+      }
+      .calendar-day.selected {
+        background-color: #2c4a3b !important;
+        color: white !important;
+      }
+      .calendar-day.in-range {
+        background-color: #d1e3d8; /* Light Green */
+        color: #2c4a3b;
+      }
+      .calendar-day.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
 
-        /* Animação suave para as imagens ao entrar no viewport */
-        .reveal-img {
-            clip-path: inset(0 0 100% 0);
-            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-        }
+      /* Image Hover Effects */
+      .image-mask {
+        overflow: hidden;
+      }
+      .image-mask img {
+        transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .group:hover .image-mask img {
+        transform: scale(1.05);
+      }
 
-        .reveal-img.active {
-            clip-path: inset(0 0 0% 0);
+      /* Form Animations */
+      @keyframes successCheck {
+        0% {
+          transform: scale(0);
+          opacity: 0;
         }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .success-icon {
+        animation: successCheck 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+          forwards;
+      }
     </style>
-</head>
-
-<body class="bg-[#fdfcf9] text-stone-800 overflow-x-hidden">
-
-    <!-- Navegação -->
+  </head>
+  <body class="antialiased">
+    <!-- Navigation -->
     <nav
-        class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
-        <div class="text-2xl font-serif font-bold tracking-tight uppercase">DOURO<span class="font-light">CAMPING</span>
-        </div>
-        <button id="menuBtn" class="group flex items-center gap-3 focus:outline-none">
-            <span
-                class="hidden md:block text-sm tracking-widest font-medium uppercase group-hover:opacity-70 transition-opacity">Explorar</span>
-            <div class="p-2 border border-white/30 rounded-full group-hover:bg-white/10 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="4" x2="20" y1="12" y2="12" />
-                    <line x1="4" x2="20" y1="6" y2="6" />
-                    <line x1="4" x2="20" y1="18" y2="18" />
-                </svg>
-            </div>
-        </button>
+      class="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center transition-all duration-300"
+      id="navbar"
+    >
+      <div
+        class="text-xl font-serif font-semibold tracking-wide text-douro-green flex flex-col leading-none cursor-pointer"
+        onclick="window.scrollTo(0, 0)"
+      >
+        <span>DOURO CAMPING</span>
+        <span
+          class="text-[10px] font-sans font-normal tracking-widest opacity-60"
+          >GERIDO POR VISTA T1</span
+        >
+      </div>
+      <div
+        class="hidden md:flex gap-8 text-sm font-medium tracking-wide text-douro-dark/80"
+      >
+        <a href="#alojamento" class="hover:text-douro-accent transition-colors"
+          >Alojamento</a
+        >
+        <a href="#comodidades" class="hover:text-douro-accent transition-colors"
+          >O Espaço</a
+        >
+        <a href="#localizacao" class="hover:text-douro-accent transition-colors"
+          >Localização</a
+        >
+      </div>
+      <a
+        href="#reservar"
+        class="bg-douro-green text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-douro-accent transition-colors duration-300 shadow-lg shadow-douro-green/20"
+      >
+        Reservar Agora
+      </a>
     </nav>
 
-    <!-- Menu Overlay -->
-    <div id="menuOverlay"
-        class="fixed inset-0 bg-stone-900 z-[60] flex flex-col justify-center items-center transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] -translate-y-full opacity-0 pointer-events-none">
-        <button id="closeBtn" class="absolute top-6 right-6 text-stone-100 p-2 hover:bg-white/10 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" x2="6" y1="6" y2="18" />
-                <line x1="6" x2="18" y1="6" y2="18" />
-            </svg>
-        </button>
-        <ul class="text-center space-y-6">
-            <li><a href="#"
-                    class="block text-4xl md:text-6xl font-serif text-stone-400 hover:text-white transition-colors uppercase tracking-tighter">O
-                    Refúgio</a></li>
-            <li><a href="#"
-                    class="block text-4xl md:text-6xl font-serif text-stone-400 hover:text-white transition-colors uppercase tracking-tighter">Alojamentos</a>
-            </li>
-            <li><a href="#"
-                    class="block text-4xl md:text-6xl font-serif text-stone-400 hover:text-white transition-colors uppercase tracking-tighter">Galeria</a>
-            </li>
-            <li><a href="#"
-                    class="block text-4xl md:text-6xl font-serif text-stone-400 hover:text-white transition-colors uppercase tracking-tighter">Reservas</a>
-            </li>
-        </ul>
-    </div>
-
     <!-- Hero Section -->
-    <header class="relative h-screen w-full flex flex-col justify-center items-center text-center px-4 overflow-hidden">
-        <div class="absolute inset-0 z-0 scale-110" id="heroImageContainer">
-            <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542617/dc1_ernjza.jpg"
-                alt="Vista Panorâmica Douro Camping" class="w-full h-full object-cover brightness-[0.85]">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-stone-950/80"></div>
+    <header
+      class="relative w-full h-screen flex flex-col justify-center items-center text-center overflow-hidden"
+    >
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+        <!-- Main Photo provided -->
+        <img
+          src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683175/download_c1qy4u.jpg"
+          alt="Douro Camping Vista Geral"
+          class="w-full h-full object-cover hero-img"
+          data-speed="0.5"
+        />
+      </div>
+
+      <div class="relative z-20 px-4 max-w-5xl mx-auto text-white space-y-6">
+        <div class="flex flex-col items-center gap-2 hero-anim">
+          <span
+            class="inline-block py-1 px-3 border border-white/30 rounded-full text-xs uppercase tracking-widest backdrop-blur-sm"
+          >
+            Miranda do Douro
+          </span>
+          <div class="flex items-center gap-1 text-yellow-400 text-sm">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
         </div>
-        <div class="relative z-10 max-w-5xl mx-auto mt-20">
-            <span
-                class="inline-block py-1.5 px-4 border border-white/40 rounded-full text-[10px] font-bold tracking-[0.3em] text-white uppercase mb-8 backdrop-blur-sm">Bem-vindo
-                ao Coração do Norte</span>
-            <h1 class="text-6xl md:text-8xl lg:text-[10rem] font-serif text-white mb-6 leading-[0.85] tracking-tighter">
-                Onde o rio <br><span class="italic font-light text-emerald-100">respira.</span>
-            </h1>
-            <p class="text-stone-200 text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12 font-light">Uma
-                experiência autêntica de campismo e conforto, aninhada nas encostas douradas do Douro.</p>
-            <div>
-                <button
-                    class="bg-emerald-800 hover:bg-emerald-700 text-white px-10 py-5 rounded-full text-xs font-bold tracking-[0.2em] transition-all">RESERVAR
-                    EXPERIÊNCIA</button>
-            </div>
+
+        <h1 class="text-5xl md:text-7xl font-serif leading-tight hero-anim">
+          Natureza e descanso <br />
+          <span class="italic font-light">com vista privilegiada.</span>
+        </h1>
+        <p
+          class="text-lg md:text-xl font-light text-white/90 max-w-2xl mx-auto hero-anim"
+        >
+          Um espaço gerido por Vista T1 (Pontuação 9.1). Relaxe nas nossas
+          piscinas aquecidas ou descubra a cidade a apenas 1km de distância.
+        </p>
+        <div
+          class="pt-8 flex flex-col sm:flex-row gap-4 justify-center hero-anim"
+        >
+          <button
+            onclick="
+              document
+                .getElementById('alojamento')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+            class="bg-white text-douro-green px-8 py-4 rounded-full font-medium hover:bg-douro-sand transition-colors min-w-[200px]"
+          >
+            Ver Alojamentos
+          </button>
+          <button
+            onclick="openContactModal('Informações')"
+            class="border border-white/50 text-white px-8 py-4 rounded-full font-medium hover:bg-white/10 backdrop-blur-sm transition-colors min-w-[200px]"
+          >
+            Pedir Informações
+          </button>
         </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce z-20 opacity-70"
+      >
+        <i data-lucide="arrow-down" class="w-6 h-6"></i>
+      </div>
     </header>
 
-    <!-- Introdução -->
-    <section class="py-24 md:py-40 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                <div class="lg:col-span-5 space-y-8 order-2 lg:order-1">
-                    <h2 class="text-4xl md:text-6xl font-serif text-stone-900 leading-none">A beleza <br><span
-                            class="text-emerald-900 italic">em estado puro.</span></h2>
-                    <p class="text-stone-600 text-lg leading-relaxed font-light">Situado estrategicamente para oferecer
-                        as melhores vistas do vale, o Douro Camping combina o rústico com o moderno.</p>
-                </div>
-                <div class="lg:col-span-7 order-1 lg:order-2">
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl reveal-img">
-                        <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542616/dc6_mfanb4.jpg"
-                            alt="Exterior Douro" class="w-full h-full object-cover scroll-parallax">
-                    </div>
-                </div>
+    <!-- Amenities Highlight (Icon Grid) -->
+    <section id="comodidades" class="py-16 bg-white border-b border-gray-100">
+      <div class="max-w-7xl mx-auto px-6">
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center items-start fade-up"
+        >
+          <div class="flex flex-col items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-douro-light flex items-center justify-center text-douro-green"
+            >
+              <i data-lucide="waves" class="w-6 h-6"></i>
             </div>
+            <span class="text-sm font-medium"
+              >Piscina Interior<br />Aquecida</span
+            >
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-douro-light flex items-center justify-center text-douro-green"
+            >
+              <i data-lucide="sun" class="w-6 h-6"></i>
+            </div>
+            <span class="text-sm font-medium">Piscina<br />Exterior</span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-douro-light flex items-center justify-center text-douro-green"
+            >
+              <i data-lucide="utensils" class="w-6 h-6"></i>
+            </div>
+            <span class="text-sm font-medium">Restaurante<br />Típico</span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-douro-light flex items-center justify-center text-douro-green"
+            >
+              <i data-lucide="wifi" class="w-6 h-6"></i>
+            </div>
+            <span class="text-sm font-medium">Wi-Fi<br />Gratuito</span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-douro-light flex items-center justify-center text-douro-green"
+            >
+              <i data-lucide="dog" class="w-6 h-6"></i>
+            </div>
+            <span class="text-sm font-medium">Pet<br />Friendly</span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-douro-light flex items-center justify-center text-douro-green"
+            >
+              <i data-lucide="parking-circle" class="w-6 h-6"></i>
+            </div>
+            <span class="text-sm font-medium">Estacionamento<br />Privado</span>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section class="py-24 px-6 bg-stone-100 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                <div>
-                    <span class="text-emerald-800 font-bold tracking-[0.3em] text-[10px] uppercase mb-4 block">Feedback
-                        dos Clientes</span>
-                    <h2 class="text-4xl md:text-6xl font-serif text-stone-900">A voz de quem <br><span
-                            class="italic text-emerald-900">nos visita.</span></h2>
-                </div>
-                <div class="flex gap-4">
-                    <button onclick="scrollCarousel('reviewsCarousel', -1)"
-                        class="w-12 h-12 rounded-full border border-stone-300 flex items-center justify-center hover:bg-emerald-800 hover:text-white transition-all">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="m15 18-6-6 6-6" />
-                        </svg>
-                    </button>
-                    <button onclick="scrollCarousel('reviewsCarousel', 1)"
-                        class="w-12 h-12 rounded-full border border-stone-300 flex items-center justify-center hover:bg-emerald-800 hover:text-white transition-all">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="m9 18 6-6-6-6" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <div id="reviewsCarousel" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
-                <!-- Review 1 -->
-                <div
-                    class="min-w-[85vw] md:min-w-[40vw] lg:min-w-[28vw] snap-start bg-white p-10 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="text-emerald-800 opacity-20"><svg width="32" height="32" fill="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12C14.017 12.5523 13.5693 13 13.017 13H11.017C10.4647 13 10.017 12.5523 10.017 12V9C10.017 7.34315 11.3601 6 13.017 6H19.017C20.6739 6 22.017 7.34315 22.017 9V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V12C3.017 12.5523 2.56928 13 2.017 13H0.017C-0.535282 13 -1.017 12.5523 -1.017 12V9C-1.017 7.34315 0.326142 6 2.017 6H8.017C9.67386 6 11.017 7.34315 11.017 9V15C11.017 18.3137 8.33071 21 5.017 21H3.017Z" />
-                                </svg></div>
-                            <div class="text-right">
-                                <span class="text-3xl font-serif font-bold text-emerald-900">10</span>
-                                <span class="block text-[10px] text-stone-400 uppercase">Pontuação</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-serif mb-4">"Tranquilidade, segurança e conforto."</h3>
-                        <p class="text-stone-600 text-sm font-light leading-relaxed">Silêncio ensurdecedor. Proximidade
-                            do centro. Simpatia dos funcionários. Espaços de lazer incríveis.</p>
-                    </div>
-                    <div class="mt-8 pt-6 border-t flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white italic">
-                            M</div>
-                        <div>
-                            <p class="text-xs font-bold uppercase">Mário</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 2 -->
-                <div
-                    class="min-w-[85vw] md:min-w-[40vw] lg:min-w-[28vw] snap-start bg-white p-10 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="text-emerald-800 opacity-20"><svg width="32" height="32" fill="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12C14.017 12.5523 13.5693 13 13.017 13H11.017C10.4647 13 10.017 12.5523 10.017 12V9C10.017 7.34315 11.3601 6 13.017 6H19.017C20.6739 6 22.017 7.34315 22.017 9V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V12C3.017 12.5523 2.56928 13 2.017 13H0.017C-0.535282 13 -1.017 12.5523 -1.017 12V9C-1.017 7.34315 0.326142 6 2.017 6H8.017C9.67386 6 11.017 7.34315 11.017 9V15C11.017 18.3137 8.33071 21 5.017 21H3.017Z" />
-                                </svg></div>
-                            <div class="text-right">
-                                <span class="text-3xl font-serif font-bold text-emerald-900">9,6</span>
-                                <span class="block text-[10px] text-stone-400 uppercase">Pontuação</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-serif mb-4">"Uma pérola no Douro."</h3>
-                        <p class="text-stone-600 text-sm font-light leading-relaxed">Excelente localização, pessoal do
-                            staff muito prestável. Piscina fantástica e ambiente super calmo.</p>
-                    </div>
-                    <div class="mt-8 pt-6 border-t flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white italic">
-                            R</div>
-                        <div>
-                            <p class="text-xs font-bold uppercase">Ricardo</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 3 -->
-                <div
-                    class="min-w-[85vw] md:min-w-[40vw] lg:min-w-[28vw] snap-start bg-white p-10 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="text-emerald-800 opacity-20"><svg width="32" height="32" fill="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12C14.017 12.5523 13.5693 13 13.017 13H11.017C10.4647 13 10.017 12.5523 10.017 12V9C10.017 7.34315 11.3601 6 13.017 6H19.017C20.6739 6 22.017 7.34315 22.017 9V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V12C3.017 12.5523 2.56928 13 2.017 13H0.017C-0.535282 13 -1.017 12.5523 -1.017 12V9C-1.017 7.34315 0.326142 6 2.017 6H8.017C9.67386 6 11.017 7.34315 11.017 9V15C11.017 18.3137 8.33071 21 5.017 21H3.017Z" />
-                                </svg></div>
-                            <div class="text-right">
-                                <span class="text-3xl font-serif font-bold text-emerald-900">9,0</span>
-                                <span class="block text-[10px] text-stone-400 uppercase">Pontuação</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-serif mb-4">"Soberbo"</h3>
-                        <p class="text-stone-600 text-sm font-light leading-relaxed">Adorei tudo. Chalé impecavelmente
-                            limpo. Funcionários sempre atentos e simpáticos.</p>
-                    </div>
-                    <div class="mt-8 pt-6 border-t flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white italic">
-                            A</div>
-                        <div>
-                            <p class="text-xs font-bold uppercase">Ana</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 4 -->
-                <div
-                    class="min-w-[85vw] md:min-w-[40vw] lg:min-w-[28vw] snap-start bg-white p-10 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="text-emerald-800 opacity-20"><svg width="32" height="32" fill="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12C14.017 12.5523 13.5693 13 13.017 13H11.017C10.4647 13 10.017 12.5523 10.017 12V9C10.017 7.34315 11.3601 6 13.017 6H19.017C20.6739 6 22.017 7.34315 22.017 9V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V12C3.017 12.5523 2.56928 13 2.017 13H0.017C-0.535282 13 -1.017 12.5523 -1.017 12V9C-1.017 7.34315 0.326142 6 2.017 6H8.017C9.67386 6 11.017 7.34315 11.017 9V15C11.017 18.3137 8.33071 21 5.017 21H3.017Z" />
-                                </svg></div>
-                            <div class="text-right">
-                                <span class="text-3xl font-serif font-bold text-emerald-900">9,8</span>
-                                <span class="block text-[10px] text-stone-400 uppercase">Pontuação</span>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-serif mb-4">"Vista de tirar o fôlego."</h3>
-                        <p class="text-stone-600 text-sm font-light leading-relaxed">Acordar com o rio Douro à janela é
-                            indescritível. Os bungalows são muito modernos e bem equipados.</p>
-                    </div>
-                    <div class="mt-8 pt-6 border-t flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white italic">
-                            J</div>
-                        <div>
-                            <p class="text-xs font-bold uppercase">João</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Accommodation Section -->
+    <section id="alojamento" class="py-20 px-6 bg-douro-light">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12 fade-up">
+          <span
+            class="text-douro-accent text-sm font-bold tracking-widest uppercase"
+            >Acomodações</span
+          >
+          <h2 class="text-4xl font-serif text-douro-green mt-2">
+            Escolha o seu refúgio
+          </h2>
+          <p class="text-douro-dark/60 mt-4 max-w-2xl mx-auto">
+            Chalés modernos e suites confortáveis, equipados com cozinha, AC e
+            insonorização.
+          </p>
         </div>
+
+        <!-- Grid de Alojamentos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Card 1: Chalé 1 Quarto -->
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group fade-up"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683206/download_povazv.jpg"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Chalé T1"
+              />
+              <div
+                class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-douro-green"
+              >
+                28 m²
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-serif text-douro-green mb-2">
+                Chalé com 1 Quarto
+              </h3>
+              <p class="text-sm text-gray-500 mb-4 line-clamp-2">
+                Ideal para casais. Cozinha privativa, varanda com vista jardim e
+                total insonorização.
+              </p>
+              <div class="flex items-center gap-4 text-xs text-gray-400 mb-6">
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="users" class="w-3 h-3"></i> Max 2-4</span
+                >
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="bed" class="w-3 h-3"></i> Casal + Sofá</span
+                >
+              </div>
+              <button
+                onclick="openModal('chale1')"
+                class="w-full py-3 border border-douro-green text-douro-green rounded-lg hover:bg-douro-green hover:text-white transition-colors font-medium"
+              >
+                Ver Disponibilidade
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Chalé 2 Quartos -->
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group fade-up"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683141/download_e5gsaq.jpg"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Chalé T2"
+              />
+              <div
+                class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-douro-green"
+              >
+                38 m²
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-serif text-douro-green mb-2">
+                Chalé com 2 Quartos
+              </h3>
+              <p class="text-sm text-gray-500 mb-4 line-clamp-2">
+                Perfeito para famílias. Dois quartos separados, sala de estar e
+                cozinha completa.
+              </p>
+              <div class="flex items-center gap-4 text-xs text-gray-400 mb-6">
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="users" class="w-3 h-3"></i> Max 4-6</span
+                >
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="bed-double" class="w-3 h-3"></i> 2
+                  Quartos</span
+                >
+              </div>
+              <button
+                onclick="openModal('chale2')"
+                class="w-full py-3 border border-douro-green text-douro-green rounded-lg hover:bg-douro-green hover:text-white transition-colors font-medium"
+              >
+                Ver Disponibilidade
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3: Suite Superior -->
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group fade-up"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683708/download_ubkc9t.jpg"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Suite Superior"
+              />
+              <div
+                class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-douro-green"
+              >
+                40 m²
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-serif text-douro-green mb-2">
+                Suite Superior
+              </h3>
+              <p class="text-sm text-gray-500 mb-4 line-clamp-2">
+                A nossa opção mais espaçosa. Vista piscina, terraço privado e
+                acabamentos premium.
+              </p>
+              <div class="flex items-center gap-4 text-xs text-gray-400 mb-6">
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="users" class="w-3 h-3"></i> Max 4</span
+                >
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="star" class="w-3 h-3"></i> Premium</span
+                >
+              </div>
+              <button
+                onclick="openModal('suiteSup')"
+                class="w-full py-3 border border-douro-green text-douro-green rounded-lg hover:bg-douro-green hover:text-white transition-colors font-medium"
+              >
+                Ver Disponibilidade
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 4: Chalé Superior -->
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group fade-up"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683194/download_bfrq8u.jpg"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Chalé Superior"
+              />
+              <div
+                class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-douro-green"
+              >
+                30 m²
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-serif text-douro-green mb-2">
+                Chalé Superior
+              </h3>
+              <p class="text-sm text-gray-500 mb-4 line-clamp-2">
+                Conforto elevado com ar condicionado, piscina com vista e
+                entrada privada.
+              </p>
+              <div class="flex items-center gap-4 text-xs text-gray-400 mb-6">
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="users" class="w-3 h-3"></i> Max 2-3</span
+                >
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="wind" class="w-3 h-3"></i> A/C</span
+                >
+              </div>
+              <button
+                onclick="openModal('chaleSup')"
+                class="w-full py-3 border border-douro-green text-douro-green rounded-lg hover:bg-douro-green hover:text-white transition-colors font-medium"
+              >
+                Ver Disponibilidade
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 5: Suite Júnior -->
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group fade-up"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683184/download_ln64b4.jpg"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Suite Júnior"
+              />
+              <div
+                class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-douro-green"
+              >
+                25 m²
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-serif text-douro-green mb-2">
+                Suite Júnior
+              </h3>
+              <p class="text-sm text-gray-500 mb-4 line-clamp-2">
+                Opção económica e confortável. Kitchenette compacta, cama de
+                casal e vista montanha.
+              </p>
+              <div class="flex items-center gap-4 text-xs text-gray-400 mb-6">
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="users" class="w-3 h-3"></i> Max 2</span
+                >
+                <span class="flex items-center gap-1"
+                  ><i data-lucide="mountain" class="w-3 h-3"></i> Vista</span
+                >
+              </div>
+              <button
+                onclick="openModal('suiteJr')"
+                class="w-full py-3 border border-douro-green text-douro-green rounded-lg hover:bg-douro-green hover:text-white transition-colors font-medium"
+              >
+                Ver Disponibilidade
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Alojamentos -->
-    <section class="py-24 bg-[#1a1c1a] text-stone-100 rounded-t-[4rem] relative z-10 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                <div>
-                    <span class="text-emerald-400 font-bold tracking-[0.3em] text-[10px] uppercase mb-4 block">O Seu
-                        Refúgio</span>
-                    <h2 class="text-5xl md:text-7xl font-serif leading-tight">Interiores com <br> <span
-                            class="italic font-light opacity-60">Alma Douriense.</span></h2>
-                </div>
-                <div class="flex gap-4">
-                    <button onclick="scrollCarousel('roomsCarousel', -1)"
-                        class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-stone-900 transition-all">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="m15 18-6-6 6-6" />
-                        </svg>
-                    </button>
-                    <button onclick="scrollCarousel('roomsCarousel', 1)"
-                        class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-stone-900 transition-all">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="m9 18 6-6-6-6" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+    <!-- Location & Map Section -->
+    <section id="localizacao" class="py-20 px-6 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="fade-up">
+            <span
+              class="text-douro-accent text-sm font-bold tracking-widest uppercase"
+              >Localização</span
+            >
+            <h2 class="text-4xl font-serif text-douro-green mt-2 mb-6">
+              Perto de tudo, longe do ruído.
+            </h2>
+            <p class="text-gray-600 mb-8">
+              Estamos situados a apenas 1 km do centro da cidade de Miranda do
+              Douro, com uma vista excecional sobre a mesma.
+            </p>
 
-            <div id="roomsCarousel" class="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8">
-                <div class="min-w-[85vw] md:min-w-[45vw] lg:min-w-[30vw] snap-start">
-                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-8 reveal-img">
-                        <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542616/dc7_jsgfc3.jpg"
-                            alt="Suites" class="w-full h-full object-cover scroll-parallax">
-                    </div>
-                    <h3 class="text-2xl font-serif mb-3">Suites Panorâmicas</h3>
-                    <p class="text-stone-400 text-sm font-light">Conforto absoluto com vistas que se fundem com o
-                        horizonte.</p>
-                </div>
-                <div class="min-w-[85vw] md:min-w-[45vw] lg:min-w-[30vw] snap-start">
-                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-8 reveal-img">
-                        <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542616/dc8_mp5qg4.jpg"
-                            alt="Bungalows" class="w-full h-full object-cover scroll-parallax">
-                    </div>
-                    <h3 class="text-2xl font-serif mb-3">Bungalows Design</h3>
-                    <p class="text-stone-400 text-sm font-light">Equilíbrio perfeito entre arquitetura moderna e
-                        ambiente rústico.</p>
-                </div>
-                <div class="min-w-[85vw] md:min-w-[45vw] lg:min-w-[30vw] snap-start">
-                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-8 reveal-img">
-                        <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542616/dc9_dp8kib.jpg"
-                            alt="Eco Ninhos" class="w-full h-full object-cover scroll-parallax">
-                    </div>
-                    <h3 class="text-2xl font-serif mb-3">Eco-Ninhos</h3>
-                    <p class="text-stone-400 text-sm font-light">Estadia íntima e sustentável, sem abdicar da elegância.
-                    </p>
-                </div>
-            </div>
+            <ul class="space-y-4">
+              <li
+                class="flex items-center justify-between border-b border-gray-100 pb-2"
+              >
+                <span class="flex items-center gap-2 text-douro-dark"
+                  ><i
+                    data-lucide="map-pin"
+                    class="w-4 h-4 text-douro-accent"
+                  ></i>
+                  Sé de Miranda</span
+                >
+                <span class="font-bold text-douro-green">1.5 km</span>
+              </li>
+              <li
+                class="flex items-center justify-between border-b border-gray-100 pb-2"
+              >
+                <span class="flex items-center gap-2 text-douro-dark"
+                  ><i
+                    data-lucide="map-pin"
+                    class="w-4 h-4 text-douro-accent"
+                  ></i>
+                  Castelo de Miranda</span
+                >
+                <span class="font-bold text-douro-green">1.6 km</span>
+              </li>
+              <li
+                class="flex items-center justify-between border-b border-gray-100 pb-2"
+              >
+                <span class="flex items-center gap-2 text-douro-dark"
+                  ><i
+                    data-lucide="map-pin"
+                    class="w-4 h-4 text-douro-accent"
+                  ></i>
+                  Las Arribes del Duero</span
+                >
+                <span class="font-bold text-douro-green">2.1 km</span>
+              </li>
+              <li
+                class="flex items-center justify-between border-b border-gray-100 pb-2"
+              >
+                <span class="flex items-center gap-2 text-douro-dark"
+                  ><i
+                    data-lucide="map-pin"
+                    class="w-4 h-4 text-douro-accent"
+                  ></i>
+                  Cruzeiro Ambiental</span
+                >
+                <span class="font-bold text-douro-green">1.8 km</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="h-[450px] rounded-2xl overflow-hidden shadow-lg fade-up relative group"
+          >
+            <!-- Google Map -->
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d186.78394477299378!2d-6.285907669841804!3d41.4925038556367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd39668b8350aa9d%3A0x19d3f0449b6fe73!2sDouro%20Camping!5e0!3m2!1spt-PT!2spt!4v1770684007148!5m2!1spt-PT!2spt"
+              width="100%"
+              height="100%"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            >
+            </iframe>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Galeria de Verão - Uniform Grid -->
-    <section class="py-32 px-6 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-4xl font-serif mb-4">Galeria de Verão</h2>
-                <p class="text-stone-500 font-light">Momentos capturados nas nossas encostas.</p>
+    <!-- Reviews / Social Proof -->
+    <section class="py-20 px-6 bg-douro-light">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <!-- Stats Column -->
+          <div
+            class="lg:col-span-4 bg-white p-8 rounded-2xl shadow-sm h-fit fade-up"
+          >
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-16 h-16 bg-douro-green text-white rounded-lg flex items-center justify-center text-2xl font-bold font-serif"
+              >
+                8.5
+              </div>
+              <div>
+                <p class="font-bold text-lg text-douro-dark">Muito Bom</p>
+                <p class="text-sm text-gray-500">Baseado em 584 comentários</p>
+              </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="aspect-square overflow-hidden rounded-xl reveal-img">
-                    <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542616/dc5_gg7veh.jpg"
-                        alt="Galeria 1" class="w-full h-full object-cover scroll-parallax">
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Funcionários</span><span class="font-bold">9.1</span>
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl reveal-img">
-                    <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542616/dc10_lchtq5.jpg"
-                        alt="Galeria 2" class="w-full h-full object-cover scroll-parallax">
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div
+                    class="bg-douro-green h-2 rounded-full"
+                    style="width: 91%"
+                  ></div>
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl reveal-img">
-                    <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542617/dc11_qdqikg.jpg"
-                        alt="Galeria 3" class="w-full h-full object-cover scroll-parallax">
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Localização</span><span class="font-bold">8.9</span>
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl reveal-img">
-                    <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542617/dc4_iaowqk.jpg"
-                        alt="Galeria 4" class="w-full h-full object-cover scroll-parallax">
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div
+                    class="bg-douro-green h-2 rounded-full"
+                    style="width: 89%"
+                  ></div>
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl reveal-img">
-                    <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542617/dc3_ephc38.jpg"
-                        alt="Galeria 5" class="w-full h-full object-cover scroll-parallax">
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Limpeza</span><span class="font-bold">8.5</span>
                 </div>
-                <div class="aspect-square overflow-hidden rounded-xl reveal-img">
-                    <img src="https://res.cloudinary.com/dagtx9a4e/image/upload/v1769542617/dc2_wncjak.jpg"
-                        alt="Galeria 6" class="w-full h-full object-cover scroll-parallax">
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div
+                    class="bg-douro-green h-2 rounded-full"
+                    style="width: 85%"
+                  ></div>
                 </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Relação Preço/Qualidade</span
+                  ><span class="font-bold">8.7</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div
+                    class="bg-douro-green h-2 rounded-full"
+                    style="width: 87%"
+                  ></div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Reviews Images Column -->
+          <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <img
+              src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683881/e4b65906-6238-480c-a8eb-2639444308cf.png"
+              class="rounded-xl shadow-sm border hover:scale-[1.02] transition-transform fade-up w-full"
+              alt="Review 1"
+            />
+            <img
+              src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683902/125627a8-dc36-4efb-a42c-4f7ec8583ab2.png"
+              class="rounded-xl shadow-sm border hover:scale-[1.02] transition-transform fade-up delay-100 w-full"
+              alt="Review 2"
+            />
+            <img
+              src="https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683919/45b86b37-c18b-410b-b44b-3b9bc1474b70.png"
+              class="rounded-xl shadow-sm border hover:scale-[1.02] transition-transform fade-up delay-200 w-full md:col-span-2 md:w-1/2 md:mx-auto"
+              alt="Review 3"
+            />
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section
+      id="reservar"
+      class="py-24 bg-douro-green text-center text-white px-6"
+    >
+      <div class="max-w-3xl mx-auto fade-up">
+        <h2 class="text-4xl md:text-5xl font-serif mb-6">
+          O Douro espera por si.
+        </h2>
+        <p class="text-lg text-white/80 mb-10">
+          Garanta o seu lugar na natureza. Sem stress, sem complicações.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onclick="openContactModal('Reserva')"
+            class="bg-douro-accent text-white px-10 py-5 rounded-full text-lg font-semibold hover:bg-white hover:text-douro-green transition-all shadow-xl shadow-douro-black/20 transform hover:-translate-y-1"
+          >
+            Reservar Estadia
+          </button>
+          <button
+            onclick="openContactModal('Geral')"
+            class="bg-transparent border border-white/30 text-white px-10 py-5 rounded-full text-lg font-semibold hover:bg-white/10 transition-all"
+          >
+            Contactar Receção
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-stone-950 text-white pt-32 pb-16 px-6 text-center">
-        <h2 class="text-6xl md:text-8xl font-serif mb-12 opacity-90">O Douro <br> espera por si.</h2>
-        <button
-            class="bg-white text-stone-950 px-12 py-6 rounded-full font-bold text-xs tracking-widest uppercase hover:bg-emerald-400 transition-colors">Marcar
-            visita</button>
-        <div
-            class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-stone-500 text-sm mt-32 pt-12 border-t border-stone-900 text-left">
-            <div>
-                <p class="text-white font-bold mb-4 uppercase">Localização</p>
-                <p>Vale do Douro, Portugal</p>
-            </div>
-            <div>
-                <p class="text-white font-bold mb-4 uppercase">Contactos</p>
-                <p>info@dourocamping.pt</p>
-            </div>
-            <div class="md:text-right font-serif text-white font-bold text-xl">DOURO CAMPING</div>
+    <footer
+      class="bg-douro-dark text-white/60 py-12 px-6 border-t border-white/10"
+    >
+      <div
+        class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12"
+      >
+        <div>
+          <h3 class="text-white text-xl font-serif mb-4">DOURO CAMPING</h3>
+          <p class="text-sm text-white/80">
+            Gerido por Vista T1.<br />Natureza, conforto e simplicidade.
+          </p>
+          <div
+            class="flex items-center gap-2 mt-4 text-xs tracking-widest uppercase border border-white/20 inline-block px-2 py-1 rounded"
+          >
+            Hotel 3 Estrelas ★★★
+          </div>
         </div>
+        <div>
+          <h4 class="text-white font-medium mb-4">Onde Estamos</h4>
+          <p class="text-sm mb-2">Rua do Parque de Campismo</p>
+          <p class="text-sm mb-2">5210-212 Miranda do Douro</p>
+        </div>
+        <div>
+          <h4 class="text-white font-medium mb-4">Contactos</h4>
+          <p class="text-sm mb-2 hover:text-white cursor-pointer">
+            +351 273 417 172
+          </p>
+          <p class="text-sm hover:text-white cursor-pointer">
+            ola@dourocamping.pt
+          </p>
+        </div>
+        <div>
+          <h4 class="text-white font-medium mb-4">Social</h4>
+          <div class="flex gap-4">
+            <i
+              data-lucide="instagram"
+              class="w-5 h-5 cursor-pointer hover:text-white transition-colors"
+            ></i>
+            <i
+              data-lucide="facebook"
+              class="w-5 h-5 cursor-pointer hover:text-white transition-colors"
+            ></i>
+          </div>
+        </div>
+      </div>
     </footer>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+    <!-- ROOM DETAILS MODAL -->
+    <div
+      id="roomModal"
+      class="fixed inset-0 z-[100] modal-overlay flex items-center justify-center p-4"
+    >
+      <!-- Backdrop -->
+      <div
+        class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onclick="closeModal()"
+      ></div>
 
-        // Smooth Carousel Scrolling
-        function scrollCarousel(id, direction) {
-            const el = document.getElementById(id);
-            const scrollAmount = el.offsetWidth * 0.8;
-            el.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+      <!-- Modal Content -->
+      <div
+        class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative z-10 modal-content shadow-2xl flex flex-col"
+      >
+        <!-- Close Button -->
+        <button
+          onclick="closeModal()"
+          class="absolute top-4 right-4 bg-white/80 p-2 rounded-full hover:bg-gray-100 z-20"
+        >
+          <i data-lucide="x" class="w-6 h-6 text-gray-800"></i>
+        </button>
+
+        <!-- Dynamic Content Container -->
+        <div id="modalBody" class="grid grid-cols-1 lg:grid-cols-2 h-full">
+          <!-- Image Side -->
+          <div class="h-64 lg:h-full bg-gray-200 relative lg:sticky lg:top-0">
+            <img
+              id="modalImg"
+              src=""
+              class="w-full h-full object-cover"
+              alt="Room Image"
+            />
+          </div>
+
+          <!-- Info Side -->
+          <div class="p-8 lg:p-10 flex flex-col">
+            <div>
+              <div class="flex justify-between items-start">
+                <span
+                  id="modalSize"
+                  class="text-xs font-bold text-douro-accent tracking-widest uppercase mb-2 block"
+                ></span>
+                <!-- Price Block -->
+                <div class="text-right">
+                  <div
+                    id="modalPrice"
+                    class="text-2xl font-serif text-douro-green font-bold"
+                  ></div>
+                  <div id="modalPriceHigh" class="text-xs text-gray-400"></div>
+                </div>
+              </div>
+
+              <h2
+                id="modalTitle"
+                class="text-3xl font-serif text-douro-green mb-4 leading-tight"
+              ></h2>
+              <p
+                id="modalDesc"
+                class="text-gray-600 mb-6 text-sm leading-relaxed"
+              ></p>
+
+              <!-- Features Grid -->
+              <div
+                class="grid grid-cols-2 gap-y-4 gap-x-2 mb-8 bg-douro-light/30 p-4 rounded-xl border border-douro-sand/30"
+              >
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <i data-lucide="bed" class="w-4 h-4 text-douro-green"></i>
+                  <span id="modalBed"></span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <i data-lucide="users" class="w-4 h-4 text-douro-green"></i>
+                  <span id="modalCap"></span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <i
+                    data-lucide="utensils"
+                    class="w-4 h-4 text-douro-green"
+                  ></i>
+                  <span id="modalKitchen"></span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <i data-lucide="wifi" class="w-4 h-4 text-douro-green"></i>
+                  Wi-Fi Gratuito
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <i data-lucide="wind" class="w-4 h-4 text-douro-green"></i>
+                  Climatização
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <i
+                    data-lucide="volume-x"
+                    class="w-4 h-4 text-douro-green"
+                  ></i>
+                  Insonorização
+                </div>
+              </div>
+
+              <!-- Amenities List -->
+              <div class="mb-8">
+                <h4
+                  class="font-bold text-sm mb-3 text-douro-dark border-b pb-2"
+                >
+                  Comodidades Específicas:
+                </h4>
+                <ul
+                  id="modalAmenities"
+                  class="text-xs text-gray-600 grid grid-cols-2 gap-2"
+                >
+                  <!-- Populated by JS -->
+                </ul>
+              </div>
+            </div>
+
+            <!-- CALENDAR SECTION -->
+            <div id="bookingSection" class="mt-4 border-t pt-6">
+              <h4 class="font-serif text-xl text-douro-green mb-4">
+                Escolha os seus dias de descanso
+              </h4>
+
+              <!-- Month Navigation -->
+              <div class="flex justify-between items-center mb-4 px-2">
+                <button
+                  onclick="changeMonth(-1)"
+                  class="p-1 hover:bg-gray-100 rounded-full"
+                >
+                  <i
+                    data-lucide="chevron-left"
+                    class="w-5 h-5 text-gray-600"
+                  ></i>
+                </button>
+                <span
+                  id="calendarMonth"
+                  class="font-bold text-gray-800 capitalize"
+                ></span>
+                <button
+                  onclick="changeMonth(1)"
+                  class="p-1 hover:bg-gray-100 rounded-full"
+                >
+                  <i
+                    data-lucide="chevron-right"
+                    class="w-5 h-5 text-gray-600"
+                  ></i>
+                </button>
+              </div>
+
+              <!-- Days Header -->
+              <div
+                class="grid grid-cols-7 text-center mb-2 text-xs font-bold text-gray-400 uppercase"
+              >
+                <div>Dom</div>
+                <div>Seg</div>
+                <div>Ter</div>
+                <div>Qua</div>
+                <div>Qui</div>
+                <div>Sex</div>
+                <div>Sab</div>
+              </div>
+
+              <!-- Calendar Grid -->
+              <div
+                id="calendarGrid"
+                class="grid grid-cols-7 gap-1 text-center text-sm mb-6"
+              >
+                <!-- Populated by JS -->
+              </div>
+
+              <!-- Sticky Bottom Summary -->
+              <div
+                class="bg-douro-light p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-douro-green/10"
+              >
+                <div class="text-sm text-douro-dark">
+                  <span id="selectionText" class="block font-bold"
+                    >Selecione datas</span
+                  >
+                  <span
+                    class="block text-xs text-gray-500 opacity-80"
+                    id="rateInfo"
+                    >Preços dinâmicos (fim de semana +15%)</span
+                  >
+                </div>
+                <button
+                  id="bookBtn"
+                  class="bg-gray-300 text-gray-500 px-6 py-3 rounded-full font-medium transition-colors w-full sm:w-auto shadow-sm cursor-not-allowed"
+                  disabled
+                >
+                  Reservar Agora
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW CONTACT MODAL -->
+    <div
+      id="contactModal"
+      class="fixed inset-0 z-[100] modal-overlay flex items-center justify-center p-4"
+    >
+      <!-- Backdrop -->
+      <div
+        class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onclick="closeContactModal()"
+      ></div>
+
+      <!-- Modal Content -->
+      <div
+        class="bg-white rounded-2xl w-full max-w-lg relative z-10 modal-content shadow-2xl overflow-hidden"
+      >
+        <!-- Close Button -->
+        <button
+          onclick="closeContactModal()"
+          class="absolute top-4 right-4 bg-white/80 p-2 rounded-full hover:bg-gray-100 z-20"
+        >
+          <i data-lucide="x" class="w-6 h-6 text-gray-800"></i>
+        </button>
+
+        <!-- Form Content -->
+        <div id="contactFormContent" class="p-8 md:p-10">
+          <h3
+            id="contactTitle"
+            class="text-2xl font-serif text-douro-green mb-2"
+          >
+            Fale Connosco
+          </h3>
+          <p class="text-gray-500 text-sm mb-6">
+            A nossa equipa da receção responderá o mais breve possível.
+          </p>
+
+          <form onsubmit="submitContactForm(event)" class="space-y-4">
+            <div>
+              <label
+                class="block text-xs font-bold text-gray-500 uppercase mb-1"
+                >Assunto</label
+              >
+              <select
+                id="contactSubject"
+                class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-douro-green bg-white"
+              >
+                <option value="Geral">Informações Gerais</option>
+                <option value="Reserva">Pedido de Reserva</option>
+                <option value="Eventos">Eventos / Grupos</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  class="block text-xs font-bold text-gray-500 uppercase mb-1"
+                  >Nome</label
+                >
+                <input
+                  type="text"
+                  required
+                  class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-douro-green"
+                  placeholder="O seu nome"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-xs font-bold text-gray-500 uppercase mb-1"
+                  >Telemóvel</label
+                >
+                <input
+                  type="tel"
+                  required
+                  class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-douro-green"
+                  placeholder="Contacto"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="block text-xs font-bold text-gray-500 uppercase mb-1"
+                >Email</label
+              >
+              <input
+                type="email"
+                required
+                class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-douro-green"
+                placeholder="seu@email.com"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-xs font-bold text-gray-500 uppercase mb-1"
+                >Mensagem / Datas</label
+              >
+              <textarea
+                required
+                rows="4"
+                class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-douro-green resize-none"
+                placeholder="Olá, gostaria de saber disponibilidade para..."
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-douro-green text-white font-bold py-4 rounded-lg hover:bg-douro-accent transition-colors shadow-lg mt-2"
+            >
+              Enviar Pedido
+            </button>
+          </form>
+        </div>
+
+        <!-- Success Message (Hidden by default) -->
+        <div
+          id="contactSuccess"
+          class="hidden absolute inset-0 bg-white flex flex-col items-center justify-center p-10 text-center"
+        >
+          <div
+            class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6 success-icon"
+          >
+            <i data-lucide="check" class="w-10 h-10 text-green-600"></i>
+          </div>
+          <h3 class="text-2xl font-serif text-douro-green mb-2">
+            Pedido Enviado!
+          </h3>
+          <p class="text-gray-500 mb-8 max-w-xs mx-auto">
+            Recebemos a sua mensagem. A equipa Vista T1 entrará em contacto
+            brevemente para confirmar os detalhes.
+          </p>
+          <button
+            onclick="closeContactModal()"
+            class="text-sm font-bold text-douro-green border-b border-douro-green pb-1 hover:text-douro-accent hover:border-douro-accent transition-colors"
+          >
+            Voltar ao site
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts: GSAP & Lenis & Modal Logic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+      // Data for Modals with numeric base price for calculation
+      const roomData = {
+        chale1: {
+          title: 'Chalé com 1 Quarto',
+          size: '28 m²',
+          priceBase: 62,
+          price: 'Desde 62€',
+          priceHigh: 'Picos até 135€',
+          desc: 'Chalé completo com cozinha privativa, varanda e vista jardim/montanha. Inclui sala de estar e área de refeições exterior.',
+          img: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683206/download_povazv.jpg',
+          bed: '1 Cama Casal + Sofá',
+          cap: 'Max 2-4 Pessoas',
+          kitchen: 'Cozinha Completa',
+          amenities: [
+            'Máquina de lavar roupa',
+            'Frigorífico & Placa',
+            'Terraço/Pátio',
+            'Churrasco privado',
+            'TV Ecrã Plano',
+            'Produtos de higiene',
+          ],
+        },
+        chale2: {
+          title: 'Chalé com 2 Quartos',
+          size: '38 m²',
+          priceBase: 85,
+          price: 'Desde 85€',
+          priceHigh: 'Picos até 189€',
+          desc: 'Espaçoso chalé familiar com dois quartos separados, sala de estar e cozinha totalmente equipada.',
+          img: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683141/download_e5gsaq.jpg',
+          bed: '1 Casal + 2 Solteiros',
+          cap: 'Max 4-6 Pessoas',
+          kitchen: 'Cozinha Completa',
+          amenities: [
+            'Máquina de lavar',
+            'Micro-ondas',
+            'Torradeira',
+            'Churrasco',
+            'Entrada privada',
+            'Rede mosquiteira',
+          ],
+        },
+        suiteSup: {
+          title: 'Suite Superior',
+          size: '40 m²',
+          priceBase: 90,
+          price: 'Desde 90€',
+          priceHigh: 'Picos até 195€',
+          desc: 'Alojamento premium com vista piscina, terraço privado e ar condicionado. Acabamentos superiores.',
+          img: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683708/download_ubkc9t.jpg',
+          bed: '1 Casal + 2 Solteiros',
+          cap: 'Max 4 Pessoas',
+          kitchen: 'Cozinha + Forno',
+          amenities: [
+            'Ar Condicionado',
+            'Máquina de Café',
+            'Forno',
+            'Secador de Cabelo',
+            'Vista Piscina',
+            'Cofre',
+          ],
+        },
+        chaleSup: {
+          title: 'Chalé Superior',
+          size: '30 m²',
+          priceBase: 79,
+          price: 'Desde 79€',
+          priceHigh: 'Picos até 150€',
+          desc: 'Conforto moderno com AC e vista piscina. Perfeito para quem procura privacidade extra.',
+          img: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683194/download_bfrq8u.jpg',
+          bed: '1 Casal + Sofá',
+          cap: 'Max 2-3 Pessoas',
+          kitchen: 'Kitchenette Premium',
+          amenities: [
+            'Ar Condicionado',
+            'Máquina de Café',
+            'Insonorização',
+            'TV Satélite',
+            'Vista Jardim',
+          ],
+        },
+        suiteJr: {
+          title: 'Suite Júnior',
+          size: '25 m²',
+          priceBase: 55,
+          price: 'Desde 55€',
+          priceHigh: 'Picos até 110€',
+          desc: 'Opção económica e confortável com kitchenette compacta e vista montanha.',
+          img: 'https://res.cloudinary.com/ddqn9gs6f/image/upload/v1770683184/download_ln64b4.jpg',
+          bed: '1 Casal',
+          cap: 'Max 2 Pessoas',
+          kitchen: 'Kitchenette Compacta',
+          amenities: [
+            'Placa de fogão',
+            'Frigorífico',
+            'TV Ecrã Plano',
+            'Duche',
+            'Piso em madeira',
+          ],
+        },
+      };
+
+      // Calendar State
+      let currentRoomBasePrice = 0;
+      let selectedStartDate = null;
+      let selectedEndDate = null;
+      let currentMonth = new Date().getMonth();
+      let currentYear = new Date().getFullYear();
+
+      const monthNames = [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro',
+      ];
+
+      function openModal(roomId) {
+        const data = roomData[roomId];
+        if (!data) return;
+
+        // Reset Calendar State
+        selectedStartDate = null;
+        selectedEndDate = null;
+        currentRoomBasePrice = data.priceBase;
+        updateBookingSummary();
+
+        document.getElementById('modalTitle').innerText = data.title;
+        document.getElementById('modalSize').innerText = data.size;
+        document.getElementById('modalDesc').innerText = data.desc;
+        document.getElementById('modalImg').src = data.img;
+        document.getElementById('modalBed').innerText = data.bed;
+        document.getElementById('modalCap').innerText = data.cap;
+        document.getElementById('modalKitchen').innerText = data.kitchen;
+        document.getElementById('modalPrice').innerText = data.price;
+        document.getElementById('modalPriceHigh').innerText = data.priceHigh;
+
+        // Populate amenities
+        const list = document.getElementById('modalAmenities');
+        list.innerHTML = '';
+        data.amenities.forEach((item) => {
+          const li = document.createElement('li');
+          li.className = 'flex items-center gap-2';
+          li.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-douro-accent"></i> ${item}`;
+          list.appendChild(li);
+        });
+
+        lucide.createIcons();
+
+        // Render Calendar
+        renderCalendar();
+
+        document.getElementById('roomModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        document.getElementById('roomModal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      // --- CALENDAR LOGIC ---
+
+      function changeMonth(step) {
+        currentMonth += step;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        } else if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        renderCalendar();
+      }
+
+      function getDailyPrice(date) {
+        // Dynamic Pricing Simulation
+        const dayOfWeek = date.getDay(); // 0 = Sun, 6 = Sat
+        const month = date.getMonth(); // 7 = August
+
+        let multiplier = 1;
+
+        // Weekend bump (Fri/Sat)
+        if (dayOfWeek === 5 || dayOfWeek === 6) multiplier = 1.15;
+
+        // High Season bump (August)
+        if (month === 7) multiplier = 1.4;
+
+        return Math.ceil(currentRoomBasePrice * multiplier);
+      }
+
+      function renderCalendar() {
+        const calendarGrid = document.getElementById('calendarGrid');
+        const monthLabel = document.getElementById('calendarMonth');
+        calendarGrid.innerHTML = '';
+        monthLabel.innerText = `${monthNames[currentMonth]} ${currentYear}`;
+
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(
+          currentYear,
+          currentMonth + 1,
+          0,
+        ).getDate();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Empty slots for days before 1st
+        for (let i = 0; i < firstDay; i++) {
+          calendarGrid.appendChild(document.createElement('div'));
         }
 
-        // Menu Toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const menuOverlay = document.getElementById('menuOverlay');
+        // Days
+        for (let i = 1; i <= daysInMonth; i++) {
+          const date = new Date(currentYear, currentMonth, i);
+          const isPast = date < today;
+          const price = getDailyPrice(date);
 
-        menuBtn.onclick = () => {
-            menuOverlay.classList.remove('-translate-y-full', 'opacity-0');
-            menuOverlay.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
-        };
+          const dayEl = document.createElement('div');
+          dayEl.className = `calendar-day p-2 rounded-lg cursor-pointer flex flex-col items-center justify-center h-14 border border-transparent`;
 
-        closeBtn.onclick = () => {
-            menuOverlay.classList.add('-translate-y-full', 'opacity-0');
-            menuOverlay.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
-        };
+          if (isPast) {
+            dayEl.classList.add('disabled');
+          } else {
+            dayEl.onclick = () => selectDate(date);
+          }
 
-        // Animações de Scroll
-        window.addEventListener('load', () => {
-            // Efeito Parallax nas imagens sem mudar cor
-            gsap.utils.toArray('.scroll-parallax').forEach(img => {
-                gsap.to(img, {
-                    yPercent: 15,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: img,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            });
+          // Styling logic for Selection
+          if (
+            selectedStartDate &&
+            date.getTime() === selectedStartDate.getTime()
+          ) {
+            dayEl.classList.add('selected');
+          } else if (
+            selectedEndDate &&
+            date.getTime() === selectedEndDate.getTime()
+          ) {
+            dayEl.classList.add('selected');
+          } else if (
+            selectedStartDate &&
+            selectedEndDate &&
+            date > selectedStartDate &&
+            date < selectedEndDate
+          ) {
+            dayEl.classList.add('in-range');
+          }
 
-            // Hero Image Zoom Out
-            gsap.to('#heroImageContainer', {
-                scale: 1,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: 'header',
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
+          dayEl.innerHTML = `
+                    <span class="font-bold text-sm">${i}</span>
+                    <span class="text-[10px] ${isPast ? '' : 'text-gray-500'}">${price}€</span>
+                `;
 
-            // Reveal Animation (Clip-path)
-            const revealOptions = {
-                root: null,
-                threshold: 0.15
-            };
+          calendarGrid.appendChild(dayEl);
+        }
+      }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, revealOptions);
+      function selectDate(date) {
+        if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
+          // New selection start
+          selectedStartDate = date;
+          selectedEndDate = null;
+        } else {
+          // Selecting end date
+          if (date < selectedStartDate) {
+            selectedStartDate = date;
+          } else {
+            selectedEndDate = date;
+          }
+        }
+        renderCalendar();
+        updateBookingSummary();
+      }
 
-            document.querySelectorAll('.reveal-img').forEach(img => {
-                observer.observe(img);
-            });
+      function updateBookingSummary() {
+        const btn = document.getElementById('bookBtn');
+        const txt = document.getElementById('selectionText');
+
+        if (selectedStartDate && selectedEndDate) {
+          // Calculate total
+          let total = 0;
+          let nights = 0;
+          let tempDate = new Date(selectedStartDate);
+
+          while (tempDate < selectedEndDate) {
+            total += getDailyPrice(tempDate);
+            nights++;
+            tempDate.setDate(tempDate.getDate() + 1);
+          }
+
+          // UI Update
+          txt.innerHTML = `
+                    <span class="block font-bold text-douro-green text-lg">${nights} noites selecionadas</span>
+                    <span class="block text-xs text-gray-500">Check-in: ${selectedStartDate.getDate()}/${selectedStartDate.getMonth() + 1} · Check-out: ${selectedEndDate.getDate()}/${selectedEndDate.getMonth() + 1}</span>
+                `;
+
+          btn.innerHTML = `Reservar · Total ${total}€`;
+          btn.disabled = false;
+          btn.className =
+            'bg-douro-green text-white px-6 py-3 rounded-full font-medium hover:bg-douro-accent transition-colors w-full sm:w-auto shadow-lg';
+
+          // Hook booking button to contact modal for demo
+          btn.onclick = () => {
+            closeModal();
+            openContactModal('Reserva');
+          };
+        } else if (selectedStartDate) {
+          txt.innerHTML = `<span class="block font-bold">Selecione data de saída</span>`;
+          btn.innerHTML = 'Selecione Datas';
+          btn.disabled = true;
+          btn.className =
+            'bg-gray-200 text-gray-400 px-6 py-3 rounded-full font-medium w-full sm:w-auto cursor-not-allowed';
+        } else {
+          txt.innerHTML = `<span class="block font-bold">Selecione datas</span><span class="block text-xs text-gray-500 opacity-80">Preços dinâmicos (fim de semana +15%)</span>`;
+          btn.innerHTML = 'Reservar Agora';
+          btn.disabled = true;
+          btn.className =
+            'bg-gray-200 text-gray-400 px-6 py-3 rounded-full font-medium w-full sm:w-auto cursor-not-allowed';
+        }
+      }
+
+      // --- NEW CONTACT MODAL LOGIC ---
+
+      function openContactModal(type) {
+        const modal = document.getElementById('contactModal');
+        const subjectSelect = document.getElementById('contactSubject');
+        const content = document.getElementById('contactFormContent');
+        const success = document.getElementById('contactSuccess');
+
+        // Reset state
+        content.style.display = 'block';
+        success.classList.add('hidden');
+
+        if (type === 'Reserva') {
+          subjectSelect.value = 'Reserva';
+        } else {
+          subjectSelect.value = 'Geral';
+        }
+
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        lucide.createIcons();
+      }
+
+      function closeContactModal() {
+        document.getElementById('contactModal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function submitContactForm(e) {
+        e.preventDefault();
+        // Simulate API call/processing
+        const content = document.getElementById('contactFormContent');
+        const success = document.getElementById('contactSuccess');
+
+        content.style.display = 'none';
+        success.classList.remove('hidden');
+      }
+
+      // Initialize Lucide Icons
+      lucide.createIcons();
+
+      // 1. Initialize Lenis (Smooth Scroll)
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // Sync GSAP
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Animations
+      const tl = gsap.timeline();
+      tl.from('.hero-anim', {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
+      });
+
+      gsap.to('.hero-img', {
+        scrollTrigger: {
+          trigger: 'header',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+        yPercent: 30,
+        scale: 1.1,
+      });
+
+      const fadeUpElements = gsap.utils.toArray('.fade-up');
+      fadeUpElements.forEach((el) => {
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
         });
-    </script>
-</body>
+      });
 
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm');
+          navbar.classList.remove('py-4');
+          navbar.classList.add('py-2');
+        } else {
+          navbar.classList.remove(
+            'bg-white/95',
+            'backdrop-blur-md',
+            'shadow-sm',
+            'py-2',
+          );
+          navbar.classList.add('py-4');
+        }
+      });
+    </script>
+  </body>
 </html>
