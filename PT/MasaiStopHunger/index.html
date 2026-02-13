@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singiraine Masai Stop Hunger</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        maasai: {
+                            // RED: Darker Emotional Trigger / Urgency
+                            red: '#6F1410',     // Main Action (Darker)
+                            redLight: '#8C1D18', // Hover state (Previous main)
+                            
+                            // BLUE: Trust, Stability, Sky
+                            blue: '#0F2C59',   // Deep Trust Navy
+                            blueLight: '#E8EDF5', // Very light blue for section backgrounds
+                            
+                            // NEUTRALS
+                            white: '#FFFFFF',
+                            gray: '#F3F4F6'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles -->
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #0F2C59; /* Trust Blue Text */
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Lenis Recommended Styles */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Utilities */
+        .image-wrapper {
+            overflow: hidden;
+            background-color: #000000; /* Changed from Blue to Black to hide any gaps */
+        }
+        
+        .parallax-img {
+            will-change: transform;
+            transform: scale(1.25); /* Increased scale to fully cover top/bottom edges */
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #6F1410; /* Darker Red */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        
+        /* Soft shadows for cards */
+        .soft-shadow {
+            box-shadow: 0 10px 40px -10px rgba(15, 44, 89, 0.08);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-white selection:bg-maasai-red selection:text-white">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-4xl md:text-6xl italic tracking-wide">Masai</h1>
+            <p class="mt-2 text-sm uppercase tracking-widest opacity-80">Stop Hunger</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-black/20 backdrop-blur-sm" id="navbar">
+        <!-- Reduced py-6 to py-3 for mobile (md:py-6 for desktop) to make bar smaller -->
+        <div class="container mx-auto px-6 py-3 md:py-6 flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl font-bold text-white tracking-tighter">
+                MASAI<span class="text-white">.</span>
+            </a>
+            
+            <div class="hidden md:flex gap-8 text-sm font-medium text-white uppercase tracking-widest items-center">
+                <a href="#mission" class="hover:opacity-70 transition-opacity">Mission</a>
+                <a href="#programs" class="hover:opacity-70 transition-opacity">Approach</a>
+                <!-- Updated from Programs to Volunteer -->
+                <a href="#donate" class="hover:opacity-70 transition-opacity">Volunteer</a>
+                
+                <!-- Added Language Button -->
+                <button class="flex items-center gap-2 hover:opacity-70 transition-opacity border-l border-white/30 pl-6 ml-2">
+                    <i data-lucide="globe" class="w-4 h-4"></i>
+                    <span>EN</span>
+                </button>
+            </div>
+
+            <a href="#donate" class="bg-maasai-red text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-maasai-redLight transition-colors transform hover:scale-105 duration-300 shadow-lg shadow-maasai-red/20">
+                Donate Now
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO SECTION -->
+        <header class="relative w-full h-screen overflow-hidden flex items-center justify-center">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-[-1] image-wrapper">
+                <img 
+                    src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769543752/Resili%C3%AAncia_no_%C3%A1rido_deserto_Maasai_a1buzk.png" 
+                    alt="Kenyan Landscape" 
+                    class="w-full h-full object-cover parallax-img"
+                    data-speed="0.5"
+                >
+            </div>
+
+            <!-- Added pt-20 md:pt-32 to push content down from the fixed navbar -->
+            <div class="relative z-10 container mx-auto px-6 text-center text-white h-full flex flex-col items-center justify-center pt-20 md:pt-32">
+                <!-- Added Text Container with Blur for Readability -->
+                <!-- Reduced padding from p-6 to p-5 for mobile -->
+                <div class="bg-black/30 backdrop-blur-sm p-5 md:p-12 rounded-3xl border border-white/10 shadow-2xl max-w-5xl mx-auto">
+                    <!-- Reduced margin mb-2 for mobile -->
+                    <p class="hero-subtitle overflow-hidden text-xs md:text-base font-medium tracking-[0.3em] uppercase mb-2 md:mb-4 opacity-0 translate-y-4 shadow-sm">
+                        Singiraine, Kenya
+                    </p>
+                    <!-- Reduced text size text-3xl for mobile -->
+                    <h1 class="hero-title font-serif text-3xl md:text-7xl lg:text-8xl leading-tight mb-3 md:mb-8 opacity-0 translate-y-8 drop-shadow-md">
+                        Everyone Deserves Dignity<br>
+                        <span class="block mt-2 md:mt-4 font-sans text-sm md:text-2xl tracking-widest font-normal">- Everywhere -</span>
+                    </h1>
+                    <!-- Reduced top margin mt-3 for mobile -->
+                    <div class="hero-cta opacity-0 translate-y-4 mt-3 md:mt-8">
+                        <!-- Shortened text for mobile readability -->
+                        <p class="max-w-md mx-auto text-sm md:text-lg opacity-90 mb-5 md:mb-8 font-light leading-relaxed drop-shadow-sm">
+                           <span class="md:hidden">Education. Water. Growth.</span>
+                           <span class="hidden md:inline">Supporting the Masai through education, water, and sustainable growth.</span>
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <!-- Adjusted button padding for mobile -->
+                            <button onclick="document.querySelector('#mission').scrollIntoView({behavior: 'smooth'})" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-xs uppercase tracking-widest hover:bg-white hover:text-maasai-blue transition-all duration-300">
+                                Explore our Mission
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MISSION / NARRATIVE SECTION -->
+        <!-- Reduced py-24 to py-12 for mobile -->
+        <section id="mission" class="relative py-12 md:py-32 bg-white">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+                <div class="reveal-trigger">
+                    <span class="text-maasai-red text-xs font-bold uppercase tracking-widest block mb-4">Our Shared Journey</span>
+                    <h2 class="font-serif text-3xl md:text-5xl text-maasai-blue leading-tight mb-4 md:mb-6">
+                        Where Water Brings Life and Education brings Dreams.
+                    </h2>
+                    <!-- Shortened text for mobile -->
+                    <p class="text-maasai-blue/70 leading-relaxed text-base md:text-lg mb-6 md:mb-8 font-light">
+                        <span class="md:hidden">Singiraine is resilient, but needs support. We ensure thirst never silences a dream.</span>
+                        <span class="hidden md:inline">In the heart of Singiraine, resilience is a way of life. But even the strongest hearts need a hand to hold during the dry seasons. We are here to ensure that thirst never silences a child's dream.</span>
+                    </p>
+                    <div class="flex flex-col gap-4 border-l-4 border-maasai-red pl-6">
+                        <blockquote class="font-serif text-lg md:text-2xl italic text-maasai-blue">
+                            "We are not just giving aid; we are honoring their strength. We are building the foundations for a future where every child can grow, learn, and lead."
+                        </blockquote>
+                        <button onclick="document.querySelector('#programs').scrollIntoView({behavior: 'smooth'})" class="w-fit mt-2 bg-maasai-red text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-maasai-blue transition-colors shadow-lg shadow-maasai-red/20">
+                            Discover HOW
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="relative h-[400px] md:h-[600px] w-full image-wrapper rounded-2xl soft-shadow reveal-image overflow-hidden">
+                    <img 
+                        src="https://res.cloudinary.com/daycdjfs4/image/upload/v1771004277/Masai_photo_vn02ql.png" 
+                        alt="Masai Community Member" 
+                        class="w-full h-full object-cover parallax-img"
+                        data-speed="0.1"
+                    >
+                    <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur p-4 md:p-6 max-w-xs rounded-xl shadow-lg border-l-4 border-maasai-red">
+                        <p class="text-xs font-bold uppercase tracking-widest text-maasai-blue/60 mb-2">Impact Goal</p>
+                        <p class="font-serif text-lg md:text-xl leading-tight text-maasai-blue">Improving quality of life for over 2,000 families in Singiraine.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS / TRANSITION (TRUST BLUE) -->
+        <!-- Added hidden md:block to hide on mobile devices -->
+        <section class="bg-maasai-blue text-white py-20 hidden md:block">
+            <div class="container mx-auto px-6 flex flex-wrap justify-between items-center gap-12 border-t border-white/10 border-b">
+                <div class="stat-item text-center md:text-left">
+                    <h3 class="font-serif text-5xl md:text-6xl text-maasai-red counter" data-target="3">0</h3>
+                    <p class="text-sm uppercase tracking-widest opacity-70 mt-2">New Water Wells</p>
+                </div>
+                <div class="stat-item text-center md:text-left">
+                    <h3 class="font-serif text-5xl md:text-6xl text-maasai-red counter" data-target="150">0</h3>
+                    <p class="text-sm uppercase tracking-widest opacity-70 mt-2">Children Educated</p>
+                </div>
+                <div class="stat-item text-center md:text-left">
+                    <h3 class="font-serif text-5xl md:text-6xl text-maasai-red counter" data-target="100">0</h3>
+                    <p class="text-sm uppercase tracking-widest opacity-70 mt-2">% Community Led</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROGRAMS / APPROACH -->
+        <!-- Adjusted padding: Increased bottom padding (pb-24) on mobile to prevent white cards from touching the next section -->
+        <section id="programs" class="pt-12 pb-24 md:pt-20 md:pb-32 relative bg-maasai-blueLight/30">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-8 md:mb-12 reveal-trigger">
+                    <h2 class="font-serif text-3xl md:text-6xl text-maasai-blue mb-4">Our Areas of Care</h2>
+                    <p class="text-maasai-blue/70 text-base md:text-lg">Every act of kindness creates a ripple of change. Here is how we care for our community.</p>
+                </div>
+
+                <!-- Updated Grid to fit 8 items: 1 col mobile, 2 cols tablet, 4 cols desktop -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    
+                    <!-- 1. Education -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Lighting the Path</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Opening doors to a brighter tomorrow through scholarships and school supplies, because every child carries the potential to change the world.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 2. Extracurricular Activities -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="trophy" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Nurturing Joy</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Creating safe spaces for laughter, creativity, and play, allowing children to just be children while building confidence.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 3. Food / Feeding -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="utensils" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Nourishing Bodies</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Warm meals that do more than fill bellies—they fuel hope, focus, and the energy to learn and grow.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 4. Health -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Healing Hands</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Bringing compassionate care closer to home through medical camps and essential medicines, because health is the foundation of happiness.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 5. Clothing and Shoes -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="shirt" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Warmth & Dignity</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Providing more than just fabric; offering comfort, protection, and the pride of a clean uniform.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 6. Family Support -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">A Circle of Care</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Walking beside families in their most vulnerable moments, guaranteeing hygiene, healthcare, and monitoring through trusted clinic partnerships.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 7. Micro Credit -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="coins" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Fueling Dreams</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Believing in the power of potential by entrusting people with the means to start businesses and build their own independent futures.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- 8. Village Growth - Water Desalination -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
+                        <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="waves" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">The Gift of Life</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Transforming the land with sustainable water desalination, turning dust into gardens and uncertainty into security.
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- LARGE PARALLAX IMAGE BREAKER -->
+        <!-- Reduced height h-[50vh] for mobile -->
+        <section class="relative h-[50vh] md:h-[80vh] w-full overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-0 z-[-1] image-wrapper">
+                <img 
+                    src="https://images.unsplash.com/photo-1547471080-7541fbe112a6?q=80&w=2568&auto=format&fit=crop" 
+                    alt="Masai Hands" 
+                    class="w-full h-full object-cover parallax-img"
+                    data-speed="0.3"
+                >
+            </div>
+            <div class="absolute inset-0 bg-maasai-blue/50"></div> <!-- Blue Overlay -->
+            <div class="relative z-10 text-center text-white px-6">
+                <!-- Reduced text size for mobile -->
+                <p class="font-serif text-2xl md:text-5xl lg:text-6xl italic leading-tight max-w-4xl mx-auto reveal-text-scroll drop-shadow-lg">
+                    "When you empower the community, you empower the village. When you water the earth, you grow a future."
+                </p>
+                <div class="mt-8 w-24 h-1 bg-maasai-red mx-auto"></div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <!-- Reduced padding py-12 for mobile -->
+        <section id="donate" class="py-12 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="bg-maasai-blue rounded-3xl p-6 md:p-20 text-white text-center relative overflow-hidden shadow-2xl">
+                    <!-- Decorative Circle -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-maasai-red/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="relative z-10 max-w-3xl mx-auto">
+                        <h2 class="font-serif text-3xl md:text-6xl mb-4 md:mb-6">Be Part of the Solution</h2>
+                        <!-- Shortened text for mobile -->
+                        <p class="text-white/80 text-sm md:text-lg mb-8 md:mb-12 font-light leading-relaxed">
+                            <span class="md:hidden">Empower the Masai to achieve independence. Help them cultivate, harvest, and thrive.</span>
+                            <span class="hidden md:inline">Your support empowers the community, allowing the Masai tribe to achieve their independence. Enabling them to cultivate the land, harvest their crops, and enjoy the fruits of self-reliance.</span>
+                        </p>
+                        <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                            <!-- Reduced padding from px-12 py-5 to px-8 py-3 and added text-sm -->
+                            <button class="bg-maasai-red text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-maasai-red transition-all duration-300 shadow-xl shadow-maasai-red/30 w-full md:w-auto text-sm">
+                                Donate via PayPal
+                            </button>
+                            <!-- Reduced padding from px-12 py-5 to px-8 py-3 and added text-sm -->
+                            <button class="border border-white/30 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-maasai-blue transition-all duration-300 w-full md:w-auto text-sm">
+                                Become a Volunteer
+                            </button>
+                        </div>
+                        
+                        <div class="mt-10 md:mt-16 pt-8 md:pt-10 border-t border-white/10">
+                            <p class="text-xs uppercase tracking-widest text-maasai-red mb-4 font-bold">Direct Bank Transfer</p>
+                            <div class="bg-white/5 rounded-xl p-6 md:p-8 inline-block backdrop-blur-md border border-white/10 hover:border-white/20 transition-colors cursor-text group">
+                                <p class="text-xs text-white/50 mb-2 uppercase tracking-widest">IBAN Account Number</p>
+                                <p class="font-mono text-lg md:text-3xl tracking-wider select-all text-white group-hover:text-maasai-redLight transition-colors">Iban00102034</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <!-- Reduced padding for mobile -->
+    <footer class="bg-maasai-blue text-white pt-12 md:pt-24 pb-8 md:pb-12 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <!-- Changed grid to centered flex layout for better alignment of fewer items -->
+            <div class="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32 mb-12 md:mb-20">
+                <!-- Removed md:text-left to keep centered on all screens -->
+                <div class="text-center">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-maasai-red mb-6">Contact</h4>
+                    <p class="text-white/70 text-sm mb-2 hover:text-white transition-colors cursor-pointer">info@singiraine.org</p>
+                    <p class="text-white/70 text-sm hover:text-white transition-colors cursor-pointer">+33 1 23 45 67 89</p>
+                    <!-- Removed md:justify-start to keep icons centered -->
+                    <div class="flex justify-center gap-4 mt-6">
+                        <a href="#" class="text-white/70 hover:text-maasai-red transition-colors"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="text-white/70 hover:text-maasai-red transition-colors"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="text-white/70 hover:text-maasai-red transition-colors"><i data-lucide="twitter"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Removed md:text-left to match symmetry -->
+                <div class="text-center">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-maasai-red mb-6">Legal</h4>
+                    <ul class="text-white/60 text-sm space-y-3">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Financial Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/40 text-center md:text-left">
+                <p>&copy; 2024 Singiraine Masai Stop Hunger. All rights reserved.</p>
+                <p class="mt-2 md:mt-0">Designed for Impact.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Check if Lenis is loaded before initializing to prevent errors
+        if (typeof Lenis !== 'undefined') {
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+            
+            // Navbar Scroll Effect hook
+            const nav = document.getElementById('navbar');
+            lenis.on('scroll', (e) => {
+                if (e.scroll > 50) {
+                    // Changed to Maasai Red (low opacity)
+                    // Reduced py-4 to py-2 to make the red bar smaller on scroll
+                    nav.classList.add('bg-maasai-red/90', 'backdrop-blur-md', 'shadow-lg', 'py-2');
+                    nav.classList.remove('py-6', 'bg-black/20');
+                } else {
+                    // Reduced py-4 to py-2 in removal
+                    nav.classList.remove('bg-maasai-red/90', 'backdrop-blur-md', 'shadow-lg', 'py-2');
+                    nav.classList.add('py-6', 'bg-black/20');
+                }
+            });
+            
+        } else {
+            console.warn("Lenis smooth scroll library failed to load.");
+            // Fallback for navbar if Lenis fails
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                 if (window.scrollY > 50) {
+                    // Changed to Maasai Red (low opacity)
+                    // Reduced py-4 to py-2
+                    nav.classList.add('bg-maasai-red/90', 'backdrop-blur-md', 'shadow-lg', 'py-2');
+                    nav.classList.remove('py-6', 'bg-black/20');
+                } else {
+                    // Reduced py-4 to py-2
+                    nav.classList.remove('bg-maasai-red/90', 'backdrop-blur-md', 'shadow-lg', 'py-2');
+                    nav.classList.add('py-6', 'bg-black/20');
+                }
+            });
+        }
+
+        // Integrate Lenis with ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Remove Loader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            tl.to("#loader", {
+                yPercent: -100,
+                duration: 0.8,
+                ease: "power4.inOut",
+                delay: 0.5
+            })
+            .to(".hero-subtitle", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.3")
+            .to(".hero-title", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.8")
+            .to(".hero-cta", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.8");
+        });
+
+        // Parallax Effect for Images
+        document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+            const img = wrapper.querySelector('.parallax-img');
+            const speed = img.getAttribute('data-speed') || 0.2;
+            
+            gsap.to(img, {
+                yPercent: 20 * parseFloat(speed), // Move image slightly
+                scrollTrigger: {
+                    trigger: wrapper,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        // Text Reveal Animations
+        document.querySelectorAll('.reveal-trigger').forEach(trigger => {
+            gsap.from(trigger.children, {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: trigger,
+                    start: "top 80%",
+                }
+            });
+        });
+
+        // Program Cards Stagger
+        gsap.from(".program-card", {
+            y: 100,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#programs",
+                start: "top 70%",
+            }
+        });
+
+        // Counter Animation
+        document.querySelectorAll('.counter').forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 85%",
+                once: true,
+                onEnter: () => {
+                    gsap.to(counter, {
+                        innerHTML: target,
+                        duration: 2,
+                        snap: { innerHTML: 1 },
+                        ease: "power1.inOut"
+                    });
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
