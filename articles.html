@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights & Resources | Studio 17</title>
+    <meta name="description" content="Expert advice on web design, conversion optimization, and digital growth for modern founders.">
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770803115/FavIcon_gtzgb7.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563EB', // Electric Blue
+                        dark: '#0F172A',
+                        light: '#F8FAFC',
+                        surface: '#FFFFFF'
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS (Reused from Index) -->
+    <style>
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        .clip-text-image {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #2563EB, #4F46E5);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Logo Animation Utilities */
+        .logo-studio {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (min-width: 768px) {
+            #navbar:hover .logo-studio {
+                max-width: 100px;
+                opacity: 1;
+                margin-right: 0.15em;
+            }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-light text-slate-800 antialiased selection:bg-primary selection:text-white overflow-x-hidden pb-24 md:pb-0">
+
+    <!-- Navigation (Links point to index.html anchors) -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-transform duration-300 transform translate-y-0" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center text-dark hover:text-primary transition-colors duration-300 select-none py-2">
+                <span class="logo-studio font-extrabold text-xl tracking-[-0.05em]">Studio</span>
+                <span class="font-extrabold text-xl tracking-[-0.12em]">17</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="index.html#process" class="hover:text-primary transition-colors">How it Works</a>
+                <a href="index.html#testimonials" class="hover:text-primary transition-colors">Testimonials</a>
+                <a href="articles.html" class="text-primary font-bold">Articles</a>
+                <a href="index.html#pricing" class="hover:text-primary transition-colors">Pricing</a>
+                <a href="index.html#faq" class="hover:text-primary transition-colors">FAQ</a>
+            </div>
+
+            <!-- Desktop Button -->
+            <a href="index.html#pricing" class="hidden md:inline-flex bg-dark text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-colors duration-300 shadow-lg shadow-primary/20">
+                Start Now
+            </a>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-2xl text-dark focus:outline-none -mr-2 p-2 w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+                <i class="ph-bold ph-list"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 h-[100dvh] bg-white z-[60] transform translate-x-full transition-transform duration-300 flex flex-col items-center md:hidden">
+        <div class="w-full max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center text-dark select-none py-2">
+                <span class="font-extrabold text-xl tracking-[-0.05em] mr-[0.15em]">Studio</span>
+                <span class="font-extrabold text-xl tracking-[-0.12em]">17</span>
+            </a>
+            <button id="mobile-menu-close" class="text-2xl text-dark focus:outline-none -mr-2 p-2 w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+                <i class="ph-bold ph-x"></i>
+            </button>
+        </div>
+        <div class="flex-1 flex flex-col justify-center items-center gap-8 text-center pb-20">
+            <a href="index.html#process" class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">How it Works</a>
+            <a href="index.html#testimonials" class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">Testimonials</a>
+            <a href="articles.html" class="mobile-link text-3xl font-bold text-primary transition-colors">Articles</a>
+            <a href="index.html#pricing" class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">Pricing</a>
+            <a href="index.html#faq" class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">FAQ</a>
+        </div>
+    </div>
+
+    <!-- Mobile Floating CTA -->
+    <div class="fixed bottom-6 left-6 right-6 z-40 md:hidden pointer-events-none">
+        <a href="index.html#pricing" class="pointer-events-auto block w-full bg-primary text-white text-center py-4 rounded-full font-bold text-lg shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
+            Start Your Project
+        </a>
+    </div>
+
+    <!-- Featured Article (Now the top section) -->
+    <!-- Added pt-32 md:pt-40 to clear fixed navbar -->
+    <section class="pt-32 pb-16 px-6 md:pt-40">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative bg-dark rounded-[2.5rem] p-8 md:p-12 overflow-hidden group hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500">
+                <!-- Background Decoration -->
+                <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-l from-primary/20 to-transparent opacity-50"></div>
+                <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-primary/40 rounded-full blur-3xl group-hover:bg-primary/60 transition-colors duration-500"></div>
+
+                <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+                    <div class="md:w-1/2">
+                        <div class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-primary uppercase bg-primary/10 rounded-full">Must Read</div>
+                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">Why your website isn't selling (and how to fix it).</h2>
+                        <p class="text-slate-400 text-lg mb-8">Most websites are digital brochures. Learn the 3-step framework we use to turn traffic into paying customers in less than 7 days.</p>
+
+                        <a href="#" class="inline-flex items-center gap-2 text-white font-bold border-b border-primary pb-1 hover:text-primary transition-colors">
+                            Read Article <i class="ph-bold ph-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="md:w-1/2 w-full">
+                        <!-- Featured Article Image -->
+                        <div class="aspect-video bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
+                             <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769593906/ChatGPT_Image_Jan_27_2026_10_29_15_PM_olw6yd.png" alt="Featured Article Illustration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Article Card 1 -->
+                <article class="group cursor-pointer">
+                    <div class="aspect-[4/3] bg-slate-100 rounded-2xl mb-6 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500"></div>
+                         <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-bold text-dark shadow-sm">Strategy</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">The €50/mo Model vs. €5k Upfront: The Math</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Why the subscription model is taking over the web design industry and how it benefits cash flow.</p>
+                    <span class="text-primary font-semibold text-sm flex items-center gap-1">Read More <i class="ph-bold ph-arrow-right"></i></span>
+                </article>
+
+                <!-- Article Card 2 -->
+                <article class="group cursor-pointer">
+                    <div class="aspect-[4/3] bg-slate-100 rounded-2xl mb-6 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500"></div>
+                         <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-bold text-dark shadow-sm">Design</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">5 Design Trends That Are Killing Your Conversion Rate</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Stop using carousels and parallax scrolling if you want to sell. Here is what actually works in 2024.</p>
+                    <span class="text-primary font-semibold text-sm flex items-center gap-1">Read More <i class="ph-bold ph-arrow-right"></i></span>
+                </article>
+
+                <!-- Article Card 3 -->
+                <article class="group cursor-pointer">
+                    <div class="aspect-[4/3] bg-slate-100 rounded-2xl mb-6 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500"></div>
+                         <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-bold text-dark shadow-sm">Tech</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">How We Build High-Speed Sites in 7 Days</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Our tech stack revealed. Why we chose raw HTML/Tailwind over Wordpress and Webflow.</p>
+                    <span class="text-primary font-semibold text-sm flex items-center gap-1">Read More <i class="ph-bold ph-arrow-right"></i></span>
+                </article>
+
+                 <!-- Article Card 4 -->
+                 <article class="group cursor-pointer">
+                    <div class="aspect-[4/3] bg-slate-100 rounded-2xl mb-6 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500"></div>
+                         <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-bold text-dark shadow-sm">SEO</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">SEO Basics for 2024: What Still Matters?</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Forget keyword stuffing. Focus on Core Web Vitals and helpful content to rank higher.</p>
+                    <span class="text-primary font-semibold text-sm flex items-center gap-1">Read More <i class="ph-bold ph-arrow-right"></i></span>
+                </article>
+
+                 <!-- Article Card 5 -->
+                 <article class="group cursor-pointer">
+                    <div class="aspect-[4/3] bg-slate-100 rounded-2xl mb-6 overflow-hidden relative">
+                         <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500"></div>
+                         <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-bold text-dark shadow-sm">Copywriting</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">Writing Headlines That Hook</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">The exact formula we use to write H1 headers that decrease bounce rate by 30%.</p>
+                    <span class="text-primary font-semibold text-sm flex items-center gap-1">Read More <i class="ph-bold ph-arrow-right"></i></span>
+                </article>
+
+                <!-- CTA Card in Grid -->
+                <div class="bg-primary rounded-2xl p-8 flex flex-col justify-center items-center text-center hover:scale-[1.02] transition-transform duration-300">
+                    <i class="ph-bold ph-lightning text-4xl text-white mb-4"></i>
+                    <h3 class="text-2xl font-bold text-white mb-2">Want results like these?</h3>
+                    <p class="text-blue-100 text-sm mb-6">Stop reading and start growing. Get your high-converting site this week.</p>
+                    <a href="index.html#pricing" class="bg-white text-primary px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all w-full">Start Your Project</a>
+                </div>
+
+            </div>
+
+            <!-- View More Button -->
+            <div class="mt-16 text-center">
+                <button class="px-8 py-3 bg-white border border-slate-200 text-dark font-semibold rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm group">
+                    View More Articles <i class="ph-bold ph-caret-down ml-2 group-hover:translate-y-0.5 transition-transform inline-block"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section (NEW) -->
+    <section class="py-20 bg-dark">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-primary mb-6">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                Weekly Growth Tips
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Don't miss the next big insight.</h2>
+            <p class="text-slate-400 text-lg mb-8 max-w-lg mx-auto">Join 500+ founders receiving actionable web design and conversion strategies every Tuesday. No spam, just value.</p>
+
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" placeholder="enter your email..." class="flex-1 px-6 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+                <button type="button" class="px-8 py-4 bg-primary text-white rounded-full font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-primary/25">
+                    Subscribe
+                </button>
+            </form>
+            <p class="mt-4 text-xs text-slate-500">Unsubscribe at any time.</p>
+        </div>
+    </section>
+
+    <!-- Bottom CTA Section -->
+    <section class="py-24 bg-light border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-dark mb-6">Ready to apply these insights?</h2>
+            <p class="text-slate-500 text-lg mb-10 max-w-xl mx-auto">We don't just write about it. We build it for you. Professional design, development, and hosting for one flat monthly fee.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html#pricing" class="px-8 py-4 bg-primary text-white rounded-full font-bold shadow-xl shadow-primary/30 hover:scale-105 transition-transform">
+                    View Plans & Pricing
+                </a>
+                <a href="index.html#process" class="px-8 py-4 bg-white border border-slate-200 text-dark rounded-full font-bold hover:bg-slate-50 transition-colors">
+                    See Our Process
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <a href="index.html" class="inline-block mb-4 flex items-center gap-1 select-none">
+                        <span class="font-extrabold text-2xl tracking-[-0.05em] text-dark">Studio</span>
+                        <span class="font-extrabold text-2xl tracking-[-0.12em] text-dark">17</span>
+                    </a>
+                    <p class="text-slate-500 max-w-xs">Helping small businesses win online with high-conversion design.</p>
+                </div>
+                <div class="flex gap-8">
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-dark hover:bg-primary hover:text-white transition-colors"><i class="ph-bold ph-twitter-logo"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-dark hover:bg-primary hover:text-white transition-colors"><i class="ph-bold ph-instagram-logo"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-dark hover:bg-primary hover:text-white transition-colors"><i class="ph-bold ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+                <p>&copy; 2023 Studio 17. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-dark">Privacy</a>
+                    <a href="#" class="hover:text-dark">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Mobile Menu Logic
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const menuClose = document.getElementById('mobile-menu-close');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('translate-x-full');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
+        mobileLinks.forEach((link) => link.addEventListener('click', toggleMenu));
+
+        // Navbar Scroll Logic
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+        const scrollThreshold = 10;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (Math.abs(lastScroll - currentScroll) <= scrollThreshold) return;
+
+            if (currentScroll <= 0) {
+                navbar.classList.remove('-translate-y-full');
+            } else if (currentScroll > lastScroll && !navbar.classList.contains('-translate-y-full')) {
+                navbar.classList.add('-translate-y-full');
+            } else if (currentScroll < lastScroll && navbar.classList.contains('-translate-y-full')) {
+                navbar.classList.remove('-translate-y-full');
+            }
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>
