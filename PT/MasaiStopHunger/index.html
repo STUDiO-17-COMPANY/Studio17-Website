@@ -21,10 +21,15 @@
                 extend: {
                     colors: {
                         maasai: {
-                            red: '#6F1410',
-                            redLight: '#8C1D18',
-                            blue: '#0F2C59',
-                            blueLight: '#E8EDF5',
+                            // RED: Darker Emotional Trigger / Urgency
+                            red: '#6F1410',     // Main Action (Darker)
+                            redLight: '#8C1D18', // Hover state (Previous main)
+                            
+                            // BLUE: Trust, Stability, Sky
+                            blue: '#0F2C59',   // Deep Trust Navy
+                            blueLight: '#E8EDF5', // Very light blue for section backgrounds
+                            
+                            // NEUTRALS
                             white: '#FFFFFF',
                             gray: '#F3F4F6'
                         }
@@ -32,19 +37,25 @@
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
         }
     </script>
 
+    <!-- Styles -->
     <style>
         body {
             background-color: #FFFFFF;
-            color: #0F2C59;
+            color: #0F2C59; /* Trust Blue Text */
             overflow-x: hidden;
+            cursor: default;
         }
 
+        /* Lenis Recommended Styles */
         html.lenis, html.lenis body {
             height: auto;
         }
@@ -57,7 +68,11 @@
         .lenis.lenis-stopped {
             overflow: hidden;
         }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
 
+        /* Custom Utilities */
         .image-wrapper {
             overflow: hidden;
             background-color: #000000;
@@ -65,14 +80,15 @@
         
         .parallax-img {
             will-change: transform;
-            transform: scale(1.15);
+            transform: scale(1.25);
         }
 
+        /* Loader */
         #loader {
             position: fixed;
             inset: 0;
             z-index: 9999;
-            background-color: #6F1410;
+            background-color: #6F1410; /* Darker Red */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -80,6 +96,7 @@
             transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
         }
         
+        /* Soft shadows for cards */
         .soft-shadow {
             box-shadow: 0 10px 40px -10px rgba(15, 44, 89, 0.08);
         }
@@ -105,7 +122,7 @@
             <div class="hidden md:flex gap-8 text-sm font-medium text-white uppercase tracking-widest items-center">
                 <a href="#mission" class="hover:opacity-70 transition-opacity">Mission</a>
                 <a href="#programs" class="hover:opacity-70 transition-opacity">Approach</a>
-                <a href="#donate" class="hover:opacity-70 transition-opacity">Take Action</a>
+                <a href="#donate" class="hover:opacity-70 transition-opacity">Volunteer</a>
                 
                 <button class="flex items-center gap-2 hover:opacity-70 transition-opacity border-l border-white/30 pl-6 ml-2">
                     <i data-lucide="globe" class="w-4 h-4"></i>
@@ -155,7 +172,7 @@
             </div>
         </header>
 
-        <!-- MISSION SECTION -->
+        <!-- MISSION / NARRATIVE SECTION -->
         <section id="mission" class="relative py-12 md:py-32 bg-white">
             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
                 <div class="reveal-trigger">
@@ -171,7 +188,7 @@
                         <blockquote class="font-serif text-lg md:text-2xl italic text-maasai-blue">
                             "We are not just giving aid; we are honoring their strength. We are building the foundations for a future where every child can grow, learn, and lead."
                         </blockquote>
-                        <button onclick="document.querySelector('#programs').scrollIntoView({behavior: 'smooth'})" class="w-fit mt-2 bg-maasai-red text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-maasai-blue transition-colors shadow-lg">
+                        <button onclick="document.querySelector('#programs').scrollIntoView({behavior: 'smooth'})" class="w-fit mt-2 bg-maasai-red text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-maasai-blue transition-colors shadow-lg shadow-maasai-red/20">
                             Discover HOW
                         </button>
                     </div>
@@ -192,7 +209,7 @@
             </div>
         </section>
 
-        <!-- STATS (Desktop Only) -->
+        <!-- STATS / TRANSITION (TRUST BLUE) -->
         <section class="bg-maasai-blue text-white py-20 hidden md:block">
             <div class="container mx-auto px-6 flex flex-wrap justify-between items-center gap-12 border-t border-white/10 border-b">
                 <div class="stat-item text-center md:text-left">
@@ -210,38 +227,37 @@
             </div>
         </section>
 
-        <!-- AREAS OF CARE (GRID) -->
+        <!-- PROGRAMS / APPROACH -->
         <section id="programs" class="pt-12 pb-24 md:pt-20 md:pb-32 relative bg-maasai-blueLight/30">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-2xl mx-auto mb-8 md:mb-12 reveal-trigger">
-                    <h2 class="font-serif text-3xl md:text-6xl text-maasai-blue mb-4">Our Areas of Care</h2>
+                    <h2 class="font-serif text-3xl md:text-6xl text-maasai-blue mb-4">Our Pillars of Support</h2>
                     <p class="text-maasai-blue/70 text-base md:text-lg">Every act of kindness creates a ripple of change. Here is how we care for our community.</p>
                 </div>
 
-                <!-- Grid with h-full cards to fix misplacement issues -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     
                     <!-- 1. Education -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
                             <i data-lucide="graduation-cap" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Lighting the Path</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
-                            Opening doors to a brighter tomorrow through scholarships and school supplies, because every child carries potential.
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Future Leaders</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Opening doors to a brighter tomorrow through scholarships and school supplies, because every child carries the potential to change the world.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
                             Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </span>
                     </div>
 
-                    <!-- 2. Extracurricular -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <!-- 2. Extracurricular Activities -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
                             <i data-lucide="trophy" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Nurturing Joy</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Creative Growth</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
                             Creating safe spaces for laughter, creativity, and play, allowing children to just be children while building confidence.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
@@ -249,13 +265,13 @@
                         </span>
                     </div>
 
-                    <!-- 3. Food -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <!-- 3. Food / Feeding -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
                             <i data-lucide="utensils" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Nourishing Bodies</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Daily Nutrition</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
                             Warm meals that do more than fill bellies—they fuel hope, focus, and the energy to learn and grow.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
@@ -264,26 +280,26 @@
                     </div>
 
                     <!-- 4. Health -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
                             <i data-lucide="heart-pulse" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Healing Hands</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
-                            Bringing compassionate care closer to home through medical camps and essential medicines.
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Health Services</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Bringing compassionate care closer to home through medical camps and essential medicines, because health is the foundation of happiness.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
                             Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </span>
                     </div>
 
-                    <!-- 5. Clothing -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <!-- 5. Clothing and Shoes -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
                             <i data-lucide="shirt" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Warmth & Dignity</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Personal Dignity</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
                             Providing more than just fabric; offering comfort, protection, and the pride of a clean uniform.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
@@ -292,13 +308,13 @@
                     </div>
 
                     <!-- 6. Family Support -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
                             <i data-lucide="users" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">A Circle of Care</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
-                            Walking beside families in vulnerable moments, guaranteeing hygiene, healthcare, and monitoring.
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Family Resilience</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Walking beside families in their most vulnerable moments, guaranteeing hygiene, healthcare, and monitoring through trusted clinic partnerships.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
                             Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -306,27 +322,27 @@
                     </div>
 
                     <!-- 7. Micro Credit -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-blue/5 rounded-full flex items-center justify-center mb-6 text-maasai-blue group-hover:bg-maasai-blue group-hover:text-white transition-colors duration-300">
                             <i data-lucide="coins" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">Fueling Dreams</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
-                            Believing in potential by entrusting people with the means to start businesses and achieve independence.
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Economic Autonomy</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Believing in the power of potential by entrusting people with the means to start businesses and build their own independent futures.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
                             Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </span>
                     </div>
 
-                    <!-- 8. Village Growth -->
-                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10 flex flex-col h-full">
+                    <!-- 8. Village Growth - Water Desalination -->
+                    <div class="group relative bg-white p-6 md:p-8 rounded-2xl soft-shadow cursor-pointer hover:-translate-y-2 transition-transform duration-500 program-card border border-transparent hover:border-maasai-blue/10">
                         <div class="w-12 h-12 bg-maasai-red/5 rounded-full flex items-center justify-center mb-6 text-maasai-red group-hover:bg-maasai-red group-hover:text-white transition-colors duration-300">
                             <i data-lucide="waves" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold">The Gift of Life</h3>
-                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6 flex-grow">
-                            Transforming the land with sustainable water desalination, turning dust into gardens.
+                        <h3 class="font-serif text-lg mb-3 text-maasai-blue font-bold uppercase tracking-tight">Living Water</h3>
+                        <p class="text-maasai-blue/70 text-sm leading-relaxed mb-6">
+                            Transforming the land with sustainable water desalination, turning dust into gardens and uncertainty into security.
                         </p>
                         <span class="text-xs font-bold uppercase tracking-widest text-maasai-red flex items-center gap-2 group-hover:gap-4 transition-all">
                             Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -337,7 +353,7 @@
             </div>
         </section>
 
-        <!-- PARALLAX IMAGE -->
+        <!-- LARGE PARALLAX IMAGE BREAKER -->
         <section class="relative h-[50vh] md:h-[80vh] w-full overflow-hidden flex items-center justify-center">
             <div class="absolute inset-0 z-[-1] image-wrapper">
                 <img 
@@ -347,9 +363,9 @@
                     data-speed="0.3"
                 >
             </div>
-            <div class="absolute inset-0 bg-maasai-blue/50"></div>
+            <div class="absolute inset-0 bg-maasai-blue/50"></div> 
             <div class="relative z-10 text-center text-white px-6">
-                <p class="font-serif text-2xl md:text-5xl lg:text-6xl italic leading-tight max-w-4xl mx-auto drop-shadow-lg">
+                <p class="font-serif text-2xl md:text-5xl lg:text-6xl italic leading-tight max-w-4xl mx-auto reveal-text-scroll drop-shadow-lg">
                     "When you empower the community, you empower the village. When you water the earth, you grow a future."
                 </p>
                 <div class="mt-8 w-24 h-1 bg-maasai-red mx-auto"></div>
@@ -366,10 +382,11 @@
                     <div class="relative z-10 max-w-3xl mx-auto">
                         <h2 class="font-serif text-3xl md:text-6xl mb-4 md:mb-6">Be Part of the Solution</h2>
                         <p class="text-white/80 text-sm md:text-lg mb-8 md:mb-12 font-light leading-relaxed">
-                            Your support empowers the community, allowing the Masai tribe to achieve their independence.
+                            <span class="md:hidden">Empower the Masai to achieve independence. Help them cultivate, harvest, and thrive.</span>
+                            <span class="hidden md:inline">Your support empowers the community, allowing the Masai tribe to achieve their independence. Enabling them to cultivate the land, harvest their crops, and enjoy the fruits of self-reliance.</span>
                         </p>
                         <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                            <button class="bg-maasai-red text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-maasai-red transition-all duration-300 shadow-xl w-full md:w-auto text-sm">
+                            <button class="bg-maasai-red text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-maasai-red transition-all duration-300 shadow-xl shadow-maasai-red/30 w-full md:w-auto text-sm">
                                 Donate via PayPal
                             </button>
                             <button class="border border-white/30 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-maasai-blue transition-all duration-300 w-full md:w-auto text-sm">
@@ -379,9 +396,9 @@
                         
                         <div class="mt-10 md:mt-16 pt-8 md:pt-10 border-t border-white/10">
                             <p class="text-xs uppercase tracking-widest text-maasai-red mb-4 font-bold">Direct Bank Transfer</p>
-                            <div class="bg-white/5 rounded-xl p-6 md:p-8 inline-block backdrop-blur-md border border-white/10 hover:border-white/20 transition-colors">
+                            <div class="bg-white/5 rounded-xl p-6 md:p-8 inline-block backdrop-blur-md border border-white/10 hover:border-white/20 transition-colors cursor-text group">
                                 <p class="text-xs text-white/50 mb-2 uppercase tracking-widest">IBAN Account Number</p>
-                                <p class="font-mono text-lg md:text-3xl tracking-wider select-all text-white">Iban00102034</p>
+                                <p class="font-mono text-lg md:text-3xl tracking-wider select-all text-white group-hover:text-maasai-redLight transition-colors">Iban00102034</p>
                             </div>
                         </div>
                     </div>
@@ -392,29 +409,32 @@
 
     <!-- FOOTER -->
     <footer class="bg-maasai-blue text-white pt-12 md:pt-24 pb-8 md:pb-12 border-t border-white/10">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32 mb-12">
-                <div>
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32 mb-12 md:mb-20">
+                <div class="text-center">
                     <h4 class="text-xs font-bold uppercase tracking-widest text-maasai-red mb-6">Contact</h4>
                     <p class="text-white/70 text-sm mb-2 hover:text-white transition-colors cursor-pointer">info@singiraine.org</p>
                     <p class="text-white/70 text-sm hover:text-white transition-colors cursor-pointer">+33 1 23 45 67 89</p>
                     <div class="flex justify-center gap-4 mt-6">
                         <a href="#" class="text-white/70 hover:text-maasai-red transition-colors"><i data-lucide="facebook"></i></a>
                         <a href="#" class="text-white/70 hover:text-maasai-red transition-colors"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="text-white/70 hover:text-maasai-red transition-colors"><i data-lucide="twitter"></i></a>
                     </div>
                 </div>
                 
-                <div>
+                <div class="text-center">
                     <h4 class="text-xs font-bold uppercase tracking-widest text-maasai-red mb-6">Legal</h4>
                     <ul class="text-white/60 text-sm space-y-3">
                         <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
                         <li><a href="#" class="hover:text-white transition-colors">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Financial Reports</a></li>
                     </ul>
                 </div>
             </div>
             
-            <div class="border-t border-white/10 pt-8 text-xs text-white/40">
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/40 text-center md:text-left">
                 <p>&copy; 2024 Singiraine Masai Stop Hunger. All rights reserved.</p>
+                <p class="mt-2 md:mt-0">Designed for Impact.</p>
             </div>
         </div>
     </footer>
@@ -425,25 +445,29 @@
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <script>
+        // Initialize Icons
         lucide.createIcons();
 
-        // Lenis Smooth Scroll
-        let lenis;
+        // Check if Lenis is loaded before initializing
         if (typeof Lenis !== 'undefined') {
-            lenis = new Lenis({
+            const lenis = new Lenis({
                 duration: 1.2,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                smoothWheel: true,
-                smoothTouch: false
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
             });
 
-            lenis.on('scroll', ScrollTrigger.update);
-            gsap.ticker.add((time) => {
-                lenis.raf(time * 1000);
-            });
-            gsap.ticker.lagSmoothing(0);
-
-            // Navbar behavior
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+            
+            // Navbar Scroll Effect
             const nav = document.getElementById('navbar');
             lenis.on('scroll', (e) => {
                 if (e.scroll > 50) {
@@ -454,35 +478,61 @@
                     nav.classList.add('py-6', 'bg-black/20');
                 }
             });
+            
+        } else {
+            // Fallback for navbar if Lenis fails
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                 if (window.scrollY > 50) {
+                    nav.classList.add('bg-maasai-red/90', 'backdrop-blur-md', 'shadow-lg', 'py-2');
+                    nav.classList.remove('py-6', 'bg-black/20');
+                } else {
+                    nav.classList.remove('bg-maasai-red/90', 'backdrop-blur-md', 'shadow-lg', 'py-2');
+                    nav.classList.add('py-6', 'bg-black/20');
+                }
+            });
         }
 
+        // Integrate Lenis with ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
         
-        // Initial Animations
+        // Remove Loader
         window.addEventListener('load', () => {
-            gsap.to("#loader", {
+            const tl = gsap.timeline();
+            
+            tl.to("#loader", {
                 yPercent: -100,
                 duration: 0.8,
                 ease: "power4.inOut",
                 delay: 0.5
-            });
-
-            gsap.to(".hero-subtitle, .hero-title, .hero-cta", {
+            })
+            .to(".hero-subtitle", {
                 y: 0,
                 opacity: 1,
                 duration: 1,
-                stagger: 0.2,
-                ease: "power3.out",
-                delay: 1
-            });
+                ease: "power3.out"
+            }, "-=0.3")
+            .to(".hero-title", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.8")
+            .to(".hero-cta", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.8");
         });
 
-        // Parallax
+        // Parallax Effect for Images
         document.querySelectorAll('.image-wrapper').forEach(wrapper => {
             const img = wrapper.querySelector('.parallax-img');
-            const speed = parseFloat(img.getAttribute('data-speed')) || 0.2;
+            const speed = img.getAttribute('data-speed') || 0.2;
+            
             gsap.to(img, {
-                yPercent: 15 * speed,
+                yPercent: 20 * parseFloat(speed),
                 scrollTrigger: {
                     trigger: wrapper,
                     start: "top bottom",
@@ -492,38 +542,52 @@
             });
         });
 
-        // Reveal effect
+        // Text Reveal Animations
         document.querySelectorAll('.reveal-trigger').forEach(trigger => {
-            gsap.from(gsap.utils.toArray(trigger.children), {
-                y: 40,
+            gsap.from(trigger.children, {
+                y: 50,
                 opacity: 0,
                 duration: 1,
                 stagger: 0.2,
+                ease: "power3.out",
                 scrollTrigger: {
                     trigger: trigger,
-                    start: "top 85%"
+                    start: "top 80%",
                 }
             });
         });
 
-        // Counters (Corrected Logic)
+        // Program Cards Stagger
+        gsap.from(".program-card", {
+            y: 100,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#programs",
+                start: "top 70%",
+            }
+        });
+
+        // Counter Animation
         document.querySelectorAll('.counter').forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-target'));
+            const target = +counter.getAttribute('data-target');
+            
             ScrollTrigger.create({
                 trigger: counter,
-                start: "top 90%",
+                start: "top 85%",
                 once: true,
                 onEnter: () => {
                     gsap.to(counter, {
                         innerHTML: target,
-                        duration: 2.5,
-                        roundProps: "innerHTML",
-                        ease: "power2.inOut"
+                        duration: 2,
+                        snap: { innerHTML: 1 },
+                        ease: "power1.inOut"
                     });
                 }
             });
         });
-
     </script>
 </body>
 </html>
