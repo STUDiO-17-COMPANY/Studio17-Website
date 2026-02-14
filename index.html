@@ -35,7 +35,6 @@
           },
           animation: {
             blob: 'blob 10s infinite',
-            marquee: 'marquee 40s linear infinite',
           },
           keyframes: {
             blob: {
@@ -43,10 +42,6 @@
               '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
               '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
               '100%': { transform: 'translate(0px, 0px) scale(1)' },
-            },
-            marquee: {
-              '0%': { transform: 'translateX(0%)' },
-              '100%': { transform: 'translateX(-50%)' },
             },
           },
         },
@@ -103,20 +98,6 @@
       will-change: transform, opacity;
     }
 
-    /* Fade masks for the carousel */
-    .carousel-mask {
-      mask-image: linear-gradient(to right,
-          transparent,
-          black 10%,
-          black 90%,
-          transparent);
-      -webkit-mask-image: linear-gradient(to right,
-          transparent,
-          black 10%,
-          black 90%,
-          transparent);
-    }
-
     /* Logo Animation Utilities */
     /* Studio text hidden by default */
     .logo-studio {
@@ -155,9 +136,13 @@
         transform: none !important;
       }
 
-      .animate-blob,
-      .animate-marquee {
+      .animate-blob {
         animation: none !important;
+      }
+
+      #marquee-track {
+        animation: none !important;
+        transform: none !important;
       }
     }
 
@@ -545,12 +530,12 @@
         </p>
       </div>
 
-      <!-- Marquee Container -->
-      <div class="relative w-full carousel-mask">
-        <div class="flex w-max gap-8 animate-marquee hover:[animation-play-state:paused] py-4">
-          <!-- Original Set -->
+      <!-- Marquee Container — JS clones cards and drives the animation -->
+      <div class="relative w-full overflow-hidden">
+        <div id="marquee-track" class="flex w-max gap-8 py-4">
+          <!-- Card: Alex Rivera -->
           <div
-            class="w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
+            class="marquee-card w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
             <div>
               <div class="flex text-yellow-400 mb-5 text-sm">
                 <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
@@ -574,8 +559,9 @@
             </div>
           </div>
 
+          <!-- Card: Sarah Miller -->
           <div
-            class="w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
+            class="marquee-card w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
             <div>
               <div class="flex text-yellow-400 mb-5 text-sm">
                 <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
@@ -599,84 +585,9 @@
             </div>
           </div>
 
+          <!-- Card: David Kim -->
           <div
-            class="w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
-            <div>
-              <div class="flex text-yellow-400 mb-5 text-sm">
-                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                  class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-              </div>
-              <p class="text-dark mb-6 font-medium leading-relaxed">
-                "Agency delivered a site that actually looks professional. No
-                more DIY builders. The setup fee is a bargain for the quality
-                of work they deliver."
-              </p>
-            </div>
-            <div class="flex items-center gap-4 pt-4 border-t border-slate-200/50">
-              <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
-                <img src="https://ui-avatars.com/api/?name=David+K&background=0F172A&color=fff" alt="David K"
-                  class="w-full h-full object-cover" />
-              </div>
-              <div>
-                <p class="text-sm font-bold text-dark">David Kim</p>
-                <p class="text-xs text-slate-500">Director, Studio 8</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Duplicated Set for Infinite Loop -->
-          <div
-            class="w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
-            <div>
-              <div class="flex text-yellow-400 mb-5 text-sm">
-                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                  class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-              </div>
-              <p class="text-dark mb-6 font-medium leading-relaxed">
-                "The best investment we made this year. The design is
-                stunning, but the conversion rate increase is what really
-                matters. We saw a 40% jump in leads in month one."
-              </p>
-            </div>
-            <div class="flex items-center gap-4 pt-4 border-t border-slate-200/50">
-              <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
-                <img src="https://ui-avatars.com/api/?name=Alex+R&background=0F172A&color=fff" alt="Alex R"
-                  class="w-full h-full object-cover" />
-              </div>
-              <div>
-                <p class="text-sm font-bold text-dark">Alex Rivera</p>
-                <p class="text-xs text-slate-500">Founder, TechFlow</p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
-            <div>
-              <div class="flex text-yellow-400 mb-5 text-sm">
-                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                  class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-              </div>
-              <p class="text-dark mb-6 font-medium leading-relaxed">
-                "I was skeptical about the subscription model, but having a
-                developer on call for €50 is insane value. They updated our
-                pricing page in minutes."
-              </p>
-            </div>
-            <div class="flex items-center gap-4 pt-4 border-t border-slate-200/50">
-              <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
-                <img src="https://ui-avatars.com/api/?name=Sarah+M&background=2563EB&color=fff" alt="Sarah M"
-                  class="w-full h-full object-cover" />
-              </div>
-              <div>
-                <p class="text-sm font-bold text-dark">Sarah Miller</p>
-                <p class="text-xs text-slate-500">CEO, GreenLeaf</p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
+            class="marquee-card w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
             <div>
               <div class="flex text-yellow-400 mb-5 text-sm">
                 <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
@@ -936,6 +847,44 @@
         once: true,
       });
     }
+
+    // Infinite Marquee — clone cards & use GSAP for seamless loop
+    (function initMarquee() {
+      const track = document.getElementById('marquee-track');
+      if (!track) return;
+
+      const cards = track.querySelectorAll('.marquee-card');
+      const gap = 32; // gap-8 = 32px
+
+      // Clone cards until we have enough to fill the screen + overflow
+      // We need at least 2 full sets for seamless looping
+      const originals = Array.from(cards);
+      for (let i = 0; i < 2; i++) {
+        originals.forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+        });
+      }
+
+      // Measure the width of one full set (original cards + their gaps)
+      const oneSetWidth = originals.reduce((sum, card) => sum + card.offsetWidth + gap, 0);
+
+      // GSAP tween — translate by exactly one set width, then repeat seamlessly
+      const marqueeTween = gsap.to(track, {
+        x: -oneSetWidth,
+        duration: 30,
+        ease: 'none',
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((x) => parseFloat(x) % oneSetWidth),
+        },
+      });
+
+      // Pause on hover (desktop), resume on leave
+      track.addEventListener('mouseenter', () => marqueeTween.pause());
+      track.addEventListener('mouseleave', () => marqueeTween.resume());
+    })();
 
     // Mobile Menu Logic
     const mobileMenu = document.getElementById('mobile-menu');
