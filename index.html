@@ -136,6 +136,31 @@
       }
     }
 
+    /* Blob animation stagger delays */
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+
+    .animation-delay-4000 {
+      animation-delay: 4s;
+    }
+
+    /* Respect reduced-motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+
+      .hero-reveal,
+      .scroll-reveal {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+      }
+
+      .animate-blob,
+      .animate-marquee {
+        animation: none !important;
+      }
+    }
+
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -859,6 +884,9 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
+    // Skip animations if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -874,34 +902,40 @@
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    gsap.set('.hero-reveal, .scroll-reveal', { visibility: 'visible' });
+    if (prefersReducedMotion) {
+      // Just show everything immediately
+      gsap.set('.hero-reveal, .scroll-reveal', { visibility: 'visible', opacity: 1, y: 0 });
+    } else {
+      // Set proper initial state: visible but transparent and offset downward
+      gsap.set('.hero-reveal', { visibility: 'visible', opacity: 0, y: 30 });
+      gsap.set('.scroll-reveal', { visibility: 'visible', opacity: 0, y: 40 });
 
-    // Hero Animation
-    const heroTl = gsap.timeline();
-    heroTl.to('.hero-reveal', {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: 'power4.out',
-      delay: 0.2,
-    });
+      // Hero Animation — staggered fade-up on page load
+      gsap.to('.hero-reveal', {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.12,
+        ease: 'power3.out',
+        delay: 0.15,
+      });
 
-    // Scroll Animation
-    ScrollTrigger.batch('.scroll-reveal', {
-      onEnter: (elements) => {
-        gsap.to(elements, {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.15,
-          ease: 'power3.out',
-          overwrite: true,
-        });
-      },
-      start: 'top 85%',
-      once: true,
-    });
+      // Scroll Animation — fade-up when elements enter viewport
+      ScrollTrigger.batch('.scroll-reveal', {
+        onEnter: (elements) => {
+          gsap.to(elements, {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          });
+        },
+        start: 'top 90%',
+        once: true,
+      });
+    }
 
     // Mobile Menu Logic
     const mobileMenu = document.getElementById('mobile-menu');
