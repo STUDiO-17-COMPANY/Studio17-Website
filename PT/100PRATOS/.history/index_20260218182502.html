@@ -165,6 +165,109 @@
             opacity: 1;
         }
 
+        /* Standalone CSS for the Footer - Copy this to client CSS if needed */
+        .s17-footer {
+            background-color: #050505;
+            /* Darker than main bg for contrast */
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 9999;
+            /* Ensure it stays on top */
+        }
+
+        .s17-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (min-width: 768px) {
+            .s17-container {
+                flex-direction: row;
+            }
+        }
+
+        .s17-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #888;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .s17-link:hover {
+            color: #fff;
+        }
+
+        /* Logo styling */
+        .s17-logo {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+
+        .s17-link:hover .s17-logo {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .s17-divider {
+            display: none;
+            width: 1px;
+            height: 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .s17-divider {
+                display: block;
+            }
+        }
+
+        .s17-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #444;
+            font-size: 10px;
+        }
+
+        .s17-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #00FF66;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+            animation: s17-pulse 2s infinite;
+        }
+
+        @keyframes s17-pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -698,7 +801,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-sm text-sand/50">
                 <div class="mb-4 md:mb-0">
                     <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770984056/WhatsApp_Image_2026-02-12_at_12.43.30_ic1prp.jpg"
-                        alt="100 Pratos" class="h-12 w-auto opacity-90 drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] mb-2">
+                        alt="100 Pratos" class="h-12 w-auto opacity-90 drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] mb-2"">
                     <p>&copy; 2024 100 Pratos Catering. Todos os direitos reservados.</p>
                 </div>
                 <div class="flex flex-col md:flex-row gap-6 items-center">
@@ -719,41 +822,44 @@
         </div>
     </footer>
 
-    <!-- STUDIO 17 AGENCY SIGNATURE -->
-    <!-- Position: Bottom of the viewport/page, distinct from client footer -->
-    <footer class="bg-slate-950 text-slate-500 py-4 border-t border-slate-900 text-[11px] font-medium tracking-wide relative z-20">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3">
-            
-            <!-- Left: Client Copyright (Standard) -->
-            <div class="opacity-60 order-2 md:order-1">
-                &copy; 2024 100 Pratos Catering. Todos os direitos reservados.
-            </div>
+    <!-- --- STUDiO 17 FOOTER --- -->
+    <footer class="s17-footer">
+        <div class="s17-container">
 
-            <!-- Right: The "Studio 17" Value Badge -->
-            <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 order-1 md:order-2">
-                
-                <!-- Developed by -->
-                <a href="https://studio17.world" target="_blank" class="group flex items-center gap-1.5 hover:text-white transition-colors duration-300">
-                    <span>Developed by</span>
-                    <span class="text-slate-300 group-hover:text-white font-bold transition-colors">Studio 17</span>
+            <!-- Left Side: Credits -->
+            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+
+                <!-- Developed By -->
+                <a href="https://studio17.world" target="_blank" class="s17-link group">
+                    <span class="text-[10px] text-[#444] group-hover:text-brand-accent transition-colors">DEVELOPED
+                        BY</span>
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1766746441/Logo_Studio17_32x32_swwwtl.png"
+                        alt="STUDiO 17" class="s17-logo">
+                    <span class="font-bold tracking-tight">STUDiO 17</span>
                 </a>
 
-                <span class="hidden md:block text-slate-800">|</span>
+                <div class="s17-divider"></div>
 
-                <!-- Maintenance by -->
-                <a href="https://studio17.world" target="_blank" class="group flex items-center gap-1.5 hover:text-white transition-colors duration-300">
-                    <!-- Green Pulse to signify Active Maintenance -->
-                    <span class="relative flex h-1.5 w-1.5 mr-0.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                    </span>
-                    <span>Maintenance by</span>
-                    <span class="text-slate-300 group-hover:text-white font-bold transition-colors">Studio 17</span>
+                <!-- Maintained By -->
+                <a href="https://studio17.world" target="_blank" class="s17-link group">
+                    <span class="text-[10px] text-[#444] group-hover:text-brand-accent transition-colors">MAINTAINED
+                        BY</span>
+                    <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1766746441/Logo_Studio17_32x32_swwwtl.png"
+                        alt="STUDiO 17" class="s17-logo">
+                    <span class="font-bold tracking-tight">STUDiO 17</span>
                 </a>
 
             </div>
+
+            <!-- Right Side: System Status (Optional but cool) -->
+            <div class="s17-status">
+                <div class="s17-dot"></div>
+                <span>SYSTEM ONLINE</span>
+            </div>
+
         </div>
     </footer>
+    <!-- --- END OF STUDiO 17 FOOTER --- -->
 
     <!-- MODAL - Tábuas de Setúbal -->
     <div id="modal-tabuas" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6">
