@@ -275,17 +275,21 @@
 
     <!-- Loader -->
     <div class="loader">
-        <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png"
-            alt="100 Pratos Logo" class="w-48 md:w-64 animate-pulse">
+        <div class="flex flex-col items-center gap-4">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770984056/WhatsApp_Image_2026-02-12_at_12.43.30_ic1prp.jpg"
+                alt="100 Pratos Logo" class="w-48 md:w-64 animate-pulse bg-white p-4 rounded-lg shadow-lg">
+            <h1 class="text-cream text-2xl md:text-3xl font-serif font-bold">100 Pratos</h1>
+        </div>
     </div>
 
     <!-- Navigation (Sempre transparente) -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4 bg-white/95 backdrop-blur-md shadow-sm border-b border-black/5 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <!-- Logo (Cores Originais) -->
-            <a href="#" class="z-50 relative">
-                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
-                    alt="100 Pratos" class="h-16 w-auto" id="nav-logo">
+            <a href="#" class="z-50 relative flex items-center gap-3">
+                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770984056/WhatsApp_Image_2026-02-12_at_12.43.30_ic1prp.jpg"
+                    alt="100 Pratos Logo" class="h-12 w-auto bg-white p-2 rounded shadow-sm" id="nav-logo">
+                <span class="font-serif text-xl md:text-2xl font-bold text-brandBlue hidden md:block">100 Pratos</span>
             </a>
 
             <div class="hidden md:flex items-center space-x-8 text-charcoal z-50">
@@ -309,7 +313,7 @@
             </button>
 
             <!-- Mobile Menu Button -->
-            <button class="md:hidden z-50 text-white drop-shadow-md" id="mobile-menu-btn">
+            <button class="md:hidden z-50 text-brandBlue" id="mobile-menu-btn">
                 <i data-lucide="menu" class="w-8 h-8"></i>
             </button>
         </div>
@@ -337,10 +341,16 @@
         </div>
 
         <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+            <!-- Logo + Brand Name -->
+            <div class="mb-8 flex flex-col items-center gap-4">
+                <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770984056/WhatsApp_Image_2026-02-12_at_12.43.30_ic1prp.jpg"
+                    alt="100 Pratos Logo" class="w-32 md:w-40 h-auto bg-white p-4 rounded-lg shadow-2xl">
+                <h2 class="font-serif text-3xl md:text-5xl text-cream font-bold">100 Pratos</h2>
+            </div>
             <p class="hero-sub text-cream/90 uppercase tracking-[0.2em] text-sm md:text-base mb-4 font-bold">Setúbal
                 &bull; Lisboa &bull; Cascais</p>
             <h1 class="hero-title font-serif text-5xl md:text-7xl lg:text-8xl text-cream leading-tight mb-6">
-                Catering finger food <span class="italic text-brandGold">português</span><br>
+                Finger Foods <span class="italic text-brandGold">Portugeses para Eventos</span><br>
             </h1>
             <p class="hero-desc text-cream/90 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
                 Elevamos os seus convívios com ingredientes mediterrânicos e um serviço de catering boutique sem
@@ -608,7 +618,7 @@
                             </button>
                         </div>
                     </div>
-
+                    
                 </div>
 
                 <!-- Item 3: Jardim Mediterrânico Vegano -->
@@ -777,7 +787,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-sm text-sand/50">
                 <div class="mb-4 md:mb-0">
                     <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770984056/WhatsApp_Image_2026-02-12_at_12.43.30_ic1prp.jpg"
-                        alt="100 Pratos" class="h-12 w-auto opacity-90 drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] mb-2"">
+                        alt="100 Pratos" class="h-12 w-auto bg-white p-2 rounded shadow-sm mb-2">
                     <p>&copy; 2024 100 Pratos Catering. Todos os direitos reservados.</p>
                 </div>
                 <div class="flex flex-col md:flex-row gap-6 items-center">
@@ -914,7 +924,7 @@
         const tl = gsap.timeline();
 
         // Loader Animation
-        tl.to(".loader img", {
+        tl.to(".loader img, .loader h1", {
             y: -50,
             opacity: 0,
             duration: 1,
