@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imocorporate | A Sua Porta de Entrada no Mercado Europeu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- GSAP & Lenis for High-End Motion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            --brand-blue: #0A2540;
+            --brand-accent: #1D4ED8;
+            --brand-light: #F8FAFC;
+            --brand-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--brand-white);
+            color: var(--brand-blue);
+            overflow-x: hidden;
+        }
+
+        .serif {
+            font-family: 'Lora', serif;
+        }
+
+        .corporate-card {
+            background: var(--brand-white);
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .corporate-card:hover {
+            border-color: var(--brand-accent);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .bg-navy {
+            background-color: var(--brand-blue);
+        }
+
+        .text-navy {
+            color: var(--brand-blue);
+        }
+
+        .border-navy {
+            border-color: var(--brand-blue);
+        }
+
+        .btn-corporate {
+            position: relative;
+            background-color: var(--brand-blue);
+            color: white;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-corporate:hover {
+            background-color: var(--brand-accent);
+            transform: translateY(-2px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--brand-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .hero-pattern {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#1d4ed8 0.5px, transparent 0.5px), radial-gradient(#1d4ed8 0.5px, #f8fafc 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.03;
+        }
+    </style>
+</head>
+
+<body class="antialiased text-slate-900">
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="text-2xl font-bold tracking-tight text-navy">
+            IMOCORPORATE<span class="text-blue-600">.</span>
+        </div>
+        <div class="hidden md:flex space-x-10 text-xs font-bold uppercase tracking-widest text-slate-500">
+            <a href="#about" class="hover:text-blue-600 transition-colors">A Estratégia</a>
+            <a href="#solution" class="hover:text-blue-600 transition-colors">Serviços</a>
+            <a href="#process" class="hover:text-blue-600 transition-colors">O Método</a>
+        </div>
+        <a href="#contact"
+            class="px-6 py-2 bg-navy text-white rounded-sm text-xs uppercase tracking-widest font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/10">
+            Consultoria Privada
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+        class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden bg-slate-50 text-center">
+        <div class="absolute inset-0 hero-pattern z-0"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-5xl mx-auto reveal">
+                <span
+                    class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+                    Gateway Estratégico para Portugal
+                </span>
+                <h1 class="text-5xl md:text-7xl font-bold text-navy mb-8 leading-[1.1] tracking-tight">
+                    A sua <span class="serif font-normal italic text-blue-600">Porta de Entrada</span> na Europa com
+                    Soluções Chave na Mão.
+                </h1>
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 mb-12 font-light leading-relaxed">
+                    Operacionalizamos a sua estrutura empresarial em Portugal com rigor institucional, transformando a
+                    complexidade europeia numa <span class="text-navy font-semibold">operação pronta a faturar.</span>
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href="#contact"
+                        class="btn-corporate px-10 py-5 rounded-sm font-bold uppercase tracking-widest text-xs w-full sm:w-auto shadow-xl shadow-blue-900/20">
+                        Agendar Diagnóstico
+                    </a>
+                    <a href="#solution"
+                        class="group flex items-center gap-3 text-xs uppercase tracking-[0.2em] font-bold text-navy hover:text-blue-600 transition-colors">
+                        Explorar Solução 360º <i data-lucide="arrow-right"
+                            class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners / Authority -->
+    <section class="py-16 bg-white border-b border-slate-100">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale">
+                <div class="text-sm font-bold tracking-widest uppercase">Global Partners</div>
+                <div class="text-sm font-bold tracking-widest uppercase">EuroInvest Group</div>
+                <div class="text-sm font-bold tracking-widest uppercase">TechHub Portugal</div>
+                <div class="text-sm font-bold tracking-widest uppercase">Maritime Logistics</div>
+                <div class="text-sm font-bold tracking-widest uppercase">Iberia Strategic</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="py-32 bg-white" id="about">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center mb-20 reveal">
+                <div class="w-12 h-1 bg-blue-600 mb-8 mx-auto"></div>
+                <h2 class="text-4xl md:text-5xl font-bold text-navy mb-8 leading-tight">
+                    A Complexidade Legal não deve <br /><span class="serif font-normal italic">travar a sua visão
+                        global.</span>
+                </h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Navegar no ecossistema empresarial europeu exige mais do que apenas consultoria; exige um parceiro
+                    local que garanta uma transição sem atritos e total conformidade.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-24 items-center max-w-6xl mx-auto">
+                <div class="space-y-8 reveal">
+                    <div
+                        class="flex items-start gap-6 p-8 border border-slate-100 hover:border-blue-600 transition-all bg-slate-50/50">
+                        <i data-lucide="alert-circle" class="w-6 h-6 text-blue-600 flex-shrink-0"></i>
+                        <div>
+                            <h4 class="font-bold text-navy mb-1 uppercase tracking-wide text-sm">Opacidade Burocrática
+                            </h4>
+                            <p class="text-slate-500 text-sm">Eliminamos as barreiras dos processos intermináveis e das
+                                incertezas nos prazos de constituição.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-start gap-6 p-8 border border-slate-100 hover:border-blue-600 transition-all bg-slate-50/50">
+                        <i data-lucide="shield-alert" class="w-6 h-6 text-blue-600 flex-shrink-0"></i>
+                        <div>
+                            <h4 class="font-bold text-navy mb-1 uppercase tracking-wide text-sm">Riscos de Compliance
+                            </h4>
+                            <p class="text-slate-500 text-sm">Garantimos total alinhamento com as diretivas da UE e as
+                                leis locais mais recentes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative reveal">
+                    <div
+                        class="aspect-square bg-slate-100 rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
+                        <div class="w-full h-full bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-1000"
+                            style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2069');">
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-10 -right-10 bg-navy text-white p-10 shadow-2xl hidden md:block">
+                        <p class="text-4xl font-bold mb-1">24h</p>
+                        <p class="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Tempo Médio de
+                            Resposta Executiva</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Value Stack -->
+    <section class="py-32 bg-slate-50" id="solution">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center mb-24 reveal">
+                <h2 class="text-4xl md:text-6xl font-bold text-navy mb-8">Solução <span
+                        class="serif font-normal italic text-blue-600">Empresa Chave na Mão.</span></h2>
+                <p class="text-slate-500 text-lg">Um ecossistema completo de suporte para que a sua internacionalização
+                    seja imediata e eficiente.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="corporate-card p-12 reveal text-center">
+                    <div class="text-blue-600 mb-8 flex justify-center"><i data-lucide="scale" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy mb-4">Constituição Legal</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Setup completo da estrutura jurídica e fiscal
+                        sem necessidade de deslocação física do investidor.</p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span
+                            class="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-3 py-1">•
+                            Registo Comercial</span>
+                        <span
+                            class="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-3 py-1">•
+                            NIF Coletivo</span>
+                    </div>
+                </div>
+                <div class="corporate-card p-12 reveal text-center">
+                    <div class="text-blue-600 mb-8 flex justify-center"><i data-lucide="building-2"
+                            class="w-10 h-10"></i></div>
+                    <h3 class="text-xl font-bold text-navy mb-4">Presença Física</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Domiciliação em moradas de prestígio e apoio
+                        na seleção de infraestruturas logísticas chave.</p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span
+                            class="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-3 py-1">•
+                            Escritórios Prime</span>
+                        <span
+                            class="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-3 py-1">•
+                            Gestão Administrativa</span>
+                    </div>
+                </div>
+                <div class="corporate-card p-12 reveal text-center">
+                    <div class="text-blue-600 mb-8 flex justify-center"><i data-lucide="users" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy mb-4">Recrutamento Elite</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Identificação e contratação de talento local
+                        especializado para o arranque imediato da operação.</p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span
+                            class="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-3 py-1">•
+                            Headhunting</span>
+                        <span
+                            class="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-3 py-1">•
+                            Gestão de RH</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-32 bg-white" id="process">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-24 reveal">
+                <h2 class="text-4xl font-bold text-navy mb-4">Metodologia de Resultados</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-4 gap-12 relative">
+                <!-- Line background -->
+                <div class="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-slate-100 -z-10"></div>
+
+                <div class="text-center reveal">
+                    <div
+                        class="w-16 h-16 bg-navy text-white rounded-full flex items-center justify-center mx-auto mb-8 font-bold text-xl shadow-xl shadow-blue-900/20">
+                        01</div>
+                    <h4 class="font-bold text-navy mb-2 uppercase text-xs tracking-widest">Auditoria</h4>
+                    <p class="text-slate-400 text-sm max-w-[200px] mx-auto">Análise de viabilidade e enquadramento
+                        estratégico.</p>
+                </div>
+                <div class="text-center reveal">
+                    <div
+                        class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-8 font-bold text-xl shadow-xl shadow-blue-600/20">
+                        02</div>
+                    <h4 class="font-bold text-navy mb-2 uppercase text-xs tracking-widest">Execução</h4>
+                    <p class="text-slate-400 text-sm max-w-[200px] mx-auto">Ativação jurídica e administrativa
+                        acelerada.</p>
+                </div>
+                <div class="text-center reveal">
+                    <div
+                        class="w-16 h-16 bg-navy text-white rounded-full flex items-center justify-center mx-auto mb-8 font-bold text-xl shadow-xl shadow-blue-900/20">
+                        03</div>
+                    <h4 class="font-bold text-navy mb-2 uppercase text-xs tracking-widest">Setup</h4>
+                    <p class="text-slate-400 text-sm max-w-[200px] mx-auto">Implementação de escritórios e equipas
+                        locais.</p>
+                </div>
+                <div class="text-center reveal">
+                    <div
+                        class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-8 font-bold text-xl shadow-xl shadow-blue-600/20">
+                        04</div>
+                    <h4 class="font-bold text-navy mb-2 uppercase text-xs tracking-widest">Handover</h4>
+                    <p class="text-slate-400 text-sm max-w-[200px] mx-auto">Entrega da operação pronta a funcionar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials / Trusted -->
+    <section class="py-32 bg-slate-900 text-white overflow-hidden relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-4xl font-bold mb-4">O que dizem os <br /><span class="serif italic text-blue-400">nossos
+                        parceiros globais.</span></h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal">
+                    <div class="p-10 bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <i data-lucide="quote" class="w-10 h-10 text-blue-500 mb-6 opacity-50"></i>
+                        <p class="text-xl font-light italic leading-relaxed mb-8">
+                            "A Imocorporate removeu todas as fricções que esperávamos encontrar. O serviço 'Chave na
+                            Mão' permitiu-nos focar apenas na estratégia enquanto a nossa estrutura legal era montada
+                            com precisão absoluta em solo português."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-blue-600 flex items-center justify-center font-bold text-white rounded-sm">
+                                JS</div>
+                            <div>
+                                <p class="font-bold text-sm">Julian Schmidt</p>
+                                <p class="text-[10px] uppercase tracking-widest text-blue-400 font-bold">Diretor de
+                                    Expansão, DACH Logistics</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-px bg-white/10 border border-white/10 reveal">
+                    <div class="p-12 text-center bg-slate-900">
+                        <p class="text-4xl font-bold text-blue-400 mb-2">+250</p>
+                        <p class="text-[10px] uppercase tracking-widest font-bold opacity-40">Projetos Ativos</p>
+                    </div>
+                    <div class="p-12 text-center bg-slate-900">
+                        <p class="text-4xl font-bold text-blue-400 mb-2">15d</p>
+                        <p class="text-[10px] uppercase tracking-widest font-bold opacity-40">Setup Médio Legal</p>
+                    </div>
+                    <div class="p-12 text-center bg-slate-900">
+                        <p class="text-4xl font-bold text-blue-400 mb-2">12M€</p>
+                        <p class="text-[10px] uppercase tracking-widest font-bold opacity-40">Ticket Médio FDI</p>
+                    </div>
+                    <div class="p-12 text-center bg-slate-900">
+                        <p class="text-4xl font-bold text-blue-400 mb-2">100%</p>
+                        <p class="text-[10px] uppercase tracking-widest font-bold opacity-40">Taxa de Sucesso</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 bg-white" id="contact">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold text-navy mb-4">Inicie a sua Expansão</h2>
+                <p class="text-slate-500">Agende uma conferência privada com a nossa equipa de consultoria estratégica.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-100 overflow-hidden reveal shadow-xl">
+                <div class="grid lg:grid-cols-5">
+                    <div class="lg:col-span-2 bg-navy p-16 text-white text-center lg:text-left">
+                        <h2 class="text-3xl font-bold mb-8">Gateway Europa.</h2>
+                        <p class="text-blue-200/60 mb-12 text-sm leading-relaxed">
+                            Avaliamos a viabilidade da sua operação em Portugal num diagnóstico inicial gratuito de 30
+                            minutos.
+                        </p>
+                        <div class="space-y-6">
+                            <div
+                                class="flex items-center justify-center lg:justify-start gap-4 text-sm font-bold text-blue-100">
+                                <i data-lucide="mail" class="w-5 h-5"></i> corporate@imocorporate.com
+                            </div>
+                            <div
+                                class="flex items-center justify-center lg:justify-start gap-4 text-sm font-bold text-blue-100">
+                                <i data-lucide="phone" class="w-5 h-5"></i> +351 210 000 000
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3 p-16">
+                        <form class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6 text-left">
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Nome
+                                        Completo</label>
+                                    <input type="text"
+                                        class="w-full bg-white border border-slate-200 px-4 py-3 text-sm focus:border-blue-600 outline-none transition-colors">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">E-mail
+                                        Corporativo</label>
+                                    <input type="email"
+                                        class="w-full bg-white border border-slate-200 px-4 py-3 text-sm focus:border-blue-600 outline-none transition-colors">
+                                </div>
+                            </div>
+                            <div class="text-left">
+                                <label
+                                    class="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Objetivo
+                                    da Expansão</label>
+                                <textarea rows="4"
+                                    class="w-full bg-white border border-slate-200 px-4 py-3 text-sm focus:border-blue-600 outline-none transition-colors"
+                                    placeholder="Ex: Abertura de sede técnica em Lisboa..."></textarea>
+                            </div>
+                            <button type="button"
+                                class="btn-corporate w-full py-4 font-bold uppercase tracking-widest text-xs">
+                                Solicitar Dossier de Viabilidade
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white border-t border-slate-100 text-center">
+        <div class="container mx-auto px-6">
+            <div class="text-2xl font-bold tracking-tighter text-navy mb-8">
+                IMOCORPORATE<span class="text-blue-600">.</span>
+            </div>
+            <div class="flex justify-center gap-8 mb-8 text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                <a href="#" class="hover:text-blue-600">Legal</a>
+                <a href="#" class="hover:text-blue-600">Privacy</a>
+                <a href="#" class="hover:text-blue-600">Lisboa</a>
+                <a href="#" class="hover:text-blue-600">London</a>
+            </div>
+            <p class="text-[10px] text-slate-300 uppercase tracking-[0.4em]">© 2024 Imocorporate. Consultoria de
+                Investimento Estratégico.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Lenis Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach((el) => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 90%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Form feedback
+        const btn = document.querySelector('.btn-corporate');
+        if (btn && btn.tagName === "BUTTON") {
+            btn.addEventListener('click', () => {
+                btn.innerText = "A ENVIAR SOLICITAÇÃO...";
+                setTimeout(() => {
+                    btn.innerText = "PEDIDO DE CONSULTORIA ENVIADO";
+                    btn.style.backgroundColor = "#059669"; // Emerald-600
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+
+</html>
