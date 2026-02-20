@@ -155,8 +155,8 @@
         </div>
     </section>
 
-    <!-- Secção Sobre Nós -->
-    <section id="about" class="py-24 bg-brand-dark relative z-10">
+    <!-- Secção Sobre Nós - pt-0 para eliminar espaço vazio acima -->
+    <section id="about" class="pb-24 pt-0 bg-brand-dark relative z-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-8 fade-up">
@@ -185,14 +185,8 @@
         </div>
     </section>
 
-    <!-- Secção Serviços -->
-    <section id="services" class="relative pt-32 pb-12 border-t border-zinc-900 overflow-hidden">
-        <!-- Imagem de Fundo -->
-        <div class="absolute inset-0 z-0 bg-brand-dark">
-            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1771543314/ChatGPT_Image_19_02_2026_23_18_22_vw6cby.png" alt="Serviços ManiqueCar" class="w-full h-full object-cover object-center opacity-50 parallax-img" />
-            <div class="absolute inset-0 bg-brand-dark/60"></div>
-        </div>
-
+    <!-- Secção Serviços - pt-0 para eliminar espaço vazio acima -->
+    <section id="services" class="relative pt-0 pb-12 border-t border-zinc-900 overflow-hidden bg-brand-dark">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
             <div class="text-center mb-20 fade-up">
                 <h2 class="text-4xl md:text-5xl font-oswald font-bold uppercase mb-4 text-white">Os Nossos <span class="text-brand-red">Serviços</span></h2>
@@ -375,7 +369,7 @@
         });
         gsap.ticker.lagSmoothing(0);
 
-        // 2. Animações GSAP Otimizadas (will-change já está no CSS)
+        // 2. Animações GSAP Otimizadas
         const tlHero = gsap.timeline();
         tlHero.to(".hero-elem", {
             y: 0,
@@ -397,7 +391,7 @@
                         trigger: img.parentElement,
                         start: "top bottom",
                         end: "bottom top",
-                        scrub: 0.1 // Scrub numérico é mais suave
+                        scrub: 0.1 
                     }
                 }
             );
@@ -409,7 +403,7 @@
                 scrollTrigger: {
                     trigger: elem,
                     start: "top 90%",
-                    once: true // Executa apenas uma vez para poupar CPU
+                    once: true 
                 },
                 y: 0,
                 opacity: 1,
