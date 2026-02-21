@@ -19,6 +19,9 @@
     <meta property="og:type" content="profile">
     <meta property="og:url" content="https://studio17.world/hugo-card">
 
+    <!-- Theme Color para integrar com a barra de topo do telemóvel -->
+    <meta name="theme-color" content="#0F172A">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,14 +81,14 @@
 </head>
 
 <body
-    class="bg-slate-100 font-sans antialiased text-slate-800 min-h-screen flex items-center justify-center p-4 selection:bg-primary selection:text-white relative">
+    class="bg-dark font-sans antialiased text-slate-800 min-h-screen flex items-center justify-center sm:p-8 selection:bg-primary selection:text-white">
 
-    <!-- Card Container (Dark Theme - Borderless) -->
+    <!-- Contentor do Cartão (Ecrã Inteiro no Mobile, Cartão no Desktop) -->
     <div
-        class="w-full max-w-sm bg-dark text-white rounded-[2.5rem] relative overflow-hidden shadow-2xl shadow-slate-900/40 my-4">
+        class="w-full max-w-sm bg-dark text-white sm:rounded-[2.5rem] relative overflow-hidden sm:shadow-2xl sm:shadow-slate-900/50 min-h-[100dvh] sm:min-h-[auto] flex flex-col justify-center">
 
         <!-- Background Ambient Glow -->
-        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
             <div
                 class="absolute -top-20 -right-20 w-64 h-64 bg-primary/20 rounded-full blur-[60px] motion-safe:animate-blob">
             </div>
@@ -226,7 +229,7 @@
                     </div>
                     <div class="text-left truncate">
                         <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Phone</div>
-                        <div id="display-phone" class="text-sm font-medium text-white truncate">+357 94 338 615</div>
+                        <div id="display-phone" class="text-sm font-medium text-white truncate">+351 922 002 442</div>
                     </div>
                 </a>
             </div>
