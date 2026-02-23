@@ -403,9 +403,9 @@
                 calBtn.href = employeeData.calendar;
             }
 
-            // Set up QR Code image
-            const currentUrl = encodeURIComponent(window.location.href);
-            document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${currentUrl}&margin=0`;
+            // Set up QR Code image (static from Cloudinary)
+            document.getElementById('qr-image').src =
+                'https://res.cloudinary.com/dnxoz9alm/image/upload/v1771857514/qrchimpX4096_ed1q7p.png';
         });
 
         // Function to Generate and Download vCard
