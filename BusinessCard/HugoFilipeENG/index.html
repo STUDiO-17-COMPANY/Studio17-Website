@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hugo Filipe - Studio 17 | Digital Business Card</title>
+    <meta name="description"
+        content="Founder at Studio 17. We help businesses build conversion-first online presence that turn traffic into revenue.">
+    <link rel="icon" type="image/png"
+        href="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770800740/LogoDiscord_bo9ntq.png">
+
+    <!-- Open Graph / Social Sharing Previews -->
+    <meta property="og:title" content="Hugo Filipe - Studio 17 | Digital Business Card">
+    <meta property="og:description"
+        content="Founder at Studio 17. We help businesses build conversion-first online presence.">
+    <meta property="og:image"
+        content="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770800740/LogoDiscord_bo9ntq.png">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://studio17.world/hugo-card">
+
+    <!-- Theme Color para integrar com a barra de topo do telemóvel -->
+    <meta name="theme-color" content="#0F172A">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563EB', // Electric Blue
+                        whatsapp: '#25D366',
+                        telegram: '#0088cc',
+                        linkedin: '#0A66C2',
+                        instagram: '#E1306C',
+                        facebook: '#1877F2',
+                        dark: '#0F172A',
+                        light: '#F8FAFC',
+                        surface: '#FFFFFF'
+                    },
+                    animation: {
+                        'blob': 'blob 15s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Hide scrollbar for clean app-like feel */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-dark font-sans antialiased text-slate-800 min-h-screen flex items-center justify-center sm:p-8 selection:bg-primary selection:text-white">
+
+    <!-- Contentor do Cartão (Ecrã Inteiro no Mobile, Cartão no Desktop) -->
+    <div
+        class="w-full max-w-sm bg-dark text-white sm:rounded-[2.5rem] relative overflow-hidden sm:shadow-2xl sm:shadow-slate-900/50 min-h-[100dvh] sm:min-h-[auto] flex flex-col justify-center">
+
+        <!-- Background Ambient Glow -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+            <div
+                class="absolute -top-20 -right-20 w-64 h-64 bg-primary/20 rounded-full blur-[60px] motion-safe:animate-blob">
+            </div>
+            <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-[60px] motion-safe:animate-blob"
+                style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="relative z-10 p-8 flex flex-col items-center">
+
+            <!-- Company Logo -->
+            <div class="mb-6 flex items-center select-none opacity-80">
+                <span class="font-extrabold text-xl tracking-[-0.05em] mr-[0.15em]">Studio</span>
+                <span class="font-extrabold text-xl tracking-[-0.12em]">17</span>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="relative mb-4 group">
+                <!-- Outer ring -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-tr from-primary to-purple-500 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+                </div>
+                <!-- Image -->
+                <div
+                    class="relative w-28 h-28 rounded-full border-4 border-dark overflow-hidden bg-slate-800 shadow-sm">
+                    <img id="emp-avatar"
+                        src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771685651/ChatGPT_Image_17_02_2026_17_31_53_iiuyns.png"
+                        alt="Employee Photo" class="w-full h-full object-cover">
+                </div>
+                <!-- Verification Badge -->
+                <div
+                    class="absolute bottom-1 right-1 w-7 h-7 bg-primary rounded-full border-[3px] border-dark flex items-center justify-center shadow-sm">
+                    <i class="ph-bold ph-check text-white text-[10px]"></i>
+                </div>
+            </div>
+
+            <!-- Name, Role & Value Prop -->
+            <div class="text-center w-full mb-6">
+                <h1 id="emp-name" class="text-3xl font-bold tracking-tight mb-1">Hugo Filipe</h1>
+                <p id="emp-role" class="text-primary font-bold tracking-wide text-xs uppercase mb-3">Founder</p>
+                <p class="text-slate-400 text-sm px-2 leading-relaxed font-medium">We help businesses build
+                    conversion-first online presence that turn traffic into revenue.</p>
+            </div>
+
+            <!-- Specific Trust Signals -->
+            <div class="flex justify-between w-full border-y border-white/10 py-3 mb-6">
+                <div class="text-center w-1/2 border-r border-white/10">
+                    <div class="font-bold text-lg text-white">50+</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Businesses</div>
+                </div>
+                <div class="text-center w-1/2">
+                    <div class="font-bold text-lg text-white"><i class="ph-fill ph-trend-up text-primary"></i></div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Conversion Focus</div>
+                </div>
+            </div>
+
+            <!-- Primary Actions -->
+            <div class="w-full space-y-3 mb-6">
+                <!-- Primary CTA: WhatsApp -->
+                <a id="link-whatsapp-main" href="#" target="_blank"
+                    class="w-full bg-whatsapp text-white py-4 rounded-2xl font-bold shadow-lg shadow-whatsapp/20 hover:bg-[#20b858] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-whatsapp-logo text-xl"></i> Chat on WhatsApp
+                </a>
+
+                <!-- Secondary CTA: Book a Call -->
+                <a id="link-calendar" href="https://calendly.com/" target="_blank"
+                    class="w-full border border-primary text-primary py-4 rounded-2xl font-bold hover:bg-primary/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-calendar-plus text-xl"></i> Book a Discovery Call
+                </a>
+
+                <!-- Tertiary Actions: Save & Scan -->
+                <div class="flex gap-3 pt-1">
+                    <button onclick="downloadVCard()"
+                        class="flex-1 bg-white/5 border border-white/10 text-white py-3 rounded-2xl font-semibold hover:bg-white/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm">
+                        <i class="ph-bold ph-download-simple"></i> Save Contact
+                    </button>
+                    <button onclick="toggleQR()"
+                        class="flex-1 bg-white/5 border border-white/10 text-white py-3 rounded-2xl font-semibold hover:bg-white/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm">
+                        <i class="ph-bold ph-qr-code"></i> Show QR
+                    </button>
+                </div>
+            </div>
+
+            <!-- Direct Contact Icons (Includes Telegram) -->
+            <div class="w-full grid grid-cols-4 gap-3 mb-6">
+                <a id="link-email-icon" href="#" class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-lg text-white group-hover:bg-primary group-hover:border-primary transition-all shadow-sm">
+                        <i class="ph-fill ph-envelope-simple"></i>
+                    </div>
+                    <span
+                        class="text-[9px] text-slate-400 font-bold uppercase tracking-wider group-hover:text-white transition-colors">Email</span>
+                </a>
+                <a id="link-phone-icon" href="#" target="_blank" class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-lg text-white group-hover:bg-primary group-hover:border-primary transition-all shadow-sm">
+                        <i class="ph-fill ph-phone"></i>
+                    </div>
+                    <span
+                        class="text-[9px] text-slate-400 font-bold uppercase tracking-wider group-hover:text-white transition-colors">Call</span>
+                </a>
+                <a id="link-whatsapp-icon" href="#" target="_blank" class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-lg text-white group-hover:bg-whatsapp group-hover:border-whatsapp transition-all shadow-sm">
+                        <i class="ph-fill ph-whatsapp-logo"></i>
+                    </div>
+                    <span
+                        class="text-[9px] text-slate-400 font-bold uppercase tracking-wider group-hover:text-white transition-colors">Chat</span>
+                </a>
+                <a id="link-telegram-icon" href="#" target="_blank" class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-lg text-white group-hover:bg-telegram group-hover:border-telegram transition-all shadow-sm">
+                        <i class="ph-fill ph-telegram-logo"></i>
+                    </div>
+                    <span
+                        class="text-[9px] text-slate-400 font-bold uppercase tracking-wider group-hover:text-white transition-colors">Telegram</span>
+                </a>
+            </div>
+
+            <!-- Visible Contact Information (Tap-to-copy/call) -->
+            <div class="w-full bg-white/5 rounded-2xl p-2 border border-white/5 mb-8">
+                <a id="link-email-list" href="#"
+                    class="flex items-center gap-3 p-3 hover:bg-white/10 rounded-xl transition-colors">
+                    <div
+                        class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center flex-shrink-0">
+                        <i class="ph-fill ph-envelope-simple text-lg"></i>
+                    </div>
+                    <div class="text-left truncate">
+                        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Email</div>
+                        <div id="display-email" class="text-sm font-medium text-white truncate">contact@studio17.world
+                        </div>
+                    </div>
+                </a>
+                <a id="link-phone-list" href="#" target="_blank"
+                    class="flex items-center gap-3 p-3 hover:bg-white/10 rounded-xl transition-colors border-t border-white/5">
+                    <div
+                        class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center flex-shrink-0">
+                        <i class="ph-fill ph-phone text-lg"></i>
+                    </div>
+                    <div class="text-left truncate">
+                        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Phone</div>
+                        <div id="display-phone" class="text-sm font-medium text-white truncate">+357 94 338 615</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Core Expertise (Updated) -->
+            <div class="w-full mb-8 bg-white/5 rounded-2xl p-5 border border-white/5">
+                <h3 class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-3">Core Expertise</h3>
+                <ul class="space-y-2.5 text-sm text-slate-300 font-medium">
+                    <li class="flex items-start gap-2">
+                        <i class="ph-bold ph-check-circle text-primary mt-0.5 flex-shrink-0"></i>
+                        <span>High-converting landing pages</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="ph-bold ph-check-circle text-primary mt-0.5 flex-shrink-0"></i>
+                        <span>Sales Funnels</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="ph-bold ph-check-circle text-primary mt-0.5 flex-shrink-0"></i>
+                        <span>Marketing that converts into sales</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social Links & Website -->
+            <div class="w-full space-y-2 mb-8">
+                <!-- Website -->
+                <a id="link-website" href="index.html"
+                    class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+                            <i class="ph-bold ph-globe"></i>
+                        </div>
+                        <span class="font-medium text-sm text-slate-200">Studio 17 Website</span>
+                    </div>
+                    <i class="ph-bold ph-caret-right text-slate-500 group-hover:text-white transition-colors"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a id="link-instagram" href="#" target="_blank"
+                    class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-instagram/20 text-instagram flex items-center justify-center">
+                            <i class="ph-bold ph-instagram-logo"></i>
+                        </div>
+                        <span class="font-medium text-sm text-slate-200">Instagram</span>
+                    </div>
+                    <i class="ph-bold ph-caret-right text-slate-500 group-hover:text-white transition-colors"></i>
+                </a>
+
+                <!-- LinkedIn -->
+                <a id="link-linkedin-list" href="#" target="_blank"
+                    class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-linkedin/20 text-linkedin flex items-center justify-center">
+                            <i class="ph-bold ph-linkedin-logo"></i>
+                        </div>
+                        <span class="font-medium text-sm text-slate-200">LinkedIn</span>
+                    </div>
+                    <i class="ph-bold ph-caret-right text-slate-500 group-hover:text-white transition-colors"></i>
+                </a>
+
+                <!-- Facebook -->
+                <a id="link-facebook" href="#" target="_blank"
+                    class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-facebook/20 text-facebook flex items-center justify-center">
+                            <i class="ph-bold ph-facebook-logo"></i>
+                        </div>
+                        <span class="font-medium text-sm text-slate-200">Facebook</span>
+                    </div>
+                    <i class="ph-bold ph-caret-right text-slate-500 group-hover:text-white transition-colors"></i>
+                </a>
+            </div>
+
+            <!-- Share Card Feature -->
+            <button onclick="shareCard()"
+                class="text-sm text-slate-400 font-medium flex items-center gap-2 hover:text-primary transition-colors">
+                <i class="ph-bold ph-export"></i> Share this card
+            </button>
+
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qr-modal"
+        class="fixed inset-0 z-50 bg-dark/90 backdrop-blur-sm hidden flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-300">
+        <div id="qr-card"
+            class="bg-white p-8 rounded-[2rem] max-w-xs w-full text-center relative transform scale-95 transition-transform duration-300 shadow-2xl">
+            <button onclick="toggleQR()"
+                class="absolute top-4 right-4 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-dark hover:bg-slate-200 transition-colors">
+                <i class="ph-bold ph-x"></i>
+            </button>
+            <h3 class="text-dark font-bold text-xl mb-2">Scan to Save</h3>
+            <p class="text-sm text-slate-500 font-medium mb-6">Point your camera at this code to view and save my card.
+            </p>
+
+            <div
+                class="bg-white border border-slate-200 p-2 rounded-2xl mx-auto w-48 h-48 flex items-center justify-center mb-2 shadow-sm">
+                <img id="qr-image" src="" alt="QR Code" class="w-full h-full object-contain">
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Configuration -->
+    <script>
+        // ----------------------------------------------------
+        // EMPLOYEE DATA CONFIGURATION
+        // ----------------------------------------------------
+        const employeeData = {
+            firstName: "Hugo",
+            lastName: "Filipe",
+            role: "Founder",
+            company: "Studio 17",
+
+            // Contacts
+            email: "contact@studio17.world",
+            phone: "+351922002442",
+            phoneDisplay: "+351 922 002 442",
+            whatsapp: "351922002442",
+            telegram: "+35794338615", // Formato em número ou username para o link do t.me
+
+            // Links
+            website: "https://studio17.world",
+            instagram: "https://www.instagram.com/studio17.world",
+            linkedin: "https://www.linkedin.com/company/studio17world",
+            facebook: "https://www.facebook.com/share/1CL8Mxzeay/?mibextid=wwXIfr",
+            calendar: "https://calendar.app.google/R6NztG8nhMVVmciZ7",
+
+            // Pre-written WhatsApp Message
+            waMessage: "Hey Hugo — saw your digital card. I'm interested in: [Website / Ads / Branding / Other]. My business is: ",
+
+            // Images
+            avatarUrl: "https://res.cloudinary.com/dnxoz9alm/image/upload/v1771685651/ChatGPT_Image_17_02_2026_17_31_53_iiuyns.png"
+        };
+
+        // Populate the UI with data
+        document.addEventListener('DOMContentLoaded', () => {
+            // Text Elements
+            document.getElementById('emp-name').textContent = `${employeeData.firstName} ${employeeData.lastName}`;
+            document.getElementById('emp-role').textContent = employeeData.role;
+            document.getElementById('emp-avatar').src = employeeData.avatarUrl;
+            document.getElementById('display-email').textContent = employeeData.email;
+            document.getElementById('display-phone').textContent = employeeData.phoneDisplay;
+
+            // Set Mail Link
+            const mailLink = `mailto:${employeeData.email}`;
+            document.getElementById('link-email-icon').href = mailLink;
+            document.getElementById('link-email-list').href = mailLink;
+
+            // Set Social & Website Links
+            document.getElementById('link-telegram-icon').href = `https://t.me/${employeeData.telegram}`;
+            document.getElementById('link-website').href = employeeData.website;
+            document.getElementById('link-instagram').href = employeeData.instagram;
+            document.getElementById('link-linkedin-list').href = employeeData.linkedin;
+            document.getElementById('link-facebook').href = employeeData.facebook;
+
+            // WhatsApp Logic (including the "Call" buttons opening WhatsApp)
+            const waText = encodeURIComponent(employeeData.waMessage);
+            const waLink = `https://wa.me/${employeeData.whatsapp}?text=${waText}`;
+
+            document.getElementById('link-whatsapp-main').href = waLink;
+            document.getElementById('link-whatsapp-icon').href = waLink;
+            document.getElementById('link-phone-icon').href = waLink; // Opens WA as requested
+            document.getElementById('link-phone-list').href = waLink; // Opens WA as requested
+
+            // Calendar Logic (Hide if empty)
+            const calBtn = document.getElementById('link-calendar');
+            if (!employeeData.calendar || employeeData.calendar === "#" || employeeData.calendar.trim() === "") {
+                calBtn.style.display = 'none';
+            } else {
+                calBtn.href = employeeData.calendar;
+            }
+
+            // Set up QR Code image (static from Cloudinary)
+            document.getElementById('qr-image').src =
+                'https://res.cloudinary.com/dnxoz9alm/image/upload/v1771857514/qrchimpX4096_ed1q7p.png';
+        });
+
+        // Function to Generate and Download vCard
+        function downloadVCard() {
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+N:${employeeData.lastName};${employeeData.firstName};;;
+FN:${employeeData.firstName} ${employeeData.lastName}
+ORG:${employeeData.company}
+TITLE:${employeeData.role}
+TEL;TYPE=WORK,VOICE:${employeeData.phone}
+EMAIL;TYPE=WORK,INTERNET:${employeeData.email}
+URL:${employeeData.website}
+URL;type=LinkedIn:${employeeData.linkedin}
+END:VCARD`;
+
+            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${employeeData.firstName}_${employeeData.lastName}.vcf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        // Toggle QR Code Modal
+        function toggleQR() {
+            const modal = document.getElementById('qr-modal');
+            const card = document.getElementById('qr-card');
+
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                void modal.offsetWidth; // Trigger reflow
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            } else {
+                modal.classList.add('opacity-0');
+                card.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }, 300);
+            }
+        }
+
+        // Native share API (Mobile)
+        async function shareCard() {
+            const shareData = {
+                title: `${employeeData.firstName} ${employeeData.lastName} - ${employeeData.role}`,
+                text: `Check out my digital business card from ${employeeData.company}:`,
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard!");
+                }
+            } catch (err) {
+                console.error("Error sharing:", err);
+            }
+        }
+    </script>
+</body>
+
+</html>
