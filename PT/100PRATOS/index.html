@@ -597,11 +597,83 @@
           </p>
         </div>
 
-        <!-- Grid (3 items: Tábuas, Finger Foods, Refrescos & Vinhos) -->
+        <!-- Grid (3 items: 1.Finger Foods 2.Tábuas 3.Vinhos - ordem otimizada para mobile) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Item 1: Tábuas de Setúbal -->
+          <!-- 1º: Coleção de Finger Foods -->
           <div
-            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col"
+            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-1"
+          >
+            <div class="h-64 overflow-hidden relative">
+              <img
+                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770625920/Finger_Foods_qrjymq.jpg"
+                alt="Coleção de Finger Foods"
+                class="menu-img w-full h-full object-cover transition-transform duration-700"
+              />
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="mb-2">
+                <h3 class="font-serif text-2xl text-brandBlue mb-2">
+                  Coleção Finger Foods
+                </h3>
+                <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
+                  Desde €10/pp
+                </span>
+              </div>
+              <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
+                Uma composição de diferentes tipos de finger foods que percorrem
+                sabores clássicos e contemporâneos — dos croquetes de alheira ao
+                bacalhau com broa e mousse de chocolate. Incluímos opções
+                vegetarianas e veganas, como croquetes de legumes, folhado de
+                batata-doce com cebola caramelizada, gaspacho alentejano e
+                açorda de alho-francês.
+              </p>
+              <p
+                class="text-xs text-brandGold/80 mb-4 italic flex items-center gap-2"
+              >
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Nota: As
+                Tábuas de Setúbal já incluem uma opção vegana e vegetariana
+                completa.
+              </p>
+
+              <!-- Packs Tags -->
+              <div class="mb-6">
+                <strong
+                  class="text-brandBlue text-xs uppercase tracking-wide block mb-3"
+                  >Disponível</strong
+                >
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
+                    >Pequeno Almoço</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
+                    >Coffee Break</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
+                    >Almoço</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
+                    >Lanche</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
+                    >Cocktail</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
+                    >Jantar</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2º: Tábuas de Setúbal -->
+          <div
+            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-2"
           >
             <div class="h-64 overflow-hidden relative">
               <img
@@ -611,13 +683,13 @@
               />
             </div>
             <div class="p-8 flex-grow flex flex-col">
-              <div class="flex justify-between items-baseline mb-2">
-                <h3 class="font-serif text-2xl text-brandBlue">
+              <div class="mb-2">
+                <h3 class="font-serif text-2xl text-brandBlue mb-2">
                   Tábuas de Setúbal
                 </h3>
-                <span class="font-bold text-brandGold whitespace-nowrap"
-                  >Desde €6/pp</span
-                >
+                <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
+                  Desde €6/pp
+                </span>
               </div>
               <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
                 Uma seleção luxuosa de Queijo de Azeitão, presunto curado, mel
@@ -659,81 +731,9 @@
             </div>
           </div>
 
-          <!-- Item 2: Coleção de Finger Foods -->
+          <!-- 3º: Refrescos & Vinhos -->
           <div
-            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col"
-          >
-            <div class="h-64 overflow-hidden relative">
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770625920/Finger_Foods_qrjymq.jpg"
-                alt="Coleção de Finger Foods"
-                class="menu-img w-full h-full object-cover transition-transform duration-700"
-              />
-            </div>
-            <div class="p-8 flex-grow">
-              <div class="flex justify-between items-baseline mb-2">
-                <h3 class="font-serif text-2xl text-brandBlue">
-                  Coleção Finger Foods
-                </h3>
-                <span class="font-bold text-brandGold whitespace-nowrap"
-                  >Desde €10/pp</span
-                >
-              </div>
-              <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
-                Uma composição de diferentes tipos de finger foods que percorrem
-                sabores clássicos e contemporâneos — dos croquetes de alheira ao
-                bacalhau com broa e mousse de chocolate. Incluímos opções
-                vegetarianas e veganas, como croquetes de legumes, folhado de
-                batata-doce com cebola caramelizada, gaspacho alentejano e
-                açorda de alho-francês.
-              </p>
-              <p
-                class="text-xs text-brandGold/80 mb-4 italic flex items-center gap-2"
-              >
-                <i data-lucide="check-circle" class="w-4 h-4"></i> Nota: As
-                Tábuas de Setúbal já incluem uma opção vegana e vegetariana
-                completa.
-              </p>
-
-              <!-- Packs Tags -->
-              <div class="mb-6">
-                <strong
-                  class="text-brandBlue text-xs uppercase tracking-wide block mb-3"
-                  >Disponível nos Packs:</strong
-                >
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Pequeno Almoço</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Coffee Break</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Almoço</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Lanche</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Cocktail</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Jantar</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 3: Refrescos & Vinhos -->
-          <div
-            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col"
+            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-3"
           >
             <div class="h-64 overflow-hidden relative">
               <img
@@ -743,13 +743,13 @@
               />
             </div>
             <div class="p-8 flex-grow">
-              <div class="flex justify-between items-baseline mb-2">
-                <h3 class="font-serif text-2xl text-brandBlue">
+              <div class="mb-2">
+                <h3 class="font-serif text-2xl text-brandBlue mb-2">
                   Refrescos & Vinhos
                 </h3>
-                <span class="font-bold text-brandGold whitespace-nowrap"
-                  >Desde €4/pp</span
-                >
+                <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
+                  Desde €4/pp
+                </span>
               </div>
               <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
                 Uma seleção refrescante e reconfortante para acompanhar todos os
@@ -761,7 +761,7 @@
               <div class="mb-6">
                 <strong
                   class="text-brandBlue text-xs uppercase tracking-wide block mb-3"
-                  >Disponível nos Packs:</strong
+                  >Disponível</strong
                 >
                 <div class="flex flex-wrap gap-2">
                   <span
