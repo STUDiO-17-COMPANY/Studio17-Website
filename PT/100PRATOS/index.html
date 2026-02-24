@@ -816,7 +816,9 @@
       class="py-24 md:py-32 bg-white relative overflow-hidden"
     >
       <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start md:items-center"
+        >
           <!-- Image (Left on desktop) -->
           <div class="order-1 md:order-1 relative flex justify-center">
             <div class="relative w-full max-w-lg aspect-[4/5]">
@@ -845,52 +847,88 @@
             </h2>
             <p class="text-charcoal/80 text-lg leading-relaxed">
               Leve a experiência gastronómica da 100 PRATOS diretamente para a
-              sua casa ou espaço privado. A Chef Rita Braz oferece um serviço
+              sua casa ou espaço privado. A Rita Braz oferece um serviço
               personalizado de chefe privado, criando menus únicos adaptados aos
               seus gostos e ocasiões especiais.
             </p>
             <p class="text-charcoal/80 text-lg leading-relaxed">
               Desde jantares íntimos a celebrações familiares, cada experiência
               é cuidadosamente planeada e executada com o mesmo rigor e paixão
-              que caracteriza o nosso catering. Desfrute de pratos portugueses
-              autênticos preparados ao vivo, com atenção aos detalhes e um
+              que caracteriza o nosso catering. Para além de momentos especiais,
+              disponibilizamos também um serviço de organização semanal de
+              refeições, pensado para quem procura equilíbrio, qualidade e
+              praticidade no dia a dia — com propostas caseiras, variadas e
+              ajustadas às suas preferências, sempre com atenção ao detalhe e
               serviço impecável.
             </p>
 
-            <ul class="space-y-4 pt-4">
-              <li class="flex items-center space-x-3">
+            <ul
+              class="flex flex-col gap-3 pt-6 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-5"
+              role="list"
+              aria-label="Serviços do Chefe Privado"
+            >
+              <li
+                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
+              >
                 <i
                   data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
+                  class="text-brandGold w-5 h-5 flex-shrink-0"
+                  aria-hidden="true"
                 ></i>
-                <span class="font-serif text-xl text-brandBlue"
+                <span
+                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
                   >Menus Personalizados</span
                 >
               </li>
-              <li class="flex items-center space-x-3">
+              <li
+                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
+              >
                 <i
                   data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
+                  class="text-brandGold w-5 h-5 flex-shrink-0"
+                  aria-hidden="true"
                 ></i>
-                <span class="font-serif text-xl text-brandBlue"
+                <span
+                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
                   >Preparação ao Vivo</span
                 >
               </li>
-              <li class="flex items-center space-x-3">
+              <li
+                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
+              >
                 <i
                   data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
+                  class="text-brandGold w-5 h-5 flex-shrink-0"
+                  aria-hidden="true"
                 ></i>
-                <span class="font-serif text-xl text-brandBlue"
+                <span
+                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
                   >Serviço Completo de Mesa</span
                 >
               </li>
-              <li class="flex items-center space-x-3">
+              <li
+                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
+              >
                 <i
                   data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
+                  class="text-brandGold w-5 h-5 flex-shrink-0"
+                  aria-hidden="true"
                 ></i>
-                <span class="font-serif text-xl text-brandBlue"
+                <span
+                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
+                  >Organização Semanal de Refeições</span
+                >
+              </li>
+              <li
+                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
+              >
+                <i
+                  data-lucide="check-circle"
+                  class="text-brandGold w-5 h-5 flex-shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
                   >Experiência Exclusiva e Intimista</span
                 >
               </li>
