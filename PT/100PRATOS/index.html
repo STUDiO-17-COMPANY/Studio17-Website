@@ -1,1624 +1,1251 @@
 <!doctype html>
 <html lang="pt-PT">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>100 Pratos | Catering Boutique & Finger Food</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100 Pratos | Catering Boutique & Finger Food</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
 
-    <!-- Custom Config & Styles -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              cream: '#F9F5F0',
-              brandBlue: '#012255',
-              brandGold: '#CFA011',
-              charcoal: '#2C2C2C',
-              sand: '#E8E1D5',
-              brand: {
-                accent: '#0055FF',
-              },
-            },
-            fontFamily: {
-              serif: ['Playfair Display', 'serif'],
-              sans: ['Lato', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-            backgroundImage: {
-              texture:
-                "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Config & Styles -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F9F5F0',
+            brandBlue: '#012255',
+            brandGold: '#CFA011',
+            charcoal: '#2C2C2C',
+            sand: '#E8E1D5',
+            brand: {
+              accent: '#0055FF',
             },
           },
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            sans: ['Lato', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          backgroundImage: {
+            texture:
+              "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+          },
         },
-      };
-    </script>
+      },
+    };
+  </script>
 
-    <style>
-      body {
-        background-color: #f9f5f0;
-        color: #2c2c2c;
-        overflow-x: hidden;
-        /* Prevent horizontal scroll */
-      }
+  <style>
+    body {
+      background-color: #f9f5f0;
+      color: #2c2c2c;
+      overflow-x: hidden;
+      /* Prevent horizontal scroll */
+    }
 
-      /* Smooth Scroll Setup */
-      html.lenis {
-        height: auto;
-      }
+    /* Smooth Scroll Setup */
+    html.lenis {
+      height: auto;
+    }
 
-      .lenis.lenis-smooth {
-        scroll-behavior: auto;
-      }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto;
+    }
 
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
 
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
 
-      .lenis.lenis-scrolling iframe {
-        pointer-events: none;
-      }
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
 
-      /* Utilities */
-      .clip-image {
-        clip-path: inset(0 0 0 0);
-      }
+    /* Utilities */
+    .clip-image {
+      clip-path: inset(0 0 0 0);
+    }
 
-      .reveal-text {
-        transform: translateY(100%);
-        opacity: 0;
-      }
+    .reveal-text {
+      transform: translateY(100%);
+      opacity: 0;
+    }
 
-      /* Loader - mesma cor da navbar (branco) */
-      .loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: #ffffff;
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #012255;
-      }
+    /* Loader - mesma cor da navbar (branco) */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: #ffffff;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #012255;
+    }
 
-      /* Image hover effects */
-      .menu-card:hover .menu-img {
-        transform: scale(1.05);
-      }
+    /* Image hover effects */
+    .menu-card:hover .menu-img {
+      transform: scale(1.05);
+    }
 
-      /* Form styling */
-      .form-input {
-        width: 100%;
-        background-color: transparent;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 10px 0;
-        color: #f9f5f0;
-        outline: none;
-        transition: border-color 0.3s;
-      }
+    /* Form styling */
+    .form-input {
+      width: 100%;
+      background-color: transparent;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px 0;
+      color: #f9f5f0;
+      outline: none;
+      transition: border-color 0.3s;
+    }
 
-      .form-input:focus {
-        border-color: #cfa011;
-      }
+    .form-input:focus {
+      border-color: #cfa011;
+    }
 
-      .form-input::placeholder {
-        color: rgba(249, 245, 240, 0.5);
-      }
+    .form-input::placeholder {
+      color: rgba(249, 245, 240, 0.5);
+    }
 
-      /* Custom Scrollbar for Pack lists */
-      .pack-list::-webkit-scrollbar {
-        width: 4px;
-      }
+    /* Custom Scrollbar for Pack lists */
+    .pack-list::-webkit-scrollbar {
+      width: 4px;
+    }
 
-      .pack-list::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
+    .pack-list::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
 
-      .pack-list::-webkit-scrollbar-thumb {
-        background: #cfa011;
-        border-radius: 4px;
-      }
+    .pack-list::-webkit-scrollbar-thumb {
+      background: #cfa011;
+      border-radius: 4px;
+    }
 
-      /* Modal Styles */
-      .modal-overlay {
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease-in-out;
-      }
+    /* Modal Styles */
+    .modal-overlay {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+    }
 
-      .modal-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
 
-      .modal-content {
-        transform: scale(0.95);
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
-      }
+    .modal-content {
+      transform: scale(0.95);
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+    }
 
-      .modal-overlay.active .modal-content {
-        transform: scale(1);
-        opacity: 1;
-      }
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+  </style>
+</head>
 
-    </style>
-  </head>
-
-  <body
-    class="font-sans antialiased selection:bg-brandGold selection:text-white"
-  >
-    <!-- Loader -->
-    <div class="loader">
-      <div class="flex flex-col items-center">
-        <div class="p-6">
-          <img
-            src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
-            alt="100 Pratos Logo"
-            class="w-48 md:w-64 animate-pulse"
-          />
-        </div>
+<body class="font-sans antialiased selection:bg-brandGold selection:text-white">
+  <!-- Loader -->
+  <div class="loader">
+    <div class="flex flex-col items-center">
+      <div class="p-6">
+        <img
+          src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
+          alt="100 Pratos Logo" class="w-48 md:w-64 animate-pulse" />
       </div>
     </div>
+  </div>
 
-    <!-- Navigation (Sempre transparente) -->
-    <nav
-      class="fixed top-0 w-full z-50 px-6 py-4 bg-white/95 backdrop-blur-md shadow-sm border-b border-black/5 transition-all duration-300"
-      id="navbar"
-    >
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <!-- Logo with Brand Name -->
-        <a href="#" class="z-50 relative flex items-center">
-          <div class="p-1.5 md:p-2">
-            <img
-              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
-              alt="100 Pratos Logo"
-              class="h-8 md:h-10 w-auto"
-              id="nav-logo"
-            />
-          </div>
-        </a>
-
-        <div class="hidden md:flex items-center space-x-8 text-charcoal z-50">
-          <a
-            href="#concept"
-            class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold"
-            >A Nossa Filosofia</a
-          >
-          <a
-            href="#chef"
-            class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold"
-            >A Chef</a
-          >
-          <a
-            href="#menu"
-            class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold"
-            >O Que Servimos</a
-          >
-          <a
-            href="#private-chef"
-            class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold"
-            >Chefe Privado</a
-          >
-          <a
-            href="#partnerships"
-            class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold"
-            >Parcerias</a
-          >
-          <a
-            href="#contact"
-            class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold"
-            >Contactos</a
-          >
+  <!-- Navigation (Sempre transparente) -->
+  <nav
+    class="fixed top-0 w-full z-50 px-6 py-4 bg-white/95 backdrop-blur-md shadow-sm border-b border-black/5 transition-all duration-300"
+    id="navbar">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <!-- Logo with Brand Name -->
+      <a href="#" class="z-50 relative flex items-center">
+        <div class="p-1.5 md:p-2">
+          <img
+            src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
+            alt="100 Pratos Logo" class="h-8 md:h-10 w-auto" id="nav-logo" />
         </div>
+      </a>
 
-        <button
-          onclick="
+      <div class="hidden md:flex items-center space-x-8 text-charcoal z-50">
+        <a href="#concept"
+          class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">A Nossa
+          Filosofia</a>
+        <a href="#chef" class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">A
+          Chef</a>
+        <a href="#menu" class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">O
+          Que Servimos</a>
+        <a href="#private-chef"
+          class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">Chefe
+          Privado</a>
+        <a href="#partnerships"
+          class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">Parcerias</a>
+        <a href="#contact"
+          class="hover:text-brandGold transition-colors uppercase text-xs tracking-widest font-semibold">Contactos</a>
+      </div>
+
+      <button onclick="
             document
               .getElementById('contact')
               .scrollIntoView({ behavior: 'smooth' })
           "
-          class="hidden md:block bg-brandGold hover:bg-white hover:text-brandGold text-brandBlue px-6 py-2 rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 text-sm uppercase tracking-wide z-50 shadow-lg"
-        >
-          Saiba Mais
-        </button>
+        class="hidden md:block bg-brandGold hover:bg-white hover:text-brandGold text-brandBlue px-6 py-2 rounded-full font-bold transition-all duration-300 transform hover:-translate-y-1 text-sm uppercase tracking-wide z-50 shadow-lg">
+        Saiba Mais
+      </button>
 
-        <!-- Mobile Menu Button -->
-        <button
-          class="md:hidden z-50 text-brandBlue hover:text-brandGold transition-colors"
-          id="mobile-menu-btn"
-        >
-          <i data-lucide="menu" class="w-8 h-8"></i>
-        </button>
-      </div>
-    </nav>
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden z-50 text-brandBlue hover:text-brandGold transition-colors" id="mobile-menu-btn">
+        <i data-lucide="menu" class="w-8 h-8"></i>
+      </button>
+    </div>
+  </nav>
 
-    <!-- Mobile Menu Overlay -->
-    <div
-      class="fixed inset-0 bg-brandBlue z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8"
-      id="mobile-menu"
-    >
-      <a href="#concept" class="mobile-link font-serif text-3xl text-cream"
-        >A Nossa Essencia</a
-      >
-      <a href="#chef" class="mobile-link font-serif text-3xl text-cream"
-        >A Chef</a
-      >
-      <a href="#menu" class="mobile-link font-serif text-3xl text-cream"
-        >O Que Servimos</a
-      >
-      <a href="#private-chef" class="mobile-link font-serif text-3xl text-cream"
-        >Chefe Privado</a
-      >
-      <a href="#partnerships" class="mobile-link font-serif text-3xl text-cream"
-        >Parcerias</a
-      >
-      <a href="#contact" class="mobile-link font-serif text-3xl text-cream"
-        >Contactos</a
-      >
-      <a
-        href="#contact"
-        class="mobile-link bg-brandGold text-brandBlue px-8 py-3 rounded-full text-xl font-serif font-bold hover:bg-cream hover:text-brandBlue transition-colors"
-      >
-        Pedir Orçamento
-      </a>
+  <!-- Mobile Menu Overlay -->
+  <div
+    class="fixed inset-0 bg-brandBlue z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8"
+    id="mobile-menu">
+    <a href="#concept" class="mobile-link font-serif text-3xl text-cream">A Nossa Essencia</a>
+    <a href="#chef" class="mobile-link font-serif text-3xl text-cream">A Chef</a>
+    <a href="#menu" class="mobile-link font-serif text-3xl text-cream">O Que Servimos</a>
+    <a href="#private-chef" class="mobile-link font-serif text-3xl text-cream">Chefe Privado</a>
+    <a href="#partnerships" class="mobile-link font-serif text-3xl text-cream">Parcerias</a>
+    <a href="#contact" class="mobile-link font-serif text-3xl text-cream">Contactos</a>
+    <a href="#contact"
+      class="mobile-link bg-brandGold text-brandBlue px-8 py-3 rounded-full text-xl font-serif font-bold hover:bg-cream hover:text-brandBlue transition-colors">
+      Pedir Orçamento
+    </a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20">
+    <!-- Background Image with Parallax -->
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-brandBlue/70 z-10"></div>
+      <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=2070&auto=format&fit=crop"
+        alt="Mesa Mediterrânica" class="w-full h-full object-cover hero-img scale-110" />
     </div>
 
-    <!-- Hero Section -->
-    <section
-      class="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20"
-    >
-      <!-- Background Image with Parallax -->
-      <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-brandBlue/45 z-10"></div>
-        <img
-          src="https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=2070&auto=format&fit=crop"
-          alt="Mesa Mediterrânica"
-          class="w-full h-full object-cover hero-img scale-110"
-        />
-      </div>
-
-      <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
-        <p
-          class="hero-sub text-white uppercase tracking-[0.2em] text-sm md:text-base mb-4 font-bold"
-        >
-          Setúbal &bull; Lisboa &bull; Cascais
-        </p>
-        <h1
-          class="hero-title font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-6"
-        >
-          Catering finger food
-          <span class="italic text-brandGold">português</span><br />
-        </h1>
-        <p
-          class="hero-desc font-serif text-xl md:text-2xl max-w-2xl mx-auto mb-10 font-semibold text-white leading-relaxed"
-        >
-          Elevamos os seus convívios com <span class="text-brandGold font-bold">ingredientes mediterrânicos</span> e um
-          serviço de <span class="text-brandGold font-bold">catering boutique</span> sem complicações.
-        </p>
-        <div class="hero-cta opacity-0">
-          <a
-            href="#menu"
-            class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-cream hover:text-brandBlue transition-all duration-300 transform hover:scale-105"
-          >
-            Ver Menu
-          </a>
-        </div>
-      </div>
-
-      <!-- Scroll Down Indicator -->
-      <div
-        class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-brandGold z-20"
-      >
-        <i data-lucide="arrow-down" class="w-6 h-6"></i>
-      </div>
-    </section>
-
-    <!-- Concept Section -->
-    <section id="concept" class="py-24 md:py-32 bg-cream relative">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <!-- Image Collage -->
-          <div class="relative h-[600px] w-full hidden md:block concept-images">
-            <div
-              class="absolute top-0 left-0 w-3/4 h-3/4 overflow-hidden rounded-tr-[100px] rounded-bl-[40px] shadow-2xl z-10 border-4 border-white"
-            >
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767812021/504370381_17856154566456062_3236832142533241151_n_1_hlef0x.png"
-                class="w-full h-full object-cover parallax-img"
-                alt="Setup de Catering"
-              />
-            </div>
-            <div
-              class="absolute bottom-0 right-0 w-2/3 h-2/3 overflow-hidden rounded-tl-[100px] rounded-br-[40px] shadow-2xl z-20 border-8 border-cream"
-            >
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811950/587362361_17874169929456062_2799684152371114719_n_r6s2xt.jpg"
-                class="w-full h-full object-cover parallax-img-slow"
-                alt="Vinho e Queijo"
-              />
-            </div>
-          </div>
-
-          <!-- Text Content -->
-          <div class="space-y-8 concept-text">
-            <span
-              class="text-brandGold uppercase tracking-widest font-bold text-sm"
-              >A Nossa Essencia</span
-            >
-            <h2
-              class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight"
-            >
-              Portugal Numa Dentada
-            </h2>
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              A 100 PRATOS apresenta a gastronomia portuguesa de norte a sul
-              através de finger foods.
-            </p>
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              Inspiramo-nos na tradição e valorizamos os produtos,
-              reinterpretando receitas clássicas em pequenas porções
-              sofisticadas, práticas e visualmente cuidadas. Oferecemos um
-              serviço de catering boutique onde sabor, origem e estética
-              convivem em perfeita harmonia, com simplicidade e rigor.
-            </p>
-
-            <ul class="space-y-4 pt-4">
-              <li class="flex items-center space-x-3">
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
-                ></i>
-                <span class="font-serif text-xl text-brandBlue"
-                  >Receitas Tradicionais Portuguesas</span
-                >
-              </li>
-              <li class="flex items-center space-x-3">
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
-                ></i>
-                <span class="font-serif text-xl text-brandBlue"
-                  >Ingredientes Mediterrânicos Frescos</span
-                >
-              </li>
-              <li class="flex items-center space-x-3">
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-6 h-6"
-                ></i>
-                <span class="font-serif text-xl text-brandBlue"
-                  >Empratamento cuidado e pronto a servir</span
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Chef Rita Braz Section -->
-    <section id="chef" class="py-24 bg-white relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <!-- Text Content (Left on desktop) -->
-          <div class="order-2 md:order-1 space-y-6">
-            <span
-              class="text-brandGold uppercase tracking-widest font-bold text-sm"
-              >As Mãos por Trás do Sabor</span
-            >
-            <h2
-              class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight"
-            >
-              Conheça a Chef <span class="italic">Rita Braz</span>
-            </h2>
-
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              Apaixonada pela cozinha, Rita encontra na criação de sabores uma
-              forma de construir memórias sensoriais que ficam no tempo.
-            </p>
-
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              Os seus valores nascem da família e dos amigos, acreditando que
-              são essas ligações que sustentam o equilíbrio da vida. É nesse
-              círculo que se revela cuidadora, atenta e generosa — alguém que
-              oferece afeto, escuta com presença e comunica carinho em cada
-              gesto.
-            </p>
-
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              Na sua vida profissional, transporta essa mesma essência, com uma
-              abordagem próxima, prática e profundamente humana.
-            </p>
-
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              A determinação e a garra são o motor que a impulsiona a superar
-              expectativas, guiando cada projeto com compromisso, entrega e o
-              melhor de si.
-            </p>
-
-            <div class="pt-6 relative">
-              <i
-                data-lucide="quote"
-                class="w-10 h-10 text-brandGold/30 absolute -top-2 left-0"
-              ></i>
-              <p
-                class="font-serif text-2xl text-brandBlue italic relative z-10 pl-6 border-l-4 border-brandGold"
-              >
-                "Cozinhar é a minha forma de dar amor."
-              </p>
-              <p
-                class="mt-2 pl-6 font-bold text-sm uppercase tracking-wide text-brandGold"
-              >
-                — Rita Braz
-              </p>
-            </div>
-          </div>
-
-          <!-- Image (Right on desktop) -->
-          <div class="order-1 md:order-2 relative flex justify-center">
-            <div class="relative w-full max-w-md aspect-[4/5]">
-              <!-- Decor background blob -->
-              <div
-                class="absolute inset-0 bg-brandBlue rounded-tr-[80px] rounded-bl-[80px] transform translate-x-4 translate-y-4 opacity-10"
-              ></div>
-
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771145975/Last_c5phtz.png"
-                alt="Chef Rita Braz"
-                class="w-full h-full object-cover rounded-tr-[80px] rounded-bl-[80px] shadow-xl relative z-10"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Marquee Separator (Seamless Infinite) -->
-    <div
-      class="marquee bg-brandBlue py-6 border-y border-brandBlue/10 relative z-10"
-    >
-      <div class="marquee__track">
-        <div class="marquee__group">
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Sabores Autênticos</span
-          >
-          <span class="text-white/70">•</span>
-          <span class="text-2xl md:text-4xl font-serif text-white mx-8"
-            >Finger Food</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Feito em Portugal</span
-          >
-          <span class="text-white/70">•</span>
-          <span class="text-2xl md:text-4xl font-serif text-white mx-8"
-            >Sem Complicações</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Sabores Autênticos</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Finger Food</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Feito em Portugal</span
-          >
-          <span class="text-white/70">•</span>
-        </div>
-
-        <!-- exact duplicate -->
-        <div class="marquee__group" aria-hidden="true">
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Sabores Autênticos</span
-          >
-          <span class="text-white/70">•</span>
-          <span class="text-2xl md:text-4xl font-serif text-white mx-8"
-            >Finger Food</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Feito em Portugal</span
-          >
-          <span class="text-white/70">•</span>
-          <span class="text-2xl md:text-4xl font-serif text-white mx-8"
-            >Sem Complicações</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Sabores Autênticos</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Finger Food</span
-          >
-          <span class="text-white/70">•</span>
-          <span
-            class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8"
-            >Feito em Portugal</span
-          >
-          <span class="text-white/70">•</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Menu Section -->
-    <section id="menu" class="py-24 bg-sand/30">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-          <span
-            class="text-brandGold uppercase tracking-widest font-bold text-sm"
-            >O Que Servimos à Mesa</span
-          >
-          <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">
-            Sabores que Reúnem
-          </h2>
-          <p class="text-charcoal/70 mb-8">
-            Do clássico Bacalhau aos finger foods vegetarianos e veganos, o
-            nosso menu foi desenhado para impacto visual e diversidade.
-            Incluímos opções para todos os gostos e necessidades alimentares.
-          </p>
-        </div>
-
-        <!-- Grid (3 items: 1.Finger Foods 2.Tábuas 3.Vinhos - ordem otimizada para mobile) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- 1º: Coleção de Finger Foods -->
-          <div
-            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-1"
-          >
-            <div class="h-64 overflow-hidden relative">
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770625920/Finger_Foods_qrjymq.jpg"
-                alt="Coleção de Finger Foods"
-                class="menu-img w-full h-full object-cover transition-transform duration-700"
-              />
-            </div>
-            <div class="p-8 flex-grow">
-              <div class="mb-2">
-                <h3 class="font-serif text-2xl text-brandBlue mb-2">
-                  Coleção Finger Foods
-                </h3>
-                <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
-                  Desde €10/pp
-                </span>
-              </div>
-              <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
-                Uma composição de diferentes tipos de finger foods que percorrem
-                sabores clássicos e contemporâneos — dos croquetes de alheira ao
-                bacalhau com broa e mousse de chocolate. Incluímos opções
-                vegetarianas e veganas, como croquetes de legumes, folhado de
-                batata-doce com cebola caramelizada, gaspacho alentejano e
-                açorda de alho-francês.
-              </p>
-              <p
-                class="text-xs text-brandGold/80 mb-4 italic flex items-center gap-2"
-              >
-                <i data-lucide="check-circle" class="w-4 h-4"></i> Nota: As
-                Tábuas de Setúbal já incluem uma opção vegana e vegetariana
-                completa.
-              </p>
-
-              <!-- Packs Tags -->
-              <div class="mb-6">
-                <strong
-                  class="text-brandBlue text-xs uppercase tracking-wide block mb-3"
-                  >Disponível</strong
-                >
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Pequeno Almoço</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Coffee Break</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Almoço</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Lanche</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Cocktail</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Jantar</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2º: Tábuas de Setúbal -->
-          <div
-            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-2"
-          >
-            <div class="h-64 overflow-hidden relative">
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770983327/Gemini_Generated_Image_5n11b5n11b5n11b5_wzyoe9.png"
-                alt="Tábuas de Setúbal"
-                class="menu-img w-full h-full object-cover transition-transform duration-700"
-              />
-            </div>
-            <div class="p-8 flex-grow flex flex-col">
-              <div class="mb-2">
-                <h3 class="font-serif text-2xl text-brandBlue mb-2">
-                  Tábuas de Setúbal
-                </h3>
-                <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
-                  Desde €6/pp
-                </span>
-              </div>
-              <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
-                Uma seleção luxuosa de Queijo de Azeitão, presunto curado, mel
-                local, nozes e pão rústico artesanal.
-              </p>
-
-              <!-- Details List -->
-              <div
-                class="space-y-4 mb-6 text-sm text-charcoal/80 bg-sand/20 p-4 rounded-lg"
-              >
-                <div>
-                  <strong class="text-brandBlue block mb-1"
-                    >Tábua de Queijos, Enchidos e Fruta</strong
-                  >
-                  <p class="text-xs opacity-80">
-                    Queijo de ovelha amanteigado, cabra curado, fresco, paio,
-                    presunto, salpicão.
-                  </p>
-                </div>
-                <div>
-                  <strong class="text-brandBlue block mb-1"
-                    >Tábua Vegana e Vegetariana</strong
-                  >
-                  <p class="text-xs opacity-80">
-                    Charcutaria vegetal, húmus, fruta, seleção de queijos
-                    portugueses.
-                  </p>
-                </div>
-                <div>
-                  <strong class="text-brandBlue block mb-1"
-                    >Tábua de Pães Regionais</strong
-                  >
-                  <p class="text-xs opacity-80">
-                    Charcutaria vegetal, queijos vegetais (caju), ervas
-                    aromáticas.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 3º: Refrescos & Vinhos -->
-          <div
-            class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-3"
-          >
-            <div class="h-64 overflow-hidden relative">
-              <img
-                src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop"
-                alt="Vinhos e Bebidas"
-                class="menu-img w-full h-full object-cover transition-transform duration-700"
-              />
-            </div>
-            <div class="p-8 flex-grow">
-              <div class="mb-2">
-                <h3 class="font-serif text-2xl text-brandBlue mb-2">
-                  Refrescos & Vinhos
-                </h3>
-                <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
-                  Desde €4/pp
-                </span>
-              </div>
-              <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
-                Uma seleção refrescante e reconfortante para acompanhar todos os
-                momentos, desde infusões aromáticas a sumos naturais, café e
-                vinhos selecionados.
-              </p>
-
-              <!-- Packs Tags -->
-              <div class="mb-6">
-                <strong
-                  class="text-brandBlue text-xs uppercase tracking-wide block mb-3"
-                  >Disponível</strong
-                >
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Pequeno Almoço</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Coffee Break</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Almoço</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Lanche</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold"
-                    >Jantar</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center mt-12">
-          <a
-            href="#contact"
-            class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brandBlue hover:text-white transition-all duration-300 transform hover:scale-105"
-          >
-            Ver Menu Completo
-          </a>
-        </div>
-
-        <!-- PDF Download Button - Hidden until menus are ready -->
-        <div class="text-center mt-12 hidden">
-          <a
-            href="#"
-            class="inline-block border border-brandBlue text-brandBlue px-8 py-3 rounded-full hover:bg-brandBlue hover:text-white transition-all duration-300 font-bold"
-            >Descarregar Menu Packs em PDF</a
-          >
-        </div>
-      </div>
-    </section>
-
-    <!-- Chefe Privado Section -->
-    <section
-      id="private-chef"
-      class="py-24 md:py-32 bg-white relative overflow-hidden"
-    >
-      <div class="max-w-7xl mx-auto px-6">
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start md:items-center"
-        >
-          <!-- Image (Left on desktop) -->
-          <div class="order-1 md:order-1 relative flex justify-center">
-            <div class="relative w-full max-w-lg aspect-[4/5]">
-              <!-- Decor background blob -->
-              <div
-                class="absolute inset-0 bg-brandGold rounded-tl-[80px] rounded-br-[80px] transform -translate-x-4 -translate-y-4 opacity-10"
-              ></div>
-              <img
-                src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771759610/Imagens_website_100PRATOS_qg8shb.png"
-                alt="Chefe Privado"
-                class="w-full h-full object-cover rounded-tl-[80px] rounded-br-[80px] shadow-xl relative z-10"
-              />
-            </div>
-          </div>
-
-          <!-- Text Content (Right on desktop) -->
-          <div class="order-2 md:order-2 space-y-8 private-chef-text">
-            <span
-              class="text-brandGold uppercase tracking-widest font-bold text-sm"
-              >Serviço Exclusivo</span
-            >
-            <h2
-              class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight"
-            >
-              Chefe <span class="italic">Privado</span>
-            </h2>
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              Leve a experiência gastronómica da 100 PRATOS diretamente para a
-              sua casa ou espaço privado. A Rita Braz oferece um serviço
-              personalizado de chefe privado, criando menus únicos adaptados aos
-              seus gostos e ocasiões especiais.
-            </p>
-            <p class="text-charcoal/80 text-lg leading-relaxed">
-              Desde jantares íntimos a celebrações familiares, cada experiência
-              é cuidadosamente planeada e executada com o mesmo rigor e paixão
-              que caracteriza o nosso catering. Para além de momentos especiais,
-              disponibilizamos também um serviço de organização semanal de
-              refeições, pensado para quem procura equilíbrio, qualidade e
-              praticidade no dia a dia — com propostas caseiras, variadas e
-              ajustadas às suas preferências, sempre com atenção ao detalhe e
-              serviço impecável.
-            </p>
-
-            <ul
-              class="flex flex-col gap-3 pt-6 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-5"
-              role="list"
-              aria-label="Serviços do Chefe Privado"
-            >
-              <li
-                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
-              >
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-5 h-5 flex-shrink-0"
-                  aria-hidden="true"
-                ></i>
-                <span
-                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
-                  >Menus Personalizados</span
-                >
-              </li>
-              <li
-                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
-              >
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-5 h-5 flex-shrink-0"
-                  aria-hidden="true"
-                ></i>
-                <span
-                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
-                  >Preparação ao Vivo</span
-                >
-              </li>
-              <li
-                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
-              >
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-5 h-5 flex-shrink-0"
-                  aria-hidden="true"
-                ></i>
-                <span
-                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
-                  >Serviço Completo de Mesa</span
-                >
-              </li>
-              <li
-                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
-              >
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-5 h-5 flex-shrink-0"
-                  aria-hidden="true"
-                ></i>
-                <span
-                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
-                  >Organização Semanal de Refeições</span
-                >
-              </li>
-              <li
-                class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60"
-              >
-                <i
-                  data-lucide="check-circle"
-                  class="text-brandGold w-5 h-5 flex-shrink-0"
-                  aria-hidden="true"
-                ></i>
-                <span
-                  class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words"
-                  >Experiência Exclusiva e Intimista</span
-                >
-              </li>
-            </ul>
-
-            <div class="pt-6">
-              <a
-                href="#contact"
-                class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brandBlue hover:text-white transition-all duration-300 transform hover:scale-105"
-              >
-                Solicitar Orçamento
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Parcerias Section -->
-    <section
-      id="partnerships"
-      class="pt-24 md:pt-32 pb-12 md:pb-16 bg-cream relative"
-    >
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-          <span
-            class="text-brandGold uppercase tracking-widest font-bold text-sm"
-            >Trabalhamos em Conjunto</span
-          >
-          <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">
-            Nossas Parcerias
-          </h2>
-          <p class="text-charcoal/70 text-lg leading-relaxed">
-            A 100 PRATOS valoriza colaborações estratégicas com parceiros que
-            partilham os nossos valores de qualidade, autenticidade e
-            excelência. Trabalhamos com os melhores fornecedores para oferecer
-            experiências gastronómicas completas.
-          </p>
-        </div>
-
-        <!-- Call to Action for New Partners -->
-        <div
-          class="bg-white rounded-2xl p-8 md:p-12 mb-16 shadow-lg border border-sand"
-        >
-          <div class="text-center max-w-2xl mx-auto">
-            <h3 class="font-serif text-3xl md:text-4xl text-brandBlue mb-4">
-              Quer ser nosso parceiro?
-            </h3>
-            <p class="text-charcoal/80 text-lg mb-8 leading-relaxed">
-              Estamos abertos a parcerias com espaços, produtores de vinhos,
-              serviços de bar, especialistas em decoração e outros profissionais
-              que complementem os nossos serviços. Se partilha a nossa paixão
-              pela excelência e pelo detalhe, vamos conversar.
-            </p>
-            <a
-              href="#contact"
-              class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brandBlue hover:text-white transition-all duration-300 transform hover:scale-105"
-            >
-              Fale Connosco
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Reviews / Social Proof -->
-    <section class="pt-12 md:pt-16 pb-24 md:pb-32 bg-cream">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-          <span
-            class="text-brandGold uppercase tracking-widest font-bold text-sm"
-            >O Que Dizem Sobre Nós</span
-          >
-          <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">
-            Testemunhos
-          </h2>
-          <p class="text-charcoal/70 text-lg leading-relaxed">
-            A satisfação dos nossos clientes é a nossa maior recompensa. Conheça
-            as experiências de quem já confiou na 100 PRATOS.
-          </p>
-        </div>
-
-        <!-- Reviews Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Review 1 -->
-          <div
-            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div class="flex items-start gap-4 mb-6">
-              <div class="flex-shrink-0">
-                <i
-                  data-lucide="quote"
-                  class="w-10 h-10 text-brandGold opacity-30"
-                ></i>
-              </div>
-              <p class="text-charcoal/80 text-lg leading-relaxed italic">
-                "O que nos fez escolher a 100 Pratos foi a sua clara
-                diferenciação no mercado. O conceito de finger food inspirado na
-                gastronomia portuguesa permitiu-nos mostrar aos nossos
-                colaboradores internacionais a nossa identidade, tradição e
-                cultura de uma forma sofisticada e memorável."
-              </p>
-            </div>
-            <div class="border-t border-sand pt-6 flex items-center gap-4">
-              <div
-                class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center"
-              >
-                <span class="font-serif font-bold text-brandBlue text-xl"
-                  >MO</span
-                >
-              </div>
-              <div>
-                <p class="font-bold text-brandBlue text-lg mb-1">
-                  Maria Oliveira
-                </p>
-                <p class="text-sm text-charcoal/60 uppercase tracking-wide">
-                  Gerente operações, Lisboa
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Review 2 -->
-          <div
-            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div class="flex items-start gap-4 mb-6">
-              <div class="flex-shrink-0">
-                <i
-                  data-lucide="quote"
-                  class="w-10 h-10 text-brandGold opacity-30"
-                ></i>
-              </div>
-              <p class="text-charcoal/80 text-lg leading-relaxed italic">
-                "Desde o primeiro contacto até ao dia do evento, todo o processo
-                foi simples e extremamente profissional. A Chef Rita acompanhou
-                cada detalhe, garantindo que o serviço refletisse exatamente o
-                que pretendíamos."
-              </p>
-            </div>
-            <div class="border-t border-sand pt-6 flex items-center gap-4">
-              <div
-                class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center"
-              >
-                <span class="font-serif font-bold text-brandBlue text-xl"
-                  >DM</span
-                >
-              </div>
-              <div>
-                <p class="font-bold text-brandBlue text-lg mb-1">
-                  Diana Morgado
-                </p>
-                <p class="text-sm text-charcoal/60 uppercase tracking-wide">
-                  Coordenadora clínica, Lisboa
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Review 3 -->
-          <div
-            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div class="flex items-start gap-4 mb-6">
-              <div class="flex-shrink-0">
-                <i
-                  data-lucide="quote"
-                  class="w-10 h-10 text-brandGold opacity-30"
-                ></i>
-              </div>
-              <p class="text-charcoal/80 text-lg leading-relaxed italic">
-                "Os sabores superaram todas as expectativas. Estava tudo muito
-                bom os nossos convidados adoraram"
-              </p>
-            </div>
-            <div class="border-t border-sand pt-6 flex items-center gap-4">
-              <div
-                class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center"
-              >
-                <span class="font-serif font-bold text-brandBlue text-xl"
-                  >DT</span
-                >
-              </div>
-              <div>
-                <p class="font-bold text-brandBlue text-lg mb-1">
-                  Daniela Teixeira
-                </p>
-                <p class="text-sm text-charcoal/60 uppercase tracking-wide">
-                  Empresária, Seixal
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Review 4 -->
-          <div
-            class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div class="flex items-start gap-4 mb-6">
-              <div class="flex-shrink-0">
-                <i
-                  data-lucide="quote"
-                  class="w-10 h-10 text-brandGold opacity-30"
-                ></i>
-              </div>
-              <p class="text-charcoal/80 text-lg leading-relaxed italic">
-                "A apresentação foi absolutamente irrepreensível. Cada peça
-                estava cuidadosamente decorada, e a estética inspirada na
-                tradição portuguesa trouxe elegância e identidade à mesa."
-              </p>
-            </div>
-            <div class="border-t border-sand pt-6 flex items-center gap-4">
-              <div
-                class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center"
-              >
-                <span class="font-serif font-bold text-brandBlue text-xl"
-                  >CP</span
-                >
-              </div>
-              <div>
-                <p class="font-bold text-brandBlue text-lg mb-1">
-                  Cristina Pelerigo
-                </p>
-                <p class="text-sm text-charcoal/60 uppercase tracking-wide">
-                  Directora executiva, Carnaxide
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section (Simplified CTA) -->
-    <section id="contact" class="py-24 bg-brandBlue relative z-30">
-      <!-- Decorative elements -->
-      <div
-        class="absolute top-0 right-0 w-64 h-64 bg-brandGold rounded-full blur-[100px] opacity-10 pointer-events-none"
-      ></div>
-      <div
-        class="absolute bottom-0 left-0 w-64 h-64 bg-cream rounded-full blur-[100px] opacity-5 pointer-events-none"
-      ></div>
-
-      <div class="max-w-4xl mx-auto px-6 relative z-10">
-        <div
-          class="bg-white/5 backdrop-blur-md rounded-[2rem] p-10 md:p-20 shadow-2xl border border-white/10 text-center"
-        >
-          <span
-            class="text-brandGold uppercase tracking-widest font-bold text-sm mb-4 block"
-            >Vamos Conversar</span
-          >
-
-          <h2
-            class="font-serif text-3xl md:text-6xl text-white mb-6 leading-tight"
-          >
-            Pronto para um Evento <br /><span class="italic text-brandGold"
-              >Inesquecível?</span
-            >
-          </h2>
-
-          <p
-            class="text-cream/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed"
-          >
-            Queremos ouvir as suas ideias. Clique no botão abaixo para nos
-            enviar um email e responderemos com uma proposta personalizada para
-            o seu momento especial.
-          </p>
-
-          <div class="flex flex-col items-center justify-center space-y-6">
-            <a
-              href="mailto:geral@100pratos.pt?subject=Pedido%20de%20Or%C3%A7amento%20-%20100%20Pratos"
-              class="inline-block bg-brandGold text-brandBlue px-12 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-[0_0_30px_rgba(207,160,17,0.3)]"
-            >
-              Pedir Orçamento Gratuito
-            </a>
-
-            <div
-              class="pt-4 flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8 text-cream/60 text-sm"
-            >
-              <span class="flex items-center gap-2">
-                <i data-lucide="mail" class="w-4 h-4"></i> geral@100pratos.pt
-              </span>
-              <span class="flex items-center gap-2">
-                <i data-lucide="mail" class="w-4 h-4"></i> eventos@100pratos.pt
-              </span>
-              <span class="flex items-center gap-2">
-                <i data-lucide="phone" class="w-4 h-4"></i> +351 962515636
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer
-      class="bg-white text-charcoal pt-10 pb-10 border-t border-black/5 relative z-20"
-    >
-      <div class="max-w-7xl mx-auto px-6">
-        <div
-          class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12"
-        >
-          <!-- Logo & Copyright -->
-          <div
-            class="flex flex-col items-center md:items-start text-center md:text-left"
-          >
-            <img
-              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
-              alt="100 Pratos Logo"
-              class="h-10 w-auto mb-3"
-            />
-            <p class="text-sm text-charcoal/70">
-              &copy; 2024 100 Pratos Catering. Todos os direitos reservados.
-            </p>
-          </div>
-
-          <!-- Social Links -->
-          <div class="flex items-center gap-6">
-            <a
-              href="https://www.instagram.com/100_pratos/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-brandBlue transition-colors flex items-center gap-2 text-sm text-charcoal/70"
-            >
-              <i data-lucide="instagram" class="w-4 h-4"></i>
-              Instagram
-            </a>
-            <a
-              href="#"
-              class="hover:text-brandBlue transition-colors flex items-center gap-2 text-sm text-charcoal/70"
-            >
-              <i data-lucide="facebook" class="w-4 h-4"></i>
-              Facebook
-            </a>
-          </div>
-
-          <!-- Contact Info -->
-          <div
-            class="flex flex-col items-center md:items-end text-center md:text-right space-y-2"
-          >
-            <a
-              href="mailto:geral@100pratos.pt"
-              class="flex items-center gap-2 hover:text-brandBlue transition-colors text-sm text-charcoal/70"
-            >
-              <i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i>
-              geral@100pratos.pt
-            </a>
-            <a
-              href="mailto:eventos@100pratos.pt"
-              class="flex items-center gap-2 hover:text-brandBlue transition-colors text-sm text-charcoal/70"
-            >
-              <i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i>
-              eventos@100pratos.pt
-            </a>
-            <a
-              href="tel:+351962515636"
-              class="flex items-center gap-2 hover:text-brandBlue transition-colors text-sm text-charcoal/70"
-            >
-              <i data-lucide="phone" class="w-4 h-4 flex-shrink-0"></i>
-              +351 962 515 636
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- STUDIO 17 AGENCY SIGNATURE -->
-    <!-- Position: Bottom of the viewport/page, distinct from client footer -->
-    <footer
-      class="bg-slate-950 text-slate-500 py-4 border-t border-slate-900 text-[11px] font-medium tracking-wide relative z-20"
-    >
-      <div
-        class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3"
-      >
-        <!-- Left: Client Copyright (Standard) -->
-        <div class="opacity-60 order-2 md:order-1">
-          &copy; 2024 100 Pratos Catering. Todos os direitos reservados.
-        </div>
-
-        <!-- Right: The "Studio 17" Value Badge -->
-        <div
-          class="flex flex-col md:flex-row items-center gap-2 md:gap-4 order-1 md:order-2"
-        >
-          <!-- Developed by -->
-          <a
-            href="https://studio17.world"
-            target="_blank"
-            class="group flex items-center gap-1.5 hover:text-white transition-colors duration-300"
-          >
-            <span>Developed by</span>
-            <span
-              class="text-slate-300 group-hover:text-white font-bold transition-colors"
-              >Studio 17</span
-            >
-          </a>
-
-          <span class="hidden md:block text-slate-800">|</span>
-
-          <!-- Maintenance by -->
-          <a
-            href="https://studio17.world"
-            target="_blank"
-            class="group flex items-center gap-1.5 hover:text-white transition-colors duration-300"
-          >
-            <!-- Green Pulse to signify Active Maintenance -->
-            <span class="relative flex h-1.5 w-1.5 mr-0.5">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
-              ></span>
-              <span
-                class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"
-              ></span>
-            </span>
-            <span>Maintenance by</span>
-            <span
-              class="text-slate-300 group-hover:text-white font-bold transition-colors"
-              >Studio 17</span
-            >
-          </a>
-        </div>
-      </div>
-    </footer>
-
-    <!-- MODAL - Tábuas de Setúbal -->
-    <div
-      id="modal-tabuas"
-      class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6"
-    >
-      <div
-        class="absolute inset-0 bg-brandBlue/90 backdrop-blur-sm"
-        onclick="closeModal('modal-tabuas')"
-      ></div>
-      <div
-        class="modal-content relative bg-cream w-full max-w-lg rounded-2xl shadow-2xl p-8 md:p-12 text-center"
-      >
-        <!-- Close Button -->
-        <button
-          onclick="closeModal('modal-tabuas')"
-          class="absolute top-4 right-4 text-brandBlue hover:text-brandGold transition-colors"
-        >
-          <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-
-        <!-- Modal Content -->
-        <h3 class="font-serif text-3xl md:text-4xl text-brandBlue mb-2">
-          Coleção Finger Foods
-        </h3>
-        <div class="w-16 h-1 bg-brandGold mx-auto mb-8"></div>
-
-        <div class="space-y-2 text-charcoal/80 mb-10">
-          <p
-            class="font-bold text-brandBlue mb-4 uppercase tracking-wider text-sm"
-          >
-            Disponível
-          </p>
-          <ul class="inline-block text-left space-y-3">
-            <li class="flex items-center gap-3 text-lg">
-              <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
-              PACK Pequeno Almoço
-            </li>
-            <li class="flex items-center gap-3 text-lg">
-              <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
-              PACK Coffee Break
-            </li>
-            <li class="flex items-center gap-3 text-lg">
-              <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
-              PACK Almoço
-            </li>
-            <li class="flex items-center gap-3 text-lg">
-              <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
-              Pack Lanche
-            </li>
-            <li class="flex items-center gap-3 text-lg">
-              <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
-              Pack Jantar
-            </li>
-          </ul>
-        </div>
-
-        <!-- PDF Download Button - Hidden until menus are ready -->
-        <a
-          href="#"
-          class="hidden inline-block bg-brandGold text-brandBlue px-8 py-3 rounded-full font-bold hover:bg-brandBlue hover:text-white transition-all duration-300 shadow-lg w-full md:w-auto"
-        >
-          Descarregar Pack Completo em PDF
+    <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+      <p class="hero-sub text-white uppercase tracking-[0.2em] text-sm md:text-base mb-4 font-bold">
+        Setúbal &bull; Lisboa &bull; Cascais
+      </p>
+      <h1 class="hero-title font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-6">
+        Catering finger food
+        <span class="italic text-brandGold">português</span><br />
+      </h1>
+      <p
+        class="hero-desc font-serif text-xl md:text-2xl max-w-2xl mx-auto mb-10 font-semibold text-white leading-relaxed">
+        Elevamos os seus convívios com <span class="text-brandGold font-bold">ingredientes mediterrânicos</span> e um
+        serviço de <span class="text-brandGold font-bold">catering boutique</span> sem complicações.
+      </p>
+      <div class="hero-cta opacity-0">
+        <a href="#menu"
+          class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-cream hover:text-brandBlue transition-all duration-300 transform hover:scale-105">
+          Ver Menu
         </a>
       </div>
     </div>
 
-    <!-- GSAP & Lenis Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-brandGold z-20">
+      <i data-lucide="arrow-down" class="w-6 h-6"></i>
+    </div>
+  </section>
 
-    <script>
-      // Initialize Icons
-      lucide.createIcons();
+  <!-- Concept Section -->
+  <section id="concept" class="py-24 md:py-32 bg-cream relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <!-- Image Collage -->
+        <div class="relative h-[600px] w-full hidden md:block concept-images">
+          <div
+            class="absolute top-0 left-0 w-3/4 h-3/4 overflow-hidden rounded-tr-[100px] rounded-bl-[40px] shadow-2xl z-10 border-4 border-white">
+            <img
+              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767812021/504370381_17856154566456062_3236832142533241151_n_1_hlef0x.png"
+              class="w-full h-full object-cover parallax-img" alt="Setup de Catering" />
+          </div>
+          <div
+            class="absolute bottom-0 right-0 w-2/3 h-2/3 overflow-hidden rounded-tl-[100px] rounded-br-[40px] shadow-2xl z-20 border-8 border-cream">
+            <img
+              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767811950/587362361_17874169929456062_2799684152371114719_n_r6s2xt.jpg"
+              class="w-full h-full object-cover parallax-img-slow" alt="Vinho e Queijo" />
+          </div>
+        </div>
 
-      // 1. Initialize Lenis (Smooth Scroll)
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        mouseMultiplier: 1,
-        smoothTouch: false,
-        touchMultiplier: 2,
-      });
+        <!-- Text Content -->
+        <div class="space-y-8 concept-text">
+          <span class="text-brandGold uppercase tracking-widest font-bold text-sm">A Nossa Essencia</span>
+          <h2 class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight">
+            Portugal Numa Dentada
+          </h2>
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            A 100 PRATOS apresenta a gastronomia portuguesa de norte a sul
+            através de finger foods.
+          </p>
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            Inspiramo-nos na tradição e valorizamos os produtos,
+            reinterpretando receitas clássicas em pequenas porções
+            sofisticadas, práticas e visualmente cuidadas. Oferecemos um
+            serviço de catering boutique onde sabor, origem e estética
+            convivem em perfeita harmonia, com simplicidade e rigor.
+          </p>
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+          <ul class="space-y-4 pt-4">
+            <li class="flex items-center space-x-3">
+              <i data-lucide="check-circle" class="text-brandGold w-6 h-6"></i>
+              <span class="font-serif text-xl text-brandBlue">Receitas Tradicionais Portuguesas</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <i data-lucide="check-circle" class="text-brandGold w-6 h-6"></i>
+              <span class="font-serif text-xl text-brandBlue">Ingredientes Mediterrânicos Frescos</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <i data-lucide="check-circle" class="text-brandGold w-6 h-6"></i>
+              <span class="font-serif text-xl text-brandBlue">Empratamento cuidado e pronto a servir</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chef Rita Braz Section -->
+  <section id="chef" class="py-24 bg-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <!-- Text Content (Left on desktop) -->
+        <div class="order-2 md:order-1 space-y-6">
+          <span class="text-brandGold uppercase tracking-widest font-bold text-sm">As Mãos por Trás do Sabor</span>
+          <h2 class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight">
+            Conheça a Chef <span class="italic">Rita Braz</span>
+          </h2>
+
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            Apaixonada pela cozinha, Rita encontra na criação de sabores uma
+            forma de construir memórias sensoriais que ficam no tempo.
+          </p>
+
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            Os seus valores nascem da família e dos amigos, acreditando que
+            são essas ligações que sustentam o equilíbrio da vida. É nesse
+            círculo que se revela cuidadora, atenta e generosa — alguém que
+            oferece afeto, escuta com presença e comunica carinho em cada
+            gesto.
+          </p>
+
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            Na sua vida profissional, transporta essa mesma essência, com uma
+            abordagem próxima, prática e profundamente humana.
+          </p>
+
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            A determinação e a garra são o motor que a impulsiona a superar
+            expectativas, guiando cada projeto com compromisso, entrega e o
+            melhor de si.
+          </p>
+
+          <div class="pt-6 relative">
+            <i data-lucide="quote" class="w-10 h-10 text-brandGold/30 absolute -top-2 left-0"></i>
+            <p class="font-serif text-2xl text-brandBlue italic relative z-10 pl-6 border-l-4 border-brandGold">
+              "Cozinhar é a minha forma de dar amor."
+            </p>
+            <p class="mt-2 pl-6 font-bold text-sm uppercase tracking-wide text-brandGold">
+              — Rita Braz
+            </p>
+          </div>
+        </div>
+
+        <!-- Image (Right on desktop) -->
+        <div class="order-1 md:order-2 relative flex justify-center">
+          <div class="relative w-full max-w-md aspect-[4/5]">
+            <!-- Decor background blob -->
+            <div
+              class="absolute inset-0 bg-brandBlue rounded-tr-[80px] rounded-bl-[80px] transform translate-x-4 translate-y-4 opacity-10">
+            </div>
+
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771145975/Last_c5phtz.png"
+              alt="Chef Rita Braz"
+              class="w-full h-full object-cover rounded-tr-[80px] rounded-bl-[80px] shadow-xl relative z-10" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee Separator (Seamless Infinite) -->
+  <div class="marquee bg-brandBlue py-6 border-y border-brandBlue/10 relative z-10">
+    <div class="marquee__track">
+      <div class="marquee__group">
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Finger Food</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+        <span class="text-white/70">•</span>
+      </div>
+
+      <!-- exact duplicate -->
+      <div class="marquee__group" aria-hidden="true">
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif text-white mx-8">Finger Food</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif text-white mx-8">Sem Complicações</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Sabores Autênticos</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Finger Food</span>
+        <span class="text-white/70">•</span>
+        <span class="text-2xl md:text-4xl font-serif italic text-brandGold mx-8">Feito em Portugal</span>
+        <span class="text-white/70">•</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Section -->
+  <section id="menu" class="py-24 bg-sand/30">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 max-w-3xl mx-auto">
+        <span class="text-brandGold uppercase tracking-widest font-bold text-sm">O Que Servimos à Mesa</span>
+        <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">
+          Sabores que Reúnem
+        </h2>
+        <p class="text-charcoal/70 mb-8">
+          Do clássico Bacalhau aos finger foods vegetarianos e veganos, o
+          nosso menu foi desenhado para impacto visual e diversidade.
+          Incluímos opções para todos os gostos e necessidades alimentares.
+        </p>
+      </div>
+
+      <!-- Grid (3 items: 1.Finger Foods 2.Tábuas 3.Vinhos - ordem otimizada para mobile) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 1º: Coleção de Finger Foods -->
+        <div
+          class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-1">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770625920/Finger_Foods_qrjymq.jpg"
+              alt="Coleção de Finger Foods"
+              class="menu-img w-full h-full object-cover transition-transform duration-700" />
+          </div>
+          <div class="p-8 flex-grow">
+            <div class="mb-2">
+              <h3 class="font-serif text-2xl text-brandBlue mb-2">
+                Coleção Finger Foods
+              </h3>
+              <span
+                class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
+                Desde €10/pp
+              </span>
+            </div>
+            <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
+              Uma composição de diferentes tipos de finger foods que percorrem
+              sabores clássicos e contemporâneos — dos croquetes de alheira ao
+              bacalhau com broa e mousse de chocolate. Incluímos opções
+              vegetarianas e veganas, como croquetes de legumes, folhado de
+              batata-doce com cebola caramelizada, gaspacho alentejano e
+              açorda de alho-francês.
+            </p>
+            <p class="text-xs text-brandGold/80 mb-4 italic flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4"></i> Nota: As
+              Tábuas de Setúbal já incluem uma opção vegana e vegetariana
+              completa.
+            </p>
+
+            <!-- Packs Tags -->
+            <div class="mb-6">
+              <strong class="text-brandBlue text-xs uppercase tracking-wide block mb-3">Disponível</strong>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Pequeno Almoço</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Coffee Break</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Almoço</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Lanche</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Cocktail</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Jantar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2º: Tábuas de Setúbal -->
+        <div
+          class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-2">
+          <div class="h-64 overflow-hidden relative">
+            <img
+              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770983327/Gemini_Generated_Image_5n11b5n11b5n11b5_wzyoe9.png"
+              alt="Tábuas de Setúbal" class="menu-img w-full h-full object-cover transition-transform duration-700" />
+          </div>
+          <div class="p-8 flex-grow flex flex-col">
+            <div class="mb-2">
+              <h3 class="font-serif text-2xl text-brandBlue mb-2">
+                Tábuas de Setúbal
+              </h3>
+              <span
+                class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
+                Desde €6/pp
+              </span>
+            </div>
+            <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
+              Uma seleção luxuosa de Queijo de Azeitão, presunto curado, mel
+              local, nozes e pão rústico artesanal.
+            </p>
+
+            <!-- Details List -->
+            <div class="space-y-4 mb-6 text-sm text-charcoal/80 bg-sand/20 p-4 rounded-lg">
+              <div>
+                <strong class="text-brandBlue block mb-1">Tábua de Queijos, Enchidos e Fruta</strong>
+                <p class="text-xs opacity-80">
+                  Queijo de ovelha amanteigado, cabra curado, fresco, paio,
+                  presunto, salpicão.
+                </p>
+              </div>
+              <div>
+                <strong class="text-brandBlue block mb-1">Tábua Vegana e Vegetariana</strong>
+                <p class="text-xs opacity-80">
+                  Charcutaria vegetal, húmus, fruta, seleção de queijos
+                  portugueses.
+                </p>
+              </div>
+              <div>
+                <strong class="text-brandBlue block mb-1">Tábua de Pães Regionais</strong>
+                <p class="text-xs opacity-80">
+                  Charcutaria vegetal, queijos vegetais (caju), ervas
+                  aromáticas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3º: Refrescos & Vinhos -->
+        <div
+          class="menu-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col order-3">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop"
+              alt="Vinhos e Bebidas" class="menu-img w-full h-full object-cover transition-transform duration-700" />
+          </div>
+          <div class="p-8 flex-grow">
+            <div class="mb-2">
+              <h3 class="font-serif text-2xl text-brandBlue mb-2">
+                Refrescos & Vinhos
+              </h3>
+              <span
+                class="inline-block text-xs font-semibold uppercase tracking-wider text-brandGold bg-brandGold/10 px-2.5 py-1 rounded-md">
+                Desde €4/pp
+              </span>
+            </div>
+            <p class="text-sm text-charcoal/60 mb-6 leading-relaxed">
+              Uma seleção refrescante e reconfortante para acompanhar todos os
+              momentos, desde infusões aromáticas a sumos naturais, café e
+              vinhos selecionados.
+            </p>
+
+            <!-- Packs Tags -->
+            <div class="mb-6">
+              <strong class="text-brandBlue text-xs uppercase tracking-wide block mb-3">Disponível</strong>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Pequeno Almoço</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Coffee Break</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Almoço</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Lanche</span>
+                <span class="px-3 py-1 bg-sand text-brandBlue text-xs rounded-full font-semibold">Jantar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="https://drive.google.com/file/d/1oJ2vzGD__xh1x78SvdevwuvfOkvaxMdT/view?usp=sharing" target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brandBlue hover:text-white transition-all duration-300 transform hover:scale-105">
+          Ver Menu Completo
+        </a>
+      </div>
+
+      <!-- PDF Download Button - Hidden until menus are ready -->
+      <div class="text-center mt-12 hidden">
+        <a href="#"
+          class="inline-block border border-brandBlue text-brandBlue px-8 py-3 rounded-full hover:bg-brandBlue hover:text-white transition-all duration-300 font-bold">Descarregar
+          Menu Packs em PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chefe Privado Section -->
+  <section id="private-chef" class="py-24 md:py-32 bg-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start md:items-center">
+        <!-- Image (Left on desktop) -->
+        <div class="order-1 md:order-1 relative flex justify-center">
+          <div class="relative w-full max-w-lg aspect-[4/5]">
+            <!-- Decor background blob -->
+            <div
+              class="absolute inset-0 bg-brandGold rounded-tl-[80px] rounded-br-[80px] transform -translate-x-4 -translate-y-4 opacity-10">
+            </div>
+            <img
+              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771954253/WhatsApp_Image_2026-02-23_at_17.18.03_zrtyal.jpg"
+              alt="Chefe Privado"
+              class="w-full h-full object-cover rounded-tl-[80px] rounded-br-[80px] shadow-xl relative z-10" />
+          </div>
+        </div>
+
+        <!-- Text Content (Right on desktop) -->
+        <div class="order-2 md:order-2 space-y-8 private-chef-text">
+          <span class="text-brandGold uppercase tracking-widest font-bold text-sm">Serviço Exclusivo</span>
+          <h2 class="font-serif text-4xl md:text-5xl text-brandBlue leading-tight">
+            Chefe <span class="italic">Privado</span>
+          </h2>
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            Leve a experiência gastronómica da 100 PRATOS diretamente para a
+            sua casa ou espaço privado. A Rita Braz oferece um serviço
+            personalizado de chefe privado, criando menus únicos adaptados aos
+            seus gostos e ocasiões especiais.
+          </p>
+          <p class="text-charcoal/80 text-lg leading-relaxed">
+            Desde jantares íntimos a celebrações familiares, cada experiência
+            é cuidadosamente planeada e executada com o mesmo rigor e paixão
+            que caracteriza o nosso catering. Para além de momentos especiais,
+            disponibilizamos também um serviço de organização semanal de
+            refeições, pensado para quem procura equilíbrio, qualidade e
+            praticidade no dia a dia — com propostas caseiras, variadas e
+            ajustadas às suas preferências, sempre com atenção ao detalhe e
+            serviço impecável.
+          </p>
+
+          <ul class="flex flex-col gap-3 pt-6 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-5" role="list"
+            aria-label="Serviços do Chefe Privado">
+            <li class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60">
+              <i data-lucide="check-circle" class="text-brandGold w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+              <span class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words">Menus
+                Personalizados</span>
+            </li>
+            <li class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60">
+              <i data-lucide="check-circle" class="text-brandGold w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+              <span class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words">Preparação ao Vivo</span>
+            </li>
+            <li class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60">
+              <i data-lucide="check-circle" class="text-brandGold w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+              <span class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words">Serviço Completo de
+                Mesa</span>
+            </li>
+            <li class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60">
+              <i data-lucide="check-circle" class="text-brandGold w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+              <span class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words">Organização Semanal de
+                Refeições</span>
+            </li>
+            <li class="flex items-center gap-3 rounded-xl bg-sand/40 py-3.5 pl-4 pr-4 border-l-4 border-brandGold/60">
+              <i data-lucide="check-circle" class="text-brandGold w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+              <span class="font-serif text-brandBlue text-base md:text-lg min-w-0 break-words">Experiência Exclusiva e
+                Intimista</span>
+            </li>
+          </ul>
+
+          <div class="pt-6">
+            <a href="#contact"
+              class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brandBlue hover:text-white transition-all duration-300 transform hover:scale-105">
+              Solicitar Orçamento
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parcerias Section -->
+  <section id="partnerships" class="pt-24 md:pt-32 pb-12 md:pb-16 bg-cream relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 max-w-3xl mx-auto">
+        <span class="text-brandGold uppercase tracking-widest font-bold text-sm">Trabalhamos em Conjunto</span>
+        <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">
+          Nossas Parcerias
+        </h2>
+        <p class="text-charcoal/70 text-lg leading-relaxed">
+          A 100 PRATOS valoriza colaborações estratégicas com parceiros que
+          partilham os nossos valores de qualidade, autenticidade e
+          excelência. Trabalhamos com os melhores fornecedores para oferecer
+          experiências gastronómicas completas.
+        </p>
+      </div>
+
+      <!-- Call to Action for New Partners -->
+      <div class="bg-white rounded-2xl p-8 md:p-12 mb-16 shadow-lg border border-sand">
+        <div class="text-center max-w-2xl mx-auto">
+          <h3 class="font-serif text-3xl md:text-4xl text-brandBlue mb-4">
+            Quer ser nosso parceiro?
+          </h3>
+          <p class="text-charcoal/80 text-lg mb-8 leading-relaxed">
+            Estamos abertos a parcerias com espaços, produtores de vinhos,
+            serviços de bar, especialistas em decoração e outros profissionais
+            que complementem os nossos serviços. Se partilha a nossa paixão
+            pela excelência e pelo detalhe, vamos conversar.
+          </p>
+          <a href="#contact"
+            class="inline-block bg-brandGold text-brandBlue px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brandBlue hover:text-white transition-all duration-300 transform hover:scale-105">
+            Fale Connosco
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews / Social Proof -->
+  <section class="pt-12 md:pt-16 pb-24 md:pb-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 max-w-3xl mx-auto">
+        <span class="text-brandGold uppercase tracking-widest font-bold text-sm">O Que Dizem Sobre Nós</span>
+        <h2 class="font-serif text-4xl md:text-6xl text-brandBlue mt-4 mb-6">
+          Testemunhos
+        </h2>
+        <p class="text-charcoal/70 text-lg leading-relaxed">
+          A satisfação dos nossos clientes é a nossa maior recompensa. Conheça
+          as experiências de quem já confiou na 100 PRATOS.
+        </p>
+      </div>
+
+      <!-- Reviews Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Review 1 -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0">
+              <i data-lucide="quote" class="w-10 h-10 text-brandGold opacity-30"></i>
+            </div>
+            <p class="text-charcoal/80 text-lg leading-relaxed italic">
+              "O que nos fez escolher a 100 Pratos foi a sua clara
+              diferenciação no mercado. O conceito de finger food inspirado na
+              gastronomia portuguesa permitiu-nos mostrar aos nossos
+              colaboradores internacionais a nossa identidade, tradição e
+              cultura de uma forma sofisticada e memorável."
+            </p>
+          </div>
+          <div class="border-t border-sand pt-6 flex items-center gap-4">
+            <div
+              class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center">
+              <span class="font-serif font-bold text-brandBlue text-xl">MO</span>
+            </div>
+            <div>
+              <p class="font-bold text-brandBlue text-lg mb-1">
+                Maria Oliveira
+              </p>
+              <p class="text-sm text-charcoal/60 uppercase tracking-wide">
+                Gerente operações, Lisboa
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0">
+              <i data-lucide="quote" class="w-10 h-10 text-brandGold opacity-30"></i>
+            </div>
+            <p class="text-charcoal/80 text-lg leading-relaxed italic">
+              "Desde o primeiro contacto até ao dia do evento, todo o processo
+              foi simples e extremamente profissional. A Chef Rita acompanhou
+              cada detalhe, garantindo que o serviço refletisse exatamente o
+              que pretendíamos."
+            </p>
+          </div>
+          <div class="border-t border-sand pt-6 flex items-center gap-4">
+            <div
+              class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center">
+              <span class="font-serif font-bold text-brandBlue text-xl">DM</span>
+            </div>
+            <div>
+              <p class="font-bold text-brandBlue text-lg mb-1">
+                Diana Morgado
+              </p>
+              <p class="text-sm text-charcoal/60 uppercase tracking-wide">
+                Coordenadora clínica, Lisboa
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0">
+              <i data-lucide="quote" class="w-10 h-10 text-brandGold opacity-30"></i>
+            </div>
+            <p class="text-charcoal/80 text-lg leading-relaxed italic">
+              "Os sabores superaram todas as expectativas. Estava tudo muito
+              bom os nossos convidados adoraram"
+            </p>
+          </div>
+          <div class="border-t border-sand pt-6 flex items-center gap-4">
+            <div
+              class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center">
+              <span class="font-serif font-bold text-brandBlue text-xl">DT</span>
+            </div>
+            <div>
+              <p class="font-bold text-brandBlue text-lg mb-1">
+                Daniela Teixeira
+              </p>
+              <p class="text-sm text-charcoal/60 uppercase tracking-wide">
+                Empresária, Seixal
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0">
+              <i data-lucide="quote" class="w-10 h-10 text-brandGold opacity-30"></i>
+            </div>
+            <p class="text-charcoal/80 text-lg leading-relaxed italic">
+              "A apresentação foi absolutamente irrepreensível. Cada peça
+              estava cuidadosamente decorada, e a estética inspirada na
+              tradição portuguesa trouxe elegância e identidade à mesa."
+            </p>
+          </div>
+          <div class="border-t border-sand pt-6 flex items-center gap-4">
+            <div
+              class="w-16 h-16 rounded-full flex-shrink-0 border-2 border-brandGold/20 bg-brandGold/10 flex items-center justify-center">
+              <span class="font-serif font-bold text-brandBlue text-xl">CP</span>
+            </div>
+            <div>
+              <p class="font-bold text-brandBlue text-lg mb-1">
+                Cristina Pelerigo
+              </p>
+              <p class="text-sm text-charcoal/60 uppercase tracking-wide">
+                Directora executiva, Carnaxide
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section (Simplified CTA) -->
+  <section id="contact" class="py-24 bg-brandBlue relative z-30">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-brandGold rounded-full blur-[100px] opacity-10 pointer-events-none">
+    </div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-cream rounded-full blur-[100px] opacity-5 pointer-events-none">
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+      <div
+        class="bg-white/5 backdrop-blur-md rounded-[2rem] p-10 md:p-20 shadow-2xl border border-white/10 text-center">
+        <span class="text-brandGold uppercase tracking-widest font-bold text-sm mb-4 block">Vamos Conversar</span>
+
+        <h2 class="font-serif text-3xl md:text-6xl text-white mb-6 leading-tight">
+          Pronto para um Evento <br /><span class="italic text-brandGold">Inesquecível?</span>
+        </h2>
+
+        <p class="text-cream/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+          Queremos ouvir as suas ideias. Clique no botão abaixo para nos
+          enviar um email e responderemos com uma proposta personalizada para
+          o seu momento especial.
+        </p>
+
+        <div class="flex flex-col items-center justify-center space-y-6">
+          <a href="mailto:geral@100pratos.pt?subject=Pedido%20de%20Or%C3%A7amento%20-%20100%20Pratos"
+            class="inline-block bg-brandGold text-brandBlue px-12 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-[0_0_30px_rgba(207,160,17,0.3)]">
+            Pedir Orçamento Gratuito
+          </a>
+
+          <div
+            class="pt-4 flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8 text-cream/60 text-sm">
+            <span class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4"></i> geral@100pratos.pt
+            </span>
+            <span class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4"></i> eventos@100pratos.pt
+            </span>
+            <span class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-4 h-4"></i> +351 962515636
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white text-charcoal pt-10 pb-10 border-t border-black/5 relative z-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
+        <!-- Logo & Copyright -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+          <img
+            src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771147645/WhatsApp_Image_2026-02-12_at_12.43.30_1_-Photoroom_aq8dyc.png"
+            alt="100 Pratos Logo" class="h-10 w-auto mb-3" />
+          <p class="text-sm text-charcoal/70">
+            &copy; 2024 100 Pratos Catering. Todos os direitos reservados.
+          </p>
+        </div>
+
+        <!-- Social Links -->
+        <div class="flex items-center gap-6">
+          <a href="https://www.instagram.com/100_pratos/" target="_blank" rel="noopener noreferrer"
+            class="hover:text-brandBlue transition-colors flex items-center gap-2 text-sm text-charcoal/70">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61574602306815&ref=PRODASH_UPSELL_xav_ig_profile_page_web"
+            target="_blank" rel="noopener noreferrer"
+            class="hover:text-brandBlue transition-colors flex items-center gap-2 text-sm text-charcoal/70">
+            <i data-lucide="facebook" class="w-4 h-4"></i>
+            Facebook
+          </a>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="flex flex-col items-center md:items-end text-center md:text-right space-y-2">
+          <a href="mailto:geral@100pratos.pt"
+            class="flex items-center gap-2 hover:text-brandBlue transition-colors text-sm text-charcoal/70">
+            <i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i>
+            geral@100pratos.pt
+          </a>
+          <a href="mailto:eventos@100pratos.pt"
+            class="flex items-center gap-2 hover:text-brandBlue transition-colors text-sm text-charcoal/70">
+            <i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i>
+            eventos@100pratos.pt
+          </a>
+          <a href="tel:+351962515636"
+            class="flex items-center gap-2 hover:text-brandBlue transition-colors text-sm text-charcoal/70">
+            <i data-lucide="phone" class="w-4 h-4 flex-shrink-0"></i>
+            +351 962 515 636
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- STUDIO 17 AGENCY SIGNATURE -->
+  <!-- Position: Bottom of the viewport/page, distinct from client footer -->
+  <footer
+    class="bg-slate-950 text-slate-500 py-4 border-t border-slate-900 text-[11px] font-medium tracking-wide relative z-20">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3">
+      <!-- Left: Client Copyright (Standard) -->
+      <div class="opacity-60 order-2 md:order-1">
+        &copy; 2024 100 Pratos Catering. Todos os direitos reservados.
+      </div>
+
+      <!-- Right: The "Studio 17" Value Badge -->
+      <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 order-1 md:order-2">
+        <!-- Developed by -->
+        <a href="https://studio17.world" target="_blank"
+          class="group flex items-center gap-1.5 hover:text-white transition-colors duration-300">
+          <span>Developed by</span>
+          <span class="text-slate-300 group-hover:text-white font-bold transition-colors">Studio 17</span>
+        </a>
+
+        <span class="hidden md:block text-slate-800">|</span>
+
+        <!-- Maintenance by -->
+        <a href="https://studio17.world" target="_blank"
+          class="group flex items-center gap-1.5 hover:text-white transition-colors duration-300">
+          <!-- Green Pulse to signify Active Maintenance -->
+          <span class="relative flex h-1.5 w-1.5 mr-0.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </span>
+          <span>Maintenance by</span>
+          <span class="text-slate-300 group-hover:text-white font-bold transition-colors">Studio 17</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL - Tábuas de Setúbal -->
+  <div id="modal-tabuas" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6">
+    <div class="absolute inset-0 bg-brandBlue/90 backdrop-blur-sm" onclick="closeModal('modal-tabuas')"></div>
+    <div class="modal-content relative bg-cream w-full max-w-lg rounded-2xl shadow-2xl p-8 md:p-12 text-center">
+      <!-- Close Button -->
+      <button onclick="closeModal('modal-tabuas')"
+        class="absolute top-4 right-4 text-brandBlue hover:text-brandGold transition-colors">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <!-- Modal Content -->
+      <h3 class="font-serif text-3xl md:text-4xl text-brandBlue mb-2">
+        Coleção Finger Foods
+      </h3>
+      <div class="w-16 h-1 bg-brandGold mx-auto mb-8"></div>
+
+      <div class="space-y-2 text-charcoal/80 mb-10">
+        <p class="font-bold text-brandBlue mb-4 uppercase tracking-wider text-sm">
+          Disponível
+        </p>
+        <ul class="inline-block text-left space-y-3">
+          <li class="flex items-center gap-3 text-lg">
+            <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
+            PACK Pequeno Almoço
+          </li>
+          <li class="flex items-center gap-3 text-lg">
+            <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
+            PACK Coffee Break
+          </li>
+          <li class="flex items-center gap-3 text-lg">
+            <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
+            PACK Almoço
+          </li>
+          <li class="flex items-center gap-3 text-lg">
+            <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
+            Pack Lanche
+          </li>
+          <li class="flex items-center gap-3 text-lg">
+            <i data-lucide="check-circle" class="w-5 h-5 text-brandGold"></i>
+            Pack Jantar
+          </li>
+        </ul>
+      </div>
+
+      <!-- PDF Download Button - Hidden until menus are ready -->
+      <a href="#"
+        class="hidden inline-block bg-brandGold text-brandBlue px-8 py-3 rounded-full font-bold hover:bg-brandBlue hover:text-white transition-all duration-300 shadow-lg w-full md:w-auto">
+        Descarregar Pack Completo em PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- GSAP & Lenis Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    // 1. Initialize Lenis (Smooth Scroll)
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
       requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
-      // Sync GSAP with Lenis
-      gsap.registerPlugin(ScrollTrigger);
+    // Sync GSAP with Lenis
+    gsap.registerPlugin(ScrollTrigger);
 
-      // 2. Animations
-      const tl = gsap.timeline();
+    // 2. Animations
+    const tl = gsap.timeline();
 
-      // Loader Animation
-      tl.to('.loader img', {
-        y: -50,
-        opacity: 0,
-        duration: 1,
-        delay: 1.5,
-        ease: 'power4.in',
+    // Loader Animation
+    tl.to('.loader img', {
+      y: -50,
+      opacity: 0,
+      duration: 1,
+      delay: 1.5,
+      ease: 'power4.in',
+    })
+      .to('.loader', {
+        yPercent: -100,
+        duration: 1.2,
+        ease: 'power4.inOut',
       })
-        .to('.loader', {
-          yPercent: -100,
-          duration: 1.2,
-          ease: 'power4.inOut',
-        })
-        // Hero Reveal
-        .from(
-          '.hero-sub',
-          {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-          },
-          '-=0.5',
-        )
-        .from(
-          '.hero-title',
-          {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-          },
-          '-=0.6',
-        )
-        .from(
-          '.hero-desc',
-          {
-            y: 30,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-          },
-          '-=0.8',
-        )
-        .to(
-          '.hero-cta',
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-          },
-          '-=0.6',
-        );
-
-      // Parallax Effect for Hero Image
-      gsap.to('.hero-img', {
-        scrollTrigger: {
-          trigger: 'body',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
+      // Hero Reveal
+      .from(
+        '.hero-sub',
+        {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
         },
-        yPercent: 20,
-        scale: 1.0,
+        '-=0.5',
+      )
+      .from(
+        '.hero-title',
+        {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+        },
+        '-=0.6',
+      )
+      .from(
+        '.hero-desc',
+        {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+        },
+        '-=0.8',
+      )
+      .to(
+        '.hero-cta',
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        },
+        '-=0.6',
+      );
+
+    // Parallax Effect for Hero Image
+    gsap.to('.hero-img', {
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+      yPercent: 20,
+      scale: 1.0,
+    });
+
+    // Navbar Scroll Trigger REMOVED - Always transparent
+
+    // Mobile Menu Logic
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    let isMenuOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        mobileMenu.classList.remove('translate-x-full');
+      } else {
+        mobileMenu.classList.add('translate-x-full');
+      }
+    });
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        isMenuOpen = false;
+        mobileMenu.classList.add('translate-x-full');
       });
+    });
 
-      // Navbar Scroll Trigger REMOVED - Always transparent
+    // Modal Logic
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      lenis.stop(); // Stop Lenis scroll
+    }
 
-      // Mobile Menu Logic
-      const menuBtn = document.getElementById('mobile-menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const mobileLinks = document.querySelectorAll('.mobile-link');
-      let isMenuOpen = false;
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
+      lenis.start(); // Resume Lenis scroll
+    }
 
-      menuBtn.addEventListener('click', () => {
-        isMenuOpen = !isMenuOpen;
-        if (isMenuOpen) {
-          mobileMenu.classList.remove('translate-x-full');
-        } else {
-          mobileMenu.classList.add('translate-x-full');
-        }
-      });
-
-      mobileLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-          isMenuOpen = false;
-          mobileMenu.classList.add('translate-x-full');
+    // Close on escape key
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        const modals = document.querySelectorAll('.modal-overlay.active');
+        modals.forEach((modal) => {
+          closeModal(modal.id);
         });
-      });
+      }
+    });
+  </script>
 
-      // Modal Logic
-      function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        lenis.stop(); // Stop Lenis scroll
+  <style>
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee__track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      animation: marquee 18s linear infinite;
+    }
+
+    .marquee__group {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    /* Move exactly the width of the first group */
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
       }
 
-      function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-        lenis.start(); // Resume Lenis scroll
+      to {
+        transform: translateX(-50%);
       }
+    }
 
-      // Close on escape key
-      document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-          const modals = document.querySelectorAll('.modal-overlay.active');
-          modals.forEach((modal) => {
-            closeModal(modal.id);
-          });
-        }
-      });
-    </script>
-
-    <style>
-      .marquee {
-        overflow: hidden;
-        white-space: nowrap;
-      }
-
+    @media (prefers-reduced-motion: reduce) {
       .marquee__track {
-        display: flex;
-        width: max-content;
-        will-change: transform;
-        animation: marquee 18s linear infinite;
+        animation: none;
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
       }
 
-      .marquee__group {
-        display: inline-flex;
-        align-items: center;
-        flex-shrink: 0;
+      to {
+        transform: translateX(-50%);
       }
+    }
 
-      /* Move exactly the width of the first group */
-      @keyframes marquee {
-        from {
-          transform: translateX(0);
-        }
-        to {
-          transform: translateX(-50%);
-        }
+    /* optional: respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .marquee__track {
+        animation: none;
       }
+    }
+  </style>
+</body>
 
-      @media (prefers-reduced-motion: reduce) {
-        .marquee__track {
-          animation: none;
-        }
-      }
-
-      @keyframes marquee {
-        from {
-          transform: translateX(0);
-        }
-
-        to {
-          transform: translateX(-50%);
-        }
-      }
-
-      /* optional: respect reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        .marquee__track {
-          animation: none;
-        }
-      }
-    </style>
-  </body>
 </html>
