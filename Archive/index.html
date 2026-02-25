@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio 17</title>
+  <meta name="description" content="Subscription-based marketing agency. Websites that sell. €50/month." />
+  <link rel="icon" type="image/png"
+    href="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770803115/FavIcon_gtzgb7.png" />
+
+  <!-- Fonts: Added weight 800 for Extra Bold -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            primary: '#2563EB', // Electric Blue
+            dark: '#0F172A',
+            light: '#F8FAFC',
+            surface: '#FFFFFF',
+          },
+          animation: {
+            blob: 'blob 10s infinite',
+          },
+          keyframes: {
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Custom CSS for Lenis & Utilities -->
+  <style>
+    html.lenis {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+
+    /* Utility */
+    .clip-text-image {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      background-image: linear-gradient(to right, #2563eb, #4f46e5);
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.9);
+      /* Slightly more opaque for mobile readability */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Initial state for animations */
+    .hero-reveal,
+    .scroll-reveal {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .will-change-transform {
+      will-change: transform, opacity;
+    }
+
+    /* Logo Animation Utilities */
+    /* Studio text hidden by default */
+    .logo-studio {
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* On nav hover, reveal Studio (Desktop) */
+    @media (min-width: 768px) {
+      #navbar:hover .logo-studio {
+        max-width: 100px;
+        opacity: 1;
+        margin-right: 0.15em;
+      }
+    }
+
+    /* Blob animation stagger delays */
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+
+    .animation-delay-4000 {
+      animation-delay: 4s;
+    }
+
+    /* Respect reduced-motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+
+      .hero-reveal,
+      .scroll-reveal {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+      }
+
+      .animate-blob {
+        animation: none !important;
+      }
+
+      #marquee-track {
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-light text-slate-800 antialiased selection:bg-primary selection:text-white overflow-x-hidden pb-24 md:pb-0">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 glass-nav transition-transform duration-300 transform translate-y-0" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Animated Text Logo -->
+      <a href="#"
+        class="flex items-center text-dark hover:text-primary transition-colors duration-300 select-none py-2">
+        <!-- "Studio" - Hidden by default, reveals on hover (Desktop only via CSS) -->
+        <span class="logo-studio font-extrabold text-xl tracking-[-0.05em]">Studio</span>
+        <!-- "17" - Always visible -->
+        <span class="font-extrabold text-xl tracking-[-0.12em]">17</span>
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+        <a href="#process" class="hover:text-primary transition-colors">How it Works</a>
+        <a href="articles.html" class="hover:text-primary transition-colors">Articles</a>
+        <a href="partners.html" class="hover:text-primary transition-colors">Partners</a>
+        <a href="#testimonials" class="hover:text-primary transition-colors">Testimonials</a>
+        <a href="#pricing" class="hover:text-primary transition-colors">Pricing</a>
+        <a href="#faq" class="hover:text-primary transition-colors">FAQ</a>
+      </div>
+
+      <!-- Desktop Button -->
+      <a href="#pricing"
+        class="hidden md:inline-flex bg-dark text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-colors duration-300 shadow-lg shadow-primary/20">
+        Start Now
+      </a>
+
+      <!-- Mobile Menu Toggle - Increased Hit Area -->
+      <!-- Added -mr-2 and p-2 to increase touch target without moving visual alignment -->
+      <button id="mobile-menu-toggle"
+        class="md:hidden text-2xl text-dark focus:outline-none -mr-2 p-2 w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+        <i class="ph-bold ph-list"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu"
+    class="fixed inset-0 h-[100dvh] bg-white z-[60] transform translate-x-full transition-transform duration-300 flex flex-col items-center md:hidden">
+    <!-- Header Replication inside Mobile Menu for Perfect Alignment -->
+    <!-- Added pt-4 pb-4 to match navbar padding exactly -->
+    <div class="w-full max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Full Logo (Static) -->
+      <a href="#" class="flex items-center text-dark select-none py-2">
+        <span class="font-extrabold text-xl tracking-[-0.05em] mr-[0.15em]">Studio</span>
+        <span class="font-extrabold text-xl tracking-[-0.12em]">17</span>
+      </a>
+
+      <!-- Close Button (Aligned with Hamburger) -->
+      <!-- Same sizing logic: -mr-2 p-2 w-12 h-12 to match toggle button exactly -->
+      <button id="mobile-menu-close"
+        class="text-2xl text-dark focus:outline-none -mr-2 p-2 w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+        <i class="ph-bold ph-x"></i>
+      </button>
+    </div>
+
+    <!-- Navigation Links (Centered vertically in remaining space) -->
+    <div class="flex-1 flex flex-col justify-center items-center gap-8 text-center pb-20">
+      <a href="#process" class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">How it
+        Works</a>
+      <a href="articles.html"
+        class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">Articles</a>
+      <a href="partners.html"
+        class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">Partners</a>
+      <a href="#testimonials"
+        class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">Testimonials</a>
+      <a href="#pricing"
+        class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">Pricing</a>
+      <a href="#faq" class="mobile-link text-3xl font-bold text-dark hover:text-primary transition-colors">FAQ</a>
+    </div>
+  </div>
+
+  <!-- Mobile Floating CTA -->
+  <div class="fixed bottom-6 left-6 right-6 z-40 md:hidden pointer-events-none">
+    <a href="#pricing"
+      class="pointer-events-auto block w-full bg-primary text-white text-center py-4 rounded-full font-bold text-lg shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
+      Start Your Project
+    </a>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
+    <div
+      class="absolute top-0 -left-4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob will-change-transform">
+    </div>
+    <div
+      class="absolute top-0 -right-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000 will-change-transform">
+    </div>
+    <div
+      class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000 will-change-transform">
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+      <div
+        class="hero-reveal inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-semibold text-primary mb-6">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </span>
+        Accepting New Clients for Oct
+      </div>
+
+      <h1 class="hero-reveal text-5xl md:text-7xl font-bold tracking-tight text-dark mb-6 leading-[1.1]">
+        Websites that <br />
+        actually <span class="clip-text-image">sell.</span>
+      </h1>
+
+      <p class="hero-reveal text-lg md:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+        Stop overpaying for stagnant websites. We build high-conversion,
+        modern sites for a simple subscription. No huge upfront fees. Just
+        results.
+      </p>
+
+      <div class="hero-reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="mailto:contact@studio17.world"
+          class="w-full sm:w-auto px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-xl shadow-primary/30 hover:scale-105 hover:bg-blue-600 transition-all duration-300 hidden md:inline-block">
+          Get Started • €50/mo
+        </a>
+        <a href="mailto:contact@studio17.world"
+          class="w-full sm:w-auto px-8 py-4 bg-primary text-white rounded-full font-semibold shadow-xl shadow-primary/30 md:hidden block">
+          Get Started • €50/mo
+        </a>
+
+        <a href="#process"
+          class="w-full sm:w-auto px-8 py-4 bg-white text-dark border border-slate-200 rounded-full font-semibold hover:border-slate-300 hover:bg-slate-50 transition-all duration-300 flex items-center justify-center gap-2 group">
+          View Process
+          <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+        </a>
+      </div>
+
+      <div class="hero-reveal mt-12 pt-8 border-t border-slate-200/60">
+        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-4 mt-2">
+          Trusted by modern businesses
+        </p>
+        <div
+          class="flex flex-wrap justify-center items-center gap-6 md:gap-10">
+          <!-- forsocialmedialovers -->
+          <a href="https://forsocialmedialovers.com/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center p-2 rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+            aria-label="Visit ForSocialMediaLovers">
+            <img
+              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769355058/ChatGPT_Image_Sep_17_2025_03_37_53_PM_wdzcud.avif"
+              alt="ForSocialMediaLovers logo" class="h-8 md:h-10 w-auto object-contain" />
+          </a>
+
+          <!-- 3CX -->
+          <a href="https://www.3cx.com/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center p-2 rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+            aria-label="Visit 3CX">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1771146262/3CX_logo_d2gykr.svg" alt="3CX logo"
+              class="h-8 md:h-10 w-auto object-contain" />
+          </a>
+
+          <!-- FareHarbor -->
+          <a href="https://fareharbor.com/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center p-2 rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+            aria-label="Visit FareHarbor">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769719783/FareHarborLogo_tb2mfj.png"
+              alt="FareHarbor logo" class="h-8 md:h-10 w-auto object-contain" />
+          </a>
+
+          <!-- Lodgify -->
+          <a href="https://www.lodgify.com/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center p-2 rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+            aria-label="Visit Lodgify">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1769620957/Lodgify_Logo_cliemn.png"
+              alt="Lodgify logo" class="h-8 md:h-10 w-auto object-contain" />
+          </a>
+
+          <!-- 100 Pratos -->
+          <a href="https://www.instagram.com/100_pratos/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center p-2 rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+            aria-label="Visit 100 Pratos on Instagram">
+            <img
+              src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1767807311/501449218_17852143143456062_1859588940980405510_n-removebg-preview_auw6f5.png"
+              alt="100 Pratos logo" class="h-8 md:h-10 w-auto object-contain" />
+          </a>
+
+          <!-- Phos Optics -->
+          <a href="https://www.phosoptics.com/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center p-2 rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+            aria-label="Visit Phos Optics">
+            <img src="https://res.cloudinary.com/dnxoz9alm/image/upload/v1770807357/LOGOPHOS_a2sbkp.svg"
+              alt="Phos Optics logo" class="h-8 md:h-10 w-auto object-contain" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Value Prop / Bento Grid -->
+  <section class="py-24 bg-white" id="features">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">
+          Why subscribe?
+        </h2>
+        <p class="text-slate-500 max-w-xl mx-auto">
+          Traditional agencies charge €5k+ and disappear. We stay with you,
+          optimizing and updating your site to convert leads.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Large Card -->
+        <div
+          class="md:col-span-2 bg-light rounded-3xl p-8 md:p-12 relative overflow-hidden group scroll-reveal hover:shadow-lg transition-all duration-500 border border-slate-100 will-change-transform">
+          <div class="relative z-10">
+            <div
+              class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary text-2xl mb-6">
+              <i class="ph-duotone ph-rocket-launch"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-dark mb-3">
+              Conversion First Design
+            </h3>
+            <p class="text-slate-500 max-w-sm">
+              We don't just make it look pretty. We engineer the layout, copy,
+              and CTAs to turn visitors into paying customers.
+            </p>
+          </div>
+          <div
+            class="absolute right-0 bottom-0 w-64 h-64 bg-gradient-to-tl from-blue-100 to-transparent rounded-tl-full opacity-50 group-hover:scale-110 transition-transform duration-700">
+          </div>
+        </div>
+
+        <!-- Tall Card -->
+        <div
+          class="bg-dark text-white rounded-3xl p-8 relative overflow-hidden scroll-reveal md:row-span-2 flex flex-col justify-between group hover:shadow-xl hover:shadow-primary/20 transition-all duration-500 will-change-transform">
+          <div>
+            <div
+              class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white text-2xl mb-6 backdrop-blur-sm">
+              <i class="ph-duotone ph-infinity"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">Always Evolving</h3>
+            <p class="text-slate-400">
+              Websites shouldn't rot. Your subscription includes monthly
+              updates, copy tweaks, and tech maintenance.
+            </p>
+          </div>
+          <div class="mt-8 pt-8 border-t border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+              <span class="text-sm font-medium text-slate-300">99.9% Uptime Hosting Included</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Small Card 1 -->
+        <div
+          class="bg-light rounded-3xl p-8 scroll-reveal hover:shadow-lg transition-all duration-500 border border-slate-100 group will-change-transform">
+          <div
+            class="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-primary text-xl mb-4">
+            <i class="ph-duotone ph-lightning"></i>
+          </div>
+          <h3 class="text-xl font-bold text-dark mb-2">Blazing Fast</h3>
+          <p class="text-sm text-slate-500">
+            Google Core Vitals optimized. 90+ PageSpeed scores standard.
+          </p>
+        </div>
+
+        <!-- Small Card 2 -->
+        <div
+          class="bg-light rounded-3xl p-8 scroll-reveal hover:shadow-lg transition-all duration-500 border border-slate-100 group will-change-transform">
+          <div
+            class="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-primary text-xl mb-4">
+            <i class="ph-duotone ph-pen-nib"></i>
+          </div>
+          <h3 class="text-xl font-bold text-dark mb-2">Pro Copywriting</h3>
+          <p class="text-sm text-slate-500">
+            We write the headlines that hook your customers. Included.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-24 bg-slate-50" id="process">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-16 scroll-reveal">
+        <span class="text-primary font-semibold text-sm tracking-widest uppercase">The Process</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2">
+          From zero to launch in 7 days
+        </h2>
+      </div>
+
+      <div class="relative">
+        <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-slate-200 transform md:-translate-x-1/2"></div>
+
+        <div class="relative flex flex-col md:flex-row items-center mb-16 group scroll-reveal will-change-transform">
+          <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0 pl-20 md:pl-0">
+            <h3 class="text-xl font-bold text-dark">1. Strategy & Setup</h3>
+            <p class="text-slate-500 mt-2">
+              You pay the €200 setup fee. We jump on a call to understand your
+              business, offer, and target audience.
+            </p>
+          </div>
+          <div
+            class="absolute left-0 md:left-1/2 w-16 h-16 bg-white border-4 border-slate-100 rounded-full flex items-center justify-center transform md:-translate-x-1/2 z-10 shadow-sm group-hover:scale-110 group-hover:border-primary transition-all duration-300">
+            <span class="text-lg font-bold text-primary">01</span>
+          </div>
+          <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
+        </div>
+
+        <div class="relative flex flex-col md:flex-row items-center mb-16 group scroll-reveal will-change-transform">
+          <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
+          <div
+            class="absolute left-0 md:left-1/2 w-16 h-16 bg-white border-4 border-slate-100 rounded-full flex items-center justify-center transform md:-translate-x-1/2 z-10 shadow-sm group-hover:scale-110 group-hover:border-primary transition-all duration-300">
+            <span class="text-lg font-bold text-primary">02</span>
+          </div>
+          <div class="md:w-1/2 md:pl-12 pl-20">
+            <h3 class="text-xl font-bold text-dark">2. Design & Build</h3>
+            <p class="text-slate-500 mt-2">
+              We design a modern, mobile-first site and write persuasive copy.
+              No templates, just tailored design.
+            </p>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col md:flex-row items-center mb-16 group scroll-reveal will-change-transform">
+          <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0 pl-20 md:pl-0">
+            <h3 class="text-xl font-bold text-dark">3. Launch</h3>
+            <p class="text-slate-500 mt-2">
+              We connect your domain, set up SEO basics, and push live. You
+              are now open for business.
+            </p>
+          </div>
+          <div
+            class="absolute left-0 md:left-1/2 w-16 h-16 bg-white border-4 border-slate-100 rounded-full flex items-center justify-center transform md:-translate-x-1/2 z-10 shadow-sm group-hover:scale-110 group-hover:border-primary transition-all duration-300">
+            <span class="text-lg font-bold text-primary">03</span>
+          </div>
+          <div class="md:w-1/2 md:pl-12 hidden md:block"></div>
+        </div>
+
+        <div class="relative flex flex-col md:flex-row items-center group scroll-reveal will-change-transform">
+          <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
+          <div
+            class="absolute left-0 md:left-1/2 w-16 h-16 bg-dark border-4 border-slate-200 rounded-full flex items-center justify-center transform md:-translate-x-1/2 z-10 shadow-lg shadow-primary/20 group-hover:scale-110 transition-all duration-300">
+            <i class="ph-bold ph-arrows-clockwise text-white text-xl"></i>
+          </div>
+          <div class="md:w-1/2 md:pl-12 pl-20">
+            <h3 class="text-xl font-bold text-dark">4. Growth (Monthly)</h3>
+            <p class="text-slate-500 mt-2">
+              The €50/mo kicks in. We host, maintain, and tweak your site
+              based on data. Cancel anytime.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials (Infinite Marquee) -->
+  <section class="py-24 bg-white border-t border-slate-100 overflow-hidden" id="testimonials">
+    <div class="w-full">
+      <div class="text-center mb-12 scroll-reveal px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">
+          Loved by Founders
+        </h2>
+        <p class="text-slate-500 max-w-xl mx-auto">
+          See what our partners say about their growth since switching to our
+          subscription model.
+        </p>
+      </div>
+
+      <!-- Marquee Container — JS clones cards and drives the animation -->
+      <div class="relative w-full overflow-hidden">
+        <div id="marquee-track" class="flex w-max gap-8 py-4">
+          <!-- Card: Alex Rivera -->
+          <div
+            class="marquee-card w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
+            <div>
+              <div class="flex text-yellow-400 mb-5 text-sm">
+                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                  class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+              </div>
+              <p class="text-dark mb-6 font-medium leading-relaxed">
+                "The best investment we made this year. The design is
+                stunning, but the conversion rate increase is what really
+                matters. We saw a 40% jump in leads in month one."
+              </p>
+            </div>
+            <div class="flex items-center gap-4 pt-4 border-t border-slate-200/50">
+              <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=Alex+R&background=0F172A&color=fff" alt="Alex R"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p class="text-sm font-bold text-dark">Alex Rivera</p>
+                <p class="text-xs text-slate-500">Founder, TechFlow</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Sarah Miller -->
+          <div
+            class="marquee-card w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
+            <div>
+              <div class="flex text-yellow-400 mb-5 text-sm">
+                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                  class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+              </div>
+              <p class="text-dark mb-6 font-medium leading-relaxed">
+                "I was skeptical about the subscription model, but having a
+                developer on call for €50 is insane value. They updated our
+                pricing page in minutes."
+              </p>
+            </div>
+            <div class="flex items-center gap-4 pt-4 border-t border-slate-200/50">
+              <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=Sarah+M&background=2563EB&color=fff" alt="Sarah M"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p class="text-sm font-bold text-dark">Sarah Miller</p>
+                <p class="text-xs text-slate-500">CEO, GreenLeaf</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: David Kim -->
+          <div
+            class="marquee-card w-[350px] md:w-[400px] bg-light p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition-shadow flex-shrink-0 flex flex-col justify-between">
+            <div>
+              <div class="flex text-yellow-400 mb-5 text-sm">
+                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                  class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+              </div>
+              <p class="text-dark mb-6 font-medium leading-relaxed">
+                "Agency delivered a site that actually looks professional. No
+                more DIY builders. The setup fee is a bargain for the quality
+                of work they deliver."
+              </p>
+            </div>
+            <div class="flex items-center gap-4 pt-4 border-t border-slate-200/50">
+              <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=David+K&background=0F172A&color=fff" alt="David K"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p class="text-sm font-bold text-dark">David Kim</p>
+                <p class="text-xs text-slate-500">Director, Studio 8</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-24 bg-white" id="pricing">
+    <div class="max-w-7xl mx-auto px-6">
+      <div
+        class="max-w-4xl mx-auto bg-dark rounded-[2.5rem] p-8 md:p-16 text-center relative overflow-hidden scroll-reveal shadow-2xl shadow-slate-900/20 will-change-transform">
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-lg bg-primary/20 blur-[100px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="relative z-10">
+          <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+            Simple, transparent pricing.
+          </h2>
+          <p class="text-slate-400 mb-10 text-lg">
+            Everything you need to grow online. No hidden fees.
+          </p>
+
+          <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-12">
+            <div class="text-center">
+              <p class="text-slate-400 text-sm uppercase tracking-wider mb-2">
+                One-time Setup
+              </p>
+              <p class="text-4xl font-bold text-white">€200</p>
+            </div>
+            <div class="hidden md:block w-px h-16 bg-white/10"></div>
+            <div class="w-16 h-px bg-white/10 md:hidden"></div>
+            <div class="text-center">
+              <p class="text-slate-400 text-sm uppercase tracking-wider mb-2">
+                Monthly Subscription
+              </p>
+              <p class="text-4xl font-bold text-primary">
+                €50<span class="text-lg text-slate-500 font-normal">/mo</span>
+              </p>
+            </div>
+          </div>
+
+          <ul class="text-left max-w-md mx-auto space-y-4 mb-12 text-slate-300">
+            <li class="flex items-center gap-3">
+              <i class="ph-fill ph-check-circle text-primary text-xl"></i>
+              <span>Custom Conversion Design</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="ph-fill ph-check-circle text-primary text-xl"></i>
+              <span>Professional Copywriting</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="ph-fill ph-check-circle text-primary text-xl"></i>
+              <span>Hosting & SSL Included</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="ph-fill ph-check-circle text-primary text-xl"></i>
+              <span>Unlimited Content Updates</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="ph-fill ph-check-circle text-primary text-xl"></i>
+              <span>Cancel Anytime</span>
+            </li>
+          </ul>
+
+          <a href="mailto:hello@marketingagency.com"
+            class="inline-block w-full md:w-auto px-10 py-5 bg-primary text-white text-lg font-bold rounded-full hover:bg-blue-600 hover:scale-105 transition-all duration-300 shadow-xl shadow-primary/25">
+            Start Your Project
+          </a>
+          <p class="mt-6 text-xs text-slate-500">
+            Secure payment via Stripe. Money-back guarantee on setup if not
+            satisfied with design.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 bg-light" id="faq">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-dark mb-12 text-center scroll-reveal">
+        Frequently Asked Questions
+      </h2>
+
+      <div class="space-y-4">
+        <details
+          class="group bg-white rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow scroll-reveal">
+          <summary class="flex items-center justify-between gap-4 font-semibold text-dark">
+            What exactly do I get for €50/month?
+            <i class="ph-bold ph-caret-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="mt-4 text-slate-500 leading-relaxed">
+            You get secure hosting, SSL certificate, daily backups, and most
+            importantly: ongoing support. Need to change a photo? Update a
+            price? Reword a paragraph? Just email us, and it's done within 24
+            hours.
+          </div>
+        </details>
+
+        <details
+          class="group bg-white rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow scroll-reveal">
+          <summary class="flex items-center justify-between gap-4 font-semibold text-dark">
+            Is the €200 setup fee refundable?
+            <i class="ph-bold ph-caret-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="mt-4 text-slate-500 leading-relaxed">
+            Yes. If we present the initial design and you absolutely hate it
+            (and we can't fix it to your liking), we will refund the setup fee
+            completely. We share the risk.
+          </div>
+        </details>
+
+        <details
+          class="group bg-white rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow scroll-reveal">
+          <summary class="flex items-center justify-between gap-4 font-semibold text-dark">
+            Do I own the website?
+            <i class="ph-bold ph-caret-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="mt-4 text-slate-500 leading-relaxed">
+            This is a service, not a product purchase. As long as you
+            subscribe, the site is live. If you cancel, the site goes down (or
+            you can buy out the code for a one-time fee of €800).
+          </div>
+        </details>
+
+        <details
+          class="group bg-white rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow scroll-reveal">
+          <summary class="flex items-center justify-between gap-4 font-semibold text-dark">
+            How long does it take?
+            <i class="ph-bold ph-caret-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="mt-4 text-slate-500 leading-relaxed">
+            Typically 5-7 business days from the moment we have your content
+            info. We move fast so you can start selling fast.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+        <div class="mb-6 md:mb-0 text-center md:text-left">
+          <a href="#" class="inline-block mb-4 flex items-center gap-1 select-none">
+            <span class="font-extrabold text-2xl tracking-[-0.05em] text-dark">Studio</span>
+            <span class="font-extrabold text-2xl tracking-[-0.12em] text-dark">17</span>
+          </a>
+          <p class="text-slate-500 max-w-xs">
+            Helping small businesses win online with high-conversion design.
+          </p>
+        </div>
+        <div class="flex gap-8">
+          <a href="#"
+            class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-dark hover:bg-primary hover:text-white transition-colors"><i
+              class="ph-bold ph-twitter-logo"></i></a>
+          <a href="#"
+            class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-dark hover:bg-primary hover:text-white transition-colors"><i
+              class="ph-bold ph-instagram-logo"></i></a>
+          <a href="#"
+            class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-dark hover:bg-primary hover:text-white transition-colors"><i
+              class="ph-bold ph-linkedin-logo"></i></a>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+        <p>&copy; 2023 Marketing Agency. All rights reserved.</p>
+        <div class="flex gap-6 mt-4 md:mt-0">
+          <a href="#" class="hover:text-dark">Privacy</a>
+          <a href="#" class="hover:text-dark">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Skip animations if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    if (prefersReducedMotion) {
+      // Just show everything immediately
+      gsap.set('.hero-reveal, .scroll-reveal', { visibility: 'visible', opacity: 1, y: 0 });
+    } else {
+      // Set proper initial state: visible but transparent and offset downward
+      gsap.set('.hero-reveal', { visibility: 'visible', opacity: 0, y: 30 });
+      gsap.set('.scroll-reveal', { visibility: 'visible', opacity: 0, y: 40 });
+
+      // Hero Animation — staggered fade-up on page load
+      gsap.to('.hero-reveal', {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.12,
+        ease: 'power3.out',
+        delay: 0.15,
+      });
+
+      // Scroll Animation — fade-up when elements enter viewport
+      ScrollTrigger.batch('.scroll-reveal', {
+        onEnter: (elements) => {
+          gsap.to(elements, {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          });
+        },
+        start: 'top 90%',
+        once: true,
+      });
+    }
+
+    // Infinite Marquee — clone cards & use GSAP for seamless loop
+    (function initMarquee() {
+      const track = document.getElementById('marquee-track');
+      if (!track) return;
+
+      const cards = track.querySelectorAll('.marquee-card');
+      const gap = 32; // gap-8 = 32px
+
+      // Clone cards until we have enough to fill the screen + overflow
+      // We need at least 2 full sets for seamless looping
+      const originals = Array.from(cards);
+      for (let i = 0; i < 2; i++) {
+        originals.forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+        });
+      }
+
+      // Measure the width of one full set (original cards + their gaps)
+      const oneSetWidth = originals.reduce((sum, card) => sum + card.offsetWidth + gap, 0);
+
+      // GSAP tween — translate by exactly one set width, then repeat seamlessly
+      const marqueeTween = gsap.to(track, {
+        x: -oneSetWidth,
+        duration: 30,
+        ease: 'none',
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((x) => parseFloat(x) % oneSetWidth),
+        },
+      });
+
+      // Pause on hover (desktop), resume on leave
+      track.addEventListener('mouseenter', () => marqueeTween.pause());
+      track.addEventListener('mouseleave', () => marqueeTween.resume());
+    })();
+
+    // Mobile Menu Logic
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const menuClose = document.getElementById('mobile-menu-close');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function toggleMenu() {
+      mobileMenu.classList.toggle('translate-x-full');
+      document.body.classList.toggle('overflow-hidden');
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    menuClose.addEventListener('click', toggleMenu);
+    mobileLinks.forEach((link) => link.addEventListener('click', toggleMenu));
+
+    // Navbar Scroll Logic
+    let lastScroll = 0;
+    const navbar = document.getElementById('navbar');
+    const scrollThreshold = 10; // Only hide after scrolling this amount
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+
+      // Ignore scroll bounce at top/bottom or small movements
+      if (Math.abs(lastScroll - currentScroll) <= scrollThreshold) return;
+
+      if (currentScroll <= 0) {
+        navbar.classList.remove('-translate-y-full');
+        // reset
+      } else if (
+        currentScroll > lastScroll &&
+        !navbar.classList.contains('-translate-y-full')
+      ) {
+        // Scroll Down
+        navbar.classList.add('-translate-y-full');
+      } else if (
+        currentScroll < lastScroll &&
+        navbar.classList.contains('-translate-y-full')
+      ) {
+        // Scroll Up
+        navbar.classList.remove('-translate-y-full');
+      }
+      lastScroll = currentScroll;
+    });
+  </script>
+</body>
+
+</html>
