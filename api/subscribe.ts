@@ -1,4 +1,11 @@
 export default async function handler(req: any, res: any) {
+
+  const WEBAPP_URL = process.env.SHEETS_WEBAPP_URL || "";
+  const TOKEN = process.env.SHEETS_WEBAPP_TOKEN || "";
+
+  if (!WEBAPP_URL) return res.status(500).json({ ok: false, error: "missing_env_webapp_url" });
+  if (!TOKEN) return res.status(500).json({ ok: false, error: "missing_env_token" });
+
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "method_not_allowed" });
   }
