@@ -915,16 +915,26 @@
                         </p>
                     </div>
                     <div class="relative z-10 mt-auto">
-                        <form class="flex flex-col gap-3"
-                            onsubmit="alert('Checklist sent! Check your email.'); return false;">
-                            <input type="email" placeholder="Your best email"
+                        <form id="checklist-form" class="flex flex-col gap-3">
+                            <input
+                                id="checklist-email"
+                                type="email"
+                                placeholder="Your best email"
                                 class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-primary"
-                                required>
-                            <button type="submit"
-                                class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-blue-600 transition-colors">Get
-                                the checklist (free)</button>
-                            <p class="text-xs text-slate-400 text-center mt-2">Drop your email and we’ll send it over in
-                                minutes.</p>
+                                required
+                            />
+
+                            <button
+                                id="checklist-submit"
+                                type="submit"
+                                class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-blue-600 transition-colors"
+                            >
+                                Get the checklist (free)
+                            </button>
+
+                            <p id="checklist-msg" class="text-xs text-slate-400 text-center mt-2">
+                                Drop your email and we’ll send it over in minutes.
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -1185,6 +1195,57 @@
             lastScroll = currentScroll;
         });
     </script>
+
+    <script>
+        (function () {
+            const form = document.getElementById("checklist-form");
+            if (!form) return;
+
+            const input = document.getElementById("checklist-email");
+            const btn = document.getElementById("checklist-submit");
+            const msg = document.getElementById("checklist-msg");
+
+            form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = String(input.value || "").trim().toLowerCase();
+            if (!email) return;
+
+            // UI feedback
+            btn.disabled = true;
+            const oldBtn = btn.textContent;
+            btn.textContent = "Sending...";
+            msg.textContent = "Sending…";
+            
+            try {
+                const res = await fetch("/api/subscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    source: "hero-checklist",
+                }),
+                });
+
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok || data.ok === false) {
+                throw new Error(data.error || "subscribe_failed");
+                }
+
+                msg.textContent = "✅ Done. Check your email in the next minutes.";
+                input.value = "";
+            } catch (err) {
+                console.error(err);
+                msg.textContent = "❌ Something went wrong. Try again.";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = oldBtn;
+            }
+            });
+        })();
+    </script>
+    
 </body>
 
 </html>
