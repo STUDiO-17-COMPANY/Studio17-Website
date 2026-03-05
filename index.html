@@ -806,97 +806,123 @@
 
     <!-- SECÇÃO: Contacto -->
     <section id="contact" class="relative z-10 w-full bg-blackbox pt-20 md:pt-32 overflow-hidden">
-      
-      <!-- Círculo Abstrato (Posicionado na Direita) -->
-      <div class="absolute top-1/2 right-0 w-full md:w-[60%] h-[120vh] -translate-y-1/2 overflow-hidden pointer-events-none z-0 flex items-center justify-end graphic-container opacity-20" style="mask-image: linear-gradient(to right, transparent 0%, black 50%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 50%);">
-        <svg class="h-[120vh] w-auto translate-x-[20%]" viewBox="-200 -200 1400 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="ringGradContact" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#2563EB" stop-opacity="0.6"/>
-              <stop offset="30%" stop-color="#2563EB" stop-opacity="0.1"/>
-              <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <circle cx="500" cy="500" r="400" stroke="url(#ringGradContact)" stroke-width="80" stroke-linecap="round" class="blur-[10px]" stroke-dasharray="1600 2500" transform="rotate(90 500 500)"/>
-          <circle cx="500" cy="500" r="400" stroke="url(#ringGradContact)" stroke-width="40" stroke-linecap="round" class="blur-[3px]" stroke-dasharray="1600 2500" transform="rotate(90 500 500)"/>
-          <circle cx="500" cy="500" r="490" stroke="#2563EB" stroke-width="20" stroke-dasharray="0 60" stroke-linecap="round" class="opacity-30" />
-        </svg>
-      </div>
 
-      <div class="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start relative z-10 border-b border-white/10 pb-20 md:pb-32">
-        
-        <!-- Coluna Esquerda: Texto -->
-        <div class="lg:col-span-6 flex flex-col">
-          
-          <div class="inline-flex items-center gap-2 bg-gradient-to-r from-white/10 to-transparent backdrop-blur-md rounded-full pl-4 pr-16 py-1.5 mb-6 md:mb-8 w-max border-l border-white/20">
-            <div class="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
-            <span class="text-sm font-semibold tracking-wide text-white drop-shadow-md">Let's Talk</span>
-          </div>
-
-          <h2 class="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.15] tracking-tight mb-8">
-            Ready to build your<br>growth engine?
-          </h2>
-
-          <p class="text-lg md:text-xl lg:text-2xl text-slate-400 font-serif italic leading-relaxed max-w-[90%] mb-12">
-            Book a discovery call. We'll review your current setup and map out the highest-leverage changes you can make right now.
-          </p>
-
+        <!-- Círculo Abstrato (Posicionado na Direita) -->
+        <div class="absolute top-1/2 right-0 w-full md:w-[60%] h-[120vh] -translate-y-1/2 overflow-hidden pointer-events-none z-0 flex items-center justify-end graphic-container opacity-20"
+            style="mask-image: linear-gradient(to right, transparent 0%, black 50%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 50%);">
+            <svg class="h-[120vh] w-auto translate-x-[20%]" viewBox="-200 -200 1400 1400" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="ringGradContact" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#2563EB" stop-opacity="0.6" />
+                        <stop offset="30%" stop-color="#2563EB" stop-opacity="0.1" />
+                        <stop offset="100%" stop-color="#2563EB" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <circle cx="500" cy="500" r="400" stroke="url(#ringGradContact)" stroke-width="80"
+                    stroke-linecap="round" class="blur-[10px]" stroke-dasharray="1600 2500"
+                    transform="rotate(90 500 500)" />
+                <circle cx="500" cy="500" r="400" stroke="url(#ringGradContact)" stroke-width="40"
+                    stroke-linecap="round" class="blur-[3px]" stroke-dasharray="1600 2500"
+                    transform="rotate(90 500 500)" />
+                <circle cx="500" cy="500" r="490" stroke="#2563EB" stroke-width="20" stroke-dasharray="0 60"
+                    stroke-linecap="round" class="opacity-30" />
+            </svg>
         </div>
 
-        <!-- Coluna Direita: Formulário e Ações de Contacto -->
-        <div class="lg:col-span-5 lg:col-start-8 flex flex-col gap-10 lg:pt-2">
-          
-          <!-- Opção 1: Formulário Rápido -->
-          <div class="w-full">
-            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Drop us a line</p>
-            <form class="flex flex-col gap-4" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
-              <input type="email" placeholder="Your email address" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:bg-white/10 transition-all" required>
-              <textarea placeholder="Tell us about your current setup and goals..." rows="3" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:bg-white/10 transition-all resize-none" required></textarea>
-              
-              <button type="submit" class="w-max inline-flex items-center gap-3 group mt-2 focus:outline-none">
-                <div class="bg-primary text-white rounded-full px-6 py-3 font-bold text-sm tracking-wide transition-all group-hover:bg-blue-600 shadow-lg shadow-primary/20">
-                  Send Message
-                </div>
-                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center transition-all group-hover:bg-blue-600 group-hover:scale-105 shadow-primary/20">
-                   <i class="ph-bold ph-paper-plane-tilt text-lg"></i>
-                </div>
-              </button>
-            </form>
-          </div>
+        <div
+            class="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start relative z-10 border-b border-white/10 pb-20 md:pb-32">
 
-          <!-- Divisor -->
-          <div class="flex items-center gap-4 w-full">
-            <div class="h-px bg-white/10 flex-grow"></div>
-            <span class="text-xs font-bold text-slate-600 uppercase tracking-widest">OR</span>
-            <div class="h-px bg-white/10 flex-grow"></div>
-          </div>
+            <!-- Coluna Esquerda: Texto -->
+            <div class="lg:col-span-6 flex flex-col">
 
-          <!-- Opção 2: Marcar Reunião / Email Direto (Vertical Layout) -->
-          <div class="flex flex-col gap-8">
-            <div>
-              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Schedule a meeting</p>
-              <a href="#" class="inline-flex items-center gap-4 group text-white hover:text-primary transition-colors">
-                <div class="w-12 h-12 flex-shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:border-primary/30">
-                   <i class="ph-bold ph-calendar-plus text-xl"></i>
+                <div
+                    class="inline-flex items-center gap-2 bg-gradient-to-r from-white/10 to-transparent backdrop-blur-md rounded-full pl-4 pr-16 py-1.5 mb-6 md:mb-8 w-max border-l border-white/20">
+                    <div class="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                    </div>
+                    <span class="text-sm font-semibold tracking-wide text-white drop-shadow-md">Let's Talk</span>
                 </div>
-                <span class="font-semibold text-base tracking-wide">Book a Growth Call</span>
-              </a>
+
+                <h2
+                    class="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.15] tracking-tight mb-8">
+                    Ready to build your<br>growth engine?
+                </h2>
+
+                <p
+                    class="text-lg md:text-xl lg:text-2xl text-slate-400 font-serif italic leading-relaxed max-w-[90%] mb-12">
+                    Book a discovery call. We'll review your current setup and map out the highest-leverage changes you
+                    can make right now.
+                </p>
+
             </div>
 
-            <div>
-              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Direct inquiry</p>
-              <a href="mailto:contact@studio17.world" class="inline-flex items-center gap-4 group text-white hover:text-primary transition-colors">
-                <div class="w-12 h-12 flex-shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:border-primary/30">
-                   <i class="ph-bold ph-envelope-simple text-xl"></i>
+            <!-- Coluna Direita: Formulário e Ações de Contacto -->
+            <div class="lg:col-span-5 lg:col-start-8 flex flex-col gap-10 lg:pt-2">
+
+                <!-- Opção 1: Formulário Rápido -->
+                <div class="w-full">
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Drop us a line</p>
+                    <form class="flex flex-col gap-4"
+                        onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                        <input type="email" placeholder="Your email address"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:bg-white/10 transition-all"
+                            required>
+                        <textarea placeholder="Tell us about your current setup and goals..." rows="3"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:bg-white/10 transition-all resize-none"
+                            required></textarea>
+
+                        <button type="submit"
+                            class="w-max inline-flex items-center gap-3 group mt-2 focus:outline-none">
+                            <div
+                                class="bg-primary text-white rounded-full px-6 py-3 font-bold text-sm tracking-wide transition-all group-hover:bg-blue-600 shadow-lg shadow-primary/20">
+                                Send Message
+                            </div>
+                            <div
+                                class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center transition-all group-hover:bg-blue-600 group-hover:scale-105 shadow-primary/20">
+                                <i class="ph-bold ph-paper-plane-tilt text-lg"></i>
+                            </div>
+                        </button>
+                    </form>
                 </div>
-                <span class="font-semibold text-base tracking-wide">contact@studio17.world</span>
-              </a>
+
+                <!-- Divisor -->
+                <div class="flex items-center gap-4 w-full">
+                    <div class="h-px bg-white/10 flex-grow"></div>
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-widest">OR</span>
+                    <div class="h-px bg-white/10 flex-grow"></div>
+                </div>
+
+                <!-- Opção 2: Marcar Reunião / Email Direto (Vertical Layout) -->
+                <div class="flex flex-col gap-8">
+                    <div>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Schedule a meeting
+                        </p>
+                        <a href="https://calendar.app.google/Sz5iJwCW8h3EuRzt6" target="_blank"
+                            class="inline-flex items-center gap-4 group text-white hover:text-primary transition-colors">
+                            <div
+                                class="w-12 h-12 flex-shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:border-primary/30">
+                                <i class="ph-bold ph-calendar-plus text-xl"></i>
+                            </div>
+                            <span class="font-semibold text-base tracking-wide">Book a Growth Call</span>
+                        </a>
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Direct inquiry</p>
+                        <a href="mailto:contact@studio17.world"
+                            class="inline-flex items-center gap-4 group text-white hover:text-primary transition-colors">
+                            <div
+                                class="w-12 h-12 flex-shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:border-primary/30">
+                                <i class="ph-bold ph-envelope-simple text-xl"></i>
+                            </div>
+                            <span class="font-semibold text-base tracking-wide">contact@studio17.world</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
-          </div>
 
         </div>
-
-      </div>
     </section>
 
     <!-- RODAPÉ (Footer) Escuro -->
