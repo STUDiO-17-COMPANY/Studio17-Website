@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fifties Dinner | Parque das Nações</title>
-
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Lobster&family=Bebas+Neue&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -51,7 +48,7 @@
         :root {
             --cursor-size: 20px;
         }
-
+        
         body {
             background-color: #111;
             color: #F5F5F5;
@@ -62,56 +59,37 @@
         /* Cursor Personalizado */
         #cursor {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: var(--cursor-size);
-            height: var(--cursor-size);
-            border: 2px solid #FF007F;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
+            top: 0; left: 0; width: var(--cursor-size); height: var(--cursor-size);
+            border: 2px solid #FF007F; border-radius: 50%; pointer-events: none;
+            z-index: 9999; transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, background-color 0.3s;
             mix-blend-mode: difference;
         }
-
+        
         #cursor.hovered {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 0, 127, 0.5);
-            border-color: #00F0FF;
+            width: 50px; height: 50px;
+            background-color: rgba(255, 0, 127, 0.5); border-color: #00F0FF;
         }
 
         @media (max-width: 768px) {
-            #cursor {
-                display: none;
-            }
-
-            body {
-                cursor: auto;
-            }
+            #cursor { display: none; }
+            body { cursor: auto; }
         }
 
         /* Camada de Grão */
         .grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9000;
-            opacity: 0.05;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Padrão de Xadrez */
         .bg-checkers {
             background-color: #F5F5F5;
-            background-image:
-                linear-gradient(45deg, #000 25%, transparent 25%),
-                linear-gradient(-45deg, #000 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #000 75%),
+            background-image: 
+                linear-gradient(45deg, #000 25%, transparent 25%), 
+                linear-gradient(-45deg, #000 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #000 75%), 
                 linear-gradient(-45deg, transparent 75%, #000 75%);
             background-size: 60px 60px;
             background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
@@ -119,13 +97,8 @@
 
         /* Loader */
         .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed; inset: 0; background: #000;
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
         }
 
         .logo-glow {
@@ -135,7 +108,7 @@
         /* Textura de Fita Vintage */
         .vintage-tape {
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E");
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         /* Filtro de Mapas Escuros */
@@ -143,7 +116,6 @@
             filter: grayscale(1) invert(0.92) contrast(1.2);
             transition: filter 0.5s ease;
         }
-
         .map-container:hover iframe {
             filter: grayscale(0.2) invert(0) contrast(1);
         }
@@ -166,25 +138,20 @@
             padding: 20px;
             position: relative;
         }
-
         .marquee-frame::after {
             content: '';
             position: absolute;
-            top: -15px;
-            left: -15px;
-            right: -15px;
-            bottom: -15px;
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
             border: 2px solid #D4AF37;
             pointer-events: none;
         }
 
         .showtime-curtain {
             background: linear-gradient(90deg, #600 0%, #a00 50%, #600 100%);
-            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
         }
     </style>
 </head>
-
 <body class="antialiased">
 
     <div id="cursor"></div>
@@ -193,8 +160,9 @@
     <!-- Loader -->
     <div class="loader-overlay flex flex-col items-center">
         <div class="mb-8 opacity-0 loader-logo-wrapper">
-            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769294537/the_fifties_logo_rzemn8.jpg"
-                alt="Logótipo The Fifties" class="w-48 md:w-64 h-auto logo-glow rounded-full border-4 border-neon-pink">
+            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769294537/the_fifties_logo_rzemn8.jpg" 
+                 alt="Logótipo The Fifties" 
+                 class="w-48 md:w-64 h-auto logo-glow rounded-full border-4 border-neon-pink">
         </div>
         <div class="w-48 h-1 bg-gray-800 rounded overflow-hidden">
             <div class="loader-bar w-0 h-full bg-diner-teal"></div>
@@ -205,25 +173,25 @@
     <nav id="main-nav" class="fixed w-full z-50 top-0 left-0 px-6 py-6 text-white mix-blend-difference">
         <div class="flex justify-between items-center max-w-7xl mx-auto">
             <a href="#" class="hover-target flex items-center gap-3">
-                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769294537/the_fifties_logo_rzemn8.jpg"
-                    alt="Logo" class="h-12 w-12 rounded-full border-2 border-neon-pink object-cover">
+                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769294537/the_fifties_logo_rzemn8.jpg" 
+                     alt="Logo" class="h-12 w-12 rounded-full border-2 border-neon-pink object-cover">
                 <span class="text-xl font-script hidden sm:inline">The Fifties</span>
             </a>
-
+            
             <div class="flex items-center gap-8">
                 <div class="hidden md:flex gap-8 font-headline text-xl tracking-wider items-center">
                     <a href="#concept" class="hover:text-neon-pink transition-colors hover-target">Concept</a>
                     <a href="#menu" class="hover:text-neon-pink transition-colors hover-target">Menu</a>
                     <a href="#events" class="hover:text-neon-pink transition-colors hover-target">Showtime</a>
                     <a href="#location" class="hover:text-neon-pink transition-colors hover-target">Location</a>
-
+                    
                     <div class="flex gap-2 text-sm font-body border-l border-white/20 pl-6 ml-2">
                         <button class="hover:text-neon-pink transition-colors font-bold hover-target">PT</button>
                         <span class="opacity-30">|</span>
                         <button class="hover:text-neon-pink transition-colors opacity-50 hover-target">ENG</button>
                     </div>
                 </div>
-
+                
                 <button class="md:hidden text-2xl hover-target"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -234,21 +202,19 @@
         <!-- SECÇÃO HERO -->
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337235/fifties_space_1_d2uojx.jpg"
-                    alt="Interior do The Fifties" class="w-full h-full object-cover opacity-60 hero-bg scale-110">
+                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337235/fifties_space_1_d2uojx.jpg" 
+                     alt="Interior do The Fifties" class="w-full h-full object-cover opacity-60 hero-bg scale-110">
                 <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#111]"></div>
             </div>
 
             <div class="relative z-10 text-center flex flex-col items-center p-4">
                 <div class="overflow-hidden mb-2">
-                    <h2
-                        class="hero-subtitle text-diner-teal font-headline text-xl md:text-3xl tracking-[0.3em] uppercase translate-y-full">
+                    <h2 class="hero-subtitle text-diner-teal font-headline text-xl md:text-3xl tracking-[0.3em] uppercase translate-y-full">
                         Parque das Nações • Lisboa
                     </h2>
                 </div>
-
-                <h1
-                    class="hero-title text-7xl md:text-[10rem] font-script text-white leading-none rotate-[-5deg] mb-6 drop-shadow-2xl">
+                
+                <h1 class="hero-title text-7xl md:text-[10rem] font-script text-white leading-none rotate-[-5deg] mb-6 drop-shadow-2xl">
                     <span class="block neon-flicker">Fifties</span>
                     <span class="block text-neon-pink ml-12 md:ml-32">Dinner</span>
                 </h1>
@@ -257,16 +223,14 @@
                     Sabor autêntico, decoração vintage e o melhor Rock n' Roll de Lisboa.
                 </p>
 
-                <a href="#location"
-                    class="hover-target group relative inline-flex items-center justify-center px-10 py-5 overflow-hidden font-bold text-white bg-neon-pink rounded-full hover:bg-pink-600 transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)]">
+                <a href="#location" class="hover-target group relative inline-flex items-center justify-center px-10 py-5 overflow-hidden font-bold text-white bg-neon-pink rounded-full hover:bg-pink-600 transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)]">
                     <span class="relative font-headline tracking-widest text-2xl">Reservar Mesa</span>
                 </a>
             </div>
         </section>
 
         <!-- MARQUÊ VINTAGE -->
-        <div
-            class="bg-vintage-mustard vintage-tape text-black overflow-hidden py-4 transform -rotate-1 z-20 relative border-y-[3px] border-black border-dashed">
+        <div class="bg-vintage-mustard vintage-tape text-black overflow-hidden py-4 transform -rotate-1 z-20 relative border-y-[3px] border-black border-dashed">
             <div class="marquee-content whitespace-nowrap font-headline text-4xl flex gap-12 items-center">
                 <span>★ BURGERS ★ SHAKES ★ FRIES ★ ROCK N ROLL ★ VINTAGE VIBES ★</span>
                 <span>★ BURGERS ★ SHAKES ★ FRIES ★ ROCK N ROLL ★ VINTAGE VIBES ★</span>
@@ -279,46 +243,36 @@
         <section id="concept" class="relative py-24 md:py-32 bg-[#111] overflow-hidden">
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
                 <div class="concept-images relative h-[500px] w-full hidden md:block">
-                    <div
-                        class="absolute top-0 left-0 w-2/3 h-2/3 z-10 transform -rotate-6 border-4 border-white shadow-xl concept-img-1 overflow-hidden">
-                        <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337972/jukebox_pdcm34.jpg"
-                            class="w-full h-full object-cover" alt="Jukebox Original">
+                    <div class="absolute top-0 left-0 w-2/3 h-2/3 z-10 transform -rotate-6 border-4 border-white shadow-xl concept-img-1 overflow-hidden">
+                        <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337972/jukebox_pdcm34.jpg" class="w-full h-full object-cover" alt="Jukebox Original">
                     </div>
-                    <div
-                        class="absolute bottom-0 right-0 w-2/3 h-2/3 z-20 transform rotate-3 border-4 border-diner-teal shadow-2xl concept-img-2 overflow-hidden bg-black">
-                        <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337771/elvis_statue_b7ltdi.jpg"
-                            class="w-full h-full object-cover" alt="Estátua do Elvis">
+                    <div class="absolute bottom-0 right-0 w-2/3 h-2/3 z-20 transform rotate-3 border-4 border-diner-teal shadow-2xl concept-img-2 overflow-hidden bg-black">
+                        <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337771/elvis_statue_b7ltdi.jpg" class="w-full h-full object-cover" alt="Estátua do Elvis">
                     </div>
                 </div>
 
                 <div class="concept-text">
-                    <span class="text-diner-teal font-headline text-xl tracking-widest mb-2 block uppercase">O Nosso
-                        Mundo</span>
+                    <span class="text-diner-teal font-headline text-xl tracking-widest mb-2 block uppercase">O Nosso Mundo</span>
                     <h2 class="text-5xl md:text-7xl font-script text-white mb-6 leading-tight">
                         Nostalgia <br> <span class="text-neon-pink">ao vivo.</span>
                     </h2>
                     <p class="text-gray-400 font-body text-lg leading-relaxed mb-6">
-                        No coração do <strong class="text-white">Parque das Nações</strong>, o Fifties Dinner convida-te
-                        a viajar no tempo.
+                        No coração do <strong class="text-white">Parque das Nações</strong>, o Fifties Dinner convida-te a viajar no tempo.
                     </p>
                     <p class="text-gray-400 font-body text-lg mb-8">
-                        Decoração fiel aos anos 50, serviço atencioso e o ambiente perfeito para desligar da rotina
-                        moderna.
+                        Decoração fiel aos anos 50, serviço atencioso e o ambiente perfeito para desligar da rotina moderna.
                     </p>
-
+                    
                     <div class="flex gap-4">
-                        <div
-                            class="flex flex-col items-center justify-center bg-gray-900 p-4 rounded-lg w-24 border border-gray-800 hover-target transition-colors hover:border-diner-teal">
+                        <div class="flex flex-col items-center justify-center bg-gray-900 p-4 rounded-lg w-24 border border-gray-800 hover-target transition-colors hover:border-diner-teal">
                             <i class="fas fa-music text-2xl text-diner-teal mb-2"></i>
                             <span class="text-xs font-headline">Music</span>
                         </div>
-                        <div
-                            class="flex flex-col items-center justify-center bg-gray-900 p-4 rounded-lg w-24 border border-gray-800 hover-target transition-colors hover:border-neon-pink">
+                        <div class="flex flex-col items-center justify-center bg-gray-900 p-4 rounded-lg w-24 border border-gray-800 hover-target transition-colors hover:border-neon-pink">
                             <i class="fas fa-hamburger text-2xl text-neon-pink mb-2"></i>
                             <span class="text-xs font-headline">Taste</span>
                         </div>
-                        <div
-                            class="flex flex-col items-center justify-center bg-gray-900 p-4 rounded-lg w-24 border border-gray-800 hover-target transition-colors hover:border-vintage-mustard">
+                        <div class="flex flex-col items-center justify-center bg-gray-900 p-4 rounded-lg w-24 border border-gray-800 hover-target transition-colors hover:border-vintage-mustard">
                             <i class="fas fa-car-side text-2xl text-vintage-mustard mb-2"></i>
                             <span class="text-xs font-headline uppercase">Retro Car</span>
                         </div>
@@ -340,44 +294,33 @@
                     <!-- Gloom Shroom Burguer (Vegetariano) -->
                     <div class="menu-card bg-gray-100 p-2 rounded-xl hover-target flex flex-col h-full">
                         <div class="relative overflow-hidden rounded-lg mb-4 h-64">
-                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769339019/shroom_gloom_burguer_xsv6tq.jpg"
-                                alt="Gloom Shroom Burguer" class="w-full h-full object-cover">
-                            <div
-                                class="absolute top-4 left-4 bg-green-600 text-white font-bold px-3 py-1 rounded-full text-xs font-headline uppercase tracking-wider shadow-lg">
-                                Vegetariano</div>
+                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769339019/shroom_gloom_burguer_xsv6tq.jpg" alt="Gloom Shroom Burguer" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 bg-green-600 text-white font-bold px-3 py-1 rounded-full text-xs font-headline uppercase tracking-wider shadow-lg">Vegetariano</div>
                         </div>
                         <div class="p-4 text-center flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-headline text-3xl mb-2">Gloom Shroom Burguer</h3>
-                                <p class="text-gray-600 mb-4 text-sm leading-relaxed">Cogumelos trufados, queijo
-                                    mozzarella, cebola roxa, maionese de trufa, alface e tomate.</p>
+                                <p class="text-gray-600 mb-4 text-sm leading-relaxed">Cogumelos trufados, queijo mozzarella, cebola roxa, maionese de trufa, alface e tomate.</p>
                             </div>
                             <span class="text-2xl font-script text-diner-red mt-auto">13.90€</span>
                         </div>
                     </div>
 
                     <!-- Signature Shake -->
-                    <div
-                        class="menu-card bg-black p-2 rounded-xl text-white transform md:-translate-y-8 shadow-2xl hover-target flex flex-col h-full">
-                        <div
-                            class="h-64 overflow-hidden rounded-lg mb-4 bg-[#0a0a0a] flex items-center justify-center relative">
+                    <div class="menu-card bg-black p-2 rounded-xl text-white transform md:-translate-y-8 shadow-2xl hover-target flex flex-col h-full">
+                        <div class="h-64 overflow-hidden rounded-lg mb-4 bg-[#0a0a0a] flex items-center justify-center relative">
                             <div class="absolute w-48 h-48 bg-neon-pink/20 blur-3xl rounded-full"></div>
-                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769339840/milkshake_2_nw8utu.png"
-                                alt="Signature Shake"
-                                class="w-full h-full object-cover relative z-10 transition-transform duration-500 hover:scale-110">
+                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769339840/milkshake_2_nw8utu.png" alt="Signature Shake" class="w-full h-full object-cover relative z-10 transition-transform duration-500 hover:scale-110">
                         </div>
                         <div class="p-6 text-center flex-grow flex flex-col justify-between">
                             <div>
-                                <h3 class="font-headline text-4xl mb-3 text-neon-pink tracking-wide">Signature Shake
-                                </h3>
+                                <h3 class="font-headline text-4xl mb-3 text-neon-pink tracking-wide">Signature Shake</h3>
                                 <p class="text-gray-300 mb-6 text-sm leading-relaxed italic">
-                                    O nosso autêntico milkshake americano, feito com gelado artesanal ultra cremoso e
-                                    coroado com uma nuvem de chantilly.
+                                    O nosso autêntico milkshake americano, feito com gelado artesanal ultra cremoso e coroado com uma nuvem de chantilly.
                                 </p>
                             </div>
                             <div class="mt-auto">
-                                <span
-                                    class="block font-headline text-neon-pink text-4xl border-t border-white/10 pt-4">6.50€</span>
+                                <span class="block font-headline text-neon-pink text-4xl border-t border-white/10 pt-4">6.50€</span>
                             </div>
                         </div>
                     </div>
@@ -385,14 +328,12 @@
                     <!-- Mac and Cheese -->
                     <div class="menu-card bg-gray-100 p-2 rounded-xl hover-target flex flex-col h-full">
                         <div class="h-64 overflow-hidden rounded-lg mb-4">
-                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769339358/mac_n_cheese_egczoi.jpg"
-                                alt="Mac and Cheese" class="w-full h-full object-cover">
+                            <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769339358/mac_n_cheese_egczoi.jpg" alt="Mac and Cheese" class="w-full h-full object-cover">
                         </div>
                         <div class="p-4 text-center flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-headline text-3xl mb-2">Mac and Cheese</h3>
-                                <p class="text-gray-600 mb-4 text-sm leading-relaxed">Massa macarrão envolta num molho
-                                    de queijos ultra cremoso e gratinada com um toque crocante.</p>
+                                <p class="text-gray-600 mb-4 text-sm leading-relaxed">Massa macarrão envolta num molho de queijos ultra cremoso e gratinada com um toque crocante.</p>
                             </div>
                             <span class="text-2xl font-script text-diner-red mt-auto">12.90€</span>
                         </div>
@@ -400,8 +341,7 @@
                 </div>
 
                 <div class="flex justify-center">
-                    <a href="#"
-                        class="hover-target group relative inline-flex items-center justify-center px-12 py-5 overflow-hidden font-bold text-black border-4 border-black transition-all hover:bg-black hover:text-white">
+                    <a href="#" class="hover-target group relative inline-flex items-center justify-center px-12 py-5 overflow-hidden font-bold text-black border-4 border-black transition-all hover:bg-black hover:text-white">
                         <span class="relative font-headline tracking-widest text-2xl">Ver Menu Completo</span>
                     </a>
                 </div>
@@ -413,18 +353,17 @@
         <section id="events" class="showtime-curtain relative py-24 overflow-hidden border-b-8 border-vintage-mustard">
             <div class="max-w-7xl mx-auto px-6 relative z-10">
                 <div class="flex flex-col md:flex-row gap-16 items-center">
-
+                    
                     <!-- Lado Esquerdo: O Cartaz Estilizado -->
                     <div class="w-full md:w-1/2 flex flex-col items-center">
                         <div class="marquee-frame w-full max-w-lg mb-12">
                             <div class="text-center py-6 border-b-2 border-vintage-mustard mb-8">
-                                <h3 class="font-headline text-white text-2xl tracking-[0.5em] mb-2 uppercase">Fifties
-                                </h3>
+                                <h3 class="font-headline text-white text-2xl tracking-[0.5em] mb-2 uppercase">Fifties</h3>
                                 <div class="bg-white text-black py-4 mx-4 rounded transform -rotate-1 shadow-lg">
                                     <h4 class="font-headline text-5xl tracking-widest">NOW SHOWING</h4>
                                 </div>
                             </div>
-
+                            
                             <!-- Lista de Eventos -->
                             <div class="space-y-10 px-4 font-headline tracking-widest">
                                 <div class="flex items-start gap-6 border-l-4 border-vintage-mustard pl-6 event-item">
@@ -437,7 +376,7 @@
                                         <p class="text-gold-event text-xl">Dance Show</p>
                                     </div>
                                 </div>
-
+                                
                                 <div class="flex items-start gap-6 border-l-4 border-neon-pink pl-6 event-item">
                                     <div class="text-neon-pink">
                                         <p class="text-3xl">FEV. 14</p>
@@ -445,8 +384,7 @@
                                     </div>
                                     <div>
                                         <h5 class="text-white text-3xl">Sinatra Night</h5>
-                                        <p class="text-neon-pink text-xl italic font-script tracking-normal capitalize">
-                                            Live Singing & Perform Show</p>
+                                        <p class="text-neon-pink text-xl italic font-script tracking-normal capitalize">Live Singing & Perform Show</p>
                                         <p class="text-xs text-white/50 mt-1">Valentine's Day Special</p>
                                     </div>
                                 </div>
@@ -468,42 +406,34 @@
                     <!-- Lado Direito: Vídeo do Evento -->
                     <div class="w-full md:w-1/2">
                         <div class="text-center md:text-left mb-12">
-                            <h2 class="font-script text-6xl md:text-8xl text-white mb-4">Eventos <br><span
-                                    class="text-neon-pink">ao vivo.</span></h2>
+                            <h2 class="font-script text-6xl md:text-8xl text-white mb-4">Eventos <br><span class="text-neon-pink">ao vivo.</span></h2>
                             <p class="text-gray-300 font-body text-lg leading-relaxed max-w-md">
-                                A magia dos anos 50 acontece aqui. Shows de dança, tributos a clássicos e entretenimento
-                                puro enquanto saboreias o teu burger favorito.
+                                A magia dos anos 50 acontece aqui. Shows de dança, tributos a clássicos e entretenimento puro enquanto saboreias o teu burger favorito.
                             </p>
                         </div>
 
                         <!-- Video Player Frame -->
-                        <div
-                            class="relative group hover-target overflow-hidden rounded-2xl border-4 border-white shadow-2xl aspect-[9/16] max-w-xs mx-auto md:ml-0 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                        <div class="relative group hover-target overflow-hidden rounded-2xl border-4 border-white shadow-2xl aspect-[9/16] max-w-xs mx-auto md:ml-0 transform rotate-3 hover:rotate-0 transition-transform duration-500">
                             <div class="absolute inset-0 bg-black flex items-center justify-center">
                                 <div class="text-center z-10 px-6">
                                     <i class="fas fa-play text-neon-pink text-6xl mb-6 animate-pulse"></i>
                                     <p class="font-headline text-xl text-white tracking-widest">Ver Show's ao vivo</p>
-                                    <a href="https://www.instagram.com/reel/DLFkLeONTJq/" target="_blank"
-                                        class="mt-4 inline-block bg-white text-black py-2 px-6 rounded-full font-bold hover:bg-neon-pink hover:text-white transition-all uppercase text-sm">Abrir
-                                        no Instagram</a>
+                                    <a href="https://www.instagram.com/reel/DLFkLeONTJq/" target="_blank" class="mt-4 inline-block bg-white text-black py-2 px-6 rounded-full font-bold hover:bg-neon-pink hover:text-white transition-all uppercase text-sm">Abrir no Instagram</a>
                                 </div>
-                                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337235/fifties_space_1_d2uojx.jpg"
-                                    class="absolute inset-0 w-full h-full object-cover opacity-40 blur-sm">
+                                <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769337235/fifties_space_1_d2uojx.jpg" class="absolute inset-0 w-full h-full object-cover opacity-40 blur-sm">
                             </div>
                             <div class="absolute inset-0 border-[10px] border-black/20 pointer-events-none"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            
             <!-- Disco Balls Decorativas -->
             <div class="absolute -bottom-10 -left-10 w-64 h-64 opacity-30">
-                <img src="https://png.pngtree.com/png-vector/20220804/ourmid/pngtree-disco-ball-3d-render-pink-png-image_6097105.png"
-                    class="w-full h-full object-contain animate-pulse">
+                <img src="https://png.pngtree.com/png-vector/20220804/ourmid/pngtree-disco-ball-3d-render-pink-png-image_6097105.png" class="w-full h-full object-contain animate-pulse">
             </div>
             <div class="absolute -top-10 -right-10 w-64 h-64 opacity-30">
-                <img src="https://png.pngtree.com/png-vector/20220804/ourmid/pngtree-disco-ball-3d-render-pink-png-image_6097105.png"
-                    class="w-full h-full object-contain animate-pulse">
+                <img src="https://png.pngtree.com/png-vector/20220804/ourmid/pngtree-disco-ball-3d-render-pink-png-image_6097105.png" class="w-full h-full object-contain animate-pulse">
             </div>
         </section>
 
@@ -511,14 +441,15 @@
         <section id="location" class="relative flex flex-col md:flex-row min-h-[70vh] overflow-hidden">
             <!-- Map Side -->
             <div class="w-full md:w-1/2 bg-gray-900 relative h-[400px] md:h-auto map-container overflow-hidden">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.4589254347716!2d-9.0950376!3d38.7646549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1933e146747df3%3A0xc3919b67364ca9b6!2sFifties%20Diner!5e0!3m2!1spt!2spt!4v1710000000000!5m2!1spt!2spt"
-                    class="w-full h-full border-0" allowfullscreen="" loading="lazy">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.4589254347716!2d-9.0950376!3d38.7646549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1933e146747df3%3A0xc3919b67364ca9b6!2sFifties%20Diner!5e0!3m2!1spt!2spt!4v1710000000000!5m2!1spt!2spt" 
+                    class="w-full h-full border-0"
+                    allowfullscreen="" 
+                    loading="lazy">
                 </iframe>
-
+                
                 <!-- Info Overlay (Agora visível em Mobile também) -->
-                <div
-                    class="absolute top-4 left-4 right-4 md:right-auto bg-black/90 backdrop-blur-md p-4 border border-neon-pink rounded-lg shadow-2xl z-20 pointer-events-none md:pointer-events-auto">
+                <div class="absolute top-4 left-4 right-4 md:right-auto bg-black/90 backdrop-blur-md p-4 border border-neon-pink rounded-lg shadow-2xl z-20 pointer-events-none md:pointer-events-auto">
                     <p class="font-headline text-neon-pink tracking-widest text-lg uppercase">Onde Estamos</p>
                     <p class="text-sm text-gray-300">Rua do Pólo Norte 1.06.2.1</p>
                     <p class="text-sm text-gray-300">1990-111 Lisboa</p>
@@ -526,25 +457,21 @@
             </div>
 
             <!-- CTA Side -->
-            <div
-                class="w-full md:w-1/2 bg-diner-teal p-10 md:p-24 flex flex-col justify-center relative overflow-hidden">
+            <div class="w-full md:w-1/2 bg-diner-teal p-10 md:p-24 flex flex-col justify-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-checkers opacity-5 pointer-events-none"></div>
+                
+                <img src="https://www.pngall.com/wp-content/uploads/2016/06/Jukebox-PNG-Image.png" 
+                     alt="Jukebox PNG" 
+                     class="absolute -right-8 -bottom-12 w-48 md:w-80 h-auto opacity-30 md:opacity-40 pointer-events-none transform rotate-12 transition-transform duration-700 hover:scale-110">
 
-                <img src="https://www.pngall.com/wp-content/uploads/2016/06/Jukebox-PNG-Image.png" alt="Jukebox PNG"
-                    class="absolute -right-8 -bottom-12 w-48 md:w-80 h-auto opacity-30 md:opacity-40 pointer-events-none transform rotate-12 transition-transform duration-700 hover:scale-110">
-
-                <h2 class="text-4xl md:text-7xl font-script text-black mb-6 rotate-[-2deg] relative z-10">A Jukebox
-                    <br>já está a tocar!</h2>
-                <p class="text-black font-body text-base md:text-lg mb-8 max-w-sm relative z-10">Vem ao Parque das
-                    Nações desfrutar do ambiente mais autêntico de Lisboa.</p>
-
+                <h2 class="text-4xl md:text-7xl font-script text-black mb-6 rotate-[-2deg] relative z-10">A Jukebox <br>já está a tocar!</h2>
+                <p class="text-black font-body text-base md:text-lg mb-8 max-w-sm relative z-10">Vem ao Parque das Nações desfrutar do ambiente mais autêntico de Lisboa.</p>
+                
                 <div class="flex flex-col gap-4 max-w-xs relative z-10">
-                    <a href="#"
-                        class="hover-target text-center bg-neon-pink text-white py-4 px-8 font-headline text-2xl tracking-widest hover:bg-pink-600 transition-all shadow-xl">
+                    <a href="#" class="hover-target text-center bg-neon-pink text-white py-4 px-8 font-headline text-2xl tracking-widest hover:bg-pink-600 transition-all shadow-xl">
                         Reservar Mesa
                     </a>
-                    <a href="tel:+351210000000"
-                        class="hover-target text-center border-2 border-black text-black py-4 px-8 font-headline text-2xl tracking-widest hover:bg-black hover:text-white transition-all">
+                    <a href="tel:+351210000000" class="hover-target text-center border-2 border-black text-black py-4 px-8 font-headline text-2xl tracking-widest hover:bg-black hover:text-white transition-all">
                         Ligar Agora
                     </a>
                 </div>
@@ -553,18 +480,15 @@
 
         <!-- RODAPÉ -->
         <footer class="bg-black text-white pt-24 pb-12 relative overflow-hidden border-t border-gray-900">
-            <div
-                class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-neon-pink/10 rounded-full blur-[120px] pointer-events-none">
-            </div>
-
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-neon-pink/10 rounded-full blur-[120px] pointer-events-none"></div>
+            
             <div class="max-w-4xl mx-auto px-6 flex flex-col items-center text-center">
                 <div class="mb-8 hover-target group transition-transform duration-500 hover:scale-105">
-                    <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769294537/the_fifties_logo_rzemn8.jpg"
-                        alt="Logótipo The Fifties"
-                        class="h-40 w-40 rounded-full border-4 border-neon-pink mx-auto mb-6 logo-glow">
+                    <img src="https://res.cloudinary.com/daycdjfs4/image/upload/v1769294537/the_fifties_logo_rzemn8.jpg" 
+                         alt="Logótipo The Fifties" 
+                         class="h-40 w-40 rounded-full border-4 border-neon-pink mx-auto mb-6 logo-glow">
                     <h2 class="text-6xl md:text-8xl font-script text-white neon-text-pink">The Fifties</h2>
-                    <p class="font-headline text-2xl text-diner-teal tracking-[0.4em] mt-2 uppercase">Diner & Experience
-                    </p>
+                    <p class="font-headline text-2xl text-diner-teal tracking-[0.4em] mt-2 uppercase">Diner & Experience</p>
                 </div>
 
                 <p class="text-gray-400 font-body text-lg mb-12 max-w-xl leading-relaxed">
@@ -572,22 +496,18 @@
                 </p>
 
                 <div class="flex gap-8 mb-16">
-                    <a href="#"
-                        class="hover-target text-3xl text-gray-500 hover:text-neon-pink transition-all duration-300">
+                    <a href="#" class="hover-target text-3xl text-gray-500 hover:text-neon-pink transition-all duration-300">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#"
-                        class="hover-target text-3xl text-gray-500 hover:text-diner-teal transition-all duration-300">
+                    <a href="#" class="hover-target text-3xl text-gray-500 hover:text-diner-teal transition-all duration-300">
                         <i class="fab fa-tiktok"></i>
                     </a>
-                    <a href="#"
-                        class="hover-target text-3xl text-gray-500 hover:text-vintage-mustard transition-all duration-300">
+                    <a href="#" class="hover-target text-3xl text-gray-500 hover:text-vintage-mustard transition-all duration-300">
                         <i class="fab fa-facebook-f"></i>
                     </a>
                 </div>
 
-                <div
-                    class="w-full pt-8 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-body uppercase tracking-widest">
+                <div class="w-full pt-8 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-body uppercase tracking-widest">
                     <span>Parque das Nações, Lisboa</span>
                     <span>© 2026 The Fifties Dinner. Built for Rock n' Roll.</span>
                     <a href="#" class="hover:text-white transition-colors">Política de Privacidade</a>
@@ -603,7 +523,7 @@
         requestAnimationFrame(raf);
 
         gsap.registerPlugin(ScrollTrigger);
-
+        
         const cursor = document.querySelector('#cursor');
         document.addEventListener('mousemove', (e) => {
             gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
@@ -615,11 +535,11 @@
 
         const tlLoader = gsap.timeline();
         tlLoader.to('.loader-logo-wrapper', { opacity: 1, y: -20, duration: 1 })
-            .to('.loader-bar', { width: '100%', duration: 1.5 }, "-=0.5")
-            .to('.loader-overlay', { yPercent: -100, duration: 0.8, ease: 'power4.inOut' })
-            .from('.hero-title', { y: 100, opacity: 0, duration: 1, ease: 'back.out' }, "-=0.3")
-            .to('.hero-subtitle', { y: 0, duration: 0.8 }, "-=0.8")
-            .to('.hero-desc', { y: 0, opacity: 1, duration: 0.8 }, "-=0.5");
+        .to('.loader-bar', { width: '100%', duration: 1.5 }, "-=0.5")
+        .to('.loader-overlay', { yPercent: -100, duration: 0.8, ease: 'power4.inOut' })
+        .from('.hero-title', { y: 100, opacity: 0, duration: 1, ease: 'back.out' }, "-=0.3")
+        .to('.hero-subtitle', { y: 0, duration: 0.8 }, "-=0.8")
+        .to('.hero-desc', { y: 0, opacity: 1, duration: 0.8 }, "-=0.5");
 
         gsap.to('.hero-bg', {
             yPercent: 20,
@@ -638,11 +558,11 @@
         });
 
         document.querySelectorAll('.neon-flicker').forEach(el => {
-            gsap.to(el, {
-                opacity: 0.7,
-                duration: 0.1,
-                repeat: -1,
-                yoyo: true,
+            gsap.to(el, { 
+                opacity: 0.7, 
+                duration: 0.1, 
+                repeat: -1, 
+                yoyo: true, 
                 repeatDelay: Math.random() * 2,
                 ease: "power2.inOut"
             });
@@ -671,5 +591,4 @@
         });
     </script>
 </body>
-
 </html>
