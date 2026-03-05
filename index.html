@@ -82,19 +82,19 @@
             animation: slow-spin-left 140s linear infinite;
         }
 
-        /* Animação para a Lista Vertical (De Cima para Baixo) */
-        @keyframes scroll-down {
+        /* Animação para a Lista Vertical (Infinita) */
+        @keyframes scroll-up {
             from {
-                transform: translateY(-50%);
+                transform: translateY(0%);
             }
 
             to {
-                transform: translateY(0%);
+                transform: translateY(-50%);
             }
         }
 
-        .animate-scroll-down {
-            animation: scroll-down 25s linear infinite;
+        .animate-scroll-up {
+            animation: scroll-up 25s linear infinite;
         }
 
         /* Animação para a Lista Horizontal (Fluxo padrão contínuo) */
@@ -298,7 +298,8 @@
             <!-- Lista Marquee Vertical (No mobile, via order-2, aparece em baixo) -->
             <div id="vertical-marquee-container"
                 class="order-2 lg:order-1 relative w-full h-[320px] md:h-[550px] flex items-center justify-center overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] -webkit-[mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] mt-4 lg:mt-0">
-                <div id="vertical-marquee-track" class="flex flex-col items-center w-full animate-scroll-down">
+                <div id="vertical-marquee-track"
+                    class="absolute top-0 left-0 flex flex-col items-center w-full animate-scroll-up">
                     <!-- Conjunto de Palavras 1 -->
                     <div class="flex flex-col items-center gap-10 md:gap-12 pb-10 md:pb-12 w-full">
                         <span
@@ -1009,8 +1010,9 @@
             const initVerticalMarquee = () => {
                 const container = document.getElementById('vertical-marquee-container');
                 const items = document.querySelectorAll('.marquee-item');
+                const track = document.getElementById('vertical-marquee-track');
 
-                if (!container || items.length === 0) return;
+                if (!container || !track || items.length === 0) return;
 
                 const updateFilters = () => {
                     const containerRect = container.getBoundingClientRect();
@@ -1039,6 +1041,29 @@
                 };
 
                 requestAnimationFrame(updateFilters);
+
+                // Interaction Logic
+                container.addEventListener('mousemove', (e) => {
+                    const target = e.target.closest('.marquee-item');
+                    if (target && parseFloat(target.style.opacity) > 0.9) {
+                        track.style.animationPlayState = 'paused';
+                        target.style.cursor = 'pointer';
+                    } else {
+                        track.style.animationPlayState = 'running';
+                        if (target) target.style.cursor = 'default';
+                    }
+                });
+
+                container.addEventListener('mouseleave', () => {
+                    track.style.animationPlayState = 'running';
+                });
+
+                container.addEventListener('click', (e) => {
+                    const target = e.target.closest('.marquee-item');
+                    if (target && parseFloat(target.style.opacity) > 0.9) {
+                        window.location.href = 'https://www.studio17.world';
+                    }
+                });
             };
 
             initVerticalMarquee();
